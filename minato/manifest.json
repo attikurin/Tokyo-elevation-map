@@ -1,0 +1,22 @@
+{
+  "name": "港区 高低マップ",
+  "short_name": "港区高低",
+  "description": "港区のインタラクティブな標高・3D地形・断面図・ハザードマップを閲覧できるWebアプリ",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f0f7ff",
+  "theme_color": "#0068b7",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

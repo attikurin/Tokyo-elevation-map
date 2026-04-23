@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="東京 高低マップのオフライン版（PWA）の使い方と導入方法の詳細説明ページ">
+<title>オフライン版について | 東京 高低マップ</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --coral: #ff7e67;
+  --orange: #ffa45b;
+  --purple: #b39ddb;
+  --purple-deep: #9575cd;
+  --green: #66bb6a;
+  --bg-cream: #fff9f5;
+  --text-dark: #4a4a4a;
+  --text-gray: #8b8b8b;
+  --border-soft: #f0e4d8;
+  --shadow: 0 2px 8px rgba(179, 157, 219, 0.15);
+  --shadow-hover: 0 4px 16px rgba(179, 157, 219, 0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+  background: linear-gradient(180deg, #fff9f5 0%, #f5f0ff 100%);
+  color: var(--text-dark);
+  line-height: 1.8;
+  min-height: 100vh;
+}
+
+/* Header */
+.page-header {
+  background: #ffffff;
+  padding: 22px 20px 18px;
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(90deg, var(--coral), var(--purple)) 1;
+  text-align: center;
+}
+
+.page-header h1 {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--purple-deep);
+  margin-bottom: 6px;
+}
+
+.page-header h1 i { color: var(--coral); margin-right: 10px; }
+
+.page-header .subtitle {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+}
+
+.back-link {
+  position: absolute;
+  top: 22px;
+  left: 20px;
+  color: var(--coral);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.back-link:hover { color: var(--orange); }
+
+/* Container */
+.container {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 30px 20px 60px;
+}
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, #fff 0%, #faf5ff 100%);
+  border: 2px solid var(--purple);
+  border-radius: 20px;
+  padding: 28px 24px;
+  text-align: center;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow);
+}
+
+.hero .hero-icon {
+  font-size: 3rem;
+  color: var(--purple);
+  margin-bottom: 12px;
+}
+
+.hero h2 {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  color: var(--purple-deep);
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  color: var(--text-dark);
+  font-size: 0.95rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.status-banner {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 6px 18px;
+  background: linear-gradient(90deg, var(--orange), var(--coral));
+  color: white;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* Section */
+section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 26px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  border: 1px solid var(--border-soft);
+}
+
+section h3 {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  color: var(--coral);
+  font-size: 1.2rem;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px dashed var(--border-soft);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+section h3 i { color: var(--orange); }
+
+section p { margin-bottom: 12px; color: var(--text-dark); }
+
+section ul, section ol {
+  margin-left: 24px;
+  margin-bottom: 12px;
+}
+
+section li {
+  margin-bottom: 8px;
+  color: var(--text-dark);
+}
+
+/* Comparison table */
+.comparison {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 0.9rem;
+}
+
+.comparison th, .comparison td {
+  padding: 10px 12px;
+  border: 1px solid var(--border-soft);
+  text-align: left;
+}
+
+.comparison th {
+  background: linear-gradient(90deg, var(--coral), var(--orange));
+  color: white;
+  font-weight: 500;
+}
+
+.comparison tr:nth-child(even) { background: #fff9f5; }
+
+.comparison .ok { color: var(--green); font-weight: 700; }
+.comparison .ng { color: var(--coral); font-weight: 700; }
+.comparison .partial { color: var(--orange); font-weight: 700; }
+
+/* Step box */
+.step-list {
+  counter-reset: step;
+  list-style: none;
+  margin-left: 0;
+}
+
+.step-list li {
+  counter-increment: step;
+  padding: 14px 16px 14px 58px;
+  background: #fff9f5;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  position: relative;
+  border-left: 4px solid var(--coral);
+}
+
+.step-list li::before {
+  content: counter(step);
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  background: var(--coral);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+/* Note box */
+.note {
+  background: #fff5e6;
+  border-left: 4px solid var(--orange);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 12px 0;
+  font-size: 0.9rem;
+}
+
+.note strong { color: #d4881a; }
+
+.warning {
+  background: #ffe8e4;
+  border-left: 4px solid var(--coral);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 12px 0;
+  font-size: 0.9rem;
+}
+
+.warning strong { color: #d13e1f; }
+
+/* Download section */
+.download-section {
+  background: linear-gradient(135deg, #f5f0ff 0%, #fff 100%);
+  border: 2px solid var(--purple);
+}
+
+.download-section h3 { color: var(--purple-deep); }
+.download-section h3 i { color: var(--purple); }
+
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.dl-item {
+  background: white;
+  border: 2px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  transition: all 0.25s;
+}
+
+.dl-item.pending {
+  opacity: 0.55;
+  background: #f8f8f8;
+}
+
+.dl-item .city-name {
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.dl-item .dl-status {
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.dl-item .dl-status.ready {
+  background: #e8f5e9;
+  color: var(--green);
+}
+
+.dl-item .dl-status.coming {
+  background: #f0f0f0;
+  color: var(--text-gray);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.8rem;
+  color: var(--text-gray);
+  border-top: 1px solid var(--border-soft);
+  margin-top: 40px;
+}
+
+footer a {
+  color: var(--coral);
+  text-decoration: none;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .page-header h1 { font-size: 1.3rem; }
+  .back-link { top: 18px; font-size: 0.85rem; }
+  .container { padding: 20px 14px 40px; }
+  .hero { padding: 22px 18px; }
+  .hero h2 { font-size: 1.2rem; }
+  section { padding: 20px 18px; }
+  section h3 { font-size: 1.05rem; }
+  .comparison { font-size: 0.8rem; }
+  .comparison th, .comparison td { padding: 8px 6px; }
+  .step-list li { padding: 12px 14px 12px 50px; font-size: 0.9rem; }
+  .download-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <a href="../index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> ポータルへ戻る</a>
+  <h1><i class="fa-solid fa-wifi-slash"></i>オフライン版について</h1>
+  <div class="subtitle">Offline Mode (PWA) Guide</div>
+</header>
+
+<main class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+    <h2>災害時・圏外でも使える標高マップ</h2>
+    <p>一度オンラインで開いたページは、ブラウザのキャッシュ機能を使って<strong>ネット接続がなくても閲覧可能</strong>になります。スマホの「ホーム画面に追加」でアプリのように使えます。</p>
+    <div class="status-banner" style="background:linear-gradient(90deg, #66bb6a, #4caf50);"><i class="fa-solid fa-check-circle"></i> 既存4自治体で利用可能（ポータル含む）</div>
+  </div>
+
+  <!-- 通常版との違い -->
+  <section>
+    <h3><i class="fa-solid fa-scale-balanced"></i>通常版との違い</h3>
+    <p>本プロジェクトでは、用途に応じて2つの利用モードを提供予定です。</p>
+    <table class="comparison">
+      <thead>
+        <tr>
+          <th>項目</th>
+          <th>通常版<br>(オンライン必須)</th>
+          <th>オフライン版<br>(PWA)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>インターネット接続</td>
+          <td class="ng">必須</td>
+          <td class="partial">初回のみ必要</td>
+        </tr>
+        <tr>
+          <td>地図タイル表示</td>
+          <td class="ok">○ 常に最新</td>
+          <td class="partial">△ 閲覧済みエリアのみ</td>
+        </tr>
+        <tr>
+          <td>3D地形表示</td>
+          <td class="ok">○</td>
+          <td class="partial">△ 閲覧済みエリアのみ</td>
+        </tr>
+        <tr>
+          <td>標高リアルタイム取得</td>
+          <td class="ok">○</td>
+          <td class="ng">× 事前閲覧が必要</td>
+        </tr>
+        <tr>
+          <td>断面図</td>
+          <td class="ok">○</td>
+          <td class="partial">△ 閲覧済みエリアのみ</td>
+        </tr>
+        <tr>
+          <td>POI・避難所リスト</td>
+          <td class="ok">○</td>
+          <td class="ok">○ 完全動作</td>
+        </tr>
+        <tr>
+          <td>ハザードマップ</td>
+          <td class="ok">○ 常に最新</td>
+          <td class="partial">△ キャッシュ時点のもの</td>
+        </tr>
+        <tr>
+          <td>ホーム画面アプリ化</td>
+          <td class="ng">×</td>
+          <td class="ok">○</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- PWA の仕組み -->
+  <section>
+    <h3><i class="fa-solid fa-cogs"></i>PWA（Progressive Web App）の仕組み</h3>
+    <p>オフライン版はPWAという技術を採用予定です。難しい専門用語は不要で、以下のシンプルな仕組みです。</p>
+    <ul>
+      <li><strong>Service Worker</strong>：ブラウザが自動的にHTML・CSS・地図画像をキャッシュ（保存）します</li>
+      <li><strong>manifest.json</strong>：「ホーム画面に追加」でアプリのように使える設定ファイルです</li>
+      <li><strong>タイルキャッシュ</strong>：一度表示した地図エリアは、以降オフラインでも表示可能です</li>
+    </ul>
+    <div class="note">
+      <strong><i class="fa-solid fa-lightbulb"></i> ポイント</strong>：事前に自宅周辺・職場周辺・通学路などを一度オンラインで閲覧しておけば、災害時にオフラインでも同じエリアを確認できます。
+    </div>
+  </section>
+
+  <!-- 使い方 -->
+  <section>
+    <h3><i class="fa-solid fa-list-check"></i>使い方</h3>
+    <p><strong>対応済み：</strong>府中市・板橋区・港区・江東区・ポータル</p>
+    <ol class="step-list">
+      <li><strong>対応自治体のページを開く</strong>：ポータルから地図または一覧で選択。Service Workerが自動でアプリ本体をキャッシュします（初回のみ数秒）。</li>
+      <li><strong>重要なエリアを事前に閲覧</strong>：自宅・職場・通学路など、必要な地域を2Dで表示。閲覧した地図タイルが自動的にキャッシュされます。3Dモードや各ハザードレイヤーも一度表示しておくとオフラインで使えます。</li>
+      <li><strong>ホーム画面に追加（スマホ推奨）</strong>：
+        <ul style="margin-top:6px; margin-left:20px;">
+          <li><strong>iPhone (Safari)</strong>：共有ボタン <i class="fa-solid fa-arrow-up-from-bracket"></i> →「ホーム画面に追加」</li>
+          <li><strong>Android (Chrome)</strong>：メニュー ︙ →「アプリをインストール」または「ホーム画面に追加」</li>
+        </ul>
+      </li>
+      <li><strong>オフラインで開く</strong>：機内モード・圏外でもホーム画面のアイコンをタップすれば起動。閲覧済みエリアが表示されます。</li>
+    </ol>
+    <div class="note">
+      <strong><i class="fa-solid fa-lightbulb"></i> コツ</strong>：災害に備えて、平時に自宅・避難所・通勤路を2Dで一度スクロールしておくと、いざという時にオフラインで確認できます。
+    </div>
+  </section>
+
+  <!-- ライセンス -->
+  <section>
+    <h3><i class="fa-solid fa-certificate"></i>ライセンス・出典</h3>
+    <p>本プロジェクトはすべて公的機関のオープンデータを利用しています。</p>
+    <ul>
+      <li><strong>国土地理院タイル</strong>：淡色地図・色別標高図・陰影起伏図・DEMなど（<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener">利用規約</a>）</li>
+      <li><strong>標高API</strong>：国土地理院 標高取得API</li>
+      <li><strong>ハザードマップ</strong>：<a href="https://disaportal.gsi.go.jp/" target="_blank" rel="noopener">国土交通省ハザードマップポータル</a>の公開タイル</li>
+      <li><strong>避難所情報</strong>：各自治体公開の防災情報を基に整理</li>
+    </ul>
+    <div class="note">
+      <strong><i class="fa-solid fa-info-circle"></i> PWA方式採用の理由</strong>：地図タイルを個人端末のブラウザがキャッシュする形式のため、国土地理院への再配布許諾申請は不要です（個人利用の一時的保存）。
+    </div>
+  </section>
+
+  <!-- 注意事項 -->
+  <section>
+    <h3><i class="fa-solid fa-triangle-exclamation"></i>注意事項</h3>
+    <div class="warning">
+      <strong><i class="fa-solid fa-bell"></i> 災害時のご利用にあたって</strong>
+      <ul style="margin-top:8px;">
+        <li>避難所情報は制作時点のデータです。実際の避難時は必ず各自治体の最新情報をご確認ください</li>
+        <li>ハザードマップは参考情報です。気象庁・自治体の警報に従ってください</li>
+        <li>本アプリは防災の補助ツールであり、公式の防災アプリではありません</li>
+      </ul>
+    </div>
+    <div class="note">
+      <strong><i class="fa-solid fa-mobile"></i> 動作環境（想定）</strong>
+      <ul style="margin-top:8px;">
+        <li>Android：Chrome / Edge 最新版</li>
+        <li>iOS：Safari 15以降（ホーム画面追加でPWA動作）</li>
+        <li>PC：Chrome / Edge / Firefox / Safari 最新版</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ダウンロード（準備中） -->
+  <section class="download-section">
+    <h3><i class="fa-solid fa-download"></i>自治体別ダウンロード</h3>
+    <p>オフライン版の実装完了後、こちらから各自治体のアプリを「ホーム画面に追加」できるようになります。</p>
+    <div class="download-grid">
+      <a href="../fuchu/index.html" class="dl-item" style="text-decoration:none; color:inherit;">
+        <span class="city-name">府中市</span>
+        <span class="dl-status ready">PWA対応済み</span>
+      </a>
+      <a href="../itabashi/index.html" class="dl-item" style="text-decoration:none; color:inherit;">
+        <span class="city-name">板橋区</span>
+        <span class="dl-status ready">PWA対応済み</span>
+      </a>
+      <a href="../minato/index.html" class="dl-item" style="text-decoration:none; color:inherit;">
+        <span class="city-name">港区</span>
+        <span class="dl-status ready">PWA対応済み</span>
+      </a>
+      <a href="../koto/index.html" class="dl-item" style="text-decoration:none; color:inherit;">
+        <span class="city-name">江東区</span>
+        <span class="dl-status ready">PWA対応済み</span>
+      </a>
+      <div class="dl-item pending">
+        <span class="city-name">その他58自治体</span>
+        <span class="dl-status coming">順次追加</span>
+      </div>
+    </div>
+    <div class="note" style="margin-top:16px;">
+      <strong><i class="fa-solid fa-hourglass-half"></i> 実装ロードマップ</strong>
+      <ol style="margin-top:6px; margin-left:18px;">
+        <li>フェーズ1：ポータル＋オフライン説明ページ整備 ✅</li>
+        <li>フェーズ2：既存4自治体のPWA化（Service Worker + manifest.json） ✅（現在地）</li>
+        <li>フェーズ3：共通コア化＋新規自治体追加の仕組み作り</li>
+        <li>フェーズ4：全62自治体対応</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <h3><i class="fa-solid fa-circle-question"></i>よくある質問</h3>
+    <p><strong>Q. ZIPファイルをダウンロードする必要はありますか？</strong></p>
+    <p>いいえ。PWA方式のため、普通にページを開いてブラウザの「ホーム画面に追加」を選ぶだけで、オフライン動作の準備が整います。</p>
+    <p style="margin-top:14px;"><strong>Q. 一度閲覧すれば永久にオフラインで見られますか？</strong></p>
+    <p>ブラウザのキャッシュ容量に依存します。長期間使わないと自動削除される場合があるため、定期的にオンライン閲覧することを推奨します。</p>
+    <p style="margin-top:14px;"><strong>Q. iPhoneでも使えますか？</strong></p>
+    <p>Safari 15以降でご利用いただけます。共有メニューの「ホーム画面に追加」からインストールできます。</p>
+    <p style="margin-top:14px;"><strong>Q. 配信データ通信量はどのくらいですか？</strong></p>
+    <p>初回閲覧時に自治体あたり約1〜5MB程度（地図タイル除く）。地図タイルは閲覧範囲に応じて追加されます。</p>
+  </section>
+
+  <div style="text-align:center; margin-top:30px;">
+    <a href="../index.html" style="display:inline-block; background:var(--coral); color:white; padding:12px 28px; border-radius:24px; text-decoration:none; font-weight:500; min-height:44px; line-height:20px;">
+      <i class="fa-solid fa-arrow-left"></i> ポータルページへ戻る
+    </a>
+  </div>
+
+</main>
+
+<footer>
+  <p>© 2026 東京 高低マップ プロジェクト | <a href="../index.html">ポータル</a></p>
+  <p style="margin-top:6px;">データ出典：国土地理院・国土交通省ハザードマップポータル・各自治体公開情報</p>
+</footer>
+
+<script>
+console.log('🔌 オフライン版説明ページ 起動完了');
+</script>
+
+</body>
+</html>

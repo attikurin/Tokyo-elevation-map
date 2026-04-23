@@ -1,0 +1,22 @@
+{
+  "name": "府中市 高低マップ",
+  "short_name": "府中高低",
+  "description": "府中市のインタラクティブな標高・3D地形・断面図・ハザードマップを閲覧できるWebアプリ",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fff9f5",
+  "theme_color": "#ff7e67",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

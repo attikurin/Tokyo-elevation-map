@@ -1,0 +1,22 @@
+{
+  "name": "板橋区 高低マップ",
+  "short_name": "板橋高低",
+  "description": "板橋区のインタラクティブな標高・3D地形・断面図・ハザードマップを閲覧できるWebアプリ",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f0fffd",
+  "theme_color": "#00a99d",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

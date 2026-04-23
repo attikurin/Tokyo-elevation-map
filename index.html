@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="東京都全62区市町村の標高・ハザード情報をインタラクティブに閲覧できる高低マップ集のポータルページ">
+<title>東京 高低マップ ポータル | Tokyo Elevation Maps</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff7e67">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="東京高低">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --coral: #ff7e67;
+  --orange: #ffa45b;
+  --purple: #b39ddb;
+  --green: #66bb6a;
+  --blue: #5b9bd5;
+  --bg-cream: #fff9f5;
+  --text-dark: #4a4a4a;
+  --text-gray: #8b8b8b;
+  --border-soft: #f0e4d8;
+  --done: #ff7e67;
+  --pending: #d8d8d8;
+  --pending-text: #b0b0b0;
+  --shadow: 0 2px 8px rgba(255, 126, 103, 0.12);
+  --shadow-hover: 0 4px 16px rgba(255, 126, 103, 0.25);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+  background: linear-gradient(180deg, #fff9f5 0%, #fdf3ea 100%);
+  color: var(--text-dark);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* =======================
+   Header
+   ======================= */
+.portal-header {
+  background: #ffffff;
+  padding: 24px 20px 20px;
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(90deg, var(--coral), var(--orange), var(--purple)) 1;
+  text-align: center;
+  position: relative;
+}
+
+.portal-header h1 {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--coral);
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.portal-header h1 i {
+  color: var(--orange);
+  margin-right: 10px;
+}
+
+.portal-header .subtitle {
+  color: var(--purple);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.portal-header .progress-badge {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 4px 14px;
+  background: linear-gradient(90deg, var(--coral), var(--orange));
+  color: white;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* =======================
+   Main container
+   ======================= */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px 60px;
+}
+
+.intro {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.intro p {
+  color: var(--text-gray);
+  font-size: 0.95rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* =======================
+   Tab switcher
+   ======================= */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: white;
+  border: 2px solid var(--border-soft);
+  color: var(--text-gray);
+  padding: 10px 24px;
+  border-radius: 24px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s;
+  min-height: 44px;
+}
+
+.tab-btn i { margin-right: 6px; }
+
+.tab-btn:hover {
+  border-color: var(--coral);
+  color: var(--coral);
+  transform: translateY(-1px);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--coral), var(--orange));
+  color: white;
+  border-color: transparent;
+  box-shadow: var(--shadow);
+}
+
+/* =======================
+   Map view
+   ======================= */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.map-wrapper {
+  background: white;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+#portal-map {
+  width: 100%;
+  height: 520px;
+  border-radius: 14px;
+  background: #f0f4f8;
+}
+
+.map-legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: var(--text-gray);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.legend-swatch.done { background: var(--done); }
+.legend-swatch.pending { background: var(--pending); }
+
+.map-hint {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--text-gray);
+}
+
+.map-hint i { color: var(--coral); }
+
+/* =======================
+   List view
+   ======================= */
+.area-section {
+  margin-bottom: 36px;
+}
+
+.area-title {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-size: 1.3rem;
+  color: var(--coral);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px dashed var(--border-soft);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.area-title .area-count {
+  font-size: 0.85rem;
+  color: var(--text-gray);
+  font-weight: 400;
+  margin-left: auto;
+}
+
+.city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.city-card {
+  background: white;
+  border: 2px solid var(--border-soft);
+  border-radius: 14px;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: var(--text-dark);
+  transition: all 0.25s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  position: relative;
+}
+
+.city-card.done {
+  border-color: var(--coral);
+  background: linear-gradient(135deg, #fff, #fff9f5);
+}
+
+.city-card.done:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--orange);
+}
+
+.city-card.pending {
+  color: var(--pending-text);
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.city-card.pending:hover { transform: none; }
+
+.city-card .city-icon {
+  font-size: 1.2rem;
+  color: var(--coral);
+  width: 24px;
+  text-align: center;
+}
+
+.city-card.pending .city-icon { color: var(--pending); }
+
+.city-card .city-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  flex: 1;
+}
+
+.city-card .city-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--coral);
+  color: white;
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.city-card.pending .city-badge {
+  background: var(--pending);
+  color: white;
+}
+
+/* =======================
+   Offline CTA
+   ======================= */
+.offline-cta {
+  margin-top: 40px;
+  background: linear-gradient(135deg, #fff 0%, #f5f0ff 100%);
+  border: 2px dashed var(--purple);
+  border-radius: 20px;
+  padding: 26px 24px;
+  text-align: center;
+  transition: all 0.25s;
+}
+
+.offline-cta:hover {
+  border-style: solid;
+  box-shadow: 0 4px 16px rgba(179, 157, 219, 0.2);
+}
+
+.offline-cta h2 {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  color: var(--purple);
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.offline-cta h2 i { margin-right: 8px; }
+
+.offline-cta p {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+.offline-cta a {
+  display: inline-block;
+  background: var(--purple);
+  color: white;
+  padding: 10px 24px;
+  border-radius: 24px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.25s;
+  min-height: 44px;
+  line-height: 24px;
+}
+
+.offline-cta a:hover {
+  background: #9575cd;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(149, 117, 205, 0.3);
+}
+
+/* =======================
+   Footer
+   ======================= */
+.portal-footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.8rem;
+  color: var(--text-gray);
+  border-top: 1px solid var(--border-soft);
+  margin-top: 40px;
+}
+
+.portal-footer a {
+  color: var(--coral);
+  text-decoration: none;
+}
+
+/* =======================
+   Tooltip for map
+   ======================= */
+.city-tooltip {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid var(--coral);
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 500;
+  color: var(--text-dark);
+  box-shadow: var(--shadow);
+}
+
+.city-tooltip.pending {
+  border-color: var(--pending);
+  color: var(--pending-text);
+}
+
+.leaflet-tooltip-top:before { border-top-color: var(--coral); }
+
+/* Loading overlay for map */
+.map-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  color: var(--coral);
+  font-weight: 500;
+  z-index: 1000;
+}
+
+.map-loading i { margin-right: 8px; animation: spin 1s linear infinite; }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* =======================
+   Mobile
+   ======================= */
+@media (max-width: 768px) {
+  .portal-header { padding: 18px 16px 14px; }
+  .portal-header h1 { font-size: 1.5rem; }
+  .portal-header .subtitle { font-size: 0.85rem; }
+  .container { padding: 20px 14px 40px; }
+  #portal-map { height: 400px; }
+  .city-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+  .city-card { padding: 12px 14px; min-height: 52px; }
+  .tab-btn { padding: 10px 18px; font-size: 0.9rem; }
+}
+
+@media (max-width: 380px) {
+  .portal-header h1 { font-size: 1.3rem; }
+  .city-grid { grid-template-columns: 1fr 1fr; }
+  .city-card .city-name { font-size: 0.85rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="portal-header">
+  <h1><i class="fa-solid fa-mountain-sun"></i>東京 高低マップ</h1>
+  <div class="subtitle">Tokyo Elevation Map Portal</div>
+  <div class="progress-badge" id="progress-badge">完成：4 / 62 自治体</div>
+</header>
+
+<main class="container">
+
+  <section class="intro">
+    <p>東京都62区市町村のインタラクティブな高低マップ集です。地図または一覧から自治体を選択して、標高・3D地形・断面図・ハザードマップをご覧いただけます。</p>
+  </section>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="map" role="tab" aria-selected="true">
+      <i class="fa-solid fa-map-location-dot"></i>地図から選ぶ
+    </button>
+    <button class="tab-btn" data-tab="list" role="tab" aria-selected="false">
+      <i class="fa-solid fa-list"></i>一覧から選ぶ
+    </button>
+  </nav>
+
+  <!-- ======= Map View ======= -->
+  <section class="tab-content active" id="tab-map" role="tabpanel">
+    <div class="map-wrapper">
+      <div id="portal-map"></div>
+      <div class="map-loading" id="map-loading">
+        <i class="fa-solid fa-spinner"></i>行政界データ読込中…
+      </div>
+      <div class="map-legend">
+        <div class="legend-item">
+          <span class="legend-swatch done"></span>
+          <span>完成済み（クリックで移動）</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch pending"></span>
+          <span>未作成</span>
+        </div>
+      </div>
+      <div class="map-hint">
+        <i class="fa-solid fa-hand-pointer"></i>
+        区市町村をクリックすると、該当ページに移動します
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= List View ======= -->
+  <section class="tab-content" id="tab-list" role="tabpanel">
+    <div id="area-list"></div>
+  </section>
+
+  <!-- ======= Offline CTA ======= -->
+  <aside class="offline-cta">
+    <h2><i class="fa-solid fa-wifi-slash"></i>オフラインでも使いたい方へ</h2>
+    <p>災害時や通信圏外でも閲覧可能なオフライン対応版（PWA）の導入方法をご案内しています。</p>
+    <a href="offline/index.html"><i class="fa-solid fa-circle-info"></i> オフライン版の詳細を見る</a>
+  </aside>
+
+</main>
+
+<footer class="portal-footer">
+  <p>データ出典：<a href="https://www.gsi.go.jp/" target="_blank" rel="noopener">国土地理院</a> / <a href="https://disaportal.gsi.go.jp/" target="_blank" rel="noopener">ハザードマップポータル</a> / 行政界 GeoJSON <a href="https://github.com/dataofjapan/land" target="_blank" rel="noopener">dataofjapan/land</a></p>
+  <p style="margin-top:6px;">© 2026 Tokyo Elevation Map Project</p>
+</footer>
+
+<script>
+// =======================
+// 自治体データ（東京都62区市町村）
+// key: GeoJSONのN03_004（市区町村名）とマッチ
+// done: trueなら完成、path: リンク先
+// =======================
+const CITIES = [
+  // --- 特別区 (23) ---
+  { key:'千代田区', area:'tokubetsu', done:false },
+  { key:'中央区', area:'tokubetsu', done:false },
+  { key:'港区', area:'tokubetsu', done:true, path:'minato/index.html' },
+  { key:'新宿区', area:'tokubetsu', done:false },
+  { key:'文京区', area:'tokubetsu', done:false },
+  { key:'台東区', area:'tokubetsu', done:false },
+  { key:'墨田区', area:'tokubetsu', done:false },
+  { key:'江東区', area:'tokubetsu', done:true, path:'koto/index.html' },
+  { key:'品川区', area:'tokubetsu', done:false },
+  { key:'目黒区', area:'tokubetsu', done:false },
+  { key:'大田区', area:'tokubetsu', done:false },
+  { key:'世田谷区', area:'tokubetsu', done:false },
+  { key:'渋谷区', area:'tokubetsu', done:false },
+  { key:'中野区', area:'tokubetsu', done:false },
+  { key:'杉並区', area:'tokubetsu', done:false },
+  { key:'豊島区', area:'tokubetsu', done:false },
+  { key:'北区', area:'tokubetsu', done:false },
+  { key:'荒川区', area:'tokubetsu', done:false },
+  { key:'板橋区', area:'tokubetsu', done:true, path:'itabashi/index.html' },
+  { key:'練馬区', area:'tokubetsu', done:false },
+  { key:'足立区', area:'tokubetsu', done:false },
+  { key:'葛飾区', area:'tokubetsu', done:false },
+  { key:'江戸川区', area:'tokubetsu', done:false },
+
+  // --- 多摩地域（市）(26) ---
+  { key:'八王子市', area:'tama', done:false },
+  { key:'立川市', area:'tama', done:false },
+  { key:'武蔵野市', area:'tama', done:false },
+  { key:'三鷹市', area:'tama', done:false },
+  { key:'青梅市', area:'tama', done:false },
+  { key:'府中市', area:'tama', done:true, path:'fuchu/index.html' },
+  { key:'昭島市', area:'tama', done:false },
+  { key:'調布市', area:'tama', done:false },
+  { key:'町田市', area:'tama', done:false },
+  { key:'小金井市', area:'tama', done:false },
+  { key:'小平市', area:'tama', done:false },
+  { key:'日野市', area:'tama', done:false },
+  { key:'東村山市', area:'tama', done:false },
+  { key:'国分寺市', area:'tama', done:false },
+  { key:'国立市', area:'tama', done:false },
+  { key:'福生市', area:'tama', done:false },
+  { key:'狛江市', area:'tama', done:false },
+  { key:'東大和市', area:'tama', done:false },
+  { key:'清瀬市', area:'tama', done:false },
+  { key:'東久留米市', area:'tama', done:false },
+  { key:'武蔵村山市', area:'tama', done:false },
+  { key:'多摩市', area:'tama', done:false },
+  { key:'稲城市', area:'tama', done:false },
+  { key:'羽村市', area:'tama', done:false },
+  { key:'あきる野市', area:'tama', done:false },
+  { key:'西東京市', area:'tama', done:false },
+
+  // --- 西多摩郡（町村）(5) ---
+  { key:'瑞穂町', area:'tama', done:false },
+  { key:'日の出町', area:'tama', done:false },
+  { key:'檜原村', area:'tama', done:false },
+  { key:'奥多摩町', area:'tama', done:false },
+
+  // --- 島しょ部 (9) ---
+  { key:'大島町', area:'tosho', done:false },
+  { key:'利島村', area:'tosho', done:false },
+  { key:'新島村', area:'tosho', done:false },
+  { key:'神津島村', area:'tosho', done:false },
+  { key:'三宅村', area:'tosho', done:false },
+  { key:'御蔵島村', area:'tosho', done:false },
+  { key:'八丈町', area:'tosho', done:false },
+  { key:'青ヶ島村', area:'tosho', done:false },
+  { key:'小笠原村', area:'tosho', done:false },
+];
+
+// name→city のルックアップ
+const CITY_MAP = {};
+CITIES.forEach(c => CITY_MAP[c.key] = c);
+
+// エリア別グルーピング
+const AREAS = [
+  { id:'tokubetsu', label:'特別区', icon:'fa-city', cities: CITIES.filter(c=>c.area==='tokubetsu') },
+  { id:'tama',      label:'多摩地域', icon:'fa-tree', cities: CITIES.filter(c=>c.area==='tama') },
+  { id:'tosho',     label:'島しょ部', icon:'fa-water', cities: CITIES.filter(c=>c.area==='tosho') },
+];
+
+// 進捗バッジ更新
+const doneCount = CITIES.filter(c => c.done).length;
+document.getElementById('progress-badge').textContent = `完成：${doneCount} / ${CITIES.length} 自治体`;
+
+// =======================
+// タブ切替
+// =======================
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.toggle('active', b === btn);
+      b.setAttribute('aria-selected', b === btn);
+    });
+    document.querySelectorAll('.tab-content').forEach(c => {
+      c.classList.toggle('active', c.id === `tab-${tab}`);
+    });
+    // 地図タブに切替時はリサイズ
+    if (tab === 'map' && window._portalMap) {
+      setTimeout(() => window._portalMap.invalidateSize(), 100);
+    }
+  });
+});
+
+// =======================
+// 一覧ビュー生成
+// =======================
+function buildListView() {
+  const container = document.getElementById('area-list');
+  AREAS.forEach(area => {
+    const section = document.createElement('section');
+    section.className = 'area-section';
+    const doneInArea = area.cities.filter(c=>c.done).length;
+    section.innerHTML = `
+      <h2 class="area-title">
+        <i class="fa-solid ${area.icon}"></i>
+        ${area.label}
+        <span class="area-count">${doneInArea} / ${area.cities.length} 完成</span>
+      </h2>
+      <div class="city-grid" id="grid-${area.id}"></div>
+    `;
+    container.appendChild(section);
+    const grid = section.querySelector('.city-grid');
+    area.cities.forEach(city => {
+      const card = document.createElement(city.done ? 'a' : 'div');
+      card.className = `city-card ${city.done ? 'done' : 'pending'}`;
+      if (city.done) card.href = city.path;
+      card.innerHTML = `
+        <i class="fa-solid ${city.done ? 'fa-mountain' : 'fa-clock'} city-icon"></i>
+        <span class="city-name">${city.key}</span>
+        ${city.done ? '<span class="city-badge">OK</span>' : ''}
+      `;
+      grid.appendChild(card);
+    });
+  });
+}
+buildListView();
+
+// =======================
+// Leaflet 地図初期化
+// =======================
+const map = L.map('portal-map', {
+  center: [35.68, 139.55],
+  zoom: 10,
+  minZoom: 8,
+  maxZoom: 12,
+  zoomControl: true,
+  attributionControl: true,
+});
+window._portalMap = map;
+
+// 淡色タイル
+L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png', {
+  attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank">国土地理院</a>',
+  maxZoom: 12,
+}).addTo(map);
+
+// GeoJSON 読み込み（東京都の行政界）
+// dataofjapan/land の tokyo.geojson は小さく高速
+const GEOJSON_URL = 'https://raw.githubusercontent.com/dataofjapan/land/master/tokyo.geojson';
+
+// GeoJSON の自治体名プロパティ（dataofjapan/land は ward_ja）
+function getCityName(feature) {
+  const p = feature.properties || {};
+  return p.ward_ja || p.N03_004 || p.name || '';
+}
+
+function cityStyle(feature) {
+  const name = getCityName(feature);
+  const city = CITY_MAP[name];
+  const done = city && city.done;
+  return {
+    fillColor: done ? '#ff7e67' : '#d8d8d8',
+    fillOpacity: done ? 0.55 : 0.25,
+    color: done ? '#e85a3f' : '#aaaaaa',
+    weight: done ? 1.5 : 0.8,
+  };
+}
+
+function onEachCity(feature, layer) {
+  const name = getCityName(feature);
+  const city = CITY_MAP[name];
+  if (!city) {
+    console.warn('マッピング未登録:', name);
+    return;
+  }
+
+  // Tooltip
+  const tooltipContent = city.done
+    ? `<strong>${name}</strong><br><small style="color:#ff7e67;">クリックで開く</small>`
+    : `<strong>${name}</strong><br><small style="color:#999;">準備中</small>`;
+  layer.bindTooltip(tooltipContent, {
+    sticky: true,
+    direction: 'top',
+    className: city.done ? 'city-tooltip' : 'city-tooltip pending',
+  });
+
+  // Hover 強調
+  layer.on('mouseover', () => {
+    layer.setStyle({
+      fillOpacity: city.done ? 0.8 : 0.4,
+      weight: city.done ? 2.5 : 1.5,
+    });
+  });
+  layer.on('mouseout', () => {
+    layer.setStyle(cityStyle(feature));
+  });
+
+  // Click → 遷移
+  layer.on('click', () => {
+    if (city.done) {
+      window.location.href = city.path;
+    } else {
+      // 未完成の場合は軽くトースト的表示
+      layer.bindPopup(
+        `<div style="text-align:center; font-family:'M PLUS Rounded 1c',sans-serif;">
+          <strong style="color:#999;">${name}</strong><br>
+          <small>このページは準備中です</small>
+        </div>`,
+        { closeButton: true }
+      ).openPopup();
+    }
+  });
+}
+
+fetch(GEOJSON_URL)
+  .then(r => {
+    if (!r.ok) throw new Error('GeoJSON取得失敗');
+    return r.json();
+  })
+  .then(geojson => {
+    const layer = L.geoJSON(geojson, {
+      style: cityStyle,
+      onEachFeature: onEachCity,
+    }).addTo(map);
+    // 東京都本土にフィット（島しょ部は除外）
+    const bounds = L.latLngBounds([
+      [35.50, 138.94],
+      [35.90, 139.93]
+    ]);
+    map.fitBounds(bounds, { padding: [10, 10] });
+    document.getElementById('map-loading').style.display = 'none';
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById('map-loading').innerHTML =
+      '<i class="fa-solid fa-triangle-exclamation" style="color:#e85a3f;"></i> 行政界データ取得失敗。一覧からお選びください。';
+  });
+
+console.log('🗾 東京 高低マップ ポータル 起動完了');
+console.log(`✅ 完成済み: ${doneCount}/${CITIES.length}`);
+
+// =======================
+// PWA: Service Worker 登録
+// =======================
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js', { scope: './' })
+      .then(reg => console.log('[PWA] SW登録成功:', reg.scope))
+      .catch(err => console.warn('[PWA] SW登録失敗（HTTPS/localhost以外では正常）:', err.message));
+  });
+}
+</script>
+
+</body>
+</html>

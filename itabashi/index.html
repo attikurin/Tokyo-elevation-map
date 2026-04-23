@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#00a99d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>板橋区 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
+  <meta name="description" content="東京都板橋区のインタラクティブな標高（高低）マップ。2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+  <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --main: #00a99d;          /* 板橋グリーン */
+      --main-light: #66ccc2;
+      --sub: #ff9478;           /* コーラルアクセント */
+      --sub-light: #ffc1b0;
+      --accent: #7cb342;        /* 荒川沿い緑 */
+      --accent-light: #c5e1a5;
+      --cream: #f0faf8;
+      --ink: #2a3a38;
+      --ink-soft: #5a6b68;
+      --shadow: 0 6px 20px rgba(0, 169, 157, 0.18);
+      --shadow-strong: 0 10px 30px rgba(124, 179, 66, 0.22);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      height: 100%;
+      font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
+      background: linear-gradient(135deg, var(--cream) 0%, #e6f5f2 100%);
+      color: var(--ink);
+      overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+      overscroll-behavior: none;
+    }
+    @supports (padding: env(safe-area-inset-top)) {
+      header.app-header {
+        padding-top: env(safe-area-inset-top);
+        height: calc(60px + env(safe-area-inset-top));
+      }
+      main.app-main { top: calc(60px + env(safe-area-inset-top)); }
+    }
+
+    header.app-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background: #ffffff;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 169, 157, 0.12);
+      border-bottom: 3px solid;
+      border-image: linear-gradient(90deg, var(--main) 0%, var(--accent) 60%, var(--sub) 100%) 1;
+    }
+    header.app-header h1 {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex; align-items: center; gap: 10px;
+      color: var(--main);
+    }
+    header.app-header h1 i { font-size: 1.4rem; color: var(--accent); }
+    .header-sub { font-size: 0.8rem; opacity: 0.85; font-weight: 400; color: var(--ink-soft); }
+    header.app-header h1 .header-sub { color: var(--sub); }
+
+    main.app-main {
+      position: fixed;
+      top: 60px; left: 0; right: 0; bottom: 0;
+      display: flex;
+    }
+
+    aside.sidebar {
+      width: 320px;
+      background: #fff;
+      border-right: 1px solid #d7ede8;
+      overflow-y: auto;
+      padding: 16px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.04);
+      z-index: 500;
+    }
+
+    .panel {
+      background: var(--cream);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+      border: 1px solid #d7ede8;
+    }
+    .panel h3 {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      font-size: 0.95rem; color: var(--main);
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .panel h3 i { color: var(--accent); }
+
+    .view-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .view-btn {
+      padding: 10px 8px; border: 2px solid var(--main-light);
+      background: #fff; color: var(--main);
+      border-radius: 10px; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: all 0.2s;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      font-size: 0.85rem;
+    }
+    .view-btn i { font-size: 1.2rem; }
+    .view-btn.active {
+      background: linear-gradient(135deg, var(--main), var(--accent));
+      color: #fff; border-color: var(--main); box-shadow: var(--shadow);
+    }
+    .view-btn:hover:not(.active) { background: var(--cream); }
+
+    .elev-legend { display: flex; flex-direction: column; gap: 4px; }
+    .elev-bar {
+      height: 16px; border-radius: 6px;
+      background: linear-gradient(to right,
+        #1b5e20 0%, #558b2f 18%, #9ccc65 35%, #ffd54f 55%,
+        #ff8a65 75%, #8d6e63 100%);
+    }
+    .elev-scale {
+      display: flex; justify-content: space-between;
+      font-size: 0.72rem; color: var(--ink-soft);
+    }
+
+    .check-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px; border-radius: 8px; cursor: pointer;
+      transition: background 0.15s; font-size: 0.88rem;
+    }
+    .check-item:hover { background: #fff; }
+    .check-item input[type="checkbox"] {
+      accent-color: var(--main); width: 18px; height: 18px; cursor: pointer;
+    }
+    .check-color {
+      width: 16px; height: 16px; border-radius: 4px; flex-shrink: 0;
+      border: 1px solid rgba(0,0,0,0.1);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .slider-row {
+      display: flex; align-items: center; gap: 10px; margin-top: 8px;
+    }
+    .slider-row label {
+      font-size: 0.78rem; color: var(--ink-soft); min-width: 70px;
+    }
+    input[type="range"] { flex: 1; accent-color: var(--sub); }
+    .slider-val {
+      font-size: 0.78rem; color: var(--main);
+      font-weight: 700; min-width: 36px; text-align: right;
+    }
+
+    .cs-instructions {
+      font-size: 0.8rem; color: var(--ink-soft);
+      line-height: 1.5; margin-bottom: 8px;
+    }
+    .cs-status {
+      font-size: 0.78rem; padding: 6px 10px; border-radius: 6px;
+      background: var(--sub-light); color: #7a3a30;
+      margin-bottom: 8px; font-weight: 500;
+    }
+    .cs-btn-row { display: flex; gap: 6px; }
+    .btn {
+      flex: 1; padding: 8px 10px; border: none; border-radius: 8px;
+      font-family: inherit; font-size: 0.82rem; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--main), var(--accent));
+      color: #fff; box-shadow: var(--shadow);
+    }
+    .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.05); }
+    .btn-primary:disabled {
+      background: #ddd; color: #999; cursor: not-allowed;
+      box-shadow: none; transform: none;
+    }
+    .btn-secondary {
+      background: #fff; color: var(--sub);
+      border: 2px solid var(--sub-light);
+    }
+    .btn-secondary:hover { background: var(--sub-light); }
+
+    .map-area { flex: 1; position: relative; }
+    #map2d, #map3d { width: 100%; height: 100%; }
+    #map3d { display: none; }
+
+    .info-box {
+      position: absolute; top: 16px; right: 16px;
+      background: rgba(255,255,255,0.96);
+      padding: 12px 16px; border-radius: 12px;
+      box-shadow: var(--shadow-strong);
+      z-index: 450; font-size: 0.85rem;
+      min-width: 180px; border-top: 3px solid var(--main);
+    }
+    .info-box .label { font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+    .info-box .value {
+      font-size: 1rem; font-weight: 700; color: var(--main);
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+    }
+    .info-box .coord {
+      font-size: 0.72rem; color: var(--ink-soft);
+      margin-top: 6px; border-top: 1px dashed #eee; padding-top: 6px;
+    }
+
+    .cs-modal {
+      position: fixed; bottom: 0; left: 320px; right: 0;
+      height: 320px; background: #fff;
+      border-top: 3px solid var(--sub);
+      box-shadow: 0 -8px 20px rgba(0,0,0,0.1);
+      z-index: 750; padding: 14px 20px;
+      transform: translateY(100%); transition: transform 0.3s ease;
+      display: flex; flex-direction: column;
+    }
+    .cs-modal.visible { transform: translateY(0); }
+    .cs-modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px;
+    }
+    .cs-modal-header h3 {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      color: var(--sub); font-size: 1rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .cs-stats {
+      display: flex; gap: 16px; font-size: 0.82rem; color: var(--ink-soft);
+    }
+    .cs-stats strong {
+      color: var(--main); font-family: 'M PLUS Rounded 1c', sans-serif;
+    }
+    .close-btn {
+      background: none; border: none; color: var(--ink-soft);
+      font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 6px;
+    }
+    .close-btn:hover { background: var(--cream); }
+    .cs-canvas-wrap { flex: 1; position: relative; min-height: 0; }
+
+    .loading {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,255,255,0.95);
+      padding: 20px 30px; border-radius: 12px;
+      box-shadow: var(--shadow-strong);
+      z-index: 900; display: none;
+      align-items: center; gap: 12px;
+      color: var(--main); font-weight: 700;
+    }
+    .loading.visible { display: flex; }
+    .loading i { animation: spin 1s linear infinite; font-size: 1.4rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .poi-legend-ico {
+      color: #fff; font-size: 9px; width: 100%;
+      text-align: center; line-height: 16px;
+    }
+    .poi-marker {
+      width: 28px; height: 28px;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      border: 2px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: transform 0.15s;
+    }
+    .poi-marker:hover { transform: rotate(-45deg) scale(1.15); }
+    .poi-marker i { transform: rotate(45deg); color: #fff; font-size: 12px; }
+    .poi-cityhall { background: #00a99d; }
+    .poi-public   { background: #26a69a; }
+    .poi-station  { background: #5e8fd6; }
+    .poi-park     { background: #7cb342; }
+    .poi-temple   { background: #b39ddb; }
+    .poi-evac_shelter   { background: #2e8b57; }
+    .poi-evac_emergency { background: #c0392b; }
+    .poi-evac_wide      { background: #d4a017; }
+    .poi-evac_welfare   { background: #8e44ad; }
+
+    .poi-popup { font-family: 'Noto Sans JP', sans-serif; }
+    .poi-popup-title {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      font-weight: 700; color: var(--main);
+      font-size: 0.95rem; margin-bottom: 4px;
+    }
+    .poi-popup-cat {
+      font-size: 0.75rem; color: var(--ink-soft);
+      background: var(--cream); padding: 2px 8px;
+      border-radius: 10px; display: inline-block;
+    }
+
+    .cs-point {
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 0.8rem;
+    }
+    .cs-point.start { background: var(--main); }
+    .cs-point.end { background: var(--sub); }
+
+    .credits {
+      font-size: 0.7rem; color: var(--ink-soft);
+      text-align: center; padding: 8px; line-height: 1.5;
+    }
+    .credits a { color: var(--main); text-decoration: none; }
+
+    .leaflet-control-attribution { font-size: 10px !important; }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      header.app-header { height: 50px; padding: 0 12px; }
+      @supports (padding: env(safe-area-inset-top)) {
+        header.app-header { height: calc(50px + env(safe-area-inset-top)); }
+        main.app-main { top: calc(50px + env(safe-area-inset-top)); }
+      }
+      header.app-header h1 { font-size: 0.95rem; gap: 6px; }
+      header.app-header h1 i { font-size: 1.1rem; }
+      .header-sub { display: none; }
+      header.app-header > .header-sub:last-child { display: none; }
+      main.app-main { top: 50px; flex-direction: column; }
+
+      aside.sidebar {
+        position: fixed; top: auto; left: 0; right: 0; bottom: 0;
+        width: 100%; max-height: 75vh; height: auto;
+        border-right: none; border-top: 1px solid #d7ede8;
+        border-radius: 18px 18px 0 0;
+        transform: translateY(calc(100% - 44px));
+        transition: transform 0.3s ease;
+        z-index: 700; padding: 0 14px 80px;
+        box-shadow: 0 -6px 20px rgba(0,0,0,0.12);
+        overscroll-behavior: contain;
+      }
+      aside.sidebar.open { transform: translateY(0); padding-top: 14px; }
+      aside.sidebar::before {
+        content: ''; position: sticky; top: 0; display: block;
+        width: 44px; height: 4px; margin: 10px auto 8px;
+        background: #b5d6ce; border-radius: 2px; z-index: 10;
+      }
+      .sidebar-handle {
+        display: flex !important; position: sticky; top: 0;
+        background: #fff; padding: 2px 4px 10px;
+        margin: -10px -14px 10px;
+        border-radius: 18px 18px 0 0; z-index: 9;
+        align-items: center; justify-content: center; gap: 8px;
+        font-family: 'M PLUS Rounded 1c', sans-serif;
+        font-weight: 700; color: var(--main); font-size: 0.9rem;
+        cursor: pointer; border-bottom: 1px solid #d7ede8;
+      }
+      .sidebar-handle i { color: var(--accent); }
+
+      .info-box {
+        top: 8px; left: 8px; right: 8px; min-width: 0;
+        padding: 6px 10px; border-radius: 10px;
+        display: flex; align-items: center;
+        justify-content: space-between; gap: 8px;
+        font-size: 0.75rem; border-top-width: 2px;
+      }
+      .info-box .label { display: none; }
+      .info-box .value { font-size: 0.9rem; white-space: nowrap; }
+      .info-box .coord {
+        margin: 0; padding: 0; border: none;
+        font-size: 0.7rem; text-align: right;
+        flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+      }
+
+      .cs-modal { left: 0; right: 0; height: 55vh; padding: 12px 14px; }
+      .cs-modal-header { flex-wrap: wrap; gap: 6px; }
+      .cs-modal-header h3 { font-size: 0.9rem; }
+      .cs-stats {
+        flex-wrap: wrap; gap: 6px 10px; font-size: 0.72rem;
+        order: 3; width: 100%;
+      }
+
+      .panel { padding: 12px; margin-bottom: 10px; }
+      .panel h3 { font-size: 0.88rem; }
+      .check-item { font-size: 0.82rem; padding: 6px 4px; min-height: 36px; }
+      .check-item input[type="checkbox"] { width: 22px; height: 22px; }
+      .btn { padding: 10px 8px; font-size: 0.8rem; min-height: 40px; }
+      .view-btn { padding: 12px 6px; min-height: 56px; font-size: 0.78rem; }
+      .cs-point { width: 28px; height: 28px; font-size: 0.9rem; }
+      .poi-marker { width: 32px; height: 32px; }
+      .poi-marker i { font-size: 14px; }
+      .credits { font-size: 0.65rem; padding: 6px; }
+      .maplibregl-ctrl-group button,
+      .leaflet-control-zoom a {
+        width: 36px !important; height: 36px !important; line-height: 36px !important;
+      }
+    }
+    .sidebar-handle { display: none; }
+    @media (max-width: 768px) and (orientation: landscape) {
+      aside.sidebar { max-height: 90vh; }
+      .cs-modal { height: 70vh; }
+      .info-box { font-size: 0.7rem; }
+    }
+    @media (max-width: 380px) {
+      header.app-header h1 { font-size: 0.85rem; }
+      .panel { padding: 10px; }
+      .info-box { font-size: 0.7rem; padding: 5px 8px; }
+      .info-box .value { font-size: 0.82rem; }
+    }
+  </style>
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00a99d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="板橋高低">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+</head>
+<body>
+
+<header class="app-header">
+  <h1><i class="fa-solid fa-mountain-sun"></i> 板橋区 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
+  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都板橋区</span>
+</header>
+
+<main class="app-main">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-handle" id="sidebarHandle">
+      <i class="fa-solid fa-sliders"></i>
+      <span>メニュー（タップで開閉）</span>
+    </div>
+
+    <div class="panel">
+      <h3><i class="fa-solid fa-cube"></i> 表示モード</h3>
+      <div class="view-toggle">
+        <button class="view-btn active" data-view="2d" id="btn2d"><i class="fa-solid fa-map"></i>2D 高低図</button>
+        <button class="view-btn" data-view="3d" id="btn3d"><i class="fa-solid fa-mountain"></i>3D 立体</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3><i class="fa-solid fa-layer-group"></i> 標高スケール</h3>
+      <div class="elev-legend">
+        <div class="elev-bar"></div>
+        <div class="elev-scale">
+          <span>0m</span><span>10m</span><span>25m</span><span>40m</span><span>50m+</span>
+        </div>
+      </div>
+      <div class="slider-row">
+        <label>不透明度</label>
+        <input type="range" id="elevOpacity" min="0" max="100" value="70" />
+        <span class="slider-val" id="elevOpacityVal">70%</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3><i class="fa-solid fa-wave-square"></i> 断面図</h3>
+      <div class="cs-instructions">地図上で<strong>2点をクリック</strong>して断面ラインを指定します。</div>
+      <div class="cs-status" id="csStatus"><i class="fa-solid fa-hand-pointer"></i> 開始点をクリックしてください</div>
+      <div class="cs-btn-row">
+        <button class="btn btn-primary" id="btnDrawCS" disabled><i class="fa-solid fa-chart-line"></i> 断面図を描画</button>
+        <button class="btn btn-secondary" id="btnClearCS"><i class="fa-solid fa-trash"></i> クリア</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3><i class="fa-solid fa-map-pin"></i> 施設の表示</h3>
+      <label class="check-item">
+        <input type="checkbox" data-poi="cityhall" checked />
+        <span class="check-color" style="background:#00a99d;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
+        <span>板橋区役所</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-poi="public" />
+        <span class="check-color" style="background:#26a69a;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
+        <span>区の施設</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-poi="station" />
+        <span class="check-color" style="background:#5e8fd6;"><i class="fa-solid fa-train poi-legend-ico"></i></span>
+        <span>駅</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-poi="park" />
+        <span class="check-color" style="background:#7cb342;"><i class="fa-solid fa-tree poi-legend-ico"></i></span>
+        <span>公園</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-poi="temple" />
+        <span class="check-color" style="background:#b39ddb;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
+        <span>寺社仏閣</span>
+      </label>
+    </div>
+
+    <div class="panel">
+      <h3><i class="fa-solid fa-shield-halved"></i> 避難先</h3>
+      <label class="check-item">
+        <input type="checkbox" data-poi="evac_shelter" />
+        <span class="check-color" style="background:#2e8b57;"><i class="fa-solid fa-house-chimney-medical poi-legend-ico"></i></span>
+        <span>指定避難所（宿泊可）</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-poi="evac_emergency" />
+        <span class="check-color" style="background:#c0392b;"><i class="fa-solid fa-person-running poi-legend-ico"></i></span>
+        <span>指定緊急避難場所</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-poi="evac_wide" />
+        <span class="check-color" style="background:#d4a017;"><i class="fa-solid fa-arrows-to-circle poi-legend-ico"></i></span>
+        <span>広域避難場所</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-poi="evac_welfare" />
+        <span class="check-color" style="background:#8e44ad;"><i class="fa-solid fa-hand-holding-heart poi-legend-ico"></i></span>
+        <span>福祉避難所</span>
+      </label>
+    </div>
+
+    <div class="panel">
+      <h3><i class="fa-solid fa-triangle-exclamation"></i> ハザードマップ</h3>
+      <label class="check-item">
+        <input type="checkbox" data-hazard="flood_l2" />
+        <span class="check-color" style="background:#5e8fd6;"></span>
+        <span>洪水浸水想定（想定最大規模）</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-hazard="flood_keizoku" />
+        <span class="check-color" style="background:#8a6dce;"></span>
+        <span>浸水継続時間</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-hazard="dosha" />
+        <span class="check-color" style="background:#d65e7a;"></span>
+        <span>土砂災害警戒区域</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-hazard="takashio" />
+        <span class="check-color" style="background:#5ec5d6;"></span>
+        <span>高潮浸水想定区域</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-hazard="tsunami" />
+        <span class="check-color" style="background:#6dceb4;"></span>
+        <span>津波浸水想定</span>
+      </label>
+      <div class="slider-row">
+        <label>不透明度</label>
+        <input type="range" id="hazardOpacity" min="0" max="100" value="60" />
+        <span class="slider-val" id="hazardOpacityVal">60%</span>
+      </div>
+    </div>
+
+    <div class="panel" id="panel3d" style="display:none;">
+      <h3><i class="fa-solid fa-cubes"></i> 3D 設定</h3>
+      <div class="slider-row">
+        <label>高さ強調</label>
+        <input type="range" id="exagg" min="1" max="15" step="0.5" value="5" />
+        <span class="slider-val" id="exaggVal">5.0x</span>
+      </div>
+      <div class="slider-row">
+        <label>傾斜</label>
+        <input type="range" id="pitch" min="0" max="80" value="60" />
+        <span class="slider-val" id="pitchVal">60°</span>
+      </div>
+    </div>
+
+    <div class="credits">
+      データ提供：<a href="https://maps.gsi.go.jp/" target="_blank">国土地理院</a><br />
+      <a href="https://disaportal.gsi.go.jp/" target="_blank">ハザードマップポータル</a><br />
+      © OpenStreetMap contributors
+    </div>
+  </aside>
+
+  <div class="map-area">
+    <div id="map2d"></div>
+    <div id="map3d"></div>
+    <div class="info-box" id="infoBox">
+      <div>
+        <div class="label"><i class="fa-solid fa-location-crosshairs"></i> 標高</div>
+        <div class="value" id="elevValue">-- m</div>
+      </div>
+      <div class="coord" id="coordValue">緯度: -- / 経度: --</div>
+    </div>
+    <div class="loading" id="loading">
+      <i class="fa-solid fa-spinner"></i>
+      <span id="loadingText">読み込み中...</span>
+    </div>
+  </div>
+</main>
+
+<div class="cs-modal" id="csModal">
+  <div class="cs-modal-header">
+    <h3><i class="fa-solid fa-chart-line"></i> 標高断面図</h3>
+    <div class="cs-stats" id="csStats"></div>
+    <button class="close-btn" id="csClose" aria-label="閉じる"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="cs-canvas-wrap">
+    <canvas id="csChart"></canvas>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// 板橋区 高低マップ
+// ============================================================
+
+// 板橋区役所（初期中心）
+const CENTER = [35.7512, 139.7093];
+const INIT_ZOOM = 13;
+const AREA_BOUNDS = [[35.730, 139.655], [35.808, 139.748]]; // 板橋区の大まかな範囲
+
+const GSI_URLS = {
+  pale: 'https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',
+  relief: 'https://cyberjapandata.gsi.go.jp/xyz/relief/{z}/{x}/{y}.png',
+  hillshademap: 'https://cyberjapandata.gsi.go.jp/xyz/hillshademap/{z}/{x}/{y}.png',
+  flood_l2: 'https://disaportaldata.gsi.go.jp/raster/01_flood_l2_shinsuishin_data/{z}/{x}/{y}.png',
+  flood_keizoku_real: 'https://disaportaldata.gsi.go.jp/raster/01_flood_l2_keizoku_data/{z}/{x}/{y}.png',
+  dosha: 'https://disaportaldata.gsi.go.jp/raster/05_dosekiryukeikaikuiki/{z}/{x}/{y}.png',
+  takashio: 'https://disaportaldata.gsi.go.jp/raster/03_hightide_l2_shinsuishin_data/{z}/{x}/{y}.png',
+  tsunami: 'https://disaportaldata.gsi.go.jp/raster/04_tsunami_newlegend_data/{z}/{x}/{y}.png'
+};
+
+const map2d = L.map('map2d', {
+  center: CENTER, zoom: INIT_ZOOM,
+  minZoom: 10, maxZoom: 18, zoomControl: true
+});
+
+const baseLayer = L.tileLayer(GSI_URLS.pale, {
+  attribution: '© <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>',
+  maxZoom: 18
+}).addTo(map2d);
+const hillshadeLayer = L.tileLayer(GSI_URLS.hillshademap, { opacity: 0.5, maxZoom: 18 }).addTo(map2d);
+const reliefLayer = L.tileLayer(GSI_URLS.relief, { opacity: 0.7, maxZoom: 18 }).addTo(map2d);
+
+const hazardLayers = {
+  flood_l2: L.tileLayer(GSI_URLS.flood_l2, { opacity: 0.6, maxZoom: 18 }),
+  flood_keizoku: L.tileLayer(GSI_URLS.flood_keizoku_real, { opacity: 0.6, maxZoom: 18 }),
+  dosha: L.tileLayer(GSI_URLS.dosha, { opacity: 0.6, maxZoom: 18 }),
+  takashio: L.tileLayer(GSI_URLS.takashio, { opacity: 0.6, maxZoom: 18 }),
+  tsunami: L.tileLayer(GSI_URLS.tsunami, { opacity: 0.6, maxZoom: 18 })
+};
+
+// =======================
+// 板橋区 施設データ
+// =======================
+const POI_DATA = {
+  cityhall: {
+    label: '板橋区役所', icon: 'fa-building', cssClass: 'poi-cityhall',
+    items: [
+      { name: '板橋区役所', lat: 35.7512, lng: 139.7093 }
+    ]
+  },
+  public: {
+    label: '区の施設', icon: 'fa-landmark', cssClass: 'poi-public',
+    items: [
+      { name: '板橋区立中央図書館', lat: 35.7759, lng: 139.6851 },
+      { name: '板橋区立美術館', lat: 35.7830, lng: 139.6860 },
+      { name: '板橋区立郷土資料館', lat: 35.7810, lng: 139.6873 },
+      { name: '板橋区立教育科学館', lat: 35.7765, lng: 139.6863 },
+      { name: '板橋区立熱帯環境植物館', lat: 35.7942, lng: 139.6733 },
+      { name: '板橋区立グリーンホール', lat: 35.7511, lng: 139.7096 },
+      { name: '板橋区立文化会館', lat: 35.7500, lng: 139.7084 },
+      { name: '板橋区立植村記念加賀スポーツセンター', lat: 35.7600, lng: 139.7150 },
+      { name: '板橋区立東板橋体育館', lat: 35.7615, lng: 139.7246 },
+      { name: '板橋区立上板橋体育館', lat: 35.7705, lng: 139.6828 },
+      { name: '板橋区立小豆沢体育館', lat: 35.7685, lng: 139.7027 },
+      { name: '板橋区立高島平温水プール', lat: 35.7869, lng: 139.6737 },
+      { name: '板橋区保健所', lat: 35.7516, lng: 139.7102 },
+      { name: '板橋区立エコポリスセンター', lat: 35.7685, lng: 139.7040 },
+      { name: '板橋区立男女平等推進センター', lat: 35.7498, lng: 139.7088 },
+      { name: '板橋区立赤塚支所', lat: 35.7774, lng: 139.6685 },
+      { name: '板橋区立志村支所', lat: 35.7663, lng: 139.7046 },
+      { name: '板橋区立高島平区民館', lat: 35.7876, lng: 139.6750 },
+      { name: '板橋区立成増アクトホール', lat: 35.7764, lng: 139.6337 },
+      { name: '板橋区立ハイライフプラザいたばし', lat: 35.7468, lng: 139.7150 },
+      { name: '板橋区立教育支援センター', lat: 35.7512, lng: 139.7075 },
+      { name: '板橋区立子ども動物園（本園）', lat: 35.7615, lng: 139.7246 }
+    ]
+  },
+  station: {
+    label: '駅', icon: 'fa-train', cssClass: 'poi-station',
+    items: [
+      { name: '板橋駅（JR埼京線）', lat: 35.7463, lng: 139.7198 },
+      { name: '下板橋駅（東武東上線）', lat: 35.7470, lng: 139.7178 },
+      { name: 'ときわ台駅（東武東上線）', lat: 35.7656, lng: 139.6917 },
+      { name: '上板橋駅（東武東上線）', lat: 35.7713, lng: 139.6779 },
+      { name: '東武練馬駅（東武東上線）', lat: 35.7720, lng: 139.6630 },
+      { name: '下赤塚駅（東武東上線）', lat: 35.7764, lng: 139.6458 },
+      { name: '成増駅（東武東上線）', lat: 35.7764, lng: 139.6337 },
+      { name: '新板橋駅（都営三田線）', lat: 35.7499, lng: 139.7185 },
+      { name: '板橋区役所前駅（都営三田線）', lat: 35.7513, lng: 139.7128 },
+      { name: '板橋本町駅（都営三田線）', lat: 35.7577, lng: 139.7109 },
+      { name: '本蓮沼駅（都営三田線）', lat: 35.7636, lng: 139.7140 },
+      { name: '志村坂上駅（都営三田線）', lat: 35.7693, lng: 139.7072 },
+      { name: '志村三丁目駅（都営三田線）', lat: 35.7734, lng: 139.7014 },
+      { name: '蓮根駅（都営三田線）', lat: 35.7785, lng: 139.6920 },
+      { name: '西台駅（都営三田線）', lat: 35.7820, lng: 139.6855 },
+      { name: '高島平駅（都営三田線）', lat: 35.7863, lng: 139.6767 },
+      { name: '新高島平駅（都営三田線）', lat: 35.7888, lng: 139.6687 },
+      { name: '西高島平駅（都営三田線）', lat: 35.7902, lng: 139.6595 },
+      { name: '地下鉄成増駅（東京メトロ有楽町線・副都心線）', lat: 35.7783, lng: 139.6342 },
+      { name: '地下鉄赤塚駅（東京メトロ有楽町線・副都心線）', lat: 35.7790, lng: 139.6468 },
+      { name: '浮間舟渡駅（JR埼京線）', lat: 35.7863, lng: 139.6972 }
+    ]
+  },
+  park: {
+    label: '公園', icon: 'fa-tree', cssClass: 'poi-park',
+    items: [
+      { name: '赤塚公園', lat: 35.7815, lng: 139.6820 },
+      { name: '板橋区立赤塚溜池公園', lat: 35.7814, lng: 139.6876 },
+      { name: '板橋区立石神井川緑道', lat: 35.7620, lng: 139.7100 },
+      { name: '板橋区立見次公園', lat: 35.7710, lng: 139.6825 },
+      { name: '板橋区立板橋こども動物園', lat: 35.7615, lng: 139.7246 },
+      { name: '板橋区立東板橋公園', lat: 35.7615, lng: 139.7246 },
+      { name: '板橋区立浮間公園', lat: 35.7854, lng: 139.6958 },
+      { name: '板橋区立城北中央公園', lat: 35.7605, lng: 139.6685 },
+      { name: '板橋区立小豆沢公園', lat: 35.7688, lng: 139.7037 },
+      { name: '板橋区立徳丸ヶ原公園', lat: 35.7853, lng: 139.6788 },
+      { name: '板橋区立桜川公園', lat: 35.7672, lng: 139.6698 },
+      { name: '板橋区立こども遊園地', lat: 35.7620, lng: 139.7236 },
+      { name: '荒川河川敷緑地', lat: 35.7960, lng: 139.7050 }
+    ]
+  },
+  temple: {
+    label: '寺社仏閣', icon: 'fa-torii-gate', cssClass: 'poi-temple',
+    items: [
+      { name: '乗蓮寺（東京大仏）', lat: 35.7804, lng: 139.6857 },
+      { name: '赤塚氷川神社', lat: 35.7793, lng: 139.6863 },
+      { name: '板橋区立熊野神社', lat: 35.7487, lng: 139.7158 },
+      { name: '縁切榎', lat: 35.7489, lng: 139.7185 },
+      { name: '子易神社', lat: 35.7488, lng: 139.7168 },
+      { name: '東光寺', lat: 35.7487, lng: 139.7175 },
+      { name: '観明寺', lat: 35.7525, lng: 139.7103 },
+      { name: '日曜寺', lat: 35.7585, lng: 139.7100 },
+      { name: '氷川神社（中板橋）', lat: 35.7566, lng: 139.7017 },
+      { name: '大谷口氷川神社', lat: 35.7548, lng: 139.6870 },
+      { name: '下赤塚氷川神社', lat: 35.7746, lng: 139.6457 },
+      { name: '徳丸北野神社', lat: 35.7774, lng: 139.6615 },
+      { name: '志村熊野神社', lat: 35.7710, lng: 139.7070 },
+      { name: '松月院', lat: 35.7790, lng: 139.6837 }
+    ]
+  },
+  evac_shelter: {
+    label: '指定避難所', icon: 'fa-house-chimney-medical', cssClass: 'poi-evac_shelter',
+    items: [
+      { name: '板橋第一小学校', lat: 35.7515, lng: 139.7145 },
+      { name: '板橋第二小学校', lat: 35.7553, lng: 139.7115 },
+      { name: '板橋第三小学校', lat: 35.7480, lng: 139.7070 },
+      { name: '板橋第四小学校', lat: 35.7550, lng: 139.7055 },
+      { name: '板橋第五小学校', lat: 35.7602, lng: 139.7055 },
+      { name: '仲宿小学校', lat: 35.7548, lng: 139.7130 },
+      { name: '金沢小学校', lat: 35.7602, lng: 139.6998 },
+      { name: '加賀小学校', lat: 35.7595, lng: 139.7198 },
+      { name: '弥生小学校', lat: 35.7640, lng: 139.6868 },
+      { name: '中根橋小学校', lat: 35.7567, lng: 139.6970 },
+      { name: '大山小学校', lat: 35.7488, lng: 139.7035 },
+      { name: '常盤台小学校', lat: 35.7672, lng: 139.6870 },
+      { name: '上板橋小学校', lat: 35.7695, lng: 139.6773 },
+      { name: '上板橋第二小学校', lat: 35.7738, lng: 139.6785 },
+      { name: '北前野小学校', lat: 35.7655, lng: 139.6958 },
+      { name: '前野小学校', lat: 35.7706, lng: 139.6960 },
+      { name: '向原小学校', lat: 35.7592, lng: 139.6797 },
+      { name: '桜川小学校', lat: 35.7670, lng: 139.6710 },
+      { name: '中台小学校', lat: 35.7758, lng: 139.6948 },
+      { name: '志村小学校', lat: 35.7708, lng: 139.7075 },
+      { name: '志村第一小学校', lat: 35.7740, lng: 139.7020 },
+      { name: '志村第二小学校', lat: 35.7762, lng: 139.7088 },
+      { name: '志村第三小学校', lat: 35.7763, lng: 139.7033 },
+      { name: '志村第四小学校', lat: 35.7786, lng: 139.7088 },
+      { name: '志村第五小学校', lat: 35.7818, lng: 139.7005 },
+      { name: '蓮根小学校', lat: 35.7790, lng: 139.6898 },
+      { name: '舟渡小学校', lat: 35.7865, lng: 139.6975 },
+      { name: '新河岸小学校', lat: 35.7910, lng: 139.6900 },
+      { name: '高島第一小学校', lat: 35.7878, lng: 139.6770 },
+      { name: '高島第二小学校', lat: 35.7905, lng: 139.6712 },
+      { name: '高島第三小学校', lat: 35.7840, lng: 139.6768 },
+      { name: '高島第四小学校', lat: 35.7885, lng: 139.6600 },
+      { name: '高島第五小学校', lat: 35.7866, lng: 139.6862 },
+      { name: '徳丸小学校', lat: 35.7793, lng: 139.6642 },
+      { name: '北野小学校', lat: 35.7760, lng: 139.6555 },
+      { name: '紅梅小学校', lat: 35.7806, lng: 139.6488 },
+      { name: '赤塚小学校', lat: 35.7790, lng: 139.6540 },
+      { name: '赤塚新町小学校', lat: 35.7745, lng: 139.6432 },
+      { name: '下赤塚小学校', lat: 35.7750, lng: 139.6498 },
+      { name: '成増小学校', lat: 35.7779, lng: 139.6380 },
+      { name: '成増ヶ丘小学校', lat: 35.7715, lng: 139.6300 },
+      { name: '三園小学校', lat: 35.7893, lng: 139.6538 },
+      { name: '板橋第一中学校', lat: 35.7542, lng: 139.7158 },
+      { name: '板橋第二中学校', lat: 35.7540, lng: 139.6998 },
+      { name: '板橋第三中学校', lat: 35.7460, lng: 139.7058 },
+      { name: '板橋第四中学校', lat: 35.7705, lng: 139.6975 },
+      { name: '板橋第五中学校', lat: 35.7788, lng: 139.6820 },
+      { name: '桜川中学校', lat: 35.7660, lng: 139.6750 },
+      { name: '中台中学校', lat: 35.7772, lng: 139.6925 },
+      { name: '志村第一中学校', lat: 35.7718, lng: 139.7050 },
+      { name: '志村第二中学校', lat: 35.7815, lng: 139.6945 },
+      { name: '志村第三中学校', lat: 35.7770, lng: 139.7110 },
+      { name: '志村第四中学校', lat: 35.7770, lng: 139.6915 },
+      { name: '志村第五中学校', lat: 35.7785, lng: 139.6988 },
+      { name: '高島第一中学校', lat: 35.7900, lng: 139.6745 },
+      { name: '高島第二中学校', lat: 35.7850, lng: 139.6835 },
+      { name: '高島第三中学校', lat: 35.7905, lng: 139.6655 },
+      { name: '赤塚第一中学校', lat: 35.7776, lng: 139.6582 },
+      { name: '赤塚第二中学校', lat: 35.7712, lng: 139.6550 },
+      { name: '赤塚第三中学校', lat: 35.7725, lng: 139.6455 }
+    ]
+  },
+  evac_emergency: {
+    label: '指定緊急避難場所', icon: 'fa-person-running', cssClass: 'poi-evac_emergency',
+    items: [
+      { name: '赤塚公園（緊急避難場所）', lat: 35.7815, lng: 139.6820 },
+      { name: '城北中央公園（緊急避難場所）', lat: 35.7605, lng: 139.6685 },
+      { name: '小豆沢公園（緊急避難場所）', lat: 35.7688, lng: 139.7037 },
+      { name: '浮間公園（緊急避難場所）', lat: 35.7854, lng: 139.6958 },
+      { name: '見次公園（緊急避難場所）', lat: 35.7710, lng: 139.6825 },
+      { name: '東板橋公園（緊急避難場所）', lat: 35.7615, lng: 139.7246 },
+      { name: '徳丸ヶ原公園（緊急避難場所）', lat: 35.7853, lng: 139.6788 },
+      { name: '赤塚溜池公園（緊急避難場所）', lat: 35.7814, lng: 139.6876 },
+      { name: '熱帯環境植物館周辺緑地', lat: 35.7942, lng: 139.6733 },
+      { name: '志村三丁目中央公園', lat: 35.7720, lng: 139.7012 }
+    ]
+  },
+  evac_wide: {
+    label: '広域避難場所', icon: 'fa-arrows-to-circle', cssClass: 'poi-evac_wide',
+    items: [
+      { name: '赤塚公園一帯（広域避難場所）', lat: 35.7815, lng: 139.6820 },
+      { name: '城北中央公園一帯（広域避難場所）', lat: 35.7605, lng: 139.6685 },
+      { name: '高島平団地周辺（広域避難場所）', lat: 35.7870, lng: 139.6760 },
+      { name: '浮間公園・舟渡水辺公園一帯', lat: 35.7865, lng: 139.6965 },
+      { name: '加賀・金沢小学校周辺一帯', lat: 35.7598, lng: 139.7180 },
+      { name: '板橋公園一帯', lat: 35.7620, lng: 139.7246 }
+    ]
+  },
+  evac_welfare: {
+    label: '福祉避難所', icon: 'fa-hand-holding-heart', cssClass: 'poi-evac_welfare',
+    items: [
+      { name: '板橋区立障がい者福祉センター', lat: 35.7616, lng: 139.7250 },
+      { name: '高島平福祉園', lat: 35.7868, lng: 139.6745 },
+      { name: '赤塚福祉園', lat: 35.7780, lng: 139.6510 },
+      { name: '成増ふれあい館', lat: 35.7770, lng: 139.6352 },
+      { name: '板橋区立ゆりの木園', lat: 35.7580, lng: 139.7020 },
+      { name: '板橋区立小茂根福祉園', lat: 35.7530, lng: 139.6820 },
+      { name: '特別養護老人ホーム 板橋キングス・ガーデン', lat: 35.7665, lng: 139.6655 },
+      { name: '特別養護老人ホーム 舟渡ホーム', lat: 35.7880, lng: 139.6990 },
+      { name: '板橋ナーシングホーム', lat: 35.7760, lng: 139.6830 }
+    ]
+  }
+};
+
+const poiMarkerGroups = {};
+function buildPOIMarkers(category) {
+  const cfg = POI_DATA[category];
+  return cfg.items.map(item => {
+    const icon = L.divIcon({
+      html: `<div class="poi-marker ${cfg.cssClass}" title="${item.name}"><i class="fa-solid ${cfg.icon}"></i></div>`,
+      className: '', iconSize: [28, 28], iconAnchor: [14, 28], popupAnchor: [0, -26]
+    });
+    const marker = L.marker([item.lat, item.lng], { icon });
+    marker.bindPopup(`
+      <div class="poi-popup">
+        <div class="poi-popup-title">${item.name}</div>
+        <div class="poi-popup-cat">${cfg.label}</div>
+      </div>
+    `);
+    return marker;
+  });
+}
+Object.keys(POI_DATA).forEach(key => { poiMarkerGroups[key] = buildPOIMarkers(key); });
+
+function setPOIVisibility(category, visible) {
+  const markers = poiMarkerGroups[category];
+  if (!markers) return;
+  if (visible) markers.forEach(m => m.addTo(map2d));
+  else markers.forEach(m => map2d.removeLayer(m));
+}
+setPOIVisibility('cityhall', true);
+document.querySelectorAll('input[data-poi]').forEach(chk => {
+  chk.addEventListener('change', (e) => setPOIVisibility(e.target.dataset.poi, e.target.checked));
+});
+
+// =======================
+// 標高API
+// =======================
+async function getElevation(lat, lng) {
+  try {
+    const url = `https://cyberjapandata2.gsi.go.jp/general/dem/scripts/getelevation.php?lon=${lng}&lat=${lat}&outtype=JSON`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    return typeof data.elevation === 'number' ? data.elevation : null;
+  } catch (e) { return null; }
+}
+
+const elevValueEl = document.getElementById('elevValue');
+const coordValueEl = document.getElementById('coordValue');
+let elevDebounce = null;
+
+function updateInfoBox(lat, lng) {
+  coordValueEl.textContent = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  if (elevDebounce) clearTimeout(elevDebounce);
+  elevDebounce = setTimeout(async () => {
+    const elev = await getElevation(lat, lng);
+    elevValueEl.textContent = elev !== null ? `${elev.toFixed(1)} m` : '-- m';
+  }, 250);
+}
+function isMobileDevice() { return window.innerWidth <= 768; }
+
+map2d.on('mousemove', (e) => { if (!isMobileDevice()) updateInfoBox(e.latlng.lat, e.latlng.lng); });
+map2d.on('move', () => {
+  if (!isMobileDevice()) return;
+  const c = map2d.getCenter();
+  updateInfoBox(c.lat, c.lng);
+});
+
+// =======================
+// 不透明度スライダー
+// =======================
+const elevOpacity = document.getElementById('elevOpacity');
+const elevOpacityVal = document.getElementById('elevOpacityVal');
+elevOpacity.addEventListener('input', (e) => {
+  const v = parseInt(e.target.value);
+  elevOpacityVal.textContent = `${v}%`;
+  reliefLayer.setOpacity(v / 100);
+  hillshadeLayer.setOpacity((v / 100) * 0.7);
+});
+const hazardOpacity = document.getElementById('hazardOpacity');
+const hazardOpacityVal = document.getElementById('hazardOpacityVal');
+hazardOpacity.addEventListener('input', (e) => {
+  const v = parseInt(e.target.value);
+  hazardOpacityVal.textContent = `${v}%`;
+  Object.values(hazardLayers).forEach(l => l.setOpacity(v / 100));
+  if (map3d && map3dLoaded) {
+    Object.keys(hazardLayers).forEach(key => {
+      const layerId = `hazard-${key}`;
+      if (map3d.getLayer(layerId)) map3d.setPaintProperty(layerId, 'raster-opacity', v / 100);
+    });
+  }
+});
+
+document.querySelectorAll('input[data-hazard]').forEach(chk => {
+  chk.addEventListener('change', (e) => {
+    const key = e.target.dataset.hazard;
+    const on = e.target.checked;
+    if (on) hazardLayers[key].addTo(map2d);
+    else map2d.removeLayer(hazardLayers[key]);
+    if (map3d && map3dLoaded) toggleHazard3D(key, on);
+  });
+});
+
+// =======================
+// 断面図
+// =======================
+let csPoints = [], csMarkers = [], csLine = null;
+const csStatus = document.getElementById('csStatus');
+const btnDrawCS = document.getElementById('btnDrawCS');
+const btnClearCS = document.getElementById('btnClearCS');
+const csModal = document.getElementById('csModal');
+const csClose = document.getElementById('csClose');
+
+function updateCSStatus() {
+  if (csPoints.length === 0) {
+    csStatus.innerHTML = '<i class="fa-solid fa-hand-pointer"></i> 開始点をクリックしてください';
+    btnDrawCS.disabled = true;
+  } else if (csPoints.length === 1) {
+    csStatus.innerHTML = '<i class="fa-solid fa-hand-pointer"></i> 終了点をクリックしてください';
+    btnDrawCS.disabled = true;
+  } else {
+    const d = distanceMeters(csPoints[0], csPoints[1]);
+    csStatus.innerHTML = `<i class="fa-solid fa-check"></i> 2点指定完了（距離 ${d.toFixed(0)}m）`;
+    btnDrawCS.disabled = false;
+  }
+}
+function distanceMeters(a, b) {
+  const R = 6371000;
+  const toRad = d => d * Math.PI / 180;
+  const dLat = toRad(b[0] - a[0]);
+  const dLng = toRad(b[1] - a[1]);
+  const lat1 = toRad(a[0]), lat2 = toRad(b[0]);
+  const x = Math.sin(dLat/2)**2 + Math.sin(dLng/2)**2 * Math.cos(lat1) * Math.cos(lat2);
+  return 2 * R * Math.asin(Math.sqrt(x));
+}
+function addCSPoint(lat, lng) {
+  if (csPoints.length >= 2) return;
+  const pt = [lat, lng];
+  csPoints.push(pt);
+  const isStart = csPoints.length === 1;
+  const icon = L.divIcon({
+    html: `<div class="cs-point ${isStart ? 'start' : 'end'}">${isStart ? 'A' : 'B'}</div>`,
+    className: '', iconSize: [24, 24], iconAnchor: [12, 12]
+  });
+  const marker = L.marker(pt, { icon }).addTo(map2d);
+  csMarkers.push(marker);
+  if (csPoints.length === 2) {
+    csLine = L.polyline(csPoints, {
+      color: '#ff9478', weight: 4, opacity: 0.8, dashArray: '8, 8'
+    }).addTo(map2d);
+  }
+  updateCSStatus();
+}
+map2d.on('click', (e) => { addCSPoint(e.latlng.lat, e.latlng.lng); });
+
+btnClearCS.addEventListener('click', clearCS);
+function clearCS() {
+  csPoints = [];
+  csMarkers.forEach(m => map2d.removeLayer(m));
+  csMarkers = [];
+  if (csLine) { map2d.removeLayer(csLine); csLine = null; }
+  csModal.classList.remove('visible');
+  updateCSStatus();
+}
+csClose.addEventListener('click', () => csModal.classList.remove('visible'));
+
+btnDrawCS.addEventListener('click', async () => {
+  if (csPoints.length !== 2) return;
+  showLoading('断面データを取得中...');
+  const [a, b] = csPoints;
+  const N = 40, samples = [];
+  for (let i = 0; i <= N; i++) {
+    const t = i / N;
+    samples.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
+  }
+  const elevs = await Promise.all(samples.map(p => getElevation(p[0], p[1])));
+  const totalDist = distanceMeters(a, b);
+  const labels = elevs.map((_, i) => ((i / N) * totalDist).toFixed(0));
+  const data = elevs.map(v => v === null ? null : v);
+  renderCrossSection(labels, data, totalDist);
+  hideLoading();
+});
+
+let csChart = null;
+function renderCrossSection(labels, data, totalDist) {
+  const ctx = document.getElementById('csChart').getContext('2d');
+  if (csChart) csChart.destroy();
+  const valid = data.filter(v => v !== null && !isNaN(v));
+  let min = Infinity, max = -Infinity;
+  for (const v of valid) { if (v < min) min = v; if (v > max) max = v; }
+  if (!isFinite(min)) { min = 0; max = 0; }
+  const diff = max - min;
+  document.getElementById('csStats').innerHTML = `
+    <span>距離: <strong>${totalDist.toFixed(0)} m</strong></span>
+    <span>最高: <strong>${max.toFixed(1)} m</strong></span>
+    <span>最低: <strong>${min.toFixed(1)} m</strong></span>
+    <span>標高差: <strong>${diff.toFixed(1)} m</strong></span>
+  `;
+  csChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: '標高 (m)', data: data,
+        borderColor: '#00a99d',
+        backgroundColor: (context) => {
+          const chart = context.chart;
+          const { ctx, chartArea } = chart;
+          if (!chartArea) return 'rgba(0,169,157,0.2)';
+          const g = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+          g.addColorStop(0, 'rgba(0,169,157,0.55)');
+          g.addColorStop(0.5, 'rgba(124,179,66,0.35)');
+          g.addColorStop(1, 'rgba(255,148,120,0.1)');
+          return g;
+        },
+        fill: true, tension: 0.3, pointRadius: 0, pointHoverRadius: 5, borderWidth: 2.5
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: (items) => `距離 ${items[0].label} m`,
+            label: (item) => `標高: ${item.parsed.y !== null ? item.parsed.y.toFixed(1) + ' m' : 'データなし'}`
+          }
+        }
+      },
+      scales: {
+        x: { title: { display: true, text: '地点 A からの距離 (m)', color: '#5a6b68' },
+             ticks: { color: '#5a6b68', maxTicksLimit: 10 }, grid: { color: '#d7ede8' } },
+        y: { title: { display: true, text: '標高 (m)', color: '#5a6b68' },
+             ticks: { color: '#5a6b68' }, grid: { color: '#d7ede8' } }
+      }
+    }
+  });
+  csModal.classList.add('visible');
+}
+
+// =======================
+// 3D Map (MapLibre)
+// =======================
+let map3d = null, map3dLoaded = false;
+
+maplibregl.addProtocol('gsidem', (params, abortController) => {
+  const url = params.url.replace('gsidem://', 'https://');
+  return fetch(url, { signal: abortController.signal })
+    .then(response => {
+      if (!response.ok) return { data: new Uint8Array(0) };
+      return response.blob().then(blob => createImageBitmap(blob)).then(bitmap => {
+        const canvas = document.createElement('canvas');
+        canvas.width = bitmap.width; canvas.height = bitmap.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(bitmap, 0, 0);
+        const imgData = ctx.getImageData(0, 0, bitmap.width, bitmap.height);
+        const px = imgData.data;
+        for (let i = 0; i < px.length; i += 4) {
+          const r = px[i], g = px[i+1], b = px[i+2];
+          let h = 0;
+          if (!(r === 128 && g === 0 && b === 0)) {
+            let d = r * 65536 + g * 256 + b;
+            if (d >= 0x800000) d -= 0x1000000;
+            h = d * 0.01;
+          }
+          const v = Math.round((h + 10000) / 0.1);
+          px[i] = (v >> 16) & 0xff;
+          px[i+1] = (v >> 8) & 0xff;
+          px[i+2] = v & 0xff;
+          px[i+3] = 255;
+        }
+        ctx.putImageData(imgData, 0, 0);
+        return new Promise(resolve => {
+          canvas.toBlob(blob => blob.arrayBuffer().then(buf => resolve({ data: buf })), 'image/png');
+        });
+      });
+    })
+    .catch(err => ({ data: new Uint8Array(0) }));
+});
+
+function init3D() {
+  if (map3d) return;
+  map3d = new maplibregl.Map({
+    container: 'map3d',
+    style: {
+      version: 8,
+      sources: {
+        'gsi-pale': { type: 'raster', tiles: [GSI_URLS.pale], tileSize: 256, attribution: '© 国土地理院', maxzoom: 18 },
+        'gsi-relief': { type: 'raster', tiles: [GSI_URLS.relief], tileSize: 256, maxzoom: 18 },
+        'gsi-hillshade': { type: 'raster', tiles: [GSI_URLS.hillshademap], tileSize: 256, maxzoom: 18 },
+        'gsi-dem': {
+          type: 'raster-dem',
+          tiles: ['gsidem://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png'],
+          tileSize: 256, minzoom: 1, maxzoom: 14, encoding: 'mapbox'
+        }
+      },
+      layers: [
+        { id: 'base-pale', type: 'raster', source: 'gsi-pale' },
+        { id: 'relief', type: 'raster', source: 'gsi-relief', paint: { 'raster-opacity': 0.6 } },
+        { id: 'hillshade', type: 'raster', source: 'gsi-hillshade', paint: { 'raster-opacity': 0.4 } }
+      ]
+    },
+    center: [CENTER[1], CENTER[0]], zoom: 13.5, pitch: 65, bearing: -25, maxPitch: 85
+  });
+  map3d.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
+  map3d.on('load', () => {
+    setTimeout(() => {
+      try {
+        map3d.setTerrain({ source: 'gsi-dem', exaggeration: parseFloat(document.getElementById('exagg').value) });
+      } catch (e) { console.warn('terrain unavailable', e); }
+    }, 300);
+    try {
+      map3d.setSky({
+        'sky-color': '#a0e0d6',
+        'sky-horizon-blend': 0.7,
+        'horizon-color': '#c5e1a5',
+        'horizon-fog-blend': 0.6,
+        'fog-color': '#f0faf8',
+        'fog-ground-blend': 0.4
+      });
+    } catch(e) {}
+    const hazardSourceMap = {
+      flood_l2: GSI_URLS.flood_l2,
+      flood_keizoku: GSI_URLS.flood_keizoku_real,
+      dosha: GSI_URLS.dosha,
+      takashio: GSI_URLS.takashio,
+      tsunami: GSI_URLS.tsunami
+    };
+    Object.keys(hazardSourceMap).forEach(key => {
+      map3d.addSource(`src-hazard-${key}`, {
+        type: 'raster', tiles: [hazardSourceMap[key]], tileSize: 256, maxzoom: 18
+      });
+    });
+    map3dLoaded = true;
+    document.querySelectorAll('input[data-hazard]:checked').forEach(chk => {
+      toggleHazard3D(chk.dataset.hazard, true);
+    });
+  });
+  map3d.on('mousemove', (e) => { if (!isMobileDevice()) updateInfoBox(e.lngLat.lat, e.lngLat.lng); });
+  map3d.on('click', (e) => {
+    if (isMobile()) sidebarEl.classList.remove('open');
+    if (csPoints.length >= 2) return;
+    addCSPoint(e.lngLat.lat, e.lngLat.lng);
+  });
+  map3d.on('move', () => {
+    if (!isMobileDevice()) return;
+    const c = map3d.getCenter();
+    updateInfoBox(c.lat, c.lng);
+  });
+  map3d.on('movestart', () => { if (isMobile()) sidebarEl.classList.remove('open'); });
+  map3d.on('error', (e) => {
+    if (e && e.error && e.error.status === 404) return;
+    console.warn('[3D map warning]', e && e.error ? e.error.message : e);
+  });
+}
+
+function toggleHazard3D(key, on) {
+  if (!map3d || !map3dLoaded) return;
+  const layerId = `hazard-${key}`;
+  const sourceId = `src-hazard-${key}`;
+  if (on) {
+    if (!map3d.getSource(sourceId)) return;
+    if (!map3d.getLayer(layerId)) {
+      map3d.addLayer({
+        id: layerId, type: 'raster', source: sourceId,
+        paint: { 'raster-opacity': parseInt(hazardOpacity.value) / 100 }
+      });
+    }
+  } else {
+    if (map3d.getLayer(layerId)) map3d.removeLayer(layerId);
+  }
+}
+
+// =======================
+// モード切替
+// =======================
+const map2dEl = document.getElementById('map2d');
+const map3dEl = document.getElementById('map3d');
+const panel3d = document.getElementById('panel3d');
+document.querySelectorAll('.view-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const mode = btn.dataset.view;
+    if (mode === '3d') {
+      map2dEl.style.display = 'none';
+      map3dEl.style.display = 'block';
+      panel3d.style.display = 'block';
+      if (!map3d) {
+        showLoading('3D地形を構築中...');
+        setTimeout(() => { init3D(); setTimeout(hideLoading, 800); }, 100);
+      } else { map3d.resize(); }
+    } else {
+      map2dEl.style.display = 'block';
+      map3dEl.style.display = 'none';
+      panel3d.style.display = 'none';
+      setTimeout(() => map2d.invalidateSize(), 50);
+    }
+  });
+});
+
+document.getElementById('exagg').addEventListener('input', (e) => {
+  const v = parseFloat(e.target.value);
+  document.getElementById('exaggVal').textContent = `${v.toFixed(1)}x`;
+  if (map3d && map3dLoaded) {
+    try { map3d.setTerrain({ source: 'gsi-dem', exaggeration: v }); } catch(err){}
+  }
+});
+document.getElementById('pitch').addEventListener('input', (e) => {
+  const v = parseInt(e.target.value);
+  document.getElementById('pitchVal').textContent = `${v}°`;
+  if (map3d) map3d.setPitch(v);
+});
+
+// Loading
+const loadingEl = document.getElementById('loading');
+const loadingTextEl = document.getElementById('loadingText');
+function showLoading(text) { loadingTextEl.textContent = text || '読み込み中...'; loadingEl.classList.add('visible'); }
+function hideLoading() { loadingEl.classList.remove('visible'); }
+
+// サイドバー
+const sidebarEl = document.getElementById('sidebar');
+const sidebarHandle = document.getElementById('sidebarHandle');
+function isMobile() { return window.innerWidth <= 768; }
+sidebarHandle.addEventListener('click', () => sidebarEl.classList.toggle('open'));
+let touchStartY = 0, touchCurrentY = 0, touchStartTime = 0;
+sidebarHandle.addEventListener('touchstart', (e) => {
+  touchStartY = e.touches[0].clientY; touchStartTime = Date.now();
+}, { passive: true });
+sidebarHandle.addEventListener('touchmove', (e) => { touchCurrentY = e.touches[0].clientY; }, { passive: true });
+sidebarHandle.addEventListener('touchend', () => {
+  const delta = touchCurrentY - touchStartY;
+  const dt = Date.now() - touchStartTime;
+  if (Math.abs(delta) > 30 && dt < 500) {
+    if (delta < 0) sidebarEl.classList.add('open');
+    else sidebarEl.classList.remove('open');
+  }
+  touchStartY = touchCurrentY = 0;
+});
+map2d.on('movestart', () => { if (isMobile()) sidebarEl.classList.remove('open'); });
+map2d.on('click', () => { if (isMobile()) sidebarEl.classList.remove('open'); });
+
+// エラーハンドリング
+window.addEventListener('error', (e) => console.warn('[エラー捕捉]', e.message));
+window.addEventListener('unhandledrejection', (e) => console.warn('[Promiseエラー]', e.reason));
+
+updateCSStatus();
+
+// 板橋区の範囲を強調
+L.rectangle(AREA_BOUNDS, {
+  color: '#00a99d', weight: 2, fillOpacity: 0, dashArray: '6, 6'
+}).addTo(map2d);
+
+console.log('🟢 板橋区 高低マップ 起動完了');
+
+// PWA: Service Worker 登録
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js', { scope: './' })
+      .then(reg => console.log('[PWA] SW登録成功:', reg.scope))
+      .catch(err => console.warn('[PWA] SW登録失敗（HTTPS/localhost以外では正常）:', err.message));
+  });
+}
+</script>
+</body>
+</html>

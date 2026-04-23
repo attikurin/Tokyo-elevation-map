@@ -1,0 +1,22 @@
+{
+  "name": "東京 高低マップ ポータル",
+  "short_name": "東京高低",
+  "description": "東京都62区市町村のインタラクティブな標高・ハザードマップを選択できるポータルアプリ",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fff9f5",
+  "theme_color": "#ff7e67",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
