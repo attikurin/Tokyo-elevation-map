@@ -518,96 +518,50 @@ body {
 
 <script>
 // =======================
-// 自治体データ（東京都62区市町村）
-// key: GeoJSONのN03_004（市区町村名）とマッチ
-// done: trueなら完成、path: リンク先
+// 自治体データ（tokyo-index.json から動的読込）
+// status: done=既存単一HTML / core=共通コア+JSON / pending=未作成
 // =======================
-const CITIES = [
-  // --- 特別区 (23) ---
-  { key:'千代田区', area:'tokubetsu', done:false },
-  { key:'中央区', area:'tokubetsu', done:false },
-  { key:'港区', area:'tokubetsu', done:true, path:'minato/index.html' },
-  { key:'新宿区', area:'tokubetsu', done:false },
-  { key:'文京区', area:'tokubetsu', done:false },
-  { key:'台東区', area:'tokubetsu', done:false },
-  { key:'墨田区', area:'tokubetsu', done:false },
-  { key:'江東区', area:'tokubetsu', done:true, path:'koto/index.html' },
-  { key:'品川区', area:'tokubetsu', done:false },
-  { key:'目黒区', area:'tokubetsu', done:false },
-  { key:'大田区', area:'tokubetsu', done:false },
-  { key:'世田谷区', area:'tokubetsu', done:false },
-  { key:'渋谷区', area:'tokubetsu', done:false },
-  { key:'中野区', area:'tokubetsu', done:false },
-  { key:'杉並区', area:'tokubetsu', done:false },
-  { key:'豊島区', area:'tokubetsu', done:false },
-  { key:'北区', area:'tokubetsu', done:false },
-  { key:'荒川区', area:'tokubetsu', done:false },
-  { key:'板橋区', area:'tokubetsu', done:true, path:'itabashi/index.html' },
-  { key:'練馬区', area:'tokubetsu', done:false },
-  { key:'足立区', area:'tokubetsu', done:false },
-  { key:'葛飾区', area:'tokubetsu', done:false },
-  { key:'江戸川区', area:'tokubetsu', done:false },
+let CITIES = [];
+let CITY_MAP = {};
+let AREAS = [];
 
-  // --- 多摩地域（市）(26) ---
-  { key:'八王子市', area:'tama', done:false },
-  { key:'立川市', area:'tama', done:false },
-  { key:'武蔵野市', area:'tama', done:false },
-  { key:'三鷹市', area:'tama', done:false },
-  { key:'青梅市', area:'tama', done:false },
-  { key:'府中市', area:'tama', done:true, path:'fuchu/index.html' },
-  { key:'昭島市', area:'tama', done:false },
-  { key:'調布市', area:'tama', done:false },
-  { key:'町田市', area:'tama', done:false },
-  { key:'小金井市', area:'tama', done:false },
-  { key:'小平市', area:'tama', done:false },
-  { key:'日野市', area:'tama', done:false },
-  { key:'東村山市', area:'tama', done:false },
-  { key:'国分寺市', area:'tama', done:false },
-  { key:'国立市', area:'tama', done:false },
-  { key:'福生市', area:'tama', done:false },
-  { key:'狛江市', area:'tama', done:false },
-  { key:'東大和市', area:'tama', done:false },
-  { key:'清瀬市', area:'tama', done:false },
-  { key:'東久留米市', area:'tama', done:false },
-  { key:'武蔵村山市', area:'tama', done:false },
-  { key:'多摩市', area:'tama', done:false },
-  { key:'稲城市', area:'tama', done:false },
-  { key:'羽村市', area:'tama', done:false },
-  { key:'あきる野市', area:'tama', done:false },
-  { key:'西東京市', area:'tama', done:false },
-
-  // --- 西多摩郡（町村）(5) ---
-  { key:'瑞穂町', area:'tama', done:false },
-  { key:'日の出町', area:'tama', done:false },
-  { key:'檜原村', area:'tama', done:false },
-  { key:'奥多摩町', area:'tama', done:false },
-
-  // --- 島しょ部 (9) ---
-  { key:'大島町', area:'tosho', done:false },
-  { key:'利島村', area:'tosho', done:false },
-  { key:'新島村', area:'tosho', done:false },
-  { key:'神津島村', area:'tosho', done:false },
-  { key:'三宅村', area:'tosho', done:false },
-  { key:'御蔵島村', area:'tosho', done:false },
-  { key:'八丈町', area:'tosho', done:false },
-  { key:'青ヶ島村', area:'tosho', done:false },
-  { key:'小笠原村', area:'tosho', done:false },
+// エリア定義
+const AREA_DEFS = [
+  { id:'tokubetsu', label:'特別区', icon:'fa-city' },
+  { id:'tama',      label:'多摩地域', icon:'fa-tree' },
+  { id:'tosho',     label:'島しょ部', icon:'fa-water' },
 ];
 
-// name→city のルックアップ
-const CITY_MAP = {};
-CITIES.forEach(c => CITY_MAP[c.key] = c);
+// tokyo-index.json 読込→初期化
+async function loadCitiesIndex() {
+  try {
+    const res = await fetch('data/tokyo-index.json');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    CITIES = data.cities.map(c => ({
+      key: c.key,
+      slug: c.slug,
+      area: c.area,
+      status: c.status,
+      done: c.status === 'done' || c.status === 'core',
+      path: c.path || (c.status === 'core' ? `app/map.html?city=${c.slug}` : null)
+    }));
+    CITY_MAP = {};
+    CITIES.forEach(c => CITY_MAP[c.key] = c);
+    AREAS = AREA_DEFS.map(a => ({
+      ...a,
+      cities: CITIES.filter(c => c.area === a.id)
+    }));
 
-// エリア別グルーピング
-const AREAS = [
-  { id:'tokubetsu', label:'特別区', icon:'fa-city', cities: CITIES.filter(c=>c.area==='tokubetsu') },
-  { id:'tama',      label:'多摩地域', icon:'fa-tree', cities: CITIES.filter(c=>c.area==='tama') },
-  { id:'tosho',     label:'島しょ部', icon:'fa-water', cities: CITIES.filter(c=>c.area==='tosho') },
-];
-
-// 進捗バッジ更新
-const doneCount = CITIES.filter(c => c.done).length;
-document.getElementById('progress-badge').textContent = `完成：${doneCount} / ${CITIES.length} 自治体`;
+    const doneCount = CITIES.filter(c => c.done).length;
+    document.getElementById('progress-badge').textContent = `完成：${doneCount} / ${CITIES.length} 自治体`;
+    return true;
+  } catch (err) {
+    console.error('tokyo-index.json 読込失敗:', err);
+    document.getElementById('progress-badge').textContent = 'データ読込失敗';
+    return false;
+  }
+}
 
 // =======================
 // タブ切替
@@ -661,29 +615,29 @@ function buildListView() {
     });
   });
 }
-buildListView();
+// 地図関連の初期化は loadCitiesIndex 後に実行
+let map = null;
 
-// =======================
-// Leaflet 地図初期化
-// =======================
-const map = L.map('portal-map', {
-  center: [35.68, 139.55],
-  zoom: 10,
-  minZoom: 8,
-  maxZoom: 12,
-  zoomControl: true,
-  attributionControl: true,
-});
-window._portalMap = map;
+function initPortalMap() {
+  map = L.map('portal-map', {
+    center: [35.68, 139.55],
+    zoom: 10,
+    minZoom: 8,
+    maxZoom: 12,
+    zoomControl: true,
+    attributionControl: true,
+  });
+  window._portalMap = map;
 
-// 淡色タイル
-L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png', {
-  attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank">国土地理院</a>',
-  maxZoom: 12,
-}).addTo(map);
+  // 淡色タイル
+  L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png', {
+    attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank">国土地理院</a>',
+    maxZoom: 12,
+  }).addTo(map);
 
-// GeoJSON 読み込み（東京都の行政界）
-// dataofjapan/land の tokyo.geojson は小さく高速
+  loadGeoJSON();
+}
+
 const GEOJSON_URL = 'https://raw.githubusercontent.com/dataofjapan/land/master/tokyo.geojson';
 
 // GeoJSON の自治体名プロパティ（dataofjapan/land は ward_ja）
@@ -750,32 +704,44 @@ function onEachCity(feature, layer) {
   });
 }
 
-fetch(GEOJSON_URL)
-  .then(r => {
-    if (!r.ok) throw new Error('GeoJSON取得失敗');
-    return r.json();
-  })
-  .then(geojson => {
-    const layer = L.geoJSON(geojson, {
-      style: cityStyle,
-      onEachFeature: onEachCity,
-    }).addTo(map);
-    // 東京都本土にフィット（島しょ部は除外）
-    const bounds = L.latLngBounds([
-      [35.50, 138.94],
-      [35.90, 139.93]
-    ]);
-    map.fitBounds(bounds, { padding: [10, 10] });
-    document.getElementById('map-loading').style.display = 'none';
-  })
-  .catch(err => {
-    console.error(err);
-    document.getElementById('map-loading').innerHTML =
-      '<i class="fa-solid fa-triangle-exclamation" style="color:#e85a3f;"></i> 行政界データ取得失敗。一覧からお選びください。';
-  });
+function loadGeoJSON() {
+  fetch(GEOJSON_URL)
+    .then(r => {
+      if (!r.ok) throw new Error('GeoJSON取得失敗');
+      return r.json();
+    })
+    .then(geojson => {
+      L.geoJSON(geojson, {
+        style: cityStyle,
+        onEachFeature: onEachCity,
+      }).addTo(map);
+      const bounds = L.latLngBounds([
+        [35.50, 138.94],
+        [35.90, 139.93]
+      ]);
+      map.fitBounds(bounds, { padding: [10, 10] });
+      document.getElementById('map-loading').style.display = 'none';
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('map-loading').innerHTML =
+        '<i class="fa-solid fa-triangle-exclamation" style="color:#e85a3f;"></i> 行政界データ取得失敗。一覧からお選びください。';
+    });
+}
 
-console.log('🗾 東京 高低マップ ポータル 起動完了');
-console.log(`✅ 完成済み: ${doneCount}/${CITIES.length}`);
+// =======================
+// 起動シーケンス
+// =======================
+(async function main() {
+  const ok = await loadCitiesIndex();
+  if (!ok) return;
+  buildListView();
+  initPortalMap();
+
+  const doneCount = CITIES.filter(c => c.done).length;
+  console.log('🗾 東京 高低マップ ポータル 起動完了');
+  console.log(`✅ 完成済み: ${doneCount}/${CITIES.length}`);
+})();
 
 // =======================
 // PWA: Service Worker 登録
