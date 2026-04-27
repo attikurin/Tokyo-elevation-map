@@ -1,0 +1,22 @@
+{
+  "name": "稲城市 高低マップ",
+  "short_name": "稲城高低",
+  "description": "稲城市のインタラクティブな標高・3D地形・断面図・ハザードマップを閲覧できるWebアプリ。多摩丘陵と多摩川低地の地形を可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f1f8e9",
+  "theme_color": "#43a047",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

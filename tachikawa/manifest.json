@@ -1,0 +1,22 @@
+{
+  "name": "立川市 高低マップ",
+  "short_name": "立川高低",
+  "description": "立川市のインタラクティブな標高・3D地形・断面図・ハザードマップを閲覧できるWebアプリ。武蔵野台地と立川崖線、多摩川低地の地形を可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#e3f2fd",
+  "theme_color": "#1976d2",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

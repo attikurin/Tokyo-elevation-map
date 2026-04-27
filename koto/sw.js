@@ -8,7 +8,7 @@
  * - API（標高取得）：Network First（フォールバックでエラー返却）
  */
 
-const CACHE_VERSION = 'v1.0.0-20260423';
+const CACHE_VERSION = 'v1.1.0-20260427';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const LIB_CACHE = `lib-${CACHE_VERSION}`;
 const TILE_CACHE = `tile-${CACHE_VERSION}`;
@@ -96,6 +96,13 @@ self.addEventListener('fetch', (event) => {
   // CDNライブラリ → Cache First
   if (LIB_HOSTS.includes(url.host)) {
     event.respondWith(cacheFirst(req, LIB_CACHE));
+    return;
+  }
+
+  // 同一オリジンの data/ 配下（JSON設定ファイル）→ Network First
+  // 自治体追加・進捗変更を即時反映するため
+  if (url.origin === self.location.origin && url.pathname.includes('/data/')) {
+    event.respondWith(networkFirst(req, SHELL_CACHE));
     return;
   }
 

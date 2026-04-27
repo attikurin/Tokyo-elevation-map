@@ -535,7 +535,7 @@ const AREA_DEFS = [
 // tokyo-index.json 読込→初期化
 async function loadCitiesIndex() {
   try {
-    const res = await fetch('data/tokyo-index.json');
+    const res = await fetch('data/tokyo-index.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     CITIES = data.cities.map(c => ({
@@ -749,7 +749,22 @@ function loadGeoJSON() {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js', { scope: './' })
-      .then(reg => console.log('[PWA] SW登録成功:', reg.scope))
+      .then(reg => {
+        console.log('[PWA] SW登録成功:', reg.scope);
+        // 起動毎に更新チェックし、新しいSWがあれば即時適用
+        reg.update();
+        if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+        reg.addEventListener('updatefound', () => {
+          const sw = reg.installing;
+          if (!sw) return;
+          sw.addEventListener('statechange', () => {
+            if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('[PWA] 新しいSWを適用します。リロードしてください。');
+              sw.postMessage({ type: 'SKIP_WAITING' });
+            }
+          });
+        });
+      })
       .catch(err => console.warn('[PWA] SW登録失敗（HTTPS/localhost以外では正常）:', err.message));
   });
 }

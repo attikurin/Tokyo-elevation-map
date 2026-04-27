@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updated": "2026-04-23",
+  "updated": "2026-04-27",
   "description": "東京都62区市町村の進捗管理メタデータ。ポータルが参照する。",
   "schemaNotes": {
     "status": "done=完成 / core=共通コア方式で完成 / pending=未作成",
@@ -33,7 +33,7 @@
     {"key":"江戸川区","slug":"edogawa","area":"tokubetsu","status":"pending"},
 
     {"key":"八王子市","slug":"hachioji","area":"tama","status":"pending"},
-    {"key":"立川市","slug":"tachikawa","area":"tama","status":"pending"},
+    {"key":"立川市","slug":"tachikawa","area":"tama","status":"done","path":"tachikawa/index.html"},
     {"key":"武蔵野市","slug":"musashino","area":"tama","status":"pending"},
     {"key":"三鷹市","slug":"mitaka","area":"tama","status":"pending"},
     {"key":"青梅市","slug":"ome","area":"tama","status":"pending"},
@@ -54,7 +54,7 @@
     {"key":"東久留米市","slug":"higashikurume","area":"tama","status":"pending"},
     {"key":"武蔵村山市","slug":"musashimurayama","area":"tama","status":"pending"},
     {"key":"多摩市","slug":"tama","area":"tama","status":"pending"},
-    {"key":"稲城市","slug":"inagi","area":"tama","status":"pending"},
+    {"key":"稲城市","slug":"inagi","area":"tama","status":"done","path":"inagi/index.html"},
     {"key":"羽村市","slug":"hamura","area":"tama","status":"pending"},
     {"key":"あきる野市","slug":"akiruno","area":"tama","status":"pending"},
     {"key":"西東京市","slug":"nishitokyo","area":"tama","status":"pending"},
