@@ -5,7 +5,8 @@
   "schemaNotes": {
     "status": "done=完成 / core=共通コア方式で完成 / pending=未作成",
     "path": "完成自治体の遷移先URL（相対パス）",
-    "slug": "共通コア方式で使用するJSONファイル名（拡張子除く）"
+    "slug": "共通コア方式で使用するJSONファイル名（拡張子除く）",
+    "area": "tokubetsu=特別区 / tama=多摩地域 / tosho=島しょ部 / special=特別篇（東京都外）"
   },
   "cities": [
     {"key":"千代田区","slug":"chiyoda","area":"tokubetsu","status":"core"},
@@ -72,6 +73,8 @@
     {"key":"御蔵島村","slug":"mikurajima","area":"tosho","status":"pending"},
     {"key":"八丈町","slug":"hachijo","area":"tosho","status":"pending"},
     {"key":"青ヶ島村","slug":"aogashima","area":"tosho","status":"pending"},
-    {"key":"小笠原村","slug":"ogasawara","area":"tosho","status":"pending"}
+    {"key":"小笠原村","slug":"ogasawara","area":"tosho","status":"pending"},
+
+    {"key":"取手市","slug":"toride","area":"special","status":"done","path":"toride/index.html","prefecture":"茨城県"}
   ]
 }
