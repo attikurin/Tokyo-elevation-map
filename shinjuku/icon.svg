@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1976d2"/>
+      <stop offset="100%" stop-color="#0d47a1"/>
+    </linearGradient>
+    <linearGradient id="window" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffd54f" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#ef6c00" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="bldg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5e92f3"/>
+      <stop offset="100%" stop-color="#1565c0"/>
+    </linearGradient>
+  </defs>
+  <!-- 背景（夜空グラデ） -->
+  <rect x="0" y="0" width="512" height="512" rx="96" fill="url(#bg)"/>
+
+  <!-- 月（左上） -->
+  <circle cx="115" cy="115" r="32" fill="#ffe082" opacity="0.9"/>
+  <circle cx="125" cy="110" r="28" fill="url(#bg)"/>
+
+  <!-- 都庁ツインタワー（左、最高層） -->
+  <rect x="105" y="200" width="40" height="240" fill="url(#bldg)"/>
+  <rect x="155" y="200" width="40" height="240" fill="url(#bldg)"/>
+  <!-- 中央ブリッジ -->
+  <rect x="145" y="280" width="10" height="50" fill="url(#bldg)"/>
+  <!-- 都庁の窓 -->
+  <g fill="url(#window)" opacity="0.85">
+    <rect x="112" y="220" width="6" height="6"/>
+    <rect x="124" y="220" width="6" height="6"/>
+    <rect x="136" y="220" width="6" height="6"/>
+    <rect x="112" y="240" width="6" height="6"/>
+    <rect x="124" y="240" width="6" height="6"/>
+    <rect x="136" y="240" width="6" height="6"/>
+    <rect x="112" y="260" width="6" height="6"/>
+    <rect x="136" y="260" width="6" height="6"/>
+    <rect x="112" y="320" width="6" height="6"/>
+    <rect x="124" y="320" width="6" height="6"/>
+    <rect x="136" y="320" width="6" height="6"/>
+    <rect x="162" y="220" width="6" height="6"/>
+    <rect x="174" y="220" width="6" height="6"/>
+    <rect x="186" y="220" width="6" height="6"/>
+    <rect x="162" y="240" width="6" height="6"/>
+    <rect x="174" y="240" width="6" height="6"/>
+    <rect x="186" y="240" width="6" height="6"/>
+    <rect x="162" y="260" width="6" height="6"/>
+    <rect x="186" y="260" width="6" height="6"/>
+    <rect x="162" y="320" width="6" height="6"/>
+    <rect x="174" y="320" width="6" height="6"/>
+    <rect x="186" y="320" width="6" height="6"/>
+  </g>
+
+  <!-- 高層ビル群（中央） -->
+  <rect x="220" y="240" width="34" height="200" fill="url(#bldg)"/>
+  <rect x="266" y="270" width="30" height="170" fill="url(#bldg)"/>
+  <rect x="306" y="220" width="38" height="220" fill="url(#bldg)"/>
+  <rect x="356" y="260" width="32" height="180" fill="url(#bldg)"/>
+  <rect x="398" y="290" width="28" height="150" fill="url(#bldg)"/>
+
+  <!-- ビルの窓（黄色／ネオン） -->
+  <g fill="url(#window)" opacity="0.9">
+    <rect x="226" y="260" width="5" height="5"/>
+    <rect x="236" y="260" width="5" height="5"/>
+    <rect x="246" y="260" width="5" height="5"/>
+    <rect x="226" y="280" width="5" height="5"/>
+    <rect x="246" y="280" width="5" height="5"/>
+    <rect x="226" y="310" width="5" height="5"/>
+    <rect x="236" y="310" width="5" height="5"/>
+    <rect x="246" y="310" width="5" height="5"/>
+    <rect x="272" y="290" width="5" height="5"/>
+    <rect x="282" y="290" width="5" height="5"/>
+    <rect x="272" y="320" width="5" height="5"/>
+    <rect x="282" y="320" width="5" height="5"/>
+    <rect x="312" y="240" width="5" height="5"/>
+    <rect x="322" y="240" width="5" height="5"/>
+    <rect x="332" y="240" width="5" height="5"/>
+    <rect x="312" y="270" width="5" height="5"/>
+    <rect x="332" y="270" width="5" height="5"/>
+    <rect x="312" y="300" width="5" height="5"/>
+    <rect x="322" y="300" width="5" height="5"/>
+    <rect x="332" y="300" width="5" height="5"/>
+    <rect x="362" y="280" width="5" height="5"/>
+    <rect x="372" y="280" width="5" height="5"/>
+    <rect x="362" y="310" width="5" height="5"/>
+    <rect x="404" y="310" width="5" height="5"/>
+    <rect x="414" y="310" width="5" height="5"/>
+  </g>
+
+  <!-- 地表（神田川／低地のライン） -->
+  <path d="M0,460 Q100,452 200,458 T380,455 T512,460 L512,512 L0,512 Z" fill="#0d47a1"/>
+  <path d="M0,475 Q120,468 240,472 T512,470 L512,485 Q380,488 240,484 T0,488 Z"
+        fill="#5e92f3" opacity="0.65"/>
+
+  <!-- ネオンの輝き（点） -->
+  <circle cx="430" cy="195" r="4" fill="#ef6c00"/>
+  <circle cx="420" cy="210" r="3" fill="#ffb74d"/>
+</svg>

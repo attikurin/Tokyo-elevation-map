@@ -1,0 +1,22 @@
+{
+  "name": "新宿区 高低マップ",
+  "short_name": "新宿高低",
+  "description": "東京都新宿区の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fff5ec",
+  "theme_color": "#1565c0",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

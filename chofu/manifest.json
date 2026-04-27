@@ -1,0 +1,22 @@
+{
+  "name": "調布市 高低マップ",
+  "short_name": "調布高低",
+  "description": "東京都調布市の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fff5ec",
+  "theme_color": "#5e35b1",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
