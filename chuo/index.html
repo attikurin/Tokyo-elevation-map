@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#0068b7" />
+  <meta name="theme-color" content="#0277bd" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <title>港区 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
-  <meta name="description" content="東京都港区のインタラクティブな標高（高低）マップ。2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。" />
+  <title>中央区 高低マップ｜隍田川低地・埋立地・3D地形・ハザード</title>
+  <meta name="description" content="東京都中央区のインタラクティブな標高（高低）マップ。隍田川低地・佃・月島・勝どき・晴海などの埋立地・日本橋台地の地形を2D/3D表示、断面図、ハザードマップ対応。" />
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -19,24 +19,25 @@
 
   <style>
     :root {
-      --main: #0068b7;          /* 港区シンボルブルー */
-      --main-light: #5ba0dc;
-      --sub: #e8a628;           /* ゴールド（東京タワー夕景） */
-      --sub-light: #f5d78f;
-      --accent: #1a3a6c;        /* 深海ブルー */
-      --accent-light: #8ab0d6;
-      --cream: #f0f6fc;
-      --ink: #1a2a3a;
-      --ink-soft: #4a5a6a;
-      --shadow: 0 6px 20px rgba(0, 104, 183, 0.18);
-      --shadow-strong: 0 10px 30px rgba(26, 58, 108, 0.22);
+      --main: #0277bd;          /* 隅田川ブルー（中央区エンブレム風） */
+      --main-light: #4fa6d6;
+      --sub: #fbc02d;           /* 銀座ゴールド（和の黄色） */
+      --sub-light: #ffe082;
+      --accent: #c62828;        /* 日本橋朱 */
+      --accent-light: #ef7373;
+      --warn: #d93025;          /* 低地・高潮 警告 */
+      --cream: #f3f8fb;
+      --ink: #1a2e3a;
+      --ink-soft: #4a5e6a;
+      --shadow: 0 6px 20px rgba(2, 119, 189, 0.18);
+      --shadow-strong: 0 10px 30px rgba(2, 119, 189, 0.25);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     html, body {
       height: 100%;
       font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
-      background: linear-gradient(135deg, var(--cream) 0%, #e4eef7 100%);
+      background: linear-gradient(135deg, var(--cream) 0%, #e3effb 100%);
       color: var(--ink);
       overflow: hidden;
       -webkit-text-size-adjust: 100%;
@@ -61,7 +62,7 @@
       justify-content: space-between;
       padding: 0 20px;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0, 104, 183, 0.12);
+      box-shadow: 0 2px 10px rgba(0, 170, 204, 0.12);
       border-bottom: 3px solid;
       border-image: linear-gradient(90deg, var(--main) 0%, var(--accent) 60%, var(--sub) 100%) 1;
     }
@@ -85,11 +86,31 @@
     aside.sidebar {
       width: 320px;
       background: #fff;
-      border-right: 1px solid #d0e0ed;
+      border-right: 1px solid #c5e4ea;
       overflow-y: auto;
       padding: 16px;
       box-shadow: 2px 0 10px rgba(0,0,0,0.04);
       z-index: 500;
+    }
+
+    /* ゼロメートル地帯 警告バナー */
+    .zero-meter-alert {
+      background: linear-gradient(135deg, #fff8f0 0%, #fff 100%);
+      border: 2px solid var(--warn);
+      border-left: 5px solid var(--warn);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: #7a1a15;
+    }
+    .zero-meter-alert .alert-title {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      font-weight: 700;
+      color: var(--warn);
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.88rem; margin-bottom: 4px;
     }
 
     .panel {
@@ -97,7 +118,7 @@
       border-radius: 14px;
       padding: 14px;
       margin-bottom: 14px;
-      border: 1px solid #d0e0ed;
+      border: 1px solid #c5e4ea;
     }
     .panel h3 {
       font-family: 'M PLUS Rounded 1c', sans-serif;
@@ -124,11 +145,16 @@
     .view-btn:hover:not(.active) { background: var(--cream); }
 
     .elev-legend { display: flex; flex-direction: column; gap: 4px; }
+    /* 中央区の標高バーは低地中心（佃・月島・深川側）を表現 */
     .elev-bar {
       height: 16px; border-radius: 6px;
       background: linear-gradient(to right,
-        #01579b 0%, #0288d1 15%, #4fc3f7 30%,
-        #aed581 45%, #ffd54f 60%, #ff8a65 80%, #8d6e63 100%);
+        #7e3ff2 0%,       /* 海面下 (-3m) 紫 */
+        #6db9dc 15%,      /* 0m 薄水色 */
+        #9ccc65 35%,      /* 3m 緑 */
+        #ffd54f 60%,      /* 7m 黄 */
+        #ff8a65 85%,      /* 12m 橙 */
+        #8d6e63 100%);    /* 20m+ 茶 */
     }
     .elev-scale {
       display: flex; justify-content: space-between;
@@ -168,7 +194,7 @@
     }
     .cs-status {
       font-size: 0.78rem; padding: 6px 10px; border-radius: 6px;
-      background: var(--sub-light); color: #6b4a0a;
+      background: var(--sub-light); color: #7a3a2a;
       margin-bottom: 8px; font-weight: 500;
     }
     .cs-btn-row { display: flex; gap: 6px; }
@@ -209,6 +235,8 @@
       font-size: 1rem; font-weight: 700; color: var(--main);
       font-family: 'M PLUS Rounded 1c', sans-serif;
     }
+    /* 海面下のとき警告色 */
+    .info-box .value.below-sea { color: var(--warn); }
     .info-box .coord {
       font-size: 0.72rem; color: var(--ink-soft);
       margin-top: 6px; border-top: 1px dashed #eee; padding-top: 6px;
@@ -275,11 +303,11 @@
     }
     .poi-marker:hover { transform: rotate(-45deg) scale(1.15); }
     .poi-marker i { transform: rotate(45deg); color: #fff; font-size: 12px; }
-    .poi-cityhall { background: #0068b7; }
-    .poi-public   { background: #1a3a6c; }
+    .poi-cityhall { background: #0277bd; }
+    .poi-public   { background: #c62828; }
     .poi-station  { background: #5e8fd6; }
     .poi-park     { background: #7cb342; }
-    .poi-temple   { background: #b39ddb; }
+    .poi-temple   { background: #fbc02d; }
     .poi-evac_shelter   { background: #2e8b57; }
     .poi-evac_emergency { background: #c0392b; }
     .poi-evac_wide      { background: #d4a017; }
@@ -330,7 +358,7 @@
       aside.sidebar {
         position: fixed; top: auto; left: 0; right: 0; bottom: 0;
         width: 100%; max-height: 75vh; height: auto;
-        border-right: none; border-top: 1px solid #d0e0ed;
+        border-right: none; border-top: 1px solid #c5e4ea;
         border-radius: 18px 18px 0 0;
         transform: translateY(calc(100% - 44px));
         transition: transform 0.3s ease;
@@ -342,7 +370,7 @@
       aside.sidebar::before {
         content: ''; position: sticky; top: 0; display: block;
         width: 44px; height: 4px; margin: 10px auto 8px;
-        background: #9fbbd6; border-radius: 2px; z-index: 10;
+        background: #9ecdd6; border-radius: 2px; z-index: 10;
       }
       .sidebar-handle {
         display: flex !important; position: sticky; top: 0;
@@ -352,7 +380,7 @@
         align-items: center; justify-content: center; gap: 8px;
         font-family: 'M PLUS Rounded 1c', sans-serif;
         font-weight: 700; color: var(--main); font-size: 0.9rem;
-        cursor: pointer; border-bottom: 1px solid #d0e0ed;
+        cursor: pointer; border-bottom: 1px solid #c5e4ea;
       }
       .sidebar-handle i { color: var(--sub); }
 
@@ -393,6 +421,7 @@
       .leaflet-control-zoom a {
         width: 36px !important; height: 36px !important; line-height: 36px !important;
       }
+      .zero-meter-alert { font-size: 0.72rem; padding: 8px 10px; }
     }
     .sidebar-handle { display: none; }
     @media (max-width: 768px) and (orientation: landscape) {
@@ -409,18 +438,18 @@
   </style>
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0068b7">
+  <meta name="theme-color" content="#0277bd">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="港区高低">
+  <meta name="apple-mobile-web-app-title" content="中央高低">
   <link rel="apple-touch-icon" href="icon.svg">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
 </head>
 <body>
 
 <header class="app-header">
-  <h1><i class="fa-solid fa-city"></i> 港区 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
-  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都港区</span>
+  <h1><i class="fa-solid fa-water"></i> 中央区 高低マップ <span class="header-sub">- 隍田川低地・埋立地・3D地形・ハザード</span></h1>
+  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都中央区</span>
 </header>
 
 <main class="app-main">
@@ -428,6 +457,14 @@
     <div class="sidebar-handle" id="sidebarHandle">
       <i class="fa-solid fa-sliders"></i>
       <span>メニュー（タップで開閉）</span>
+    </div>
+
+    <!-- ゼロメートル地帯 警告 -->
+    <div class="zero-meter-alert">
+      <div class="alert-title">
+        <i class="fa-solid fa-triangle-exclamation"></i> ゼロメートル地帯
+      </div>
+      中央区の大部分は<strong>低地（隍田川低地・埋立地）</strong>です。大雨・高潮・津波時は<strong>垂直避難（高い建物の上階）</strong>が基本。ハザードマップと避難先を必ずご確認ください。
     </div>
 
     <div class="panel">
@@ -443,7 +480,7 @@
       <div class="elev-legend">
         <div class="elev-bar"></div>
         <div class="elev-scale">
-          <span>0m</span><span>10m</span><span>20m</span><span>30m</span><span>40m+</span>
+          <span>-3m</span><span>0m</span><span>3m</span><span>7m</span><span>12m+</span>
         </div>
       </div>
       <div class="slider-row">
@@ -467,12 +504,12 @@
       <h3><i class="fa-solid fa-map-pin"></i> 施設の表示</h3>
       <label class="check-item">
         <input type="checkbox" data-poi="cityhall" checked />
-        <span class="check-color" style="background:#0068b7;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
-        <span>港区役所</span>
+        <span class="check-color" style="background:#0277bd;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
+        <span>中央区役所</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="public" />
-        <span class="check-color" style="background:#1a3a6c;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
+        <span class="check-color" style="background:#c62828;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
         <span>区の施設</span>
       </label>
       <label class="check-item">
@@ -487,7 +524,7 @@
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="temple" />
-        <span class="check-color" style="background:#b39ddb;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
+        <span class="check-color" style="background:#fbc02d;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
         <span>寺社仏閣</span>
       </label>
     </div>
@@ -497,12 +534,12 @@
       <label class="check-item">
         <input type="checkbox" data-poi="evac_shelter" />
         <span class="check-color" style="background:#2e8b57;"><i class="fa-solid fa-house-chimney-medical poi-legend-ico"></i></span>
-        <span>区民避難所（宿泊可）</span>
+        <span>指定避難所（宿泊可）</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="evac_emergency" />
         <span class="check-color" style="background:#c0392b;"><i class="fa-solid fa-person-running poi-legend-ico"></i></span>
-        <span>緊急避難場所</span>
+        <span>指定緊急避難場所</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="evac_wide" />
@@ -519,7 +556,7 @@
     <div class="panel">
       <h3><i class="fa-solid fa-triangle-exclamation"></i> ハザードマップ</h3>
       <label class="check-item">
-        <input type="checkbox" data-hazard="flood_l2" />
+        <input type="checkbox" data-hazard="flood_l2" checked />
         <span class="check-color" style="background:#5e8fd6;"></span>
         <span>洪水浸水想定（想定最大規模）</span>
       </label>
@@ -545,8 +582,8 @@
       </label>
       <div class="slider-row">
         <label>不透明度</label>
-        <input type="range" id="hazardOpacity" min="0" max="100" value="60" />
-        <span class="slider-val" id="hazardOpacityVal">60%</span>
+        <input type="range" id="hazardOpacity" min="0" max="100" value="55" />
+        <span class="slider-val" id="hazardOpacityVal">55%</span>
       </div>
     </div>
 
@@ -554,13 +591,16 @@
       <h3><i class="fa-solid fa-cubes"></i> 3D 設定</h3>
       <div class="slider-row">
         <label>高さ強調</label>
-        <input type="range" id="exagg" min="1" max="15" step="0.5" value="6" />
-        <span class="slider-val" id="exaggVal">6.0x</span>
+        <input type="range" id="exagg" min="1" max="30" step="0.5" value="10" />
+        <span class="slider-val" id="exaggVal">10.0x</span>
       </div>
       <div class="slider-row">
         <label>傾斜</label>
-        <input type="range" id="pitch" min="0" max="80" value="60" />
-        <span class="slider-val" id="pitchVal">60°</span>
+        <input type="range" id="pitch" min="0" max="80" value="55" />
+        <span class="slider-val" id="pitchVal">55°</span>
+      </div>
+      <div style="font-size:0.72rem;color:var(--ink-soft);margin-top:6px;line-height:1.4;">
+        ※ 中央区は平坦なため、高さ強調を強めに設定しています。
       </div>
     </div>
 
@@ -601,13 +641,13 @@
 
 <script>
 // ============================================================
-// 港区 高低マップ
+// 中央区 高低マップ（隅田川低地・埋立地対応）
 // ============================================================
 
-// 港区役所（初期中心）
-const CENTER = [35.6581, 139.7516];
-const INIT_ZOOM = 14;
-const AREA_BOUNDS = [[35.620, 139.720], [35.680, 139.790]]; // 港区の大まかな範囲
+// 中央区役所（初期中心）
+const CENTER = [35.6707, 139.7720];
+const INIT_ZOOM = 13;
+const AREA_BOUNDS = [[35.640, 139.755], [35.700, 139.800]]; // 中央区の大まかな範囲（臨海含む）
 
 const GSI_URLS = {
   pale: 'https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',
@@ -622,7 +662,7 @@ const GSI_URLS = {
 
 const map2d = L.map('map2d', {
   center: CENTER, zoom: INIT_ZOOM,
-  minZoom: 11, maxZoom: 18, zoomControl: true
+  minZoom: 10, maxZoom: 18, zoomControl: true
 });
 
 const baseLayer = L.tileLayer(GSI_URLS.pale, {
@@ -633,201 +673,189 @@ const hillshadeLayer = L.tileLayer(GSI_URLS.hillshademap, { opacity: 0.5, maxZoo
 const reliefLayer = L.tileLayer(GSI_URLS.relief, { opacity: 0.7, maxZoom: 18 }).addTo(map2d);
 
 const hazardLayers = {
-  flood_l2: L.tileLayer(GSI_URLS.flood_l2, { opacity: 0.6, maxZoom: 18 }),
-  flood_keizoku: L.tileLayer(GSI_URLS.flood_keizoku_real, { opacity: 0.6, maxZoom: 18 }),
-  dosha: L.tileLayer(GSI_URLS.dosha, { opacity: 0.6, maxZoom: 18 }),
-  takashio: L.tileLayer(GSI_URLS.takashio, { opacity: 0.6, maxZoom: 18 }),
-  tsunami: L.tileLayer(GSI_URLS.tsunami, { opacity: 0.6, maxZoom: 18 })
+  flood_l2: L.tileLayer(GSI_URLS.flood_l2, { opacity: 0.55, maxZoom: 18 }),
+  flood_keizoku: L.tileLayer(GSI_URLS.flood_keizoku_real, { opacity: 0.55, maxZoom: 18 }),
+  dosha: L.tileLayer(GSI_URLS.dosha, { opacity: 0.55, maxZoom: 18 }),
+  takashio: L.tileLayer(GSI_URLS.takashio, { opacity: 0.55, maxZoom: 18 }),
+  tsunami: L.tileLayer(GSI_URLS.tsunami, { opacity: 0.55, maxZoom: 18 })
 };
+// 中央区は洪水・高潮リスクが高いため、洪水想定を初期ON
+hazardLayers.flood_l2.addTo(map2d);
 
 // =======================
-// 港区 施設データ
+// 中央区 施設データ
 // =======================
 const POI_DATA = {
   cityhall: {
-    label: '港区役所', icon: 'fa-building', cssClass: 'poi-cityhall',
+    label: '中央区役所', icon: 'fa-building', cssClass: 'poi-cityhall',
     items: [
-      { name: '港区役所', lat: 35.6581, lng: 139.7516 }
+      { name: '中央区役所', lat: 35.6707, lng: 139.7720 }
     ]
   },
   public: {
     label: '区の施設', icon: 'fa-landmark', cssClass: 'poi-public',
     items: [
-      { name: '港区立郷土歴史館', lat: 35.6516, lng: 139.7393 },
-      { name: '港区立みなと科学館', lat: 35.6560, lng: 139.7514 },
-      { name: '港区立男女平等参画センター リーブラ', lat: 35.6572, lng: 139.7520 },
-      { name: '港区スポーツセンター', lat: 35.6567, lng: 139.7605 },
-      { name: '港区立中央図書館', lat: 35.6522, lng: 139.7393 },
-      { name: '港区立みなと図書館', lat: 35.6567, lng: 139.7494 },
-      { name: '港区立麻布図書館', lat: 35.6612, lng: 139.7333 },
-      { name: '港区立赤坂図書館', lat: 35.6691, lng: 139.7375 },
-      { name: '港区立高輪図書館', lat: 35.6446, lng: 139.7361 },
-      { name: '港区立三田図書館', lat: 35.6506, lng: 139.7453 },
-      { name: '港区立台場区民センター', lat: 35.6298, lng: 139.7742 },
-      { name: '港区立芝地区総合支所', lat: 35.6581, lng: 139.7516 },
-      { name: '港区立麻布地区総合支所', lat: 35.6608, lng: 139.7336 },
-      { name: '港区立赤坂地区総合支所', lat: 35.6702, lng: 139.7337 },
-      { name: '港区立高輪地区総合支所', lat: 35.6444, lng: 139.7365 },
-      { name: '港区立芝浦港南地区総合支所', lat: 35.6480, lng: 139.7530 },
-      { name: '港区立健康増進センター', lat: 35.6441, lng: 139.7360 },
-      { name: 'みなとパーク芝浦', lat: 35.6481, lng: 139.7527 },
-      { name: '港区スポーツふれあい文化健康プラザ', lat: 35.6481, lng: 139.7527 },
-      { name: '港区立生涯学習センター（ばるーん）', lat: 35.6560, lng: 139.7514 },
-      { name: '港区立伝統文化交流館', lat: 35.6480, lng: 139.7505 },
-      { name: '六本木ヒルズ（森タワー）', lat: 35.6604, lng: 139.7292 }
+      { name: '中央区役所', lat: 35.6707, lng: 139.7720 },
+      { name: '日本橋特別出張所', lat: 35.6852, lng: 139.7740 },
+      { name: '京橋区民館', lat: 35.6712, lng: 139.7715 },
+      { name: '築地社会教育会館', lat: 35.6651, lng: 139.7720 },
+      { name: '月島区民センター', lat: 35.6620, lng: 139.7836 },
+      { name: '勝どき区民館', lat: 35.6580, lng: 139.7777 },
+      { name: '晴海区民館', lat: 35.6552, lng: 139.7860 },
+      { name: '中央区立京橋図書館', lat: 35.6707, lng: 139.7720 },
+      { name: '中央区立日本橋図書館', lat: 35.6852, lng: 139.7740 },
+      { name: '中央区立月島図書館', lat: 35.6620, lng: 139.7836 },
+      { name: '中央区立晴海図書館', lat: 35.6535, lng: 139.7910 },
+      { name: '中央区総合スポーツセンター', lat: 35.6852, lng: 139.7903 },
+      { name: '月島スポーツプラザ', lat: 35.6620, lng: 139.7836 },
+      { name: '浜町スポーツセンター', lat: 35.6883, lng: 139.7894 },
+      { name: '中央区保健所', lat: 35.6707, lng: 139.7720 },
+      { name: '銀座ブロッサム（中央会館）', lat: 35.6705, lng: 139.7705 },
+      { name: '中央区立郷土天文館（タイムドーム明石）', lat: 35.6660, lng: 139.7770 },
+      { name: '中央区まるごとミュージアム拠点', lat: 35.6712, lng: 139.7715 },
+      { name: 'ブリヂストン美術館（アーティゾン美術館）', lat: 35.6770, lng: 139.7710 },
+      { name: '貨幣博物館（日本銀行金融研究所）', lat: 35.6850, lng: 139.7715 },
+      { name: '三井記念美術館', lat: 35.6857, lng: 139.7732 },
+      { name: '築地場外市場', lat: 35.6655, lng: 139.7700 },
+      { name: '歌舞伎座', lat: 35.6692, lng: 139.7679 },
+      { name: '明治座', lat: 35.6896, lng: 139.7864 },
+      { name: '東京駅八重洲口', lat: 35.6815, lng: 139.7708 }
     ]
   },
   station: {
     label: '駅', icon: 'fa-train', cssClass: 'poi-station',
     items: [
-      { name: '新橋駅', lat: 35.6667, lng: 139.7586 },
-      { name: '浜松町駅', lat: 35.6557, lng: 139.7572 },
-      { name: '田町駅', lat: 35.6456, lng: 139.7473 },
-      { name: '品川駅', lat: 35.6284, lng: 139.7387 },
-      { name: '高輪ゲートウェイ駅', lat: 35.6355, lng: 139.7406 },
-      { name: '大門駅（都営浅草線・大江戸線）', lat: 35.6581, lng: 139.7551 },
-      { name: '赤羽橋駅（都営大江戸線）', lat: 35.6561, lng: 139.7456 },
-      { name: '麻布十番駅', lat: 35.6568, lng: 139.7364 },
-      { name: '六本木駅', lat: 35.6627, lng: 139.7318 },
-      { name: '広尾駅', lat: 35.6534, lng: 139.7221 },
-      { name: '神谷町駅', lat: 35.6627, lng: 139.7441 },
-      { name: '六本木一丁目駅', lat: 35.6651, lng: 139.7385 },
-      { name: '溜池山王駅', lat: 35.6724, lng: 139.7413 },
-      { name: '国会議事堂前駅', lat: 35.6747, lng: 139.7443 },
-      { name: '赤坂駅（東京メトロ千代田線）', lat: 35.6722, lng: 139.7367 },
-      { name: '赤坂見附駅', lat: 35.6777, lng: 139.7370 },
-      { name: '乃木坂駅', lat: 35.6669, lng: 139.7266 },
-      { name: '青山一丁目駅', lat: 35.6726, lng: 139.7236 },
-      { name: '表参道駅', lat: 35.6651, lng: 139.7126 },
-      { name: '外苑前駅', lat: 35.6709, lng: 139.7180 },
-      { name: '白金高輪駅', lat: 35.6489, lng: 139.7341 },
-      { name: '白金台駅', lat: 35.6389, lng: 139.7255 },
-      { name: '泉岳寺駅', lat: 35.6382, lng: 139.7408 },
-      { name: '三田駅', lat: 35.6470, lng: 139.7475 },
-      { name: '芝公園駅', lat: 35.6538, lng: 139.7488 },
-      { name: '御成門駅', lat: 35.6595, lng: 139.7510 },
-      { name: '台場駅（ゆりかもめ）', lat: 35.6303, lng: 139.7745 },
-      { name: '芝浦ふ頭駅（ゆりかもめ）', lat: 35.6469, lng: 139.7627 },
-      { name: 'お台場海浜公園駅（ゆりかもめ）', lat: 35.6303, lng: 139.7738 },
-      { name: 'テレコムセンター駅（ゆりかもめ）', lat: 35.6222, lng: 139.7794 }
+      { name: '東京駅（JR・東京メトロ丸ノ内線）', lat: 35.6812, lng: 139.7671 },
+      { name: '日本橋駅（東京メトロ銀座線・東西線・都営浅草線）', lat: 35.6829, lng: 139.7740 },
+      { name: '三越前駅（東京メトロ銀座線・半蔵門線）', lat: 35.6852, lng: 139.7733 },
+      { name: '茅場町駅（東京メトロ東西線・日比谷線）', lat: 35.6797, lng: 139.7795 },
+      { name: '人形町駅（東京メトロ日比谷線・都営浅草線）', lat: 35.6864, lng: 139.7833 },
+      { name: '水天宮前駅（東京メトロ半蔵門線）', lat: 35.6862, lng: 139.7860 },
+      { name: '小伝馬町駅（東京メトロ日比谷線）', lat: 35.6907, lng: 139.7800 },
+      { name: '馬喰横山駅（都営新宿線）', lat: 35.6928, lng: 139.7836 },
+      { name: '東日本橋駅（都営浅草線）', lat: 35.6926, lng: 139.7855 },
+      { name: '浜町駅（都営新宿線）', lat: 35.6891, lng: 139.7895 },
+      { name: '京橋駅（東京メトロ銀座線）', lat: 35.6770, lng: 139.7700 },
+      { name: '宝町駅（都営浅草線）', lat: 35.6747, lng: 139.7710 },
+      { name: '銀座駅（東京メトロ銀座線・丸ノ内線・日比谷線）', lat: 35.6717, lng: 139.7651 },
+      { name: '銀座一丁目駅（東京メトロ有楽町線）', lat: 35.6738, lng: 139.7669 },
+      { name: '東銀座駅（東京メトロ日比谷線・都営浅草線）', lat: 35.6697, lng: 139.7675 },
+      { name: '新富町駅（東京メトロ有楽町線）', lat: 35.6720, lng: 139.7741 },
+      { name: '築地駅（東京メトロ日比谷線）', lat: 35.6660, lng: 139.7707 },
+      { name: '築地市場駅（都営大江戸線）', lat: 35.6645, lng: 139.7691 },
+      { name: '八丁堀駅（JR京葉線・東京メトロ日比谷線）', lat: 35.6753, lng: 139.7785 },
+      { name: '月島駅（都営大江戸線・東京メトロ有楽町線）', lat: 35.6648, lng: 139.7845 },
+      { name: '勝どき駅（都営大江戸線）', lat: 35.6582, lng: 139.7780 }
     ]
   },
   park: {
     label: '公園', icon: 'fa-tree', cssClass: 'poi-park',
     items: [
-      { name: '芝公園', lat: 35.6553, lng: 139.7489 },
-      { name: '有栖川宮記念公園', lat: 35.6517, lng: 139.7270 },
-      { name: '芝離宮恩賜庭園', lat: 35.6584, lng: 139.7604 },
-      { name: '檜町公園（東京ミッドタウン）', lat: 35.6654, lng: 139.7305 },
-      { name: '青山公園', lat: 35.6690, lng: 139.7230 },
-      { name: '高輪森の公園', lat: 35.6400, lng: 139.7358 },
-      { name: '台場公園', lat: 35.6295, lng: 139.7713 },
-      { name: 'お台場海浜公園', lat: 35.6303, lng: 139.7738 },
-      { name: '潮風公園', lat: 35.6223, lng: 139.7781 },
-      { name: '白金の森', lat: 35.6442, lng: 139.7253 },
-      { name: '毛利庭園（六本木ヒルズ）', lat: 35.6599, lng: 139.7288 },
-      { name: '三田台公園', lat: 35.6477, lng: 139.7412 },
-      { name: '愛宕神社（愛宕山）', lat: 35.6666, lng: 139.7488 },
-      { name: '竹芝埠頭公園', lat: 35.6547, lng: 139.7628 },
-      { name: '区立芝浦公園', lat: 35.6470, lng: 139.7548 }
+      { name: '浜町公園', lat: 35.6883, lng: 139.7894 },
+      { name: '坂本町公園', lat: 35.6784, lng: 139.7770 },
+      { name: '築地川公園', lat: 35.6655, lng: 139.7758 },
+      { name: '佃公園', lat: 35.6669, lng: 139.7868 },
+      { name: '石川島公園', lat: 35.6680, lng: 139.7825 },
+      { name: '相生橋たもと公園', lat: 35.6628, lng: 139.7895 },
+      { name: '月島第二公園', lat: 35.6620, lng: 139.7836 },
+      { name: '勝どき西公園', lat: 35.6588, lng: 139.7770 },
+      { name: '晴海臨海公園', lat: 35.6520, lng: 139.7900 },
+      { name: '晴海ふ頭公園', lat: 35.6485, lng: 139.7857 },
+      { name: '浜離宮恩賜庭園（区境）', lat: 35.6595, lng: 139.7634 },
+      { name: '小伝馬町牢屋敷跡（十思公園）', lat: 35.6907, lng: 139.7803 },
+      { name: '日本橋プラザ広場', lat: 35.6840, lng: 139.7740 },
+      { name: '銀座桜通り並木', lat: 35.6720, lng: 139.7625 }
     ]
   },
   temple: {
     label: '寺社仏閣', icon: 'fa-torii-gate', cssClass: 'poi-temple',
     items: [
-      { name: '増上寺', lat: 35.6574, lng: 139.7485 },
-      { name: '東京タワー（電波塔）', lat: 35.6586, lng: 139.7454 },
-      { name: '愛宕神社', lat: 35.6666, lng: 139.7488 },
-      { name: '乃木神社', lat: 35.6666, lng: 139.7281 },
-      { name: '氷川神社（赤坂）', lat: 35.6703, lng: 139.7339 },
-      { name: '日枝神社', lat: 35.6746, lng: 139.7407 },
-      { name: '明治神宮外苑（聖徳記念絵画館）', lat: 35.6788, lng: 139.7181 },
-      { name: '豊川稲荷東京別院', lat: 35.6757, lng: 139.7349 },
-      { name: '泉岳寺', lat: 35.6379, lng: 139.7405 },
-      { name: '高野山東京別院', lat: 35.6393, lng: 139.7342 },
-      { name: '亀塚稲荷神社', lat: 35.6474, lng: 139.7402 },
-      { name: '芝大神宮', lat: 35.6589, lng: 139.7551 },
-      { name: '西久保八幡神社', lat: 35.6628, lng: 139.7458 },
-      { name: '金刀比羅宮（虎ノ門）', lat: 35.6702, lng: 139.7482 },
-      { name: '善福寺', lat: 35.6560, lng: 139.7330 },
-      { name: '本光寺', lat: 35.6564, lng: 139.7500 },
-      { name: '済海寺', lat: 35.6479, lng: 139.7423 }
+      { name: '築地本願寺', lat: 35.6664, lng: 139.7715 },
+      { name: '波除神社', lat: 35.6647, lng: 139.7706 },
+      { name: '住吉神社（佃）', lat: 35.6680, lng: 139.7900 },
+      { name: '鐵砲洲稲荷神社', lat: 35.6716, lng: 139.7796 },
+      { name: '小網神社', lat: 35.6824, lng: 139.7805 },
+      { name: '水天宮', lat: 35.6862, lng: 139.7855 },
+      { name: '日本橋日枝神社（摂社）', lat: 35.6817, lng: 139.7775 },
+      { name: '福徳神社（芽吹稲荷）', lat: 35.6856, lng: 139.7740 },
+      { name: '茶ノ木神社', lat: 35.6870, lng: 139.7836 },
+      { name: '銀座八丁神社めぐり・出世地蔵尊', lat: 35.6708, lng: 139.7660 },
+      { name: '宝童稲荷神社（銀座）', lat: 35.6720, lng: 139.7650 },
+      { name: '稲荷神社（兜町）', lat: 35.6808, lng: 139.7795 },
+      { name: '靏護稲荷神社', lat: 35.6852, lng: 139.7700 }
     ]
   },
   evac_shelter: {
-    label: '区民避難所', icon: 'fa-house-chimney-medical', cssClass: 'poi-evac_shelter',
+    label: '指定避難所', icon: 'fa-house-chimney-medical', cssClass: 'poi-evac_shelter',
     items: [
-      { name: '御成門小学校', lat: 35.6599, lng: 139.7522 },
-      { name: '芝小学校', lat: 35.6551, lng: 139.7516 },
-      { name: '御田小学校', lat: 35.6493, lng: 139.7428 },
-      { name: '芝浦小学校', lat: 35.6465, lng: 139.7533 },
-      { name: '港陽小学校（お台場）', lat: 35.6302, lng: 139.7745 },
-      { name: '青山小学校', lat: 35.6691, lng: 139.7220 },
-      { name: '赤坂小学校', lat: 35.6712, lng: 139.7332 },
-      { name: '麻布小学校', lat: 35.6593, lng: 139.7303 },
-      { name: '南山小学校', lat: 35.6620, lng: 139.7387 },
-      { name: '東町小学校', lat: 35.6530, lng: 139.7263 },
-      { name: '本村小学校', lat: 35.6498, lng: 139.7278 },
-      { name: '笄小学校', lat: 35.6544, lng: 139.7197 },
-      { name: '高輪台小学校', lat: 35.6408, lng: 139.7315 },
-      { name: '白金小学校', lat: 35.6458, lng: 139.7245 },
-      { name: '白金の丘小学校', lat: 35.6397, lng: 139.7283 },
-      { name: '港南小学校', lat: 35.6400, lng: 139.7490 },
-      { name: '御成門中学校', lat: 35.6596, lng: 139.7518 },
-      { name: '三田中学校', lat: 35.6490, lng: 139.7414 },
-      { name: '高松中学校', lat: 35.6427, lng: 139.7340 },
-      { name: '港南中学校', lat: 35.6402, lng: 139.7488 },
-      { name: '赤坂中学校', lat: 35.6715, lng: 139.7330 },
-      { name: '六本木中学校', lat: 35.6595, lng: 139.7287 },
-      { name: '高陵中学校', lat: 35.6540, lng: 139.7192 },
-      { name: '白金の丘中学校', lat: 35.6397, lng: 139.7283 },
-      { name: '港陽中学校（お台場）', lat: 35.6302, lng: 139.7745 },
-      { name: '青山中学校', lat: 35.6691, lng: 139.7220 },
-      { name: '朝日中学校', lat: 35.6570, lng: 139.7310 },
-      { name: '港区スポーツセンター（避難所）', lat: 35.6567, lng: 139.7605 }
+      // 中央区立小中学校（主要な指定避難所）
+      { name: '中央区立京橋築地小学校', lat: 35.6700, lng: 139.7715 },
+      { name: '中央区立明石小学校', lat: 35.6678, lng: 139.7758 },
+      { name: '中央区立中央小学校', lat: 35.6760, lng: 139.7752 },
+      { name: '中央区立泰明小学校', lat: 35.6712, lng: 139.7630 },
+      { name: '中央区立城東小学校', lat: 35.6810, lng: 139.7700 },
+      { name: '中央区立常盤小学校', lat: 35.6855, lng: 139.7780 },
+      { name: '中央区立日本橋小学校', lat: 35.6885, lng: 139.7820 },
+      { name: '中央区立有馬小学校', lat: 35.6878, lng: 139.7860 },
+      { name: '中央区立久松小学校', lat: 35.6886, lng: 139.7836 },
+      { name: '中央区立阪本小学校', lat: 35.6830, lng: 139.7795 },
+      { name: '中央区立佃島小学校', lat: 35.6670, lng: 139.7894 },
+      { name: '中央区立月島第一小学校', lat: 35.6625, lng: 139.7825 },
+      { name: '中央区立月島第二小学校', lat: 35.6608, lng: 139.7858 },
+      { name: '中央区立月島第三小学校', lat: 35.6587, lng: 139.7805 },
+      { name: '中央区立豊海小学校', lat: 35.6536, lng: 139.7763 },
+      { name: '中央区立晴海中学校・晴海西小学校', lat: 35.6545, lng: 139.7900 },
+      { name: '中央区立有明西学園（区境含む）', lat: 35.6450, lng: 139.7900 },
+      { name: '中央区立銀座中学校', lat: 35.6720, lng: 139.7665 },
+      { name: '中央区立佃中学校', lat: 35.6660, lng: 139.7888 },
+      { name: '中央区立日本橋中学校', lat: 35.6900, lng: 139.7800 },
+      { name: '中央区立晴海中学校', lat: 35.6540, lng: 139.7900 },
+      { name: 'お茶の水女子大学附属（区境）', lat: 35.6852, lng: 139.7740 }
     ]
   },
   evac_emergency: {
-    label: '緊急避難場所', icon: 'fa-person-running', cssClass: 'poi-evac_emergency',
+    label: '指定緊急避難場所', icon: 'fa-person-running', cssClass: 'poi-evac_emergency',
     items: [
-      { name: '芝公園（緊急避難場所）', lat: 35.6553, lng: 139.7489 },
-      { name: '有栖川宮記念公園（緊急避難場所）', lat: 35.6517, lng: 139.7270 },
-      { name: '青山公園（緊急避難場所）', lat: 35.6690, lng: 139.7230 },
-      { name: '芝離宮恩賜庭園（緊急避難場所）', lat: 35.6584, lng: 139.7604 },
-      { name: 'お台場海浜公園（緊急避難場所）', lat: 35.6303, lng: 139.7738 },
-      { name: '潮風公園（緊急避難場所）', lat: 35.6223, lng: 139.7781 },
-      { name: '高輪森の公園（緊急避難場所）', lat: 35.6400, lng: 139.7358 },
-      { name: '檜町公園（緊急避難場所）', lat: 35.6654, lng: 139.7305 },
-      { name: '愛宕山（緊急避難場所）', lat: 35.6666, lng: 139.7488 },
-      { name: '白金の森（緊急避難場所）', lat: 35.6442, lng: 139.7253 },
-      { name: 'みなとパーク芝浦（緊急避難場所）', lat: 35.6481, lng: 139.7527 }
+      // 洪水・高潮・地震時に緊急で命を守る場所
+      { name: '浜町公園（緊急避難場所）', lat: 35.6883, lng: 139.7894 },
+      { name: '築地川公園（緊急避難場所）', lat: 35.6655, lng: 139.7758 },
+      { name: '佃公園・石川島公園一帯', lat: 35.6669, lng: 139.7868 },
+      { name: '晴海臨海公園（緊急避難場所）', lat: 35.6520, lng: 139.7900 },
+      { name: '晴海ふ頭公園（緊急避難場所）', lat: 35.6485, lng: 139.7857 },
+      { name: '坂本町公園（緊急避難場所）', lat: 35.6784, lng: 139.7770 },
+      { name: '月島第二公園（緊急避難場所）', lat: 35.6620, lng: 139.7836 },
+      { name: '勝どき西公園（緊急避難場所）', lat: 35.6588, lng: 139.7770 },
+      { name: '築地本願寺境内（緊急避難場所）', lat: 35.6664, lng: 139.7715 },
+      { name: '水天宮境内', lat: 35.6862, lng: 139.7855 },
+      { name: '住吉神社・佃島一帯', lat: 35.6680, lng: 139.7900 }
     ]
   },
   evac_wide: {
     label: '広域避難場所', icon: 'fa-arrows-to-circle', cssClass: 'poi-evac_wide',
     items: [
-      { name: '芝公園一帯（広域避難場所）', lat: 35.6553, lng: 139.7489 },
-      { name: '青山墓地・青山公園一帯（広域避難場所）', lat: 35.6700, lng: 139.7240 },
-      { name: '有栖川宮記念公園一帯（広域避難場所）', lat: 35.6517, lng: 139.7270 },
-      { name: '白金自然教育園一帯（広域避難場所）', lat: 35.6408, lng: 139.7251 },
-      { name: '明治神宮外苑（広域避難場所）', lat: 35.6780, lng: 139.7180 },
-      { name: 'お台場海浜公園・潮風公園一帯', lat: 35.6263, lng: 139.7760 },
-      { name: '旧防衛省跡地（六本木）一帯', lat: 35.6660, lng: 139.7300 }
+      // 大規模火災発生時に一時的に避難する広い場所
+      { name: '浜町公園・明治座一帯（広域避難場所）', lat: 35.6883, lng: 139.7894 },
+      { name: '佃・月島・勝どき・晴海一帯（高層住宅街区）', lat: 35.6620, lng: 139.7836 },
+      { name: '晴海ふ頭・晴海臨海公園一帯', lat: 35.6500, lng: 139.7880 },
+      { name: '東京駅・八重洲・丸の内一帯（区境含む）', lat: 35.6815, lng: 139.7708 },
+      { name: '日比谷公園・皇居外苑（広域・区境）', lat: 35.6740, lng: 139.7545 },
+      { name: '浜離宮恩賜庭園一帯', lat: 35.6595, lng: 139.7634 }
     ]
   },
   evac_welfare: {
     label: '福祉避難所', icon: 'fa-hand-holding-heart', cssClass: 'poi-evac_welfare',
     items: [
-      { name: '港区立障害保健福祉センター', lat: 35.6570, lng: 139.7520 },
-      { name: '港区立障害者支援ホーム「南麻布」', lat: 35.6510, lng: 139.7298 },
-      { name: '港区立高齢者在宅サービスセンター芝', lat: 35.6570, lng: 139.7515 },
-      { name: '港区立高齢者在宅サービスセンター麻布', lat: 35.6608, lng: 139.7336 },
-      { name: '港区立高齢者在宅サービスセンター赤坂', lat: 35.6712, lng: 139.7335 },
-      { name: '港区立高齢者在宅サービスセンター高輪', lat: 35.6446, lng: 139.7361 },
-      { name: '港区立特別養護老人ホーム サン・サン赤坂', lat: 35.6705, lng: 139.7363 },
-      { name: '港区立特別養護老人ホーム 白金の森', lat: 35.6442, lng: 139.7253 },
-      { name: '港区立特別養護老人ホーム サンビュー高輪', lat: 35.6427, lng: 139.7345 },
-      { name: '港区立児童発達支援センター ぱお', lat: 35.6490, lng: 139.7540 }
+      // 要配慮者（高齢者・障がい者等）向けの避難所
+      { name: '中央区立福祉センター（京橋）', lat: 35.6707, lng: 139.7720 },
+      { name: '中央区立敬老館（日本橋）', lat: 35.6852, lng: 139.7740 },
+      { name: '中央区立敬老館（月島）', lat: 35.6620, lng: 139.7836 },
+      { name: '中央区立子ども家庭支援センター', lat: 35.6710, lng: 139.7720 },
+      { name: '特別養護老人ホーム マイホームはるみ', lat: 35.6540, lng: 139.7905 },
+      { name: '特別養護老人ホーム マイホーム新川', lat: 35.6750, lng: 139.7810 },
+      { name: '中央区立リハポート明石', lat: 35.6678, lng: 139.7755 },
+      { name: '介護老人保健施設 リハポートかちどき', lat: 35.6580, lng: 139.7780 },
+      { name: '中央区立勝どきデイルーム', lat: 35.6585, lng: 139.7777 },
+      { name: '中央区立晴海高齢者通所サービス', lat: 35.6545, lng: 139.7900 }
     ]
   }
 };
@@ -885,7 +913,15 @@ function updateInfoBox(lat, lng) {
   if (elevDebounce) clearTimeout(elevDebounce);
   elevDebounce = setTimeout(async () => {
     const elev = await getElevation(lat, lng);
-    elevValueEl.textContent = elev !== null ? `${elev.toFixed(1)} m` : '-- m';
+    if (elev !== null) {
+      elevValueEl.textContent = `${elev.toFixed(1)} m`;
+      // 海面下の場合は警告色
+      if (elev < 0) elevValueEl.classList.add('below-sea');
+      else elevValueEl.classList.remove('below-sea');
+    } else {
+      elevValueEl.textContent = '-- m';
+      elevValueEl.classList.remove('below-sea');
+    }
   }, 250);
 }
 function isMobileDevice() { return window.innerWidth <= 768; }
@@ -973,7 +1009,7 @@ function addCSPoint(lat, lng) {
   csMarkers.push(marker);
   if (csPoints.length === 2) {
     csLine = L.polyline(csPoints, {
-      color: '#e8a628', weight: 4, opacity: 0.8, dashArray: '8, 8'
+      color: '#fbc02d', weight: 4, opacity: 0.8, dashArray: '8, 8'
     }).addTo(map2d);
   }
   updateCSStatus();
@@ -1017,11 +1053,15 @@ function renderCrossSection(labels, data, totalDist) {
   for (const v of valid) { if (v < min) min = v; if (v > max) max = v; }
   if (!isFinite(min)) { min = 0; max = 0; }
   const diff = max - min;
+  const belowSea = valid.filter(v => v < 0).length;
+  const belowSeaPct = valid.length > 0 ? (belowSea / valid.length * 100).toFixed(0) : 0;
+
   document.getElementById('csStats').innerHTML = `
     <span>距離: <strong>${totalDist.toFixed(0)} m</strong></span>
     <span>最高: <strong>${max.toFixed(1)} m</strong></span>
-    <span>最低: <strong>${min.toFixed(1)} m</strong></span>
+    <span>最低: <strong style="color:${min<0?'#d93025':'#0277bd'};">${min.toFixed(1)} m</strong></span>
     <span>標高差: <strong>${diff.toFixed(1)} m</strong></span>
+    ${belowSea > 0 ? `<span style="color:#d93025;">🌊 海面下: <strong>${belowSeaPct}%</strong></span>` : ''}
   `;
   csChart = new Chart(ctx, {
     type: 'line',
@@ -1029,15 +1069,15 @@ function renderCrossSection(labels, data, totalDist) {
       labels: labels,
       datasets: [{
         label: '標高 (m)', data: data,
-        borderColor: '#0068b7',
+        borderColor: '#0277bd',
         backgroundColor: (context) => {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
-          if (!chartArea) return 'rgba(0,104,183,0.2)';
+          if (!chartArea) return 'rgba(2,119,189,0.2)';
           const g = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          g.addColorStop(0, 'rgba(0,104,183,0.55)');
-          g.addColorStop(0.5, 'rgba(232,166,40,0.35)');
-          g.addColorStop(1, 'rgba(26,58,108,0.1)');
+          g.addColorStop(0, 'rgba(2,119,189,0.55)');
+          g.addColorStop(0.5, 'rgba(251,192,45,0.35)');
+          g.addColorStop(1, 'rgba(198,40,40,0.1)');
           return g;
         },
         fill: true, tension: 0.3, pointRadius: 0, pointHoverRadius: 5, borderWidth: 2.5
@@ -1051,15 +1091,31 @@ function renderCrossSection(labels, data, totalDist) {
         tooltip: {
           callbacks: {
             title: (items) => `距離 ${items[0].label} m`,
-            label: (item) => `標高: ${item.parsed.y !== null ? item.parsed.y.toFixed(1) + ' m' : 'データなし'}`
+            label: (item) => {
+              const v = item.parsed.y;
+              if (v === null) return '標高: データなし';
+              return `標高: ${v.toFixed(1)} m${v < 0 ? ' 🌊 (海面下)' : ''}`;
+            }
+          }
+        },
+        annotation: {
+          annotations: {
+            sealevel: {
+              type: 'line',
+              yMin: 0,
+              yMax: 0,
+              borderColor: '#d93025',
+              borderWidth: 2,
+              borderDash: [6, 6]
+            }
           }
         }
       },
       scales: {
-        x: { title: { display: true, text: '地点 A からの距離 (m)', color: '#4a5a6a' },
-             ticks: { color: '#4a5a6a', maxTicksLimit: 10 }, grid: { color: '#d0e0ed' } },
-        y: { title: { display: true, text: '標高 (m)', color: '#4a5a6a' },
-             ticks: { color: '#4a5a6a' }, grid: { color: '#d0e0ed' } }
+        x: { title: { display: true, text: '地点 A からの距離 (m)', color: '#4a5e64' },
+             ticks: { color: '#4a5e64', maxTicksLimit: 10 }, grid: { color: '#c5e4ea' } },
+        y: { title: { display: true, text: '標高 (m)', color: '#4a5e64' },
+             ticks: { color: '#4a5e64' }, grid: { color: '#c5e4ea' } }
       }
     }
   });
@@ -1211,7 +1267,7 @@ function init3D() {
         { id: 'hillshade', type: 'raster', source: 'gsi-hillshade', paint: { 'raster-opacity': 0.4 } }
       ]
     },
-    center: [CENTER[1], CENTER[0]], zoom: 14.5, pitch: 65, bearing: -20, maxPitch: 85
+    center: [CENTER[1], CENTER[0]], zoom: 13.5, pitch: 55, bearing: -15, maxPitch: 85
   });
   map3d.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
 
@@ -1225,11 +1281,11 @@ function init3D() {
     }, 300);
     try {
       map3d.setSky({
-        'sky-color': '#82b9e0',
+        'sky-color': '#90caf9',
         'sky-horizon-blend': 0.7,
-        'horizon-color': '#f5d78f',
+        'horizon-color': '#ffe082',
         'horizon-fog-blend': 0.6,
-        'fog-color': '#f0f6fc',
+        'fog-color': '#eef9fb',
         'fog-ground-blend': 0.4
       });
     } catch(e) {}
@@ -1356,10 +1412,10 @@ window.addEventListener('unhandledrejection', (e) => console.warn('[Promiseエ�
 updateCSStatus();
 
 L.rectangle(AREA_BOUNDS, {
-  color: '#0068b7', weight: 2, fillOpacity: 0, dashArray: '6, 6'
+  color: '#0277bd', weight: 2, fillOpacity: 0, dashArray: '6, 6'
 }).addTo(map2d);
 
-console.log('🔵 港区 高低マップ 起動完了');
+console.log('💧 中央区 高低マップ 起動完了');
 
 // PWA: Service Worker 登録
 if ('serviceWorker' in navigator) {

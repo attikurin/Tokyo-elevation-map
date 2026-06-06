@@ -1,0 +1,22 @@
+{
+  "name": "多摩市 高低マップ",
+  "short_name": "多摩高低",
+  "description": "東京都多摩市（多摩ニュータウン・聖蹟桜ヶ丘・多摩丘陵）の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。多摩丘陵の起伏、ニュータウンの造成段丘、関戸古戦場、連光寺の崖線、乞田川・大栗川の谷、桜ヶ丘ロータリーを可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f1f8e9",
+  "theme_color": "#558b2f",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

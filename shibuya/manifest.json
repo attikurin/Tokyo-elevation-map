@@ -1,0 +1,22 @@
+{
+  "name": "渋谷区 高低マップ",
+  "short_name": "渋谷高低",
+  "description": "東京都渋谷区の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fff5ec",
+  "theme_color": "#e91e63",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

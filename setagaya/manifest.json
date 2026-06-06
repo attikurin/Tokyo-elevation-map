@@ -1,0 +1,22 @@
+{
+  "name": "世田谷区 高低マップ",
+  "short_name": "世田谷高低",
+  "description": "東京都世田谷区の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。国分寺崖線・多摩川低地・等々力渓谷など多彩な地形を可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f4f8ef",
+  "theme_color": "#2e7d32",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

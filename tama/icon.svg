@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- 背景：多摩丘陵の朝もや（やわらか若葉グリーン×夜明けピンク） -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#f8bbd0"/>
+      <stop offset="45%" stop-color="#dcedc8"/>
+      <stop offset="100%" stop-color="#558b2f"/>
+    </linearGradient>
+    <!-- 多摩丘陵（手前の起伏） -->
+    <linearGradient id="hillFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7cb342"/>
+      <stop offset="100%" stop-color="#2e5012"/>
+    </linearGradient>
+    <linearGradient id="hillMid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#aed581"/>
+      <stop offset="100%" stop-color="#558b2f"/>
+    </linearGradient>
+    <linearGradient id="hillBack" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c8e6c9"/>
+      <stop offset="100%" stop-color="#81c784"/>
+    </linearGradient>
+    <!-- 川（乞田川／大栗川のブルー） -->
+    <linearGradient id="riverGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"  stop-color="#7986cb"/>
+      <stop offset="100%" stop-color="#5c6bc0"/>
+    </linearGradient>
+    <!-- パルテノン多摩風シルエットの石材色 -->
+    <linearGradient id="parthenon" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff8e1"/>
+      <stop offset="100%" stop-color="#d7ccc8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景の円形ステージ（マスカブル領域に収まる） -->
+  <rect x="0" y="0" width="512" height="512" rx="80" ry="80" fill="url(#bgGrad)"/>
+
+  <!-- 奥の丘陵（多摩丘陵遠景） -->
+  <path d="M 0,300
+           C 60,260 110,290 170,270
+           S 280,250 340,275
+           S 460,290 512,265
+           L 512,360 0,360 Z"
+        fill="url(#hillBack)" opacity="0.85"/>
+
+  <!-- 中央の丘陵（聖ヶ丘・連光寺の崖線） -->
+  <path d="M 0,335
+           C 80,300 140,330 210,310
+           S 320,305 390,325
+           S 470,335 512,310
+           L 512,400 0,400 Z"
+        fill="url(#hillMid)"/>
+
+  <!-- 手前の丘陵（豊ヶ丘・貝取） -->
+  <path d="M 0,385
+           C 70,355 150,380 220,365
+           S 330,360 400,380
+           S 480,395 512,378
+           L 512,470 0,470 Z"
+        fill="url(#hillFront)"/>
+
+  <!-- 乞田川（手前の谷を流れる青いライン） -->
+  <path d="M 60,440 C 140,430 220,455 290,440 S 410,430 460,450"
+        stroke="url(#riverGrad)" stroke-width="14" fill="none" stroke-linecap="round" opacity="0.92"/>
+  <path d="M 60,440 C 140,430 220,455 290,440 S 410,430 460,450"
+        stroke="#e8eaf6" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- パルテノン多摩風シルエット（中央段丘上） -->
+  <!-- 基壇 -->
+  <rect x="170" y="252" width="172" height="10" fill="#bcaaa4"/>
+  <rect x="166" y="262" width="180" height="8" fill="#a1887f"/>
+  <!-- 列柱 8本 -->
+  <g fill="url(#parthenon)">
+    <rect x="178" y="200" width="14" height="60" rx="2"/>
+    <rect x="200" y="200" width="14" height="60" rx="2"/>
+    <rect x="222" y="200" width="14" height="60" rx="2"/>
+    <rect x="244" y="200" width="14" height="60" rx="2"/>
+    <rect x="266" y="200" width="14" height="60" rx="2"/>
+    <rect x="288" y="200" width="14" height="60" rx="2"/>
+    <rect x="310" y="200" width="14" height="60" rx="2"/>
+  </g>
+  <!-- 屋根（破風） -->
+  <polygon points="170,200 256,170 342,200" fill="#fff8e1" stroke="#8d6e63" stroke-width="2"/>
+  <polygon points="170,200 256,170 342,200" fill="none" stroke="#fbc02d" stroke-width="2" opacity="0.4"/>
+
+  <!-- 多摩モノレールのレール曲線（弧を描いて手前へ） -->
+  <path d="M 30,210 Q 256,150 482,220" stroke="#90a4ae" stroke-width="6" fill="none" opacity="0.75"/>
+  <path d="M 30,224 Q 256,164 482,234" stroke="#90a4ae" stroke-width="6" fill="none" opacity="0.75"/>
+  <!-- モノレール車両 -->
+  <g transform="translate(360,178) rotate(-8)">
+    <rect x="0" y="0" width="64" height="22" rx="8" fill="#ffffff" stroke="#5c6bc0" stroke-width="2"/>
+    <rect x="6" y="5" width="10" height="9" rx="2" fill="#bbdefb"/>
+    <rect x="22" y="5" width="10" height="9" rx="2" fill="#bbdefb"/>
+    <rect x="38" y="5" width="10" height="9" rx="2" fill="#bbdefb"/>
+    <rect x="0" y="0" width="64" height="6" rx="3" fill="#ec407a"/>
+  </g>
+
+  <!-- サンリオピンクの ❤ ハート（多摩センター・ピューロランドを象徴） -->
+  <g transform="translate(96,108) scale(1.15)">
+    <path d="M 30,16
+             C 30,8 22,2 14,8
+             C 6,2 -2,8 -2,16
+             C -2,26 14,40 14,40
+             C 14,40 30,26 30,16 Z"
+          fill="#ec407a" stroke="#ad1457" stroke-width="2"/>
+    <circle cx="6" cy="14" r="2.5" fill="#fff8e1" opacity="0.9"/>
+  </g>
+
+  <!-- 桜（聖蹟桜ヶ丘・染井吉野系の桜花） -->
+  <g transform="translate(410,90)">
+    <circle cx="0" cy="0" r="11" fill="#f8bbd0" stroke="#ec407a" stroke-width="1.5"/>
+    <circle cx="-10" cy="6" r="9" fill="#fce4ec" stroke="#ec407a" stroke-width="1.2"/>
+    <circle cx="10" cy="6" r="9" fill="#fce4ec" stroke="#ec407a" stroke-width="1.2"/>
+    <circle cx="-6" cy="-9" r="8" fill="#fce4ec" stroke="#ec407a" stroke-width="1.2"/>
+    <circle cx="8" cy="-8" r="8" fill="#fce4ec" stroke="#ec407a" stroke-width="1.2"/>
+    <circle cx="0" cy="0" r="3.5" fill="#fbc02d"/>
+  </g>
+  <g transform="translate(60,300)">
+    <circle cx="0" cy="0" r="9" fill="#fce4ec" stroke="#ec407a" stroke-width="1.2"/>
+    <circle cx="-8" cy="5" r="7" fill="#fff" stroke="#ec407a" stroke-width="1"/>
+    <circle cx="8" cy="5" r="7" fill="#fff" stroke="#ec407a" stroke-width="1"/>
+    <circle cx="0" cy="-7" r="7" fill="#fff" stroke="#ec407a" stroke-width="1"/>
+    <circle cx="0" cy="0" r="2.5" fill="#fbc02d"/>
+  </g>
+
+  <!-- 「多摩」バッジ -->
+  <g transform="translate(370,395)">
+    <rect x="-44" y="-22" width="88" height="44" rx="22" fill="#558b2f" stroke="#fff" stroke-width="3"/>
+    <text x="0" y="6" text-anchor="middle" font-family="'M PLUS Rounded 1c', 'Hiragino Sans', sans-serif" font-size="22" font-weight="700" fill="#fff" letter-spacing="2">多摩</text>
+  </g>
+
+  <!-- 外枠の角丸ハイライト -->
+  <rect x="0" y="0" width="512" height="512" rx="80" ry="80" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="6"/>
+</svg>

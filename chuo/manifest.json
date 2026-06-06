@@ -1,0 +1,22 @@
+{
+  "name": "中央区 高低マップ",
+  "short_name": "中央高低",
+  "description": "東京都中央区の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。隅田川低地・佃・月島・晴海などの埋立地と日本橋台地を可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f3f8fb",
+  "theme_color": "#0277bd",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

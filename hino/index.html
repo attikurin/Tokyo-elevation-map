@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#1565c0" />
+  <meta name="theme-color" content="#1e6091" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <title>新宿区 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
-  <meta name="description" content="東京都新宿区のインタラクティブな標高（高低）マップ。淀橋台地・本郷台地・神田川低地・四谷の谷・外濫跡の地形を2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。" />
+  <!-- Theme: 新選組の浅葱色 × 稲穂ゴールド × 多摩丘陵の緑 -->
+  <title>日野市 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
+  <meta name="description" content="東京都日野市のインタラクティブな標高（高低）マップ。多摩川・浅川の合流点・日野台地・多摩丘陵（高幡不動・百草園一帯）・万代橋・豊田町台地の地形を2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。新選組のふるさととしても知られる「水と緑のふるさと」日野を標高で可視化。" />
 
   <!-- Leaflet (2D map) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
@@ -28,17 +29,17 @@
 
   <style>
     :root {
-      --coral: #1565c0;
-      --coral-light: #5e92f3;
-      --orange: #ef6c00;
-      --orange-soft: #ffd4a3;
-      --purple: #0d47a1;
-      --purple-light: #bbdefb;
-      --cream: #fff5ec;
-      --ink: #3a2e2a;
-      --ink-soft: #6b5b55;
-      --shadow: 0 6px 20px rgba(21, 101, 192, 0.18);
-      --shadow-strong: 0 10px 30px rgba(13, 71, 161, 0.25);
+      --coral: #1e6091;          /* 新選組の浅葱色（だんだら羽織の主色） */
+      --coral-light: #81bcd6;
+      --orange: #e8b04b;          /* 稲穂のゴールド（日野の豊かな稲作地帯） */
+      --orange-soft: #f5dba6;
+      --purple: #7cb342;          /* 多摩丘陵の緑（高幡不動の森） */
+      --purple-light: #c5e1a5;
+      --cream: #f5f7f2;
+      --ink: #2e3a3a;
+      --ink-soft: #5b6767;
+      --shadow: 0 6px 20px rgba(30, 96, 145, 0.18);
+      --shadow-strong: 0 10px 30px rgba(124, 179, 66, 0.25);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -46,7 +47,7 @@
     html, body {
       height: 100%;
       font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
-      background: linear-gradient(135deg, var(--cream) 0%, #fef3ea 100%);
+      background: linear-gradient(135deg, var(--cream) 0%, #eaf3df 100%);
       color: var(--ink);
       overflow: hidden;
       -webkit-text-size-adjust: 100%;
@@ -75,7 +76,7 @@
       justify-content: space-between;
       padding: 0 20px;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(255, 126, 103, 0.12);
+      box-shadow: 0 2px 10px rgba(30, 96, 145, 0.12);
       border-bottom: 3px solid;
       border-image: linear-gradient(90deg, var(--coral) 0%, var(--orange) 60%, var(--purple) 100%) 1;
     }
@@ -645,11 +646,11 @@
       color: #fff;
       font-size: 12px;
     }
-    .poi-cityhall { background: #1565c0; }
-    .poi-public   { background: #ef6c00; }
+    .poi-cityhall { background: #1e6091; }
+    .poi-public   { background: #e8b04b; }
     .poi-station  { background: #5e8fd6; }
     .poi-park     { background: #7cb342; }
-    .poi-temple   { background: #0d47a1; }
+    .poi-temple   { background: #8d6e63; }
     .poi-evac_shelter   { background: #2e8b57; }
     .poi-evac_emergency { background: #c0392b; }
     .poi-evac_wide      { background: #d4a017; }
@@ -704,18 +705,18 @@
   </style>
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1565c0">
+  <meta name="theme-color" content="#1e6091">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="新宿高低">
+  <meta name="apple-mobile-web-app-title" content="日野高低">
   <link rel="apple-touch-icon" href="icon.svg">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
 </head>
 <body>
 
 <header class="app-header">
-  <h1><i class="fa-solid fa-mountain-sun"></i> 新宿区 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
-  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都新宿区</span>
+  <h1><i class="fa-solid fa-mountain-sun"></i> 日野市 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
+  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都日野市</span>
 </header>
 
 <main class="app-main">
@@ -785,12 +786,12 @@
       <h3><i class="fa-solid fa-map-pin"></i> 施設の表示</h3>
       <label class="check-item">
         <input type="checkbox" data-poi="cityhall" checked />
-        <span class="check-color" style="background:#1565c0;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
-        <span>新宿区役所</span>
+        <span class="check-color" style="background:#1e6091;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
+        <span>日野市役所</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="public" />
-        <span class="check-color" style="background:#ef6c00;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
+        <span class="check-color" style="background:#e8b04b;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
         <span>市の施設</span>
       </label>
       <label class="check-item">
@@ -805,7 +806,7 @@
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="temple" />
-        <span class="check-color" style="background:#0d47a1;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
+        <span class="check-color" style="background:#7cb342;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
         <span>寺社仏閣</span>
       </label>
     </div>
@@ -925,11 +926,11 @@
 
 <script>
 // ============================================================
-// 新宿区 高低マップ
+// 日野市 高低マップ
 // ============================================================
 
-// 新宿区役所（初期中心）
-const CITY_CENTER = [35.6938, 139.7034];
+// 日野市役所（初期中心）
+const CITY_CENTER = [35.6717, 139.3949];
 const INIT_ZOOM = 13;
 
 // 国土地理院タイル
@@ -988,43 +989,47 @@ const hazardLayers = {
 };
 
 // =======================
-// 新宿区 施設データ (POI)
+// 日野市 施設データ (POI)
+// 多摩川・浅川の合流地点、新選組のふるさと「水と緑のふるさと」
+// 日野台地、多摩丘陵（高幡不動・百草園）、用水路網
 // =======================
 const POI_DATA = {
   cityhall: {
-    label: '新宿区役所',
+    label: '日野市役所',
     icon: 'fa-building',
     cssClass: 'poi-cityhall',
     items: [
-      { name: '新宿区役所（本庁舎）', lat: 35.6938, lng: 139.7034 }
+      { name: '日野市役所', lat: 35.6717, lng: 139.3949 }
     ]
   },
   public: {
-    label: '区の施設',
+    label: '市の施設',
     icon: 'fa-landmark',
     cssClass: 'poi-public',
     items: [
-      { name: '新宿区役所（本庁舎）', lat: 35.6938, lng: 139.7034 },
-      { name: '新宿文化センター', lat: 35.6948, lng: 139.7110 },
-      { name: '新宿区立中央図書館', lat: 35.6786, lng: 139.7172 },
-      { name: '新宿歴史博物館', lat: 35.6864, lng: 139.7283 },
-      { name: '林芙美子記念館', lat: 35.7166, lng: 139.7008 },
-      { name: '佐伯祐三アトリエ記念館', lat: 35.7182, lng: 139.6990 },
-      { name: '中村彝アトリエ記念館', lat: 35.7180, lng: 139.7050 },
-      { name: '新宿区立大久保図書館', lat: 35.7012, lng: 139.7000 },
-      { name: '新宿区立四谷図書館', lat: 35.6862, lng: 139.7305 },
-      { name: '新宿区立戸山図書館', lat: 35.7060, lng: 139.7155 },
-      { name: '新宿区立角筈図書館', lat: 35.6890, lng: 139.6938 },
-      { name: '新宿区立鶴巻図書館', lat: 35.7045, lng: 139.7228 },
-      { name: '新宿区立四谷ひろば', lat: 35.6850, lng: 139.7290 },
-      { name: '新宿スポーツセンター', lat: 35.7066, lng: 139.7163 },
-      { name: '新宿コズミックセンター', lat: 35.7070, lng: 139.7160 },
-      { name: '東京都庁（第一本庁舎）', lat: 35.6896, lng: 139.6917 },
-      { name: '新宿NSビル', lat: 35.6892, lng: 139.6953 },
-      { name: '新宿住友ビル', lat: 35.6915, lng: 139.6940 },
-      { name: '新宿御苑（環境省）', lat: 35.6852, lng: 139.7100 },
-      { name: '区立漱石山房記念館', lat: 35.7048, lng: 139.7224 },
-      { name: '新宿区男女共同参画推進センター ウィズ新宿', lat: 35.6950, lng: 139.7060 }
+      { name: '日野市役所', lat: 35.6717, lng: 139.3949 },
+      { name: '日野市中央公民館', lat: 35.6724, lng: 139.3960 },
+      { name: '日野市立中央図書館', lat: 35.6710, lng: 139.3955 },
+      { name: '日野市立高幡図書館', lat: 35.6595, lng: 139.4083 },
+      { name: '日野市立多摩平図書館（PlanT）', lat: 35.6810, lng: 139.4055 },
+      { name: '日野市立平山図書館', lat: 35.6485, lng: 139.4357 },
+      { name: '日野市立百草図書館', lat: 35.6428, lng: 139.4475 },
+      { name: '日野市立日野図書館', lat: 35.6710, lng: 139.3950 },
+      { name: '日野市民会館', lat: 35.6730, lng: 139.3938 },
+      { name: '日野市生活・保健センター', lat: 35.6705, lng: 139.3935 },
+      { name: '日野市立市民の森ふれあいホール', lat: 35.6580, lng: 139.4060 },
+      { name: '日野市立市民スポーツ公園', lat: 35.6555, lng: 139.4187 },
+      { name: '日野市総合体育館（市民の森スポーツ公園）', lat: 35.6553, lng: 139.4192 },
+      { name: '日野市立南平体育館', lat: 35.6500, lng: 139.4242 },
+      { name: '日野宿本陣（佐藤彦五郎旧宅）', lat: 35.6720, lng: 139.3905 },
+      { name: '日野宿交流館', lat: 35.6725, lng: 139.3910 },
+      { name: '新選組のふるさと歴史館', lat: 35.6688, lng: 139.3925 },
+      { name: '土方歳三資料館', lat: 35.6638, lng: 139.3743 },
+      { name: '佐藤彦五郎新選組資料館', lat: 35.6720, lng: 139.3905 },
+      { name: '井上源三郎資料館', lat: 35.6735, lng: 139.3893 },
+      { name: '日野市郷土資料館', lat: 35.6452, lng: 139.4395 },
+      { name: 'ひの煉瓦ホール（市民会館）', lat: 35.6680, lng: 139.3927 },
+      { name: '日野市消防本部', lat: 35.6712, lng: 139.3958 }
     ]
   },
   station: {
@@ -1032,27 +1037,22 @@ const POI_DATA = {
     icon: 'fa-train',
     cssClass: 'poi-station',
     items: [
-      { name: '新宿駅（JR・京王・小田急・地下鉄）', lat: 35.6896, lng: 139.7006 },
-      { name: '西武新宿駅（西武新宿線）', lat: 35.6951, lng: 139.6996 },
-      { name: '新宿三丁目駅（地下鉄）', lat: 35.6907, lng: 139.7065 },
-      { name: '新宿御苑前駅（東京メトロ丸ノ内線）', lat: 35.6906, lng: 139.7106 },
-      { name: '四谷三丁目駅（東京メトロ丸ノ内線）', lat: 35.6884, lng: 139.7218 },
-      { name: '四ツ谷駅（JR・東京メトロ）', lat: 35.6859, lng: 139.7298 },
-      { name: '信濃町駅（JR中央・総武線）', lat: 35.6803, lng: 139.7203 },
-      { name: '高田馬場駅（JR・西武・東京メトロ）', lat: 35.7124, lng: 139.7036 },
-      { name: '大久保駅（JR中央・総武線）', lat: 35.7011, lng: 139.6989 },
-      { name: '新大久保駅（JR山手線）', lat: 35.7008, lng: 139.7000 },
-      { name: '東新宿駅（東京メトロ副都心線・都営大江戸線）', lat: 35.6973, lng: 139.7079 },
-      { name: '西新宿駅（東京メトロ丸ノ内線）', lat: 35.6906, lng: 139.6920 },
-      { name: '都庁前駅（都営大江戸線）', lat: 35.6896, lng: 139.6924 },
-      { name: '西新宿五丁目駅（都営大江戸線）', lat: 35.6920, lng: 139.6862 },
-      { name: '中井駅（西武新宿線・都営大江戸線）', lat: 35.7186, lng: 139.6919 },
-      { name: '下落合駅（西武新宿線）', lat: 35.7180, lng: 139.6960 },
-      { name: '神楽坂駅（東京メトロ東西線）', lat: 35.7037, lng: 139.7349 },
-      { name: '飯田橋駅（JR・東京メトロ・都営大江戸線）', lat: 35.7019, lng: 139.7456 },
-      { name: '若松河田駅（都営大江戸線）', lat: 35.6968, lng: 139.7240 },
-      { name: '牛込神楽坂駅（都営大江戸線）', lat: 35.7026, lng: 139.7330 },
-      { name: '曙橋駅（都営新宿線）', lat: 35.6913, lng: 139.7263 }
+      // JR中央線
+      { name: '日野駅（JR中央線）', lat: 35.6783, lng: 139.3960 },
+      { name: '豊田駅（JR中央線・車両基地）', lat: 35.6705, lng: 139.4187 },
+      // JR南武線・八高線（市内ではないが境界近接）
+      // 京王線
+      { name: '高幡不動駅（京王線・多摩モノレール）', lat: 35.6600, lng: 139.4087 },
+      { name: '南平駅（京王線）', lat: 35.6498, lng: 139.4243 },
+      { name: '平山城址公園駅（京王線）', lat: 35.6505, lng: 139.4400 },
+      { name: '長沼駅（京王線）', lat: 35.6502, lng: 139.4517 },
+      { name: '百草園駅（京王線）', lat: 35.6440, lng: 139.4475 },
+      // 京王動物園線
+      { name: '多摩動物公園駅（京王動物園線・多摩モノレール）', lat: 35.6480, lng: 139.4015 },
+      // 多摩モノレール
+      { name: '万願寺駅（多摩モノレール）', lat: 35.6645, lng: 139.4035 },
+      { name: '甲州街道駅（多摩モノレール）', lat: 35.6743, lng: 139.4012 },
+      { name: '程久保駅（多摩モノレール）', lat: 35.6537, lng: 139.4035 }
     ]
   },
   park: {
@@ -1060,16 +1060,22 @@ const POI_DATA = {
     icon: 'fa-tree',
     cssClass: 'poi-park',
     items: [
-      { name: '新宿御苑', lat: 35.6852, lng: 139.7100 },
-      { name: '新宿中央公園', lat: 35.6906, lng: 139.6905 },
-      { name: '戸山公園（箱根山地区）', lat: 35.7080, lng: 139.7115 },
-      { name: '戸山公園（大久保地区）', lat: 35.7045, lng: 139.7080 },
-      { name: '甘泉園公園', lat: 35.7141, lng: 139.7187 },
-      { name: 'おとめ山公園', lat: 35.7195, lng: 139.7000 },
-      { name: '新宿区立西戸山公園', lat: 35.7080, lng: 139.7035 },
-      { name: '花園神社境内（花園公園）', lat: 35.6938, lng: 139.7068 },
-      { name: '聖母坂下公園', lat: 35.7220, lng: 139.7028 },
-      { name: '林泉園公園', lat: 35.7038, lng: 139.7240 }
+      // 多摩丘陵の自然公園と新選組ゆかりの地、合流点の河川敷
+      { name: '都立多摩動物公園', lat: 35.6483, lng: 139.4011 },
+      { name: '都立平山城址公園', lat: 35.6470, lng: 139.4385 },
+      { name: '京王百草園（梅の名所）', lat: 35.6427, lng: 139.4500 },
+      { name: '都立七生公園（百草・南平の丘陵）', lat: 35.6420, lng: 139.4445 },
+      { name: '高幡不動尊 五重塔周辺の杜', lat: 35.6582, lng: 139.4079 },
+      { name: '日野市民の森スポーツ公園', lat: 35.6555, lng: 139.4187 },
+      { name: '黒川清流公園', lat: 35.6582, lng: 139.4220 },
+      { name: '万願寺中央公園', lat: 35.6663, lng: 139.4042 },
+      { name: '南平丘陵公園', lat: 35.6473, lng: 139.4240 },
+      { name: '東豊田緑地保全地域', lat: 35.6730, lng: 139.4280 },
+      { name: '浅川河川敷（一番橋〜万願寺一帯）', lat: 35.6685, lng: 139.4070 },
+      { name: '多摩川河川敷（日野橋・立日橋下流）', lat: 35.6788, lng: 139.4040 },
+      { name: '多摩川・浅川合流点（石田大橋付近）', lat: 35.6850, lng: 139.4218 },
+      { name: '向島用水親水路（人気の散策コース）', lat: 35.6680, lng: 139.3980 },
+      { name: '日野中央公園', lat: 35.6727, lng: 139.3992 }
     ]
   },
   temple: {
@@ -1077,16 +1083,21 @@ const POI_DATA = {
     icon: 'fa-torii-gate',
     cssClass: 'poi-temple',
     items: [
-      { name: '花園神社', lat: 35.6938, lng: 139.7068 },
-      { name: '熊野神社（新宿十二社熊野神社）', lat: 35.6892, lng: 139.6892 },
-      { name: '稲荷鬼王神社', lat: 35.6970, lng: 139.7058 },
-      { name: '須賀神社', lat: 35.6843, lng: 139.7240 },
-      { name: '赤城神社', lat: 35.7050, lng: 139.7335 },
-      { name: '穴八幡宮', lat: 35.7081, lng: 139.7195 },
-      { name: '築土八幡神社', lat: 35.7019, lng: 139.7396 },
-      { name: '善國寺（神楽坂毘沙門天）', lat: 35.7022, lng: 139.7385 },
-      { name: '太宗寺（内藤新宿）', lat: 35.6886, lng: 139.7117 },
-      { name: '法善寺（高田馬場）', lat: 35.7148, lng: 139.7050 }
+      { name: '高幡不動尊 金剛寺（関東三大不動・土方歳三菩提寺）', lat: 35.6585, lng: 139.4083 },
+      { name: '石田寺（土方歳三 墓所）', lat: 35.6640, lng: 139.3745 },
+      { name: '日野八坂神社（新選組ゆかり）', lat: 35.6770, lng: 139.3957 },
+      { name: '宝泉寺（井上源三郎 墓所）', lat: 35.6700, lng: 139.3858 },
+      { name: '大昌寺（日野宿の古刹）', lat: 35.6727, lng: 139.3897 },
+      { name: '若宮神社', lat: 35.6585, lng: 139.4030 },
+      { name: '日野市百草八幡神社', lat: 35.6427, lng: 139.4530 },
+      { name: '平山八幡神社（平山季重ゆかり）', lat: 35.6515, lng: 139.4395 },
+      { name: '川崎街道 飯綱権現神社', lat: 35.6485, lng: 139.4045 },
+      { name: '南平日枝神社', lat: 35.6498, lng: 139.4252 },
+      { name: '常宮神社', lat: 35.6655, lng: 139.4017 },
+      { name: '七ツ塚古墳群', lat: 35.6585, lng: 139.4310 },
+      { name: '東光寺（豊田）', lat: 35.6720, lng: 139.4220 },
+      { name: '高幡不動 五重塔', lat: 35.6580, lng: 139.4079 },
+      { name: '日野宿 普門寺', lat: 35.6722, lng: 139.3892 }
     ]
   },
   evac_shelter: {
@@ -1094,37 +1105,40 @@ const POI_DATA = {
     icon: 'fa-house-chimney-medical',
     cssClass: 'poi-evac_shelter',
     items: [
-      // 新宿区立小中学校（主要な指定避難所）
-      { name: '新宿区立四谷小学校', lat: 35.6862, lng: 139.7264 },
-      { name: '新宿区立四谷第六小学校', lat: 35.6850, lng: 139.7185 },
-      { name: '新宿区立花園小学校', lat: 35.6917, lng: 139.7126 },
-      { name: '新宿区立富久小学校', lat: 35.6912, lng: 139.7220 },
-      { name: '新宿区立余丁町小学校', lat: 35.6962, lng: 139.7178 },
-      { name: '新宿区立市谷小学校', lat: 35.6898, lng: 139.7340 },
-      { name: '新宿区立愛日小学校', lat: 35.6985, lng: 139.7320 },
-      { name: '新宿区立津久戸小学校', lat: 35.7042, lng: 139.7385 },
-      { name: '新宿区立江戸川小学校', lat: 35.7060, lng: 139.7335 },
-      { name: '新宿区立早稲田小学校', lat: 35.7080, lng: 139.7240 },
-      { name: '新宿区立鶴巻小学校', lat: 35.7065, lng: 139.7220 },
-      { name: '新宿区立戸山小学校', lat: 35.7066, lng: 139.7163 },
-      { name: '新宿区立大久保小学校', lat: 35.7035, lng: 139.7045 },
-      { name: '新宿区立東戸山小学校', lat: 35.7080, lng: 139.7100 },
-      { name: '新宿区立柏木小学校', lat: 35.6985, lng: 139.6950 },
-      { name: '新宿区立淀橋第四小学校', lat: 35.6930, lng: 139.6890 },
-      { name: '新宿区立西新宿小学校', lat: 35.6927, lng: 139.6863 },
-      { name: '新宿区立落合第一小学校', lat: 35.7155, lng: 139.6935 },
-      { name: '新宿区立落合第二小学校', lat: 35.7195, lng: 139.6885 },
-      { name: '新宿区立落合第四小学校', lat: 35.7228, lng: 139.6900 },
-      { name: '新宿区立落合第六小学校', lat: 35.7170, lng: 139.7000 },
-      { name: '新宿区立四谷中学校', lat: 35.6862, lng: 139.7264 },
-      { name: '新宿区立牛込第一中学校', lat: 35.7032, lng: 139.7280 },
-      { name: '新宿区立牛込第二中学校', lat: 35.7060, lng: 139.7335 },
-      { name: '新宿区立牛込第三中学校', lat: 35.7050, lng: 139.7395 },
-      { name: '新宿区立新宿中学校', lat: 35.6948, lng: 139.7178 },
-      { name: '新宿区立西新宿中学校', lat: 35.6918, lng: 139.6862 },
-      { name: '新宿区立西早稲田中学校', lat: 35.7100, lng: 139.7080 },
-      { name: '新宿区立落合中学校', lat: 35.7180, lng: 139.6940 },
-      { name: '新宿区立落合第二中学校', lat: 35.7200, lng: 139.7008 }
+      // 日野市立小中学校（主要な指定避難所）
+      // 日野地区
+      { name: '日野市立日野第一小学校', lat: 35.6735, lng: 139.3905 },
+      { name: '日野市立日野第二小学校', lat: 35.6795, lng: 139.3940 },
+      { name: '日野市立日野第三小学校', lat: 35.6680, lng: 139.3995 },
+      { name: '日野市立日野第四小学校', lat: 35.6730, lng: 139.4060 },
+      { name: '日野市立日野第五小学校', lat: 35.6695, lng: 139.3850 },
+      { name: '日野市立日野第六小学校', lat: 35.6800, lng: 139.3868 },
+      { name: '日野市立日野第七小学校', lat: 35.6660, lng: 139.4115 },
+      { name: '日野市立日野第八小学校', lat: 35.6655, lng: 139.4172 },
+      { name: '日野市立日野中学校', lat: 35.6735, lng: 139.3927 },
+      { name: '日野市立大坂上中学校', lat: 35.6740, lng: 139.4023 },
+      { name: '日野市立三沢中学校', lat: 35.6475, lng: 139.4178 },
+      // 豊田・多摩平地区
+      { name: '日野市立豊田小学校', lat: 35.6735, lng: 139.4180 },
+      { name: '日野市立南平小学校', lat: 35.6520, lng: 139.4225 },
+      { name: '日野市立南平第三小学校', lat: 35.6490, lng: 139.4290 },
+      { name: '日野市立平山小学校', lat: 35.6505, lng: 139.4385 },
+      { name: '日野市立旭が丘小学校', lat: 35.6843, lng: 139.4150 },
+      { name: '日野市立第一中学校', lat: 35.6743, lng: 139.4123 },
+      { name: '日野市立第二中学校', lat: 35.6705, lng: 139.4185 },
+      { name: '日野市立第三中学校', lat: 35.6845, lng: 139.4087 },
+      { name: '日野市立第四中学校', lat: 35.6478, lng: 139.4225 },
+      { name: '日野市立平山中学校', lat: 35.6515, lng: 139.4423 },
+      // 七生地区（高幡・百草・程久保）
+      { name: '日野市立潤徳小学校', lat: 35.6655, lng: 139.4030 },
+      { name: '日野市立七生緑小学校', lat: 35.6543, lng: 139.4115 },
+      { name: '日野市立七生中学校', lat: 35.6573, lng: 139.4128 },
+      { name: '日野市立程久保小学校', lat: 35.6483, lng: 139.4068 },
+      { name: '日野市立百草台小学校', lat: 35.6422, lng: 139.4467 },
+      { name: '日野市立滝合小学校', lat: 35.6422, lng: 139.4380 },
+      // 西部・新興住宅地
+      { name: '日野市立夢が丘小学校', lat: 35.6450, lng: 139.4112 },
+      { name: '日野市立東光寺小学校', lat: 35.6735, lng: 139.4250 }
     ]
   },
   evac_emergency: {
@@ -1132,19 +1146,20 @@ const POI_DATA = {
     icon: 'fa-person-running',
     cssClass: 'poi-evac_emergency',
     items: [
-      // 洪水・地震時に緊急で命を守る場所（学校・公園・高台）
-      { name: '新宿御苑（緊急避難場所）', lat: 35.6852, lng: 139.7100 },
-      { name: '新宿中央公園（緊急避難場所）', lat: 35.6906, lng: 139.6905 },
-      { name: '戸山公園・箱根山一帯（緊急避難場所）', lat: 35.7080, lng: 139.7115 },
-      { name: '甘泉園公園（緊急避難場所）', lat: 35.7141, lng: 139.7187 },
-      { name: 'おとめ山公園（緊急避難場所）', lat: 35.7195, lng: 139.7000 },
-      { name: '都庁周辺超高層ビル群（緊急避難場所）', lat: 35.6896, lng: 139.6917 },
-      { name: '花園神社境内（緊急避難場所）', lat: 35.6938, lng: 139.7068 },
-      { name: '熊野神社・新宿中央公園一帯', lat: 35.6892, lng: 139.6892 },
-      { name: '穴八幡宮・早稲田一帯', lat: 35.7081, lng: 139.7195 },
-      { name: '赤城神社・神楽坂一帯', lat: 35.7050, lng: 139.7335 },
-      { name: '須賀神社・四谷一帯', lat: 35.6843, lng: 139.7240 },
-      { name: '聖母坂下公園・落合一帯', lat: 35.7220, lng: 139.7028 }
+      // 洪水・地震時に緊急で命を守る場所（公園・高台・大規模施設）
+      // ※多摩川・浅川の合流地点を持つ日野市は洪水時の高台避難が重要
+      { name: '都立多摩動物公園（高台・緊急避難場所）', lat: 35.6483, lng: 139.4011 },
+      { name: '都立平山城址公園（高台・緊急避難場所）', lat: 35.6470, lng: 139.4385 },
+      { name: '日野市民の森スポーツ公園（緊急避難場所）', lat: 35.6555, lng: 139.4187 },
+      { name: '黒川清流公園（高台・緊急避難場所）', lat: 35.6582, lng: 139.4220 },
+      { name: '南平丘陵公園（高台・緊急避難場所）', lat: 35.6473, lng: 139.4240 },
+      { name: '高幡不動尊（高台・緊急避難場所）', lat: 35.6585, lng: 139.4083 },
+      { name: '日野中央公園（緊急避難場所）', lat: 35.6727, lng: 139.3992 },
+      { name: '万願寺中央公園（緊急避難場所）', lat: 35.6663, lng: 139.4042 },
+      { name: '東豊田緑地保全地域（緊急避難場所）', lat: 35.6730, lng: 139.4280 },
+      { name: '京王百草園（高台・緊急避難場所）', lat: 35.6427, lng: 139.4500 },
+      { name: '日野市総合体育館（緊急避難場所）', lat: 35.6553, lng: 139.4192 },
+      { name: '南平体育館（緊急避難場所）', lat: 35.6500, lng: 139.4242 }
     ]
   },
   evac_wide: {
@@ -1153,14 +1168,12 @@ const POI_DATA = {
     cssClass: 'poi-evac_wide',
     items: [
       // 大規模火災発生時に一時的に避難する広い場所
-      { name: '新宿御苑一帯', lat: 35.6852, lng: 139.7100 },
-      { name: '新宿中央公園・高層ビル街一帯', lat: 35.6906, lng: 139.6905 },
-      { name: '戸山公園・学習院女子大一帯', lat: 35.7080, lng: 139.7115 },
-      { name: '明治神宮外苑・神宮球場一帯', lat: 35.6797, lng: 139.7167 },
-      { name: '早稲田大学・甘泉園一帯', lat: 35.7090, lng: 139.7180 },
-      { name: '落合中央公園・妙正寺川一帯', lat: 35.7195, lng: 139.6960 },
-      { name: '外濠公園・市ヶ谷一帯', lat: 35.6915, lng: 139.7340 },
-      { name: '若松河田・河田町一帯', lat: 35.6968, lng: 139.7240 }
+      { name: '都立多摩動物公園一帯（広域避難場所）', lat: 35.6483, lng: 139.4011 },
+      { name: '都立平山城址公園・南平丘陵一帯', lat: 35.6485, lng: 139.4380 },
+      { name: '高幡不動尊・程久保丘陵一帯', lat: 35.6560, lng: 139.4085 },
+      { name: '日野市民の森スポーツ公園・黒川清流公園一帯', lat: 35.6568, lng: 139.4200 },
+      { name: '七生丘陵・百草園一帯', lat: 35.6425, lng: 139.4485 },
+      { name: '多摩川河川敷（日野橋〜立日橋）※洪水時は使用不可', lat: 35.6788, lng: 139.4040 }
     ]
   },
   evac_welfare: {
@@ -1169,15 +1182,17 @@ const POI_DATA = {
     cssClass: 'poi-evac_welfare',
     items: [
       // 要配慮者（高齢者・障がい者等）向けの避難所
-      { name: '新宿区立障害者福祉センター', lat: 35.7036, lng: 139.7050 },
-      { name: '新宿区立高齢者総合相談センター', lat: 35.6948, lng: 139.7050 },
-      { name: '新宿区立シニア活動館', lat: 35.6950, lng: 139.7060 },
-      { name: '特別養護老人ホーム かしわ苑', lat: 35.7068, lng: 139.7080 },
-      { name: '特別養護老人ホーム あかね苑', lat: 35.7180, lng: 139.6960 },
-      { name: '特別養護老人ホーム 暁ホーム', lat: 35.7200, lng: 139.7008 },
-      { name: '介護老人保健施設 マイウェイ新宿', lat: 35.7050, lng: 139.7100 },
-      { name: '新宿区立子ども総合センター', lat: 35.6948, lng: 139.7050 },
-      { name: '新宿区立心身障害児通所訓練施設', lat: 35.7036, lng: 139.7050 }
+      { name: '日野市生活・保健センター', lat: 35.6705, lng: 139.3935 },
+      { name: '日野市社会福祉協議会', lat: 35.6713, lng: 139.3955 },
+      { name: '日野市立障害者福祉センター', lat: 35.6695, lng: 139.3960 },
+      { name: '特別養護老人ホーム 浅川苑', lat: 35.6695, lng: 139.3850 },
+      { name: '特別養護老人ホーム マザアス日野', lat: 35.6520, lng: 139.4115 },
+      { name: '特別養護老人ホーム 七生苑', lat: 35.6575, lng: 139.4130 },
+      { name: '特別養護老人ホーム ジョイホーム', lat: 35.6498, lng: 139.4225 },
+      { name: '介護老人保健施設 リハビリパーク', lat: 35.6620, lng: 139.4055 },
+      { name: '日野市子ども家庭支援センター', lat: 35.6715, lng: 139.3957 },
+      { name: '日野市地域包括支援センター（高幡）', lat: 35.6595, lng: 139.4078 },
+      { name: '日野市地域包括支援センター（多摩平）', lat: 35.6810, lng: 139.4055 }
     ]
   }
 };
@@ -1222,7 +1237,7 @@ function setPOIVisibility(category, visible) {
   }
 }
 
-// 初期表示：新宿区役所のみON
+// 初期表示：日野市役所のみON
 setPOIVisibility('cityhall', true);
 
 // カテゴリ切替イベント
@@ -1380,7 +1395,7 @@ function addCSPoint(lat, lng) {
   csMarkers.push(marker);
   if (csPoints.length === 2) {
     csLine = L.polyline(csPoints, {
-      color: '#0d47a1',
+      color: '#7cb342',
       weight: 4,
       opacity: 0.8,
       dashArray: '8, 8'
@@ -1453,15 +1468,15 @@ function renderCrossSection(labels, data, totalDist) {
       datasets: [{
         label: '標高 (m)',
         data: data,
-        borderColor: '#1565c0',
+        borderColor: '#1e6091',
         backgroundColor: (context) => {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
-          if (!chartArea) return 'rgba(255,126,103,0.2)';
+          if (!chartArea) return 'rgba(30,96,145,0.2)';
           const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          gradient.addColorStop(0, 'rgba(255,126,103,0.6)');
-          gradient.addColorStop(0.5, 'rgba(255,164,91,0.35)');
-          gradient.addColorStop(1, 'rgba(179,157,219,0.1)');
+          gradient.addColorStop(0, 'rgba(30,96,145,0.6)');
+          gradient.addColorStop(0.5, 'rgba(232,176,75,0.35)');
+          gradient.addColorStop(1, 'rgba(124,179,66,0.15)');
           return gradient;
         },
         fill: true,
@@ -1714,11 +1729,11 @@ function init3D() {
     // 空（温かみのある夕焼けトーン）
     try {
       map3d.setSky({
-        'sky-color': '#bbdefb',
+        'sky-color': '#a8d8ea',
         'sky-horizon-blend': 0.7,
-        'horizon-color': '#5e92f3',
+        'horizon-color': '#c5e1a5',
         'horizon-fog-blend': 0.6,
-        'fog-color': '#fff5ec',
+        'fog-color': '#f5f7f2',
         'fog-ground-blend': 0.4
       });
     } catch(e) { /* 旧バージョン互換 */ }
@@ -1913,15 +1928,15 @@ window.addEventListener('unhandledrejection', (e) => {
 // =======================
 updateCSStatus();
 
-// 新宿区の範囲を少し強調表示（概観）
-const shinjukuBounds = L.rectangle([[35.670, 139.680], [35.720, 139.760]], {
-  color: '#1565c0',
+// 日野市の範囲を少し強調表示（概観：多摩川と浅川に挑まれた地形）
+const hinoBounds = L.rectangle([[35.640, 139.355], [35.700, 139.445]], {
+  color: '#1e6091',
   weight: 2,
   fillOpacity: 0,
   dashArray: '6, 6'
 }).addTo(map2d);
 
-console.log('🌆 新宿区 高低マップ 起動完了');
+console.log('🗡️ 日野市 高低マップ 起動完了');
 
 // =======================
 // PWA: Service Worker 登録

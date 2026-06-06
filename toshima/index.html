@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#1565c0" />
+  <meta name="theme-color" content="#c2185b" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <title>新宿区 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
-  <meta name="description" content="東京都新宿区のインタラクティブな標高（高低）マップ。淀橋台地・本郷台地・神田川低地・四谷の谷・外濫跡の地形を2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。" />
+  <!-- Theme: ふくろうマゼンタ（池袋） × 染井桃オレンジ × サンシャイン夜景パープル -->
+  <title>豊島区 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
+  <meta name="description" content="東京都豊島区のインタラクティブな標高（高低）マップ。豊島台地・池袋本町台・雑司ヶ谷の谷・神田川源流・巣鴨台・鬼子母神・染井里・目白台地の地形を2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。三大副都心・染井吉野発祥の地を標高で可視化。" />
 
   <!-- Leaflet (2D map) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
@@ -28,17 +29,17 @@
 
   <style>
     :root {
-      --coral: #1565c0;
-      --coral-light: #5e92f3;
-      --orange: #ef6c00;
-      --orange-soft: #ffd4a3;
-      --purple: #0d47a1;
-      --purple-light: #bbdefb;
-      --cream: #fff5ec;
-      --ink: #3a2e2a;
-      --ink-soft: #6b5b55;
-      --shadow: 0 6px 20px rgba(21, 101, 192, 0.18);
-      --shadow-strong: 0 10px 30px rgba(13, 71, 161, 0.25);
+      --coral: #c2185b;          /* ふくろうマゼンタ（池袋駅周辺シンボル） */
+      --coral-light: #f06292;
+      --orange: #f57c00;          /* 染井桃（ソメイヨシノ発祥の地） */
+      --orange-soft: #ffcc80;
+      --purple: #5e35b1;          /* サンシャイン60夜景パープル */
+      --purple-light: #d1c4e9;
+      --cream: #fdf2f5;
+      --ink: #3a2a30;
+      --ink-soft: #6b5560;
+      --shadow: 0 6px 20px rgba(194, 24, 91, 0.18);
+      --shadow-strong: 0 10px 30px rgba(94, 53, 177, 0.25);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -75,7 +76,7 @@
       justify-content: space-between;
       padding: 0 20px;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(255, 126, 103, 0.12);
+      box-shadow: 0 2px 10px rgba(194, 24, 91, 0.12);
       border-bottom: 3px solid;
       border-image: linear-gradient(90deg, var(--coral) 0%, var(--orange) 60%, var(--purple) 100%) 1;
     }
@@ -645,11 +646,11 @@
       color: #fff;
       font-size: 12px;
     }
-    .poi-cityhall { background: #1565c0; }
-    .poi-public   { background: #ef6c00; }
+    .poi-cityhall { background: #c2185b; }
+    .poi-public   { background: #f57c00; }
     .poi-station  { background: #5e8fd6; }
     .poi-park     { background: #7cb342; }
-    .poi-temple   { background: #0d47a1; }
+    .poi-temple   { background: #5e35b1; }
     .poi-evac_shelter   { background: #2e8b57; }
     .poi-evac_emergency { background: #c0392b; }
     .poi-evac_wide      { background: #d4a017; }
@@ -704,18 +705,18 @@
   </style>
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1565c0">
+  <meta name="theme-color" content="#c2185b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="新宿高低">
+  <meta name="apple-mobile-web-app-title" content="豊島高低">
   <link rel="apple-touch-icon" href="icon.svg">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
 </head>
 <body>
 
 <header class="app-header">
-  <h1><i class="fa-solid fa-mountain-sun"></i> 新宿区 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
-  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都新宿区</span>
+  <h1><i class="fa-solid fa-mountain-sun"></i> 豊島区 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
+  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都豊島区</span>
 </header>
 
 <main class="app-main">
@@ -785,13 +786,13 @@
       <h3><i class="fa-solid fa-map-pin"></i> 施設の表示</h3>
       <label class="check-item">
         <input type="checkbox" data-poi="cityhall" checked />
-        <span class="check-color" style="background:#1565c0;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
-        <span>新宿区役所</span>
+        <span class="check-color" style="background:#c2185b;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
+        <span>豊島区役所</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="public" />
-        <span class="check-color" style="background:#ef6c00;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
-        <span>市の施設</span>
+        <span class="check-color" style="background:#f57c00;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
+        <span>区の施設</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="station" />
@@ -805,7 +806,7 @@
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="temple" />
-        <span class="check-color" style="background:#0d47a1;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
+        <span class="check-color" style="background:#5e35b1;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
         <span>寺社仏閣</span>
       </label>
     </div>
@@ -925,11 +926,11 @@
 
 <script>
 // ============================================================
-// 新宿区 高低マップ
+// 豊島区 高低マップ
 // ============================================================
 
-// 新宿区役所（初期中心）
-const CITY_CENTER = [35.6938, 139.7034];
+// 豊島区役所（初期中心）
+const CITY_CENTER = [35.7263, 139.7160];
 const INIT_ZOOM = 13;
 
 // 国土地理院タイル
@@ -988,15 +989,17 @@ const hazardLayers = {
 };
 
 // =======================
-// 新宿区 施設データ (POI)
+// 豊島区 施設データ (POI)
+// 三大副都心・池袋ターミナル、巣鴨地蔵通り、駒込ソメイヨシノ発祥地、
+// 雑司ヶ谷霊園、サンシャイン60、神田川源流、染井霊園、豊島台地と谷地形
 // =======================
 const POI_DATA = {
   cityhall: {
-    label: '新宿区役所',
+    label: '豊島区役所',
     icon: 'fa-building',
     cssClass: 'poi-cityhall',
     items: [
-      { name: '新宿区役所（本庁舎）', lat: 35.6938, lng: 139.7034 }
+      { name: '豊島区役所（としまエコミューゼタウン）', lat: 35.7263, lng: 139.7160 }
     ]
   },
   public: {
@@ -1004,27 +1007,48 @@ const POI_DATA = {
     icon: 'fa-landmark',
     cssClass: 'poi-public',
     items: [
-      { name: '新宿区役所（本庁舎）', lat: 35.6938, lng: 139.7034 },
-      { name: '新宿文化センター', lat: 35.6948, lng: 139.7110 },
-      { name: '新宿区立中央図書館', lat: 35.6786, lng: 139.7172 },
-      { name: '新宿歴史博物館', lat: 35.6864, lng: 139.7283 },
-      { name: '林芙美子記念館', lat: 35.7166, lng: 139.7008 },
-      { name: '佐伯祐三アトリエ記念館', lat: 35.7182, lng: 139.6990 },
-      { name: '中村彝アトリエ記念館', lat: 35.7180, lng: 139.7050 },
-      { name: '新宿区立大久保図書館', lat: 35.7012, lng: 139.7000 },
-      { name: '新宿区立四谷図書館', lat: 35.6862, lng: 139.7305 },
-      { name: '新宿区立戸山図書館', lat: 35.7060, lng: 139.7155 },
-      { name: '新宿区立角筈図書館', lat: 35.6890, lng: 139.6938 },
-      { name: '新宿区立鶴巻図書館', lat: 35.7045, lng: 139.7228 },
-      { name: '新宿区立四谷ひろば', lat: 35.6850, lng: 139.7290 },
-      { name: '新宿スポーツセンター', lat: 35.7066, lng: 139.7163 },
-      { name: '新宿コズミックセンター', lat: 35.7070, lng: 139.7160 },
-      { name: '東京都庁（第一本庁舎）', lat: 35.6896, lng: 139.6917 },
-      { name: '新宿NSビル', lat: 35.6892, lng: 139.6953 },
-      { name: '新宿住友ビル', lat: 35.6915, lng: 139.6940 },
-      { name: '新宿御苑（環境省）', lat: 35.6852, lng: 139.7100 },
-      { name: '区立漱石山房記念館', lat: 35.7048, lng: 139.7224 },
-      { name: '新宿区男女共同参画推進センター ウィズ新宿', lat: 35.6950, lng: 139.7060 }
+      // 本庁・出張所
+      { name: '豊島区役所（としまエコミューゼタウン）', lat: 35.7263, lng: 139.7160 },
+      { name: '東部区民事務所（東池袋）', lat: 35.7290, lng: 139.7235 },
+      { name: '西部区民事務所（千早）', lat: 35.7330, lng: 139.6905 },
+      { name: '東池袋第二区民集会室', lat: 35.7250, lng: 139.7240 },
+      // 文化・観光
+      { name: '東京芸術劇場（池袋西口公園隣）', lat: 35.7300, lng: 139.7088 },
+      { name: 'Hareza池袋（豊島区民センター・東京建物Brillia HALL）', lat: 35.7295, lng: 139.7167 },
+      { name: '池袋演芸場', lat: 35.7290, lng: 139.7140 },
+      { name: '雑司が谷旧宣教師館（マッケーレブ邸）', lat: 35.7194, lng: 139.7172 },
+      { name: '熊谷守一美術館', lat: 35.7335, lng: 139.7028 },
+      { name: 'トキワ荘マンガミュージアム（南長崎）', lat: 35.7283, lng: 139.6797 },
+      { name: '豊島区立鈴木信太郎記念館', lat: 35.7172, lng: 139.7180 },
+      { name: '豊島区立郷土資料館（西池袋）', lat: 35.7312, lng: 139.7105 },
+      { name: '池袋防災館（東池袋）', lat: 35.7263, lng: 139.7195 },
+      { name: 'サンシャインシティ（プリンスホテル・水族館・展望台）', lat: 35.7290, lng: 139.7203 },
+      { name: 'サンシャイン60展望台（豊島区最高所260m）', lat: 35.7290, lng: 139.7196 },
+      // 図書館
+      { name: '豊島区立中央図書館（東池袋・ライブラリー）', lat: 35.7280, lng: 139.7223 },
+      { name: '豊島区立池袋図書館', lat: 35.7355, lng: 139.7180 },
+      { name: '豊島区立巣鴨図書館', lat: 35.7322, lng: 139.7385 },
+      { name: '豊島区立駒込図書館', lat: 35.7378, lng: 139.7480 },
+      { name: '豊島区立目白図書館', lat: 35.7220, lng: 139.7062 },
+      { name: '豊島区立上池袋図書館', lat: 35.7368, lng: 139.7245 },
+      { name: '豊島区立千早図書館', lat: 35.7370, lng: 139.6948 },
+      // 集会・センター
+      { name: '豊島区民センター（Hareza内）', lat: 35.7293, lng: 139.7162 },
+      { name: '豊島区民集会室 駒込地域文化創造館', lat: 35.7372, lng: 139.7475 },
+      { name: '巣鴨地域文化創造館', lat: 35.7335, lng: 139.7388 },
+      { name: '南大塚地域文化創造館', lat: 35.7295, lng: 139.7305 },
+      { name: '雑司が谷地域文化創造館', lat: 35.7218, lng: 139.7180 },
+      { name: '千早地域文化創造館', lat: 35.7365, lng: 139.6920 },
+      { name: '長崎健康相談所', lat: 35.7270, lng: 139.6845 },
+      // スポーツ
+      { name: '豊島区立池袋スポーツセンター', lat: 35.7395, lng: 139.7170 },
+      { name: '豊島区立巣鴨体育館', lat: 35.7378, lng: 139.7405 },
+      { name: '豊島区立朝日中学校温水プール', lat: 35.7345, lng: 139.7050 },
+      // 防災・行政
+      { name: '池袋警察署', lat: 35.7295, lng: 139.7120 },
+      { name: '巣鴨警察署', lat: 35.7350, lng: 139.7335 },
+      { name: '目白警察署', lat: 35.7220, lng: 139.7050 },
+      { name: '豊島消防署', lat: 35.7283, lng: 139.7187 }
     ]
   },
   station: {
@@ -1032,27 +1056,42 @@ const POI_DATA = {
     icon: 'fa-train',
     cssClass: 'poi-station',
     items: [
-      { name: '新宿駅（JR・京王・小田急・地下鉄）', lat: 35.6896, lng: 139.7006 },
-      { name: '西武新宿駅（西武新宿線）', lat: 35.6951, lng: 139.6996 },
-      { name: '新宿三丁目駅（地下鉄）', lat: 35.6907, lng: 139.7065 },
-      { name: '新宿御苑前駅（東京メトロ丸ノ内線）', lat: 35.6906, lng: 139.7106 },
-      { name: '四谷三丁目駅（東京メトロ丸ノ内線）', lat: 35.6884, lng: 139.7218 },
-      { name: '四ツ谷駅（JR・東京メトロ）', lat: 35.6859, lng: 139.7298 },
-      { name: '信濃町駅（JR中央・総武線）', lat: 35.6803, lng: 139.7203 },
-      { name: '高田馬場駅（JR・西武・東京メトロ）', lat: 35.7124, lng: 139.7036 },
-      { name: '大久保駅（JR中央・総武線）', lat: 35.7011, lng: 139.6989 },
-      { name: '新大久保駅（JR山手線）', lat: 35.7008, lng: 139.7000 },
-      { name: '東新宿駅（東京メトロ副都心線・都営大江戸線）', lat: 35.6973, lng: 139.7079 },
-      { name: '西新宿駅（東京メトロ丸ノ内線）', lat: 35.6906, lng: 139.6920 },
-      { name: '都庁前駅（都営大江戸線）', lat: 35.6896, lng: 139.6924 },
-      { name: '西新宿五丁目駅（都営大江戸線）', lat: 35.6920, lng: 139.6862 },
-      { name: '中井駅（西武新宿線・都営大江戸線）', lat: 35.7186, lng: 139.6919 },
-      { name: '下落合駅（西武新宿線）', lat: 35.7180, lng: 139.6960 },
-      { name: '神楽坂駅（東京メトロ東西線）', lat: 35.7037, lng: 139.7349 },
-      { name: '飯田橋駅（JR・東京メトロ・都営大江戸線）', lat: 35.7019, lng: 139.7456 },
-      { name: '若松河田駅（都営大江戸線）', lat: 35.6968, lng: 139.7240 },
-      { name: '牛込神楽坂駅（都営大江戸線）', lat: 35.7026, lng: 139.7330 },
-      { name: '曙橋駅（都営新宿線）', lat: 35.6913, lng: 139.7263 }
+      // 池袋ターミナル（三大副都心・国内屈指の乗降客数）
+      { name: '池袋駅（JR山手線・湘南新宿・埼京線／西武・東武・地下鉄）', lat: 35.7295, lng: 139.7109 },
+      // JR山手線
+      { name: '大塚駅（JR山手線）', lat: 35.7314, lng: 139.7290 },
+      { name: '巣鴨駅（JR山手線・都営三田線）', lat: 35.7335, lng: 139.7392 },
+      { name: '駒込駅（JR山手線・東京メトロ南北線）', lat: 35.7368, lng: 139.7480 },
+      { name: '目白駅（JR山手線）', lat: 35.7211, lng: 139.7064 },
+      // 西武池袋線
+      { name: '椎名町駅（西武池袋線）', lat: 35.7264, lng: 139.6878 },
+      { name: '東長崎駅（西武池袋線）', lat: 35.7283, lng: 139.6755 },
+      // 東武東上線
+      { name: '北池袋駅（東武東上線）', lat: 35.7378, lng: 139.7160 },
+      { name: '下板橋駅（東武東上線・板橋区との境界）', lat: 35.7438, lng: 139.7195 },
+      // 東京メトロ丸ノ内線
+      { name: '新大塚駅（東京メトロ丸ノ内線）', lat: 35.7307, lng: 139.7305 },
+      // 東京メトロ有楽町線
+      { name: '東池袋駅（東京メトロ有楽町線）', lat: 35.7287, lng: 139.7220 },
+      { name: '護国寺駅（東京メトロ有楽町線・文京区境界）', lat: 35.7193, lng: 139.7253 },
+      { name: '要町駅（東京メトロ有楽町線・副都心線）', lat: 35.7332, lng: 139.6963 },
+      { name: '千川駅（東京メトロ有楽町線・副都心線）', lat: 35.7400, lng: 139.6915 },
+      // 東京メトロ副都心線
+      { name: '雑司が谷駅（東京メトロ副都心線）', lat: 35.7212, lng: 139.7177 },
+      { name: '西早稲田駅（東京メトロ副都心線・新宿区境界）', lat: 35.7112, lng: 139.7050 },
+      // 都営三田線
+      { name: '西巣鴨駅（都営三田線）', lat: 35.7405, lng: 139.7298 },
+      // 都電荒川線（東京さくらトラム）
+      { name: '都電 大塚駅前停留場', lat: 35.7312, lng: 139.7290 },
+      { name: '都電 巣鴨新田停留場', lat: 35.7335, lng: 139.7338 },
+      { name: '都電 庚申塚停留場（巣鴨地蔵通り）', lat: 35.7368, lng: 139.7325 },
+      { name: '都電 新庚申塚停留場', lat: 35.7405, lng: 139.7320 },
+      { name: '都電 西ヶ原四丁目停留場（北区境界）', lat: 35.7445, lng: 139.7400 },
+      { name: '都電 早稲田停留場（新宿区側終点）', lat: 35.7088, lng: 139.7178 },
+      { name: '都電 学習院下停留場', lat: 35.7150, lng: 139.7110 },
+      { name: '都電 鬼子母神前停留場', lat: 35.7220, lng: 139.7150 },
+      { name: '都電 都電雑司ヶ谷停留場', lat: 35.7250, lng: 139.7195 },
+      { name: '都電 東池袋四丁目停留場', lat: 35.7280, lng: 139.7235 }
     ]
   },
   park: {
@@ -1060,16 +1099,32 @@ const POI_DATA = {
     icon: 'fa-tree',
     cssClass: 'poi-park',
     items: [
-      { name: '新宿御苑', lat: 35.6852, lng: 139.7100 },
-      { name: '新宿中央公園', lat: 35.6906, lng: 139.6905 },
-      { name: '戸山公園（箱根山地区）', lat: 35.7080, lng: 139.7115 },
-      { name: '戸山公園（大久保地区）', lat: 35.7045, lng: 139.7080 },
-      { name: '甘泉園公園', lat: 35.7141, lng: 139.7187 },
-      { name: 'おとめ山公園', lat: 35.7195, lng: 139.7000 },
-      { name: '新宿区立西戸山公園', lat: 35.7080, lng: 139.7035 },
-      { name: '花園神社境内（花園公園）', lat: 35.6938, lng: 139.7068 },
-      { name: '聖母坂下公園', lat: 35.7220, lng: 139.7028 },
-      { name: '林泉園公園', lat: 35.7038, lng: 139.7240 }
+      // 池袋エリア
+      { name: '池袋西口公園（GLOBAL RING・芸術劇場前）', lat: 35.7303, lng: 139.7095 },
+      { name: '南池袋公園（芝生広場でリニューアル）', lat: 35.7273, lng: 139.7150 },
+      { name: '中池袋公園（池袋ハロウィン）', lat: 35.7293, lng: 139.7152 },
+      { name: 'イケ・サンパーク（防災公園・旧造幣局跡）', lat: 35.7372, lng: 139.7195 },
+      { name: 'グリーン大通り（東口）', lat: 35.7298, lng: 139.7137 },
+      // 雑司ヶ谷・目白
+      { name: '雑司ヶ谷霊園（夏目漱石・永井荷風 墓所）', lat: 35.7193, lng: 139.7195 },
+      { name: '雑司が谷公園', lat: 35.7220, lng: 139.7195 },
+      { name: '目白の森（自然生態保護区域）', lat: 35.7235, lng: 139.6968 },
+      { name: '学習院大学キャンパス（緑地）', lat: 35.7197, lng: 139.7068 },
+      // 巣鴨・駒込
+      { name: '巣鴨地蔵通り（とげぬき地蔵）', lat: 35.7335, lng: 139.7385 },
+      { name: '染井霊園（ソメイヨシノ発祥地）', lat: 35.7402, lng: 139.7427 },
+      { name: '駒込ソメイヨシノ発祥の地公園', lat: 35.7395, lng: 139.7472 },
+      { name: '六義園（隣接：文京区側だが豊島区民利用大）', lat: 35.7335, lng: 139.7468 },
+      // 西部・千早・要町
+      { name: '長崎公園（南長崎・トキワ荘エリア）', lat: 35.7282, lng: 139.6790 },
+      { name: '千早公園', lat: 35.7370, lng: 139.6950 },
+      { name: '要町中央公園', lat: 35.7340, lng: 139.6975 },
+      { name: '東池袋中央公園（サンシャイン隣・防災公園）', lat: 35.7295, lng: 139.7170 },
+      // 大塚・上池袋
+      { name: '大塚公園（南大塚）', lat: 35.7305, lng: 139.7295 },
+      { name: '上池袋さくら公園', lat: 35.7395, lng: 139.7252 },
+      // 神田川・水辺
+      { name: '神田川水辺（高戸橋・新宿区境界）', lat: 35.7148, lng: 139.7080 }
     ]
   },
   temple: {
@@ -1077,16 +1132,28 @@ const POI_DATA = {
     icon: 'fa-torii-gate',
     cssClass: 'poi-temple',
     items: [
-      { name: '花園神社', lat: 35.6938, lng: 139.7068 },
-      { name: '熊野神社（新宿十二社熊野神社）', lat: 35.6892, lng: 139.6892 },
-      { name: '稲荷鬼王神社', lat: 35.6970, lng: 139.7058 },
-      { name: '須賀神社', lat: 35.6843, lng: 139.7240 },
-      { name: '赤城神社', lat: 35.7050, lng: 139.7335 },
-      { name: '穴八幡宮', lat: 35.7081, lng: 139.7195 },
-      { name: '築土八幡神社', lat: 35.7019, lng: 139.7396 },
-      { name: '善國寺（神楽坂毘沙門天）', lat: 35.7022, lng: 139.7385 },
-      { name: '太宗寺（内藤新宿）', lat: 35.6886, lng: 139.7117 },
-      { name: '法善寺（高田馬場）', lat: 35.7148, lng: 139.7050 }
+      // 巣鴨・駒込
+      { name: '高岩寺（とげぬき地蔵尊・巣鴨地蔵通り）', lat: 35.7335, lng: 139.7388 },
+      { name: '眞性寺（巣鴨・江戸六地蔵）', lat: 35.7343, lng: 139.7375 },
+      { name: '本妙寺（本郷丸山・明暦の大火供養塔）', lat: 35.7378, lng: 139.7395 },
+      { name: '染井稲荷神社（駒込・桜の里）', lat: 35.7385, lng: 139.7455 },
+      { name: '駒込富士神社', lat: 35.7378, lng: 139.7488 },
+      { name: '東福寺（西ヶ原）', lat: 35.7425, lng: 139.7395 },
+      // 雑司ヶ谷・池袋
+      { name: '雑司ヶ谷鬼子母神堂（重要文化財）', lat: 35.7220, lng: 139.7165 },
+      { name: '法明寺（雑司ヶ谷・鬼子母神総本山）', lat: 35.7223, lng: 139.7172 },
+      { name: '大鳥神社（雑司ヶ谷）', lat: 35.7218, lng: 139.7180 },
+      { name: '威光稲荷（雑司ヶ谷）', lat: 35.7215, lng: 139.7158 },
+      { name: '池袋御嶽神社（池袋西口）', lat: 35.7320, lng: 139.7088 },
+      { name: '池袋氷川神社', lat: 35.7348, lng: 139.7110 },
+      { name: '池袋三業神社（東口）', lat: 35.7280, lng: 139.7128 },
+      // 目白・長崎
+      { name: '長崎神社（椎名町・櫛名田姫祀る）', lat: 35.7260, lng: 139.6870 },
+      { name: '目白不動 金乗院（豊島区高田）', lat: 35.7152, lng: 139.7110 },
+      { name: '南蔵院（高田・神田川沿い）', lat: 35.7158, lng: 139.7095 },
+      // 大塚・上池袋
+      { name: '巣鴨大鳥神社（大塚）', lat: 35.7305, lng: 139.7302 },
+      { name: '天祖神社（南大塚）', lat: 35.7298, lng: 139.7270 }
     ]
   },
   evac_shelter: {
@@ -1094,37 +1161,44 @@ const POI_DATA = {
     icon: 'fa-house-chimney-medical',
     cssClass: 'poi-evac_shelter',
     items: [
-      // 新宿区立小中学校（主要な指定避難所）
-      { name: '新宿区立四谷小学校', lat: 35.6862, lng: 139.7264 },
-      { name: '新宿区立四谷第六小学校', lat: 35.6850, lng: 139.7185 },
-      { name: '新宿区立花園小学校', lat: 35.6917, lng: 139.7126 },
-      { name: '新宿区立富久小学校', lat: 35.6912, lng: 139.7220 },
-      { name: '新宿区立余丁町小学校', lat: 35.6962, lng: 139.7178 },
-      { name: '新宿区立市谷小学校', lat: 35.6898, lng: 139.7340 },
-      { name: '新宿区立愛日小学校', lat: 35.6985, lng: 139.7320 },
-      { name: '新宿区立津久戸小学校', lat: 35.7042, lng: 139.7385 },
-      { name: '新宿区立江戸川小学校', lat: 35.7060, lng: 139.7335 },
-      { name: '新宿区立早稲田小学校', lat: 35.7080, lng: 139.7240 },
-      { name: '新宿区立鶴巻小学校', lat: 35.7065, lng: 139.7220 },
-      { name: '新宿区立戸山小学校', lat: 35.7066, lng: 139.7163 },
-      { name: '新宿区立大久保小学校', lat: 35.7035, lng: 139.7045 },
-      { name: '新宿区立東戸山小学校', lat: 35.7080, lng: 139.7100 },
-      { name: '新宿区立柏木小学校', lat: 35.6985, lng: 139.6950 },
-      { name: '新宿区立淀橋第四小学校', lat: 35.6930, lng: 139.6890 },
-      { name: '新宿区立西新宿小学校', lat: 35.6927, lng: 139.6863 },
-      { name: '新宿区立落合第一小学校', lat: 35.7155, lng: 139.6935 },
-      { name: '新宿区立落合第二小学校', lat: 35.7195, lng: 139.6885 },
-      { name: '新宿区立落合第四小学校', lat: 35.7228, lng: 139.6900 },
-      { name: '新宿区立落合第六小学校', lat: 35.7170, lng: 139.7000 },
-      { name: '新宿区立四谷中学校', lat: 35.6862, lng: 139.7264 },
-      { name: '新宿区立牛込第一中学校', lat: 35.7032, lng: 139.7280 },
-      { name: '新宿区立牛込第二中学校', lat: 35.7060, lng: 139.7335 },
-      { name: '新宿区立牛込第三中学校', lat: 35.7050, lng: 139.7395 },
-      { name: '新宿区立新宿中学校', lat: 35.6948, lng: 139.7178 },
-      { name: '新宿区立西新宿中学校', lat: 35.6918, lng: 139.6862 },
-      { name: '新宿区立西早稲田中学校', lat: 35.7100, lng: 139.7080 },
-      { name: '新宿区立落合中学校', lat: 35.7180, lng: 139.6940 },
-      { name: '新宿区立落合第二中学校', lat: 35.7200, lng: 139.7008 }
+      // 豊島区立小中学校（主要な指定避難所）
+      // 池袋・東池袋・南池袋地区
+      { name: '豊島区立池袋小学校', lat: 35.7350, lng: 139.7185 },
+      { name: '豊島区立池袋第一小学校', lat: 35.7355, lng: 139.7155 },
+      { name: '豊島区立池袋第二小学校', lat: 35.7345, lng: 139.7090 },
+      { name: '豊島区立池袋第三小学校（廃校跡地・閉校）', lat: 35.7330, lng: 139.7155 },
+      { name: '豊島区立南池袋小学校', lat: 35.7250, lng: 139.7155 },
+      { name: '豊島区立朋有小学校（東池袋）', lat: 35.7305, lng: 139.7220 },
+      { name: '豊島区立明豊中学校（東池袋）', lat: 35.7287, lng: 139.7212 },
+      { name: '豊島区立池袋中学校', lat: 35.7298, lng: 139.7058 },
+      { name: '豊島区立西池袋中学校', lat: 35.7325, lng: 139.7050 },
+      // 雑司ヶ谷・目白
+      { name: '豊島区立目白小学校', lat: 35.7222, lng: 139.7050 },
+      { name: '豊島区立高松小学校', lat: 35.7282, lng: 139.7010 },
+      { name: '豊島区立さくら小学校（旧雑司ヶ谷）', lat: 35.7228, lng: 139.7180 },
+      { name: '豊島区立千登世橋中学校（雑司ヶ谷）', lat: 35.7180, lng: 139.7150 },
+      // 巣鴨・駒込地区
+      { name: '豊島区立巣鴨小学校', lat: 35.7322, lng: 139.7378 },
+      { name: '豊島区立駒込小学校', lat: 35.7375, lng: 139.7475 },
+      { name: '豊島区立仰高小学校（駒込）', lat: 35.7402, lng: 139.7448 },
+      { name: '豊島区立巣鴨北中学校', lat: 35.7392, lng: 139.7298 },
+      { name: '豊島区立西巣鴨中学校', lat: 35.7415, lng: 139.7270 },
+      { name: '豊島区立駒込中学校', lat: 35.7383, lng: 139.7485 },
+      // 大塚地区
+      { name: '豊島区立朝日小学校（南大塚）', lat: 35.7290, lng: 139.7305 },
+      { name: '豊島区立南池袋小学校（大塚側）', lat: 35.7240, lng: 139.7268 },
+      { name: '豊島区立巣鴨小学校（大塚エリア）', lat: 35.7325, lng: 139.7320 },
+      // 西部（千早・長崎・要町・椎名町）
+      { name: '豊島区立要小学校（要町）', lat: 35.7340, lng: 139.6975 },
+      { name: '豊島区立富士見台小学校', lat: 35.7308, lng: 139.6878 },
+      { name: '豊島区立さくら小学校（南長崎）', lat: 35.7270, lng: 139.6822 },
+      { name: '豊島区立椎名町小学校', lat: 35.7258, lng: 139.6850 },
+      { name: '豊島区立長崎小学校', lat: 35.7295, lng: 139.6760 },
+      { name: '豊島区立千早小学校', lat: 35.7378, lng: 139.6915 },
+      { name: '豊島区立池袋本町小学校', lat: 35.7400, lng: 139.7180 },
+      { name: '豊島区立千川中学校（千早）', lat: 35.7385, lng: 139.6960 },
+      { name: '豊島区立西池袋中学校（西側）', lat: 35.7325, lng: 139.7050 },
+      { name: '豊島区立千登世橋中学校（雑司ヶ谷）', lat: 35.7180, lng: 139.7150 }
     ]
   },
   evac_emergency: {
@@ -1132,19 +1206,19 @@ const POI_DATA = {
     icon: 'fa-person-running',
     cssClass: 'poi-evac_emergency',
     items: [
-      // 洪水・地震時に緊急で命を守る場所（学校・公園・高台）
-      { name: '新宿御苑（緊急避難場所）', lat: 35.6852, lng: 139.7100 },
-      { name: '新宿中央公園（緊急避難場所）', lat: 35.6906, lng: 139.6905 },
-      { name: '戸山公園・箱根山一帯（緊急避難場所）', lat: 35.7080, lng: 139.7115 },
-      { name: '甘泉園公園（緊急避難場所）', lat: 35.7141, lng: 139.7187 },
-      { name: 'おとめ山公園（緊急避難場所）', lat: 35.7195, lng: 139.7000 },
-      { name: '都庁周辺超高層ビル群（緊急避難場所）', lat: 35.6896, lng: 139.6917 },
-      { name: '花園神社境内（緊急避難場所）', lat: 35.6938, lng: 139.7068 },
-      { name: '熊野神社・新宿中央公園一帯', lat: 35.6892, lng: 139.6892 },
-      { name: '穴八幡宮・早稲田一帯', lat: 35.7081, lng: 139.7195 },
-      { name: '赤城神社・神楽坂一帯', lat: 35.7050, lng: 139.7335 },
-      { name: '須賀神社・四谷一帯', lat: 35.6843, lng: 139.7240 },
-      { name: '聖母坂下公園・落合一帯', lat: 35.7220, lng: 139.7028 }
+      // 大地震・大規模火災時に緊急で命を守る場所（公園・学校・高台）
+      { name: '池袋西口公園（緊急避難場所）', lat: 35.7303, lng: 139.7095 },
+      { name: '南池袋公園（芝生広場）', lat: 35.7273, lng: 139.7150 },
+      { name: 'イケ・サンパーク（防災公園）', lat: 35.7372, lng: 139.7195 },
+      { name: '東池袋中央公園（防災公園）', lat: 35.7295, lng: 139.7170 },
+      { name: 'サンシャインシティ周辺広場', lat: 35.7290, lng: 139.7210 },
+      { name: '雑司ヶ谷霊園（緊急避難場所）', lat: 35.7193, lng: 139.7195 },
+      { name: '巣鴨地蔵通り商店街周辺', lat: 35.7350, lng: 139.7378 },
+      { name: '染井霊園・駒込さくら公園一帯', lat: 35.7400, lng: 139.7440 },
+      { name: '目白の森・学習院キャンパス', lat: 35.7220, lng: 139.7022 },
+      { name: '長崎公園・トキワ荘エリア', lat: 35.7282, lng: 139.6790 },
+      { name: '千早公園', lat: 35.7370, lng: 139.6950 },
+      { name: '大塚公園・南大塚エリア', lat: 35.7305, lng: 139.7295 }
     ]
   },
   evac_wide: {
@@ -1153,14 +1227,14 @@ const POI_DATA = {
     cssClass: 'poi-evac_wide',
     items: [
       // 大規模火災発生時に一時的に避難する広い場所
-      { name: '新宿御苑一帯', lat: 35.6852, lng: 139.7100 },
-      { name: '新宿中央公園・高層ビル街一帯', lat: 35.6906, lng: 139.6905 },
-      { name: '戸山公園・学習院女子大一帯', lat: 35.7080, lng: 139.7115 },
-      { name: '明治神宮外苑・神宮球場一帯', lat: 35.6797, lng: 139.7167 },
-      { name: '早稲田大学・甘泉園一帯', lat: 35.7090, lng: 139.7180 },
-      { name: '落合中央公園・妙正寺川一帯', lat: 35.7195, lng: 139.6960 },
-      { name: '外濠公園・市ヶ谷一帯', lat: 35.6915, lng: 139.7340 },
-      { name: '若松河田・河田町一帯', lat: 35.6968, lng: 139.7240 }
+      { name: '雑司ヶ谷霊園・南池袋公園一帯', lat: 35.7215, lng: 139.7170 },
+      { name: '染井霊園・駒込さくら公園一帯', lat: 35.7400, lng: 139.7445 },
+      { name: 'イケ・サンパーク・上池袋一帯', lat: 35.7375, lng: 139.7195 },
+      { name: '学習院大学・目白の森一帯', lat: 35.7220, lng: 139.7050 },
+      { name: '池袋西口公園・芸術劇場一帯', lat: 35.7305, lng: 139.7100 },
+      { name: '東池袋中央公園・サンシャイン一帯', lat: 35.7292, lng: 139.7190 },
+      { name: '長崎・千早・要町一帯（西部広域）', lat: 35.7340, lng: 139.6925 },
+      { name: '巣鴨・西巣鴨一帯（北部広域）', lat: 35.7400, lng: 139.7320 }
     ]
   },
   evac_welfare: {
@@ -1169,15 +1243,18 @@ const POI_DATA = {
     cssClass: 'poi-evac_welfare',
     items: [
       // 要配慮者（高齢者・障がい者等）向けの避難所
-      { name: '新宿区立障害者福祉センター', lat: 35.7036, lng: 139.7050 },
-      { name: '新宿区立高齢者総合相談センター', lat: 35.6948, lng: 139.7050 },
-      { name: '新宿区立シニア活動館', lat: 35.6950, lng: 139.7060 },
-      { name: '特別養護老人ホーム かしわ苑', lat: 35.7068, lng: 139.7080 },
-      { name: '特別養護老人ホーム あかね苑', lat: 35.7180, lng: 139.6960 },
-      { name: '特別養護老人ホーム 暁ホーム', lat: 35.7200, lng: 139.7008 },
-      { name: '介護老人保健施設 マイウェイ新宿', lat: 35.7050, lng: 139.7100 },
-      { name: '新宿区立子ども総合センター', lat: 35.6948, lng: 139.7050 },
-      { name: '新宿区立心身障害児通所訓練施設', lat: 35.7036, lng: 139.7050 }
+      { name: '豊島区立心身障害者福祉センター', lat: 35.7263, lng: 139.7170 },
+      { name: '豊島区立中央高齢者総合相談センター', lat: 35.7270, lng: 139.7160 },
+      { name: '豊島区池袋保健所', lat: 35.7355, lng: 139.7178 },
+      { name: '豊島区長崎健康相談所', lat: 35.7270, lng: 139.6845 },
+      { name: '特別養護老人ホーム シーアイハイツ（南池袋）', lat: 35.7253, lng: 139.7148 },
+      { name: '特別養護老人ホーム アトリエ村（千早）', lat: 35.7375, lng: 139.6938 },
+      { name: '特別養護老人ホーム フローラ江古田（長崎）', lat: 35.7285, lng: 139.6788 },
+      { name: '特別養護老人ホーム みずほ園（巣鴨）', lat: 35.7340, lng: 139.7365 },
+      { name: '介護老人保健施設 ロイヤルケアセンター（駒込）', lat: 35.7390, lng: 139.7460 },
+      { name: '豊島区立子ども家庭支援センター', lat: 35.7263, lng: 139.7155 },
+      { name: '豊島区立目白第一高齢者総合相談センター', lat: 35.7222, lng: 139.7055 },
+      { name: '豊島区立巣鴨高齢者総合相談センター', lat: 35.7338, lng: 139.7388 }
     ]
   }
 };
@@ -1222,7 +1299,7 @@ function setPOIVisibility(category, visible) {
   }
 }
 
-// 初期表示：新宿区役所のみON
+// 初期表示：豊島区役所のみON
 setPOIVisibility('cityhall', true);
 
 // カテゴリ切替イベント
@@ -1380,7 +1457,7 @@ function addCSPoint(lat, lng) {
   csMarkers.push(marker);
   if (csPoints.length === 2) {
     csLine = L.polyline(csPoints, {
-      color: '#0d47a1',
+      color: '#c2185b',
       weight: 4,
       opacity: 0.8,
       dashArray: '8, 8'
@@ -1453,15 +1530,15 @@ function renderCrossSection(labels, data, totalDist) {
       datasets: [{
         label: '標高 (m)',
         data: data,
-        borderColor: '#1565c0',
+        borderColor: '#c2185b',
         backgroundColor: (context) => {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
-          if (!chartArea) return 'rgba(255,126,103,0.2)';
+          if (!chartArea) return 'rgba(194,24,91,0.2)';
           const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          gradient.addColorStop(0, 'rgba(255,126,103,0.6)');
-          gradient.addColorStop(0.5, 'rgba(255,164,91,0.35)');
-          gradient.addColorStop(1, 'rgba(179,157,219,0.1)');
+          gradient.addColorStop(0, 'rgba(194,24,91,0.6)');
+          gradient.addColorStop(0.5, 'rgba(245,124,0,0.35)');
+          gradient.addColorStop(1, 'rgba(94,53,177,0.12)');
           return gradient;
         },
         fill: true,
@@ -1711,14 +1788,14 @@ function init3D() {
       }
     }, 300);
 
-    // 空（温かみのある夕焼けトーン）
+    // 空（サンシャインシティの夕焼け・ふくろうタウンの夕暮れトーン）
     try {
       map3d.setSky({
-        'sky-color': '#bbdefb',
+        'sky-color': '#f8c1d5',
         'sky-horizon-blend': 0.7,
-        'horizon-color': '#5e92f3',
+        'horizon-color': '#d1c4e9',
         'horizon-fog-blend': 0.6,
-        'fog-color': '#fff5ec',
+        'fog-color': '#fdf2f5',
         'fog-ground-blend': 0.4
       });
     } catch(e) { /* 旧バージョン互換 */ }
@@ -1913,15 +1990,15 @@ window.addEventListener('unhandledrejection', (e) => {
 // =======================
 updateCSStatus();
 
-// 新宿区の範囲を少し強調表示（概観）
-const shinjukuBounds = L.rectangle([[35.670, 139.680], [35.720, 139.760]], {
-  color: '#1565c0',
+// 豊島区の範囲を少し強調表示（概観：三大副都心・染井吉野発祥の地）
+const toshimaBounds = L.rectangle([[35.708, 139.685], [35.748, 139.748]], {
+  color: '#c2185b',
   weight: 2,
   fillOpacity: 0,
   dashArray: '6, 6'
 }).addTo(map2d);
 
-console.log('🌆 新宿区 高低マップ 起動完了');
+console.log('🦉 豊島区 高低マップ 起動完了');
 
 // =======================
 // PWA: Service Worker 登録

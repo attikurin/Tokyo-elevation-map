@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- 高尾山の古木ブラウン × もみじオレンジ × 関東山地の深緑 -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#b9d5e8"/>
+      <stop offset="55%" stop-color="#7fad8a"/>
+      <stop offset="100%" stop-color="#1b5e20"/>
+    </linearGradient>
+    <linearGradient id="mountain" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#558b2f"/>
+      <stop offset="100%" stop-color="#1b5e20"/>
+    </linearGradient>
+    <linearGradient id="mountain2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#33691e"/>
+      <stop offset="100%" stop-color="#0d3a10"/>
+    </linearGradient>
+    <linearGradient id="river" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#81d4fa"/>
+      <stop offset="100%" stop-color="#0277bd"/>
+    </linearGradient>
+    <linearGradient id="momiji" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff6f00"/>
+      <stop offset="100%" stop-color="#bf360c"/>
+    </linearGradient>
+    <linearGradient id="castle" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8d6e63"/>
+      <stop offset="100%" stop-color="#4e342e"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fffde7"/>
+      <stop offset="100%" stop-color="#ffb74d" stop-opacity="0.5"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 背景（山里の朝） -->
+  <rect x="0" y="0" width="512" height="512" rx="96" fill="url(#bg)"/>
+
+  <!-- 太陽 -->
+  <circle cx="408" cy="100" r="44" fill="url(#sun)" opacity="0.9"/>
+  <circle cx="408" cy="100" r="28" fill="#fffde7" opacity="0.95"/>
+
+  <!-- 雲 -->
+  <ellipse cx="110" cy="80" rx="34" ry="9" fill="#fff" opacity="0.75"/>
+  <ellipse cx="148" cy="78" rx="26" ry="7" fill="#fff" opacity="0.55"/>
+
+  <!-- 後背の山々（陣馬山・景信山・小仏城山） -->
+  <path d="M0,250 L70,180 L130,225 L195,160 L260,215 L330,170 L400,210 L460,180 L512,220 L512,330 L0,330 Z"
+        fill="url(#mountain2)" opacity="0.88"/>
+
+  <!-- 高尾山（中央の主峰：三角形） -->
+  <path d="M150,310 L256,140 L362,310 Z" fill="url(#mountain)"/>
+  <!-- 高尾山の稜線陰影 -->
+  <path d="M256,140 L256,310 L362,310 Z" fill="#0d3a10" opacity="0.35"/>
+  <!-- 雪線（高尾山頂） -->
+  <path d="M236,178 L256,140 L276,178 L268,185 L256,180 L244,185 Z" fill="#f5f5f5" opacity="0.85"/>
+
+  <!-- 天狗の団扇（高尾山薬王院の象徴） -->
+  <g transform="translate(120,160)">
+    <!-- 柄 -->
+    <line x1="0" y1="0" x2="-12" y2="36" stroke="#5d2e1e" stroke-width="3" stroke-linecap="round"/>
+    <!-- 葉（八つ手の葉のシルエット） -->
+    <g transform="rotate(-15)">
+      <path d="M0,0 Q-18,-8 -22,-22 Q-10,-20 -4,-14 Q-2,-22 4,-26 Q10,-22 12,-14 Q22,-18 26,-8 Q22,4 12,4 Q22,12 16,22 Q6,18 4,12 Q2,22 -8,22 Q-12,12 -8,4 Q-18,4 -16,-4 Z"
+            fill="#bf360c" stroke="#5d2e1e" stroke-width="1.5"/>
+    </g>
+  </g>
+
+  <!-- 八王子城（天守風の建物：北条氏照の居城） -->
+  <g transform="translate(380,235)">
+    <!-- 石垣 -->
+    <path d="M-40,40 L-30,20 L30,20 L40,40 Z" fill="#6d4c41" opacity="0.9"/>
+    <!-- 1層 -->
+    <rect x="-26" y="0" width="52" height="20" fill="url(#castle)"/>
+    <rect x="-28" y="-3" width="56" height="4" fill="#3e2723"/>
+    <!-- 2層（小） -->
+    <rect x="-18" y="-18" width="36" height="18" fill="url(#castle)"/>
+    <rect x="-20" y="-22" width="40" height="5" fill="#3e2723"/>
+    <!-- 屋根の反り -->
+    <path d="M-22,-22 Q-26,-26 -28,-22" stroke="#3e2723" stroke-width="2" fill="none"/>
+    <path d="M22,-22 Q26,-26 28,-22" stroke="#3e2723" stroke-width="2" fill="none"/>
+    <!-- 窓 -->
+    <rect x="-12" y="4" width="6" height="10" fill="#fff9c4" opacity="0.8"/>
+    <rect x="6" y="4" width="6" height="10" fill="#fff9c4" opacity="0.8"/>
+    <rect x="-3" y="-13" width="6" height="9" fill="#fff9c4" opacity="0.8"/>
+  </g>
+
+  <!-- 浅川（八王子市街を流れる川） -->
+  <path d="M0,355 Q120,345 256,360 Q380,370 512,355 L512,400 Q380,410 256,400 Q120,395 0,400 Z"
+        fill="url(#river)" opacity="0.92"/>
+  <!-- 川面の光 -->
+  <path d="M0,370 Q120,362 256,372 T512,365" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <path d="M40,388 Q180,380 320,388 T500,382" stroke="#fff" stroke-width="1" fill="none" opacity="0.35"/>
+
+  <!-- 多摩丘陵・由木地区（手前の丘） -->
+  <path d="M0,400 L80,395 L160,408 L256,398 L350,410 L430,400 L512,405 L512,470 L0,470 Z"
+        fill="#558b2f" opacity="0.92"/>
+
+  <!-- もみじ（高尾山＝紅葉の名所） -->
+  <g transform="translate(85,360)">
+    <!-- 5枚の葉のもみじシルエット -->
+    <g>
+      <path d="M0,0 L-2,-14 L-8,-18 L-6,-10 L-14,-10 L-8,-4 L-16,2 L-8,2 L-12,12 L-4,8 L-2,16 L0,8 L2,16 L4,8 L12,12 L8,2 L16,2 L8,-4 L14,-10 L6,-10 L8,-18 L2,-14 Z"
+            fill="url(#momiji)" stroke="#5d2e1e" stroke-width="0.8"/>
+    </g>
+    <!-- 茎 -->
+    <line x1="0" y1="14" x2="0" y2="28" stroke="#5d2e1e" stroke-width="1.5"/>
+  </g>
+  <g transform="translate(440,365) scale(0.8)">
+    <path d="M0,0 L-2,-14 L-8,-18 L-6,-10 L-14,-10 L-8,-4 L-16,2 L-8,2 L-12,12 L-4,8 L-2,16 L0,8 L2,16 L4,8 L12,12 L8,2 L16,2 L8,-4 L14,-10 L6,-10 L8,-18 L2,-14 Z"
+          fill="#e65100" stroke="#5d2e1e" stroke-width="0.8"/>
+    <line x1="0" y1="14" x2="0" y2="28" stroke="#5d2e1e" stroke-width="1.5"/>
+  </g>
+  <g transform="translate(200,425) scale(0.7)">
+    <path d="M0,0 L-2,-14 L-8,-18 L-6,-10 L-14,-10 L-8,-4 L-16,2 L-8,2 L-12,12 L-4,8 L-2,16 L0,8 L2,16 L4,8 L12,12 L8,2 L16,2 L8,-4 L14,-10 L6,-10 L8,-18 L2,-14 Z"
+          fill="#ff8f00" stroke="#5d2e1e" stroke-width="0.8"/>
+  </g>
+  <g transform="translate(320,420) scale(0.65)">
+    <path d="M0,0 L-2,-14 L-8,-18 L-6,-10 L-14,-10 L-8,-4 L-16,2 L-8,2 L-12,12 L-4,8 L-2,16 L0,8 L2,16 L4,8 L12,12 L8,2 L16,2 L8,-4 L14,-10 L6,-10 L8,-18 L2,-14 Z"
+          fill="#bf360c" stroke="#5d2e1e" stroke-width="0.8"/>
+  </g>
+
+  <!-- 樹々（手前の杉林） -->
+  <g transform="translate(50,420)">
+    <path d="M0,-30 L-10,0 L-3,0 L-12,15 L-2,15 L-2,28 L2,28 L2,15 L12,15 L3,0 L10,0 Z" fill="#1b5e20" opacity="0.9"/>
+  </g>
+  <g transform="translate(470,425) scale(0.9)">
+    <path d="M0,-30 L-10,0 L-3,0 L-12,15 L-2,15 L-2,28 L2,28 L2,15 L12,15 L3,0 L10,0 Z" fill="#1b5e20" opacity="0.9"/>
+  </g>
+  <g transform="translate(260,440) scale(0.7)">
+    <path d="M0,-30 L-10,0 L-3,0 L-12,15 L-2,15 L-2,28 L2,28 L2,15 L12,15 L3,0 L10,0 Z" fill="#1b5e20" opacity="0.85"/>
+  </g>
+
+  <!-- タイトル風サイン -->
+  <rect x="80" y="455" width="80" height="22" rx="11" fill="#3e2723" opacity="0.9"/>
+  <text x="120" y="471" font-family="sans-serif" font-size="14" font-weight="bold"
+        text-anchor="middle" fill="#ffb74d">八王子</text>
+</svg>

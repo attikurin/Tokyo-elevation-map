@@ -698,11 +698,26 @@ function getCityName(feature) {
   return p.ward_ja || p.N03_004 || p.name || '';
 }
 
+// tokyo-index.json に意図的に登録しない GeoJSON フィーチャ
+// （中央防波堤埋立地などの「所属未定地」は江東区・大田区が領有を主張する
+//  境界係争地で、ポータルでは淡色のみ描画し、警告も出さない）
+const KNOWN_UNMAPPED_AREAS = new Set(['所属未定地']);
+
 function cityStyle(feature) {
   const name = getCityName(feature);
   const city = CITY_MAP[name];
   const done = city && city.done;
   const isSpecial = city && city.area === 'special';
+  if (KNOWN_UNMAPPED_AREAS.has(name)) {
+    // 所属未定地：境界点線で淡色
+    return {
+      fillColor: '#e0e0e0',
+      fillOpacity: 0.15,
+      color: '#bdbdbd',
+      weight: 0.6,
+      dashArray: '2, 3',
+    };
+  }
   if (isSpecial && done) {
     // 特別篇：青緑系で強調
     return {
@@ -725,7 +740,9 @@ function onEachCity(feature, layer) {
   const name = getCityName(feature);
   const city = CITY_MAP[name];
   if (!city) {
-    console.warn('マッピング未登録:', name);
+    if (!KNOWN_UNMAPPED_AREAS.has(name)) {
+      console.warn('マッピング未登録:', name);
+    }
     return;
   }
 

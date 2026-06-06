@@ -1,0 +1,22 @@
+{
+  "name": "豊島区 高低マップ",
+  "short_name": "豊島高低",
+  "description": "東京都豊島区（三大副都心・池袋ターミナルを擁する区）の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。豊島台地・雑司ヶ谷の谷・神田川源流・染井霊園・サンシャイン60・トキワ荘ゆかりの長崎エリアを可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fdf2f5",
+  "theme_color": "#c2185b",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

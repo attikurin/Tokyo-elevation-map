@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- 武蔵野グリーン × 国分寺崖線砂色 × 多摩川ブルー -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#81c784"/>
+      <stop offset="55%" stop-color="#2e7d32"/>
+      <stop offset="100%" stop-color="#1b5e20"/>
+    </linearGradient>
+    <linearGradient id="cliff" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8c39e"/>
+      <stop offset="100%" stop-color="#a07c4f"/>
+    </linearGradient>
+    <linearGradient id="river" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#81d4fa"/>
+      <stop offset="100%" stop-color="#0288d1"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a5d6a7"/>
+      <stop offset="100%" stop-color="#2e7d32"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff9c4"/>
+      <stop offset="100%" stop-color="#fbc02d" stop-opacity="0.6"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 背景（武蔵野の緑） -->
+  <rect x="0" y="0" width="512" height="512" rx="96" fill="url(#bg)"/>
+
+  <!-- 太陽（柔らかい朝日） -->
+  <circle cx="408" cy="100" r="42" fill="url(#sun)" opacity="0.9"/>
+  <circle cx="408" cy="100" r="28" fill="#fff9c4" opacity="0.85"/>
+
+  <!-- 雲 -->
+  <ellipse cx="120" cy="85" rx="36" ry="10" fill="#fff" opacity="0.75"/>
+  <ellipse cx="155" cy="80" rx="28" ry="8" fill="#fff" opacity="0.6"/>
+
+  <!-- 武蔵野台地（上段：高台） -->
+  <path d="M0,260 L80,250 L160,255 L230,248 L300,252 L370,250 L440,255 L512,250 L512,330 L0,330 Z"
+        fill="#388e3c" opacity="0.9"/>
+
+  <!-- 国分寺崖線（ハケ：北東から南西に走る段丘崖） -->
+  <path d="M0,330 L80,330 L120,355 L180,360 L240,380 L300,385 L360,395 L420,395 L470,400 L512,400 L512,330 Z"
+        fill="url(#cliff)" opacity="0.95"/>
+  <!-- 崖線のテクスチャ（縦の地層線） -->
+  <g stroke="#7a5a3a" stroke-width="1" opacity="0.5" fill="none">
+    <path d="M120,335 L122,358"/>
+    <path d="M160,335 L161,365"/>
+    <path d="M200,340 L201,372"/>
+    <path d="M240,345 L241,380"/>
+    <path d="M280,348 L282,385"/>
+    <path d="M320,350 L321,388"/>
+    <path d="M360,352 L361,395"/>
+    <path d="M400,355 L401,395"/>
+    <path d="M440,355 L441,400"/>
+  </g>
+
+  <!-- 多摩川（崖線の下、南端を流れる） -->
+  <path d="M0,440 Q120,420 256,432 T512,420 L512,470 Q256,485 0,470 Z"
+        fill="url(#river)" opacity="0.9"/>
+  <!-- 川面の光 -->
+  <path d="M0,448 Q120,440 256,448 T512,440" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <path d="M40,460 Q180,452 320,460 T500,455" stroke="#fff" stroke-width="1" fill="none" opacity="0.3"/>
+
+  <!-- 等々力渓谷（緑のV字の谷／崖線の谷部） -->
+  <g>
+    <path d="M180,360 L210,395 L230,360 Z" fill="#1b5e20" opacity="0.7"/>
+    <path d="M205,365 Q210,385 215,365" stroke="#4fc3f7" stroke-width="2" fill="none" opacity="0.8"/>
+  </g>
+
+  <!-- 樹々（武蔵野の森） -->
+  <!-- 大きな広葉樹（左） -->
+  <g transform="translate(70,230)">
+    <ellipse cx="0" cy="0" rx="34" ry="30" fill="url(#leaf)"/>
+    <ellipse cx="-18" cy="-8" rx="22" ry="20" fill="url(#leaf)"/>
+    <ellipse cx="20" cy="-6" rx="20" ry="18" fill="url(#leaf)"/>
+    <rect x="-5" y="25" width="10" height="22" fill="#6d4c2b"/>
+  </g>
+  <!-- 大きな広葉樹（中央：等々力渓谷の樹） -->
+  <g transform="translate(256,210)">
+    <ellipse cx="0" cy="0" rx="44" ry="38" fill="url(#leaf)"/>
+    <ellipse cx="-22" cy="-12" rx="28" ry="24" fill="url(#leaf)"/>
+    <ellipse cx="24" cy="-10" rx="26" ry="22" fill="url(#leaf)"/>
+    <rect x="-6" y="32" width="12" height="26" fill="#6d4c2b"/>
+  </g>
+  <!-- 大きな広葉樹（右） -->
+  <g transform="translate(440,240)">
+    <ellipse cx="0" cy="0" rx="30" ry="26" fill="url(#leaf)"/>
+    <ellipse cx="-16" cy="-6" rx="20" ry="18" fill="url(#leaf)"/>
+    <ellipse cx="18" cy="-4" rx="18" ry="16" fill="url(#leaf)"/>
+    <rect x="-4" y="22" width="9" height="20" fill="#6d4c2b"/>
+  </g>
+  <!-- 小さな樹々 -->
+  <g transform="translate(150,260)">
+    <ellipse cx="0" cy="0" rx="18" ry="15" fill="url(#leaf)"/>
+    <rect x="-3" y="13" width="6" height="14" fill="#6d4c2b"/>
+  </g>
+  <g transform="translate(350,255)">
+    <ellipse cx="0" cy="0" rx="20" ry="17" fill="url(#leaf)"/>
+    <rect x="-3" y="15" width="6" height="14" fill="#6d4c2b"/>
+  </g>
+
+  <!-- 招き猫（豪徳寺の象徴）- 中央下、武蔵野台地の上 -->
+  <g transform="translate(256,310)">
+    <!-- 体 -->
+    <ellipse cx="0" cy="0" rx="22" ry="24" fill="#fff"/>
+    <!-- 頭 -->
+    <circle cx="0" cy="-22" r="16" fill="#fff"/>
+    <!-- 耳 -->
+    <path d="M-12,-32 L-9,-22 L-16,-26 Z" fill="#fff"/>
+    <path d="M12,-32 L9,-22 L16,-26 Z" fill="#fff"/>
+    <!-- 耳の内側 -->
+    <path d="M-12,-30 L-11,-25 L-14,-26 Z" fill="#ffcdd2"/>
+    <path d="M12,-30 L11,-25 L14,-26 Z" fill="#ffcdd2"/>
+    <!-- 目 -->
+    <circle cx="-5" cy="-22" r="1.5" fill="#2e3a2a"/>
+    <circle cx="5" cy="-22" r="1.5" fill="#2e3a2a"/>
+    <!-- 鼻 -->
+    <path d="M0,-18 L-1.5,-16 L1.5,-16 Z" fill="#e57373"/>
+    <!-- 髭 -->
+    <line x1="-6" y1="-17" x2="-12" y2="-15" stroke="#666" stroke-width="0.7"/>
+    <line x1="-6" y1="-15" x2="-12" y2="-14" stroke="#666" stroke-width="0.7"/>
+    <line x1="6" y1="-17" x2="12" y2="-15" stroke="#666" stroke-width="0.7"/>
+    <line x1="6" y1="-15" x2="12" y2="-14" stroke="#666" stroke-width="0.7"/>
+    <!-- 招く手（右手を上げる） -->
+    <ellipse cx="14" cy="-12" rx="6" ry="8" fill="#fff" transform="rotate(20, 14, -12)"/>
+    <!-- 首輪（赤） -->
+    <path d="M-13,-12 Q0,-8 13,-12" stroke="#c62828" stroke-width="3" fill="none"/>
+    <circle cx="0" cy="-9" r="2.5" fill="#fbc02d"/>
+  </g>
+
+  <!-- タイトル風の小サイン -->
+  <rect x="80" y="455" width="80" height="22" rx="11" fill="#1b5e20" opacity="0.85"/>
+  <text x="120" y="471" font-family="sans-serif" font-size="14" font-weight="bold"
+        text-anchor="middle" fill="#fff9c4">世田谷</text>
+</svg>

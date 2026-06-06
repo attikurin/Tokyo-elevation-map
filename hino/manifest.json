@@ -1,0 +1,22 @@
+{
+  "name": "日野市 高低マップ",
+  "short_name": "日野高低",
+  "description": "東京都日野市の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。多摩川と浅川の合流地点、日野台地、多摩丘陵、新選組のふるさと「水と緑のふるさと」の地形を可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f5f7f2",
+  "theme_color": "#1e6091",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "八王子市 高低マップ",
+  "short_name": "八王子高低",
+  "description": "東京都八王子市（都内最大面積186km²）の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。高尾山・陣馬山・八王子城跡・滝山城跡・北浅川／南浅川／浅川・多摩丘陵・加住丘陵・由木地区を可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f7f4ef",
+  "theme_color": "#5d4037",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
