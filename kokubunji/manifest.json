@@ -1,0 +1,19 @@
+{
+  "name": "国分寺市 高低マップ",
+  "short_name": "国分寺高低",
+  "description": "東京都国分寺市の3D地形・標高断面図・ハザード重ね合わせマップ。武蔵野台地中央・国分寺崖線（はけ・崖線名の起源）・武蔵国分寺跡・お鷹の道／真姿の池湧水群・殿ヶ谷戸庭園・日立中央研究所大池（野川源流）を可視化。",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#e8f5e9",
+  "theme_color": "#2e7d32",
+  "orientation": "any",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

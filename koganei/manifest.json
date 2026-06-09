@@ -1,0 +1,19 @@
+{
+  "name": "小金井市 高低マップ",
+  "short_name": "小金井高低",
+  "description": "東京都小金井市の3D地形・標高断面図・ハザード重ね合わせマップ。武蔵野台地中央・国分寺崖線（はけ）・玉川上水（小金井桜）・野川を可視化。",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fce4ec",
+  "theme_color": "#c2185b",
+  "orientation": "any",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

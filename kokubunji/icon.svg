@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>国分寺市 高低マップ アイコン</title>
+  <defs>
+    <!-- 若葉色の空（はけの緑・新緑） -->
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f5e9"/>
+      <stop offset="55%" stop-color="#a5d6a7"/>
+      <stop offset="100%" stop-color="#f8bbd0"/>
+    </linearGradient>
+    <!-- 武蔵野台地（武蔵野段丘の上面・はけの上） -->
+    <linearGradient id="dandanGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#aed581"/>
+      <stop offset="100%" stop-color="#558b2f"/>
+    </linearGradient>
+    <!-- はけ・国分寺崖線（崖線名の起源・湧水の崖） -->
+    <linearGradient id="hakeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#66bb6a"/>
+      <stop offset="60%" stop-color="#2e7d32"/>
+      <stop offset="100%" stop-color="#1b5e20"/>
+    </linearGradient>
+    <!-- 野川源流・湧水（はけの下） -->
+    <linearGradient id="nogawaGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#81d4fa"/>
+      <stop offset="50%" stop-color="#29b6f6"/>
+      <stop offset="100%" stop-color="#0277bd"/>
+    </linearGradient>
+    <!-- お鷹の道 用水路 -->
+    <linearGradient id="otakaGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b3e5fc"/>
+      <stop offset="100%" stop-color="#0288d1"/>
+    </linearGradient>
+    <!-- 武蔵国分寺 七重塔・楼門（朱塗り） -->
+    <linearGradient id="shubaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e53935"/>
+      <stop offset="100%" stop-color="#b71c1c"/>
+    </linearGradient>
+    <!-- 殿ヶ谷戸庭園の紅葉 -->
+    <radialGradient id="momijiGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffab40"/>
+      <stop offset="50%" stop-color="#e53935"/>
+      <stop offset="100%" stop-color="#b71c1c"/>
+    </radialGradient>
+    <!-- 七重塔の屋根（瓦・薄墨） -->
+    <linearGradient id="kawaraGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#78909c"/>
+      <stop offset="100%" stop-color="#37474f"/>
+    </linearGradient>
+    <!-- 中央線（オレンジバーミリオン） -->
+    <linearGradient id="trainGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ef6c00"/>
+      <stop offset="100%" stop-color="#bf360c"/>
+    </linearGradient>
+    <!-- 太陽 -->
+    <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff9c4"/>
+      <stop offset="100%" stop-color="#fbc02d"/>
+    </radialGradient>
+    <!-- 真姿の池湧水（名水百選） -->
+    <radialGradient id="springGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e1f5fe"/>
+      <stop offset="100%" stop-color="#0277bd"/>
+    </radialGradient>
+    <!-- 日立中央研究所 大池 -->
+    <radialGradient id="oikeGrad" cx="40%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#b3e5fc"/>
+      <stop offset="100%" stop-color="#01579b"/>
+    </radialGradient>
+    <!-- 新緑（はけの新緑） -->
+    <radialGradient id="leafGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#dcedc8"/>
+      <stop offset="100%" stop-color="#558b2f"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 背景：若葉色の空 -->
+  <rect width="512" height="512" rx="96" ry="96" fill="url(#skyGrad)"/>
+
+  <!-- 太陽 -->
+  <circle cx="400" cy="115" r="42" fill="url(#sunGrad)" opacity="0.92"/>
+  <circle cx="400" cy="115" r="56" fill="none" stroke="#fbc02d" stroke-width="2" opacity="0.35"/>
+
+  <!-- 遠景の武蔵野段丘ライン（武蔵野台地の上面） -->
+  <path d="M 0 230 Q 80 215 160 222 T 320 218 T 512 225 L 512 280 L 0 280 Z" fill="url(#dandanGrad)" opacity="0.7"/>
+
+  <!-- 中段：はけの上（武蔵野台地上面・住宅地のレベル） -->
+  <path d="M 0 245 Q 100 235 200 240 T 400 238 T 512 245 L 512 320 L 0 320 Z" fill="url(#dandanGrad)"/>
+
+  <!-- 武蔵国分寺 七重塔（市の象徴・60m高・天平の塔） -->
+  <g transform="translate(150, 290)">
+    <!-- 塔の心柱（中心線） -->
+    <line x1="0" y1="-100" x2="0" y2="20" stroke="#5d4037" stroke-width="1" opacity="0.4"/>
+    <!-- 7層の屋根（下から上に小さく） -->
+    <!-- 1層目 -->
+    <rect x="-22" y="10" width="44" height="14" fill="url(#shubaGrad)"/>
+    <path d="M -28 10 L 0 0 L 28 10 Z" fill="url(#kawaraGrad)"/>
+    <!-- 2層目 -->
+    <rect x="-20" y="-4" width="40" height="11" fill="url(#shubaGrad)"/>
+    <path d="M -26 -4 L 0 -14 L 26 -4 Z" fill="url(#kawaraGrad)"/>
+    <!-- 3層目 -->
+    <rect x="-18" y="-18" width="36" height="10" fill="url(#shubaGrad)"/>
+    <path d="M -24 -18 L 0 -27 L 24 -18 Z" fill="url(#kawaraGrad)"/>
+    <!-- 4層目 -->
+    <rect x="-16" y="-31" width="32" height="9" fill="url(#shubaGrad)"/>
+    <path d="M -22 -31 L 0 -39 L 22 -31 Z" fill="url(#kawaraGrad)"/>
+    <!-- 5層目 -->
+    <rect x="-14" y="-43" width="28" height="8" fill="url(#shubaGrad)"/>
+    <path d="M -20 -43 L 0 -50 L 20 -43 Z" fill="url(#kawaraGrad)"/>
+    <!-- 6層目 -->
+    <rect x="-12" y="-54" width="24" height="7" fill="url(#shubaGrad)"/>
+    <path d="M -18 -54 L 0 -60 L 18 -54 Z" fill="url(#kawaraGrad)"/>
+    <!-- 7層目（最上層） -->
+    <rect x="-10" y="-64" width="20" height="7" fill="url(#shubaGrad)"/>
+    <path d="M -16 -64 L 0 -69 L 16 -64 Z" fill="url(#kawaraGrad)"/>
+    <!-- 相輪（塔の頂上） -->
+    <line x1="0" y1="-69" x2="0" y2="-92" stroke="#bf360c" stroke-width="2"/>
+    <circle cx="0" cy="-75" r="2.5" fill="#bf360c"/>
+    <circle cx="0" cy="-82" r="2" fill="#bf360c"/>
+    <circle cx="0" cy="-88" r="1.5" fill="#bf360c"/>
+    <!-- 基壇 -->
+    <rect x="-26" y="24" width="52" height="5" fill="#8d6e63"/>
+  </g>
+
+  <!-- 武蔵国分寺 楼門（市西部の朱塗り門） -->
+  <g transform="translate(310, 295)">
+    <!-- 屋根（瓦） -->
+    <path d="M -28 -5 L 0 -22 L 28 -5 L 22 -5 L 22 0 L -22 0 L -22 -5 Z" fill="url(#kawaraGrad)"/>
+    <!-- 屋根の棟 -->
+    <line x1="-28" y1="-5" x2="28" y2="-5" stroke="#263238" stroke-width="1.2"/>
+    <!-- 朱塗りの柱・梁 -->
+    <rect x="-20" y="0" width="40" height="3" fill="url(#shubaGrad)"/>
+    <rect x="-18" y="3" width="4" height="22" fill="url(#shubaGrad)"/>
+    <rect x="14" y="3" width="4" height="22" fill="url(#shubaGrad)"/>
+    <rect x="-20" y="13" width="40" height="2.5" fill="url(#shubaGrad)"/>
+    <!-- 楼門の暗い扉 -->
+    <rect x="-13" y="6" width="26" height="19" fill="#3e2723"/>
+    <line x1="0" y1="6" x2="0" y2="25" stroke="#212121" stroke-width="0.8"/>
+  </g>
+
+  <!-- 殿ヶ谷戸庭園の紅葉（市東部・国名勝） -->
+  <g opacity="0.95">
+    <line x1="420" y1="320" x2="420" y2="295" stroke="#5d4037" stroke-width="2.5"/>
+    <circle cx="420" cy="282" r="16" fill="url(#momijiGrad)"/>
+    <circle cx="408" cy="275" r="10" fill="url(#momijiGrad)"/>
+    <circle cx="432" cy="275" r="10" fill="url(#momijiGrad)"/>
+    <circle cx="420" cy="265" r="9" fill="url(#momijiGrad)"/>
+  </g>
+  <g opacity="0.95">
+    <line x1="60" y1="320" x2="60" y2="298" stroke="#5d4037" stroke-width="2.2"/>
+    <circle cx="60" cy="287" r="13" fill="url(#momijiGrad)"/>
+    <circle cx="50" cy="282" r="8" fill="url(#momijiGrad)"/>
+    <circle cx="70" cy="282" r="8" fill="url(#momijiGrad)"/>
+  </g>
+
+  <!-- 散る紅葉 -->
+  <g opacity="0.8">
+    <circle cx="240" cy="180" r="3" fill="#e53935"/>
+    <circle cx="275" cy="205" r="2.5" fill="#ff7043"/>
+    <circle cx="350" cy="200" r="3" fill="#e53935"/>
+    <circle cx="195" cy="195" r="2.5" fill="#ff7043"/>
+    <circle cx="380" cy="220" r="2" fill="#bf360c"/>
+    <circle cx="225" cy="220" r="2" fill="#ffab40"/>
+  </g>
+
+  <!-- 新緑の街路樹（はけの新緑） -->
+  <g opacity="0.85">
+    <circle cx="105" cy="295" r="10" fill="url(#leafGrad)"/>
+    <circle cx="375" cy="298" r="9" fill="url(#leafGrad)"/>
+  </g>
+
+  <!-- はけ（国分寺崖線）の崖の段差表現 -->
+  <path d="M 0 320 Q 80 322 160 325 T 320 322 T 512 320 L 512 360 L 0 360 Z" fill="url(#hakeGrad)" opacity="0.95"/>
+  <!-- 崖線のテクスチャ：等高線風 -->
+  <path d="M 0 335 Q 100 332 200 336 T 400 333 T 512 336" fill="none" stroke="#1b5e20" stroke-width="1.2" opacity="0.5"/>
+  <path d="M 0 350 Q 100 347 200 351 T 400 348 T 512 351" fill="none" stroke="#0d3d11" stroke-width="1.2" opacity="0.4"/>
+
+  <!-- 真姿の池湧水（名水百選・市南部の崖下） -->
+  <g transform="translate(180, 350)">
+    <circle r="10" fill="url(#springGrad)" opacity="0.75"/>
+    <circle r="16" fill="none" stroke="#0277bd" stroke-width="1.3" opacity="0.5"/>
+    <circle r="22" fill="none" stroke="#0277bd" stroke-width="0.9" opacity="0.32"/>
+    <circle r="28" fill="none" stroke="#0277bd" stroke-width="0.7" opacity="0.2"/>
+  </g>
+
+  <!-- 日立中央研究所の大池（市北東部・野川源流・武蔵野最大級湧水池） -->
+  <g transform="translate(380, 352)">
+    <ellipse cx="0" cy="0" rx="28" ry="11" fill="url(#oikeGrad)" opacity="0.92"/>
+    <ellipse cx="-4" cy="-1" rx="20" ry="7" fill="none" stroke="#fff" stroke-width="0.8" opacity="0.55"/>
+    <ellipse cx="2" cy="1" rx="14" ry="4" fill="none" stroke="#fff" stroke-width="0.6" opacity="0.4"/>
+  </g>
+
+  <!-- お鷹の道（用水路・湧水流れ・西元町） -->
+  <path d="M 0 380 Q 100 376 200 382 Q 256 386 312 382 Q 412 376 512 382" fill="none" stroke="url(#otakaGrad)" stroke-width="6" stroke-linecap="round" opacity="0.95"/>
+  <!-- お鷹の道のさざ波 -->
+  <path d="M 30 384 q 18 -3 36 0 t 36 0 t 36 0 t 36 0 t 36 0 t 36 0 t 36 0 t 36 0 t 36 0 t 36 0" fill="none" stroke="#fff" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- 野川源流（はけ下の本流） -->
+  <path d="M 0 410 Q 100 405 180 413 Q 256 420 332 413 Q 412 405 512 413" fill="none" stroke="url(#nogawaGrad)" stroke-width="11" stroke-linecap="round"/>
+  <!-- 野川のさざ波 -->
+  <path d="M 50 415 q 18 -3 36 0 t 36 0 t 36 0 t 36 0 t 36 0 t 36 0 t 36 0 t 36 0 t 36 0" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.55"/>
+
+  <!-- カワセミ（はけ・野川のシンボル） -->
+  <g transform="translate(285, 398)">
+    <ellipse cx="0" cy="0" rx="9" ry="5" fill="#0288d1"/>
+    <ellipse cx="-5" cy="-2" rx="4" ry="3.5" fill="#01579b"/>
+    <circle cx="-7" cy="-3" r="0.9" fill="#fff"/>
+    <path d="M -10 -3 L -13 -2.5 L -10 -1.5 Z" fill="#212121"/>
+    <ellipse cx="3" cy="-1" rx="5" ry="2.5" fill="#0277bd"/>
+    <ellipse cx="0" cy="1.5" rx="6" ry="2" fill="#ff7043"/>
+  </g>
+
+  <!-- 中央線の電車（市中央を東西に貫く・国分寺駅／西国分寺駅） -->
+  <g transform="translate(256, 445)">
+    <!-- 線路 -->
+    <rect x="-220" y="14" width="440" height="2" fill="#5d4037" opacity="0.6"/>
+    <rect x="-220" y="20" width="440" height="2" fill="#5d4037" opacity="0.6"/>
+    <!-- 枕木 -->
+    <g fill="#6d4c41" opacity="0.5">
+      <rect x="-200" y="13" width="2" height="10"/>
+      <rect x="-160" y="13" width="2" height="10"/>
+      <rect x="-120" y="13" width="2" height="10"/>
+      <rect x="-80" y="13" width="2" height="10"/>
+      <rect x="-40" y="13" width="2" height="10"/>
+      <rect x="0" y="13" width="2" height="10"/>
+      <rect x="40" y="13" width="2" height="10"/>
+      <rect x="80" y="13" width="2" height="10"/>
+      <rect x="120" y="13" width="2" height="10"/>
+      <rect x="160" y="13" width="2" height="10"/>
+      <rect x="198" y="13" width="2" height="10"/>
+    </g>
+    <!-- 電車本体（オレンジ・中央線特快） -->
+    <rect x="-60" y="-10" width="120" height="22" rx="4" ry="4" fill="url(#trainGrad)"/>
+    <rect x="-60" y="-10" width="120" height="3" fill="#bf360c"/>
+    <!-- 窓 -->
+    <rect x="-52" y="-5" width="14" height="9" fill="#bbdefb" stroke="#01579b" stroke-width="0.6"/>
+    <rect x="-32" y="-5" width="14" height="9" fill="#bbdefb" stroke="#01579b" stroke-width="0.6"/>
+    <rect x="-12" y="-5" width="14" height="9" fill="#bbdefb" stroke="#01579b" stroke-width="0.6"/>
+    <rect x="8" y="-5" width="14" height="9" fill="#bbdefb" stroke="#01579b" stroke-width="0.6"/>
+    <rect x="28" y="-5" width="14" height="9" fill="#bbdefb" stroke="#01579b" stroke-width="0.6"/>
+    <rect x="48" y="-5" width="10" height="9" fill="#bbdefb" stroke="#01579b" stroke-width="0.6"/>
+    <!-- 車輪 -->
+    <circle cx="-40" cy="13" r="4" fill="#212121"/>
+    <circle cx="40" cy="13" r="4" fill="#212121"/>
+    <!-- 中央線オレンジライン -->
+    <rect x="-60" y="6" width="120" height="2" fill="#fff8e1" opacity="0.85"/>
+  </g>
+
+  <!-- 「国分寺」テキスト（最下段に小さく） -->
+  <text x="256" y="488" font-family="M PLUS Rounded 1c, Hiragino Sans, sans-serif" font-size="22" font-weight="700" fill="#1a3a1a" text-anchor="middle" opacity="0.92">国分寺市</text>
+</svg>

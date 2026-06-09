@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#5d4037" />
+  <meta name="theme-color" content="#c2185b" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <!-- Theme: 高尾山の古木ブラウン × 高尾もみじオレンジ × 関東山地の深緑 -->
-  <title>八王子市 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
-  <meta name="description" content="東京都八王子市のインタラクティブな標高（高低）マップ。高尾山・陣馬山・八王子城跡・北浅川／南浅川／浅川・多摩丘陵・加住丘陵・由木地区・滝山城跡など多摩地域随一の多様な地形を2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。東京都最大面積を誇る『山と川と城下町』八王子を標高で可視化。" />
+  <meta name="apple-mobile-web-app-title" content="小金井高低" />
+  <!-- Theme: 小金井桜ピンク × 武蔵野紅葉オレンジ × 玉川上水ブルー -->
+  <title>小金井市 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
+  <meta name="description" content="東京都小金井市のインタラクティブな標高（高低）マップ。武蔵野台地の中央・国分寺崖線（はけ）・野川・玉川上水（小金井桜・国指定名勝）・小金井市役所（前原町）、都立小金井公園（江戸東京たてもの園・桜の名所）、都立武蔵野公園・都立野川公園、東京農工大学農学部、東京学芸大学、はけの森美術館（中村研一旧居）、JR中央線武蔵小金井駅／東小金井駅／新小金井駅（西武多摩川線）を含む地形を2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。武蔵野段丘と国分寺崖線（はけ）の段差を可視化。" />
 
   <!-- Leaflet (2D map) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
@@ -29,17 +30,17 @@
 
   <style>
     :root {
-      --coral: #5d4037;          /* 高尾山の古木・北条氏ブラウン（八王子城主） */
-      --coral-light: #a1887f;
-      --orange: #e65100;          /* 高尾もみじ・銀杏並木のオレンジ */
-      --orange-soft: #ffb74d;
-      --purple: #1b5e20;          /* 関東山地・高尾山の深緑 */
-      --purple-light: #81c784;
-      --cream: #f7f4ef;
-      --ink: #3a2f2a;
-      --ink-soft: #6b5d54;
-      --shadow: 0 6px 20px rgba(93, 64, 55, 0.18);
-      --shadow-strong: 0 10px 30px rgba(27, 94, 32, 0.25);
+      --coral: #c2185b;          /* 小金井桜ピンク（小金井公園・玉川上水の桜並木） */
+      --coral-light: #f8bbd0;
+      --orange: #ef6c00;          /* 武蔵野紅葉オレンジ（武蔵野公園・野川公園・はけの紅葉） */
+      --orange-soft: #ffe0b2;
+      --purple: #1976d2;          /* 玉川上水ブルー（玉川上水・野川・はけの湧水） */
+      --purple-light: #bbdefb;
+      --cream: #fce4ec;
+      --ink: #4a0d2e;
+      --ink-soft: #6d3a55;
+      --shadow: 0 6px 20px rgba(194, 24, 91, 0.18);
+      --shadow-strong: 0 10px 30px rgba(239, 108, 0, 0.25);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -47,7 +48,8 @@
     html, body {
       height: 100%;
       font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
-      background: linear-gradient(135deg, var(--cream) 0%, #eaf3df 100%);
+      background: linear-gradient(135deg, var(--cream) 0%, #fff3e0 100%);
+      /* 小金井：小金井桜ピンク × 武蔵野紅葉オレンジ × 玉川上水ブルー */
       color: var(--ink);
       overflow: hidden;
       -webkit-text-size-adjust: 100%;
@@ -76,7 +78,7 @@
       justify-content: space-between;
       padding: 0 20px;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(93, 64, 55, 0.12);
+      box-shadow: 0 2px 10px rgba(194, 24, 91, 0.12);
       border-bottom: 3px solid;
       border-image: linear-gradient(90deg, var(--coral) 0%, var(--orange) 60%, var(--purple) 100%) 1;
     }
@@ -114,7 +116,7 @@
     aside.sidebar {
       width: 320px;
       background: #fff;
-      border-right: 1px solid #f3e0d2;
+      border-right: 1px solid #b2dfdb;
       overflow-y: auto;
       padding: 16px;
       box-shadow: 2px 0 10px rgba(0,0,0,0.04);
@@ -126,7 +128,7 @@
       border-radius: 14px;
       padding: 14px;
       margin-bottom: 14px;
-      border: 1px solid #f3e0d2;
+      border: 1px solid #b2dfdb;
     }
     .panel h3 {
       font-family: 'M PLUS Rounded 1c', sans-serif;
@@ -259,7 +261,7 @@
       padding: 6px 10px;
       border-radius: 6px;
       background: var(--purple-light);
-      color: #5e4b8b;
+      color: var(--ink);
       margin-bottom: 8px;
       font-weight: 500;
     }
@@ -460,7 +462,7 @@
         max-height: 75vh;
         height: auto;
         border-right: none;
-        border-top: 1px solid #f3e0d2;
+        border-top: 1px solid #b2dfdb;
         border-radius: 18px 18px 0 0;
         transform: translateY(calc(100% - 44px));
         transition: transform 0.3s ease;
@@ -504,7 +506,7 @@
         color: var(--coral);
         font-size: 0.9rem;
         cursor: pointer;
-        border-bottom: 1px solid #f3e0d2;
+        border-bottom: 1px solid #b2dfdb;
       }
       .sidebar-handle i { color: var(--orange); }
 
@@ -646,11 +648,11 @@
       color: #fff;
       font-size: 12px;
     }
-    .poi-cityhall { background: #5d4037; }
-    .poi-public   { background: #e65100; }
+    .poi-cityhall { background: #c2185b; }
+    .poi-public   { background: #ef6c00; }
     .poi-station  { background: #5e8fd6; }
-    .poi-park     { background: #7cb342; }
-    .poi-temple   { background: #1b5e20; }
+    .poi-park     { background: #43a047; }
+    .poi-temple   { background: #1976d2; }
     .poi-evac_shelter   { background: #2e8b57; }
     .poi-evac_emergency { background: #c0392b; }
     .poi-evac_wide      { background: #d4a017; }
@@ -706,15 +708,14 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="八王子高低">
   <link rel="apple-touch-icon" href="icon.svg">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
 </head>
 <body>
 
 <header class="app-header">
-  <h1><i class="fa-solid fa-mountain-sun"></i> 八王子市 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
-  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都八王子市</span>
+  <h1><i class="fa-solid fa-mountain-sun"></i> 小金井市 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
+  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都小金井市</span>
 </header>
 
 <main class="app-main">
@@ -784,12 +785,12 @@
       <h3><i class="fa-solid fa-map-pin"></i> 施設の表示</h3>
       <label class="check-item">
         <input type="checkbox" data-poi="cityhall" checked />
-        <span class="check-color" style="background:#5d4037;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
-        <span>八王子市役所</span>
+        <span class="check-color" style="background:#c2185b;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
+        <span>小金井市役所</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="public" />
-        <span class="check-color" style="background:#e65100;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
+        <span class="check-color" style="background:#ef6c00;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
         <span>市の施設</span>
       </label>
       <label class="check-item">
@@ -799,12 +800,12 @@
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="park" />
-        <span class="check-color" style="background:#7cb342;"><i class="fa-solid fa-tree poi-legend-ico"></i></span>
+        <span class="check-color" style="background:#43a047;"><i class="fa-solid fa-tree poi-legend-ico"></i></span>
         <span>公園</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="temple" />
-        <span class="check-color" style="background:#8d6e63;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
+        <span class="check-color" style="background:#1976d2;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
         <span>寺社仏閣</span>
       </label>
     </div>
@@ -924,12 +925,12 @@
 
 <script>
 // ============================================================
-// 八王子市 高低マップ
+// 小金井市 高低マップ
 // ============================================================
 
-// 八王子市役所（初期中心）
-const CITY_CENTER = [35.6661, 139.3360];
-const INIT_ZOOM = 12;
+// 小金井市役所（前原町3丁目・武蔵小金井駅南）を中心
+const CITY_CENTER = [35.6982, 139.5052];
+const INIT_ZOOM = 13;
 
 // 国土地理院タイル
 const GSI_URLS = {
@@ -987,17 +988,19 @@ const hazardLayers = {
 };
 
 // =======================
-// 八王子市 施設データ (POI)
-// 東京都最大面積(186km²)。高尾山・陣馬山・八王子城跡・滝山城跡・北浅川/南浅川/浅川
-// 多摩丘陵・加住丘陵・由木地区・南大沢・北条氏照のお膝元・宿場町
+// 小金井市 施設データ (POI)
+// 武蔵野台地の中央（武蔵野段丘・面積11.30km²）・国分寺崖線（はけ・市南部を東西に貫く崖と湧水）・
+// 玉川上水（市中央部を東西に貫く・小金井桜＝国指定名勝）・野川（はけの南・市南端）・
+// 都立小金井公園（江戸東京たてもの園）・都立武蔵野公園・都立野川公園・東京農工大学農学部・
+// 東京学芸大学・法政大学小金井キャンパス・JR中央線（武蔵小金井／東小金井）／西武多摩川線（新小金井）
 // =======================
 const POI_DATA = {
   cityhall: {
-    label: '八王子市役所',
+    label: '小金井市役所',
     icon: 'fa-building',
     cssClass: 'poi-cityhall',
     items: [
-      { name: '八王子市役所', lat: 35.6661, lng: 139.3360 }
+      { name: '小金井市役所（前原町3丁目・武蔵小金井駅南）', lat: 35.6982, lng: 139.5052 }
     ]
   },
   public: {
@@ -1005,43 +1008,40 @@ const POI_DATA = {
     icon: 'fa-landmark',
     cssClass: 'poi-public',
     items: [
-      // 本庁・支所（東京都最大面積、10支所体制）
-      { name: '八王子市役所（本庁）', lat: 35.6661, lng: 139.3360 },
-      { name: '元八王子事務所', lat: 35.6622, lng: 139.3010 },
-      { name: '恩方事務所', lat: 35.6928, lng: 139.2532 },
-      { name: '川口事務所', lat: 35.7068, lng: 139.3115 },
-      { name: '加住事務所', lat: 35.6963, lng: 139.3328 },
-      { name: '由井事務所', lat: 35.6440, lng: 139.3458 },
-      { name: '横山事務所', lat: 35.6580, lng: 139.3210 },
-      { name: '浅川事務所', lat: 35.6485, lng: 139.2913 },
-      { name: '由木事務所', lat: 35.6248, lng: 139.3915 },
-      { name: '由木東事務所', lat: 35.6107, lng: 139.4068 },
-      { name: '南大沢事務所', lat: 35.6173, lng: 139.3678 },
+      // 本庁・行政
+      { name: '小金井市役所 本庁舎（前原町・武蔵小金井駅南徒歩7分）', lat: 35.6982, lng: 139.5052 },
+      { name: '小金井市役所 第二庁舎（前原町・本庁舎隣接）', lat: 35.6985, lng: 139.5058 },
+      { name: '小金井市保健センター（前原町・本庁舎隣接）', lat: 35.6988, lng: 139.5060 },
+      // 駅前複合施設・文化拠点
+      { name: '小金井 宮地楽器ホール（小金井市民交流センター・本町・武蔵小金井駅南口直結）', lat: 35.7002, lng: 139.5045 },
+      { name: '小金井 公民館 本館（前原町・市役所隣接）', lat: 35.6988, lng: 139.5048 },
+      { name: '小金井 公民館 緑分館（緑町）', lat: 35.7048, lng: 139.5135 },
+      { name: '小金井 公民館 東分館（東町）', lat: 35.7042, lng: 139.5252 },
+      { name: '小金井 公民館 貫井北分館（貫井北町）', lat: 35.7095, lng: 139.5042 },
+      { name: '小金井 公民館 貫井南分館（貫井南町）', lat: 35.6952, lng: 139.4988 },
+      // 文化・観光
+      { name: '中村研一記念 小金井市立はけの森美術館（中町・はけの上・国登録有形文化財旧邸）', lat: 35.6938, lng: 139.5035 },
+      { name: '江戸東京たてもの園（桜町・小金井公園内・前川國男邸・高橋是清邸など）', lat: 35.7180, lng: 139.5145 },
+      { name: 'シェイクスピアシアター（緑町・小金井市芸術文化振興財団）', lat: 35.7028, lng: 139.5128 },
       // 図書館
-      { name: '中央図書館', lat: 35.6645, lng: 139.3220 },
-      { name: '南大沢図書館', lat: 35.6175, lng: 139.3680 },
-      { name: '川口図書館', lat: 35.7070, lng: 139.3120 },
-      { name: '生涯学習センター図書館（八王子駅前）', lat: 35.6582, lng: 139.3380 },
-      { name: '北野図書館', lat: 35.6418, lng: 139.3717 },
-      { name: '由木中央図書館', lat: 35.6248, lng: 139.3915 },
-      // 文化・市民施設
-      { name: '八王子市芸術文化会館 いちょうホール', lat: 35.6588, lng: 139.3373 },
-      { name: 'オリンパスホール八王子', lat: 35.6555, lng: 139.3385 },
-      { name: '八王子市学園都市センター', lat: 35.6580, lng: 139.3370 },
-      { name: '八王子郷土資料館', lat: 35.6605, lng: 139.3192 },
-      { name: '八王子城跡ガイダンス施設', lat: 35.6593, lng: 139.2823 },
-      { name: '夕やけ小やけふれあいの里', lat: 35.7282, lng: 139.2202 },
-      { name: '陵南公園 みなみ野郷土資料コーナー', lat: 35.6478, lng: 139.3013 },
+      { name: '小金井市立 図書館 本館（本町・武蔵小金井駅南）', lat: 35.7000, lng: 139.5040 },
+      { name: '小金井市立 図書館 東分室（東町）', lat: 35.7045, lng: 139.5258 },
+      { name: '小金井市立 図書館 緑分室（緑町・緑公民館内）', lat: 35.7048, lng: 139.5135 },
+      { name: '小金井市立 図書館 貫井北分室（貫井北町）', lat: 35.7095, lng: 139.5042 },
+      { name: '小金井市立 図書館 貫井南分室（貫井南町）', lat: 35.6952, lng: 139.4988 },
       // スポーツ施設
-      { name: '富士森公園陸上競技場', lat: 35.6440, lng: 139.3225 },
-      { name: 'エスフォルタアリーナ八王子（総合体育館）', lat: 35.6432, lng: 139.3230 },
-      { name: '宇津木台公園野球場', lat: 35.6913, lng: 139.3437 },
-      { name: '小宮公園', lat: 35.6873, lng: 139.3422 },
+      { name: '小金井市 総合体育館（貫井北町・都立小金井公園近・小金井街道沿い）', lat: 35.7115, lng: 139.5095 },
+      { name: '小金井市民交流センター スポーツ施設（本町）', lat: 35.7000, lng: 139.5048 },
+      { name: '栗山公園 健康運動センター（東町・栗山公園内）', lat: 35.7065, lng: 139.5245 },
+      // 産業・観光
+      { name: '小金井市観光まちおこし協会（本町・武蔵小金井駅南）', lat: 35.7005, lng: 139.5045 },
+      { name: '小金井 シルバー人材センター（本町・武蔵小金井駅南近）', lat: 35.7000, lng: 139.5025 },
       // 防災・行政
-      { name: '八王子市消防本部', lat: 35.6663, lng: 139.3362 },
-      { name: '八王子警察署', lat: 35.6650, lng: 139.3287 },
-      { name: '南大沢警察署', lat: 35.6193, lng: 139.3725 },
-      { name: '高尾警察署', lat: 35.6480, lng: 139.2895 }
+      { name: '小金井警察署（本町・連雀通り近・武蔵小金井駅北東）', lat: 35.7028, lng: 139.5090 },
+      { name: '小金井消防署 本署（前原町・市役所近）', lat: 35.6968, lng: 139.5078 },
+      { name: '小金井消防署 東小金井出張所（梶野町・東小金井駅北）', lat: 35.7062, lng: 139.5240 },
+      { name: '小金井郵便局（本町・市内中央局）', lat: 35.7012, lng: 139.5078 },
+      { name: '武蔵小金井駅前郵便局（本町・駅南口前）', lat: 35.7000, lng: 139.5052 }
     ]
   },
   station: {
@@ -1049,35 +1049,17 @@ const POI_DATA = {
     icon: 'fa-train',
     cssClass: 'poi-station',
     items: [
-      // JR中央線（市内中央軸）
-      { name: '八王子駅（JR中央線・横浜線・八高線）', lat: 35.6557, lng: 139.3389 },
-      { name: '西八王子駅（JR中央線）', lat: 35.6580, lng: 139.3128 },
-      { name: '高尾駅（JR中央線・京王高尾線）', lat: 35.6420, lng: 139.2840 },
-      // JR横浜線
-      { name: '北八王子駅（JR八高線）', lat: 35.6815, lng: 139.3470 },
-      { name: '小宮駅（JR八高線）', lat: 35.6913, lng: 139.3520 },
-      { name: '片倉駅（JR横浜線・京王高尾線）', lat: 35.6438, lng: 139.3358 },
-      { name: '八王子みなみ野駅（JR横浜線）', lat: 35.6300, lng: 139.3210 },
-      // 京王線
-      { name: '京王八王子駅（京王線終点）', lat: 35.6583, lng: 139.3403 },
-      { name: '北野駅（京王線・京王高尾線分岐）', lat: 35.6415, lng: 139.3705 },
-      { name: '長沼駅（京王線）', lat: 35.6502, lng: 139.4517 },
-      // 京王高尾線
-      { name: '京王片倉駅（京王高尾線）', lat: 35.6442, lng: 139.3415 },
-      { name: '山田駅（京王高尾線）', lat: 35.6485, lng: 139.3210 },
-      { name: 'めじろ台駅（京王高尾線）', lat: 35.6383, lng: 139.3088 },
-      { name: '狭間駅（京王高尾線）', lat: 35.6435, lng: 139.2985 },
-      { name: '高尾山口駅（京王高尾線終点・登山口）', lat: 35.6336, lng: 139.2691 },
-      // 京王相模原線
-      { name: '京王堀之内駅（京王相模原線）', lat: 35.6228, lng: 139.3878 },
-      { name: '南大沢駅（京王相模原線・首都大学東京）', lat: 35.6173, lng: 139.3678 },
-      // 京王動物園線
-      { name: '京王片倉駅（京王高尾線）', lat: 35.6442, lng: 139.3415 },
-      // 多摩モノレール
-      { name: '多摩動物公園駅（京王動物園線・多摩モノレール）', lat: 35.6483, lng: 139.4017 },
-      { name: '松が谷駅（多摩モノレール）', lat: 35.6280, lng: 139.4153 },
-      { name: '大塚・帝京大学駅（多摩モノレール）', lat: 35.6207, lng: 139.4067 },
-      { name: '中央大学・明星大学駅（多摩モノレール）', lat: 35.6253, lng: 139.4047 }
+      // JR中央線（市中央を東西に貫く・主要駅2つ）
+      { name: '武蔵小金井駅（JR中央線・本町／中町・市の中心駅・南口に市役所）', lat: 35.7008, lng: 139.5052 },
+      { name: '東小金井駅（JR中央線・梶野町・市東部・東京農工大／法政大最寄）', lat: 35.7032, lng: 139.5235 },
+      // 西武多摩川線（市南端・1駅のみ）
+      { name: '新小金井駅（西武多摩川線・東町・市南東部・野川と中央線の中間）', lat: 35.7058, lng: 139.5305 },
+      // 接続主要駅（隣接自治体）
+      { name: '国分寺駅 ※近隣（JR中央線／西武国分寺線・国多摩湖線・※国分寺市・市西隣）', lat: 35.7008, lng: 139.4801 },
+      { name: '武蔵境駅 ※近隣（JR中央線／西武多摩川線・※武蔵野市・市東隣）', lat: 35.7029, lng: 139.5440 },
+      { name: '多磨駅 ※近隣（西武多摩川線・※府中市・新小金井南隣）', lat: 35.6815, lng: 139.5275 },
+      { name: '花小金井駅 ※近隣（西武新宿線・※小平市・市北東部の最寄）', lat: 35.7268, lng: 139.5078 },
+      { name: '武蔵小金井北口駅前バスターミナル（小金井街道）', lat: 35.7015, lng: 139.5048 }
     ]
   },
   park: {
@@ -1085,37 +1067,44 @@ const POI_DATA = {
     icon: 'fa-tree',
     cssClass: 'poi-park',
     items: [
-      // 山岳・自然
-      { name: '高尾山（599m・ミシュラン三つ星）', lat: 35.6253, lng: 139.2438 },
-      { name: '陣馬山（市境・855m）', lat: 35.6402, lng: 139.1577 },
-      { name: '景信山（727m）', lat: 35.6363, lng: 139.2027 },
-      { name: '小仏城山（670m）', lat: 35.6217, lng: 139.2253 },
-      { name: '都立高尾陣場自然公園', lat: 35.6342, lng: 139.2058 },
-      { name: '裏高尾（小仏川渓谷）', lat: 35.6418, lng: 139.2342 },
-      // 城跡・史跡公園
-      { name: '八王子城跡（国指定史跡・北条氏照居城）', lat: 35.6577, lng: 139.2778 },
-      { name: '滝山城跡（戦国期の名城・桜の名所）', lat: 35.7027, lng: 139.3162 },
-      { name: '片倉城跡公園', lat: 35.6420, lng: 139.3438 },
-      { name: '初沢城跡（高尾駅南）', lat: 35.6378, lng: 139.2787 },
-      // 都市公園
-      { name: '富士森公園（桜・市民の憩い）', lat: 35.6440, lng: 139.3220 },
-      { name: '陵南公園（武蔵陵墓地隣接）', lat: 35.6475, lng: 139.3007 },
-      { name: '小宮公園（武蔵野の雑木林）', lat: 35.6877, lng: 139.3423 },
-      { name: '上柚木公園（陸上競技場）', lat: 35.6090, lng: 139.3927 },
-      { name: '大塚公園（多摩ニュータウン）', lat: 35.6235, lng: 139.4030 },
-      { name: '長池公園（自然館・湧水）', lat: 35.6195, lng: 139.3795 },
-      { name: '長沼公園（南斜面の自然林）', lat: 35.6450, lng: 139.3920 },
-      { name: '宇津貫公園（みなみ野シティ）', lat: 35.6240, lng: 139.3210 },
-      { name: '兵衛川みどりの道', lat: 35.6105, lng: 139.3975 },
-      // 河川・水辺
-      { name: '浅川河川敷（高尾〜長沼橋）', lat: 35.6505, lng: 139.3328 },
-      { name: '南浅川河川敷（陵南公園〜横川橋）', lat: 35.6502, lng: 139.3095 },
-      { name: '北浅川（恩方〜小宮）', lat: 35.6905, lng: 139.2683 },
-      { name: '湯殿川（東浅川〜湯殿橋）', lat: 35.6438, lng: 139.3128 },
-      // 観光地
-      { name: '多摩森林科学園（樹木見本園）', lat: 35.6435, lng: 139.2748 },
-      { name: '夕やけ小やけふれあいの里', lat: 35.7282, lng: 139.2202 },
-      { name: '都立小峰公園（北辺）', lat: 35.7320, lng: 139.2070 }
+      // 都立小金井公園（江戸東京たてもの園・桜の名所・市北部）
+      { name: '都立 小金井公園 正門（桜町・小金井街道沿い・五日市街道接続）', lat: 35.7165, lng: 139.5150 },
+      { name: '都立 小金井公園 桜の園（桜町・1700本のヤマザクラ・ソメイヨシノ）', lat: 35.7180, lng: 139.5118 },
+      { name: '都立 小金井公園 江戸東京たてもの園（桜町・歴史的建造物30棟）', lat: 35.7180, lng: 139.5145 },
+      { name: '都立 小金井公園 こどもの広場・サイクリングコース（桜町）', lat: 35.7158, lng: 139.5165 },
+      { name: '都立 小金井公園 弓道場・テニスコート（桜町）', lat: 35.7195, lng: 139.5180 },
+      // 都立武蔵野公園（市南西・国分寺崖線下・くじら山）
+      { name: '都立 武蔵野公園（前原町/東町/新町・はけの下・野川源流域）', lat: 35.6938, lng: 139.5100 },
+      { name: '武蔵野公園 くじら山（東町・芝生丘・凧揚げの名所）', lat: 35.6953, lng: 139.5096 },
+      { name: '武蔵野公園 苗圃（新町・桜・モミジ等の苗木育成地）', lat: 35.6918, lng: 139.5045 },
+      // 都立野川公園（市南端・国分寺崖線・主部は三鷹市・調布市側）
+      { name: '都立 野川公園 北地区（東町・小金井市側入口）', lat: 35.6940, lng: 139.5235 },
+      // 玉川上水（小金井桜・国指定名勝・市中央部を東西に貫く）
+      { name: '玉川上水 小金井桜（関野橋〜境橋・1737年植樹・国指定名勝）', lat: 35.7060, lng: 139.5100 },
+      { name: '玉川上水 関野橋（関野町・五日市街道横断）', lat: 35.7068, lng: 139.4985 },
+      { name: '玉川上水 茜屋橋（梶野町・東小金井北）', lat: 35.7068, lng: 139.5215 },
+      { name: '玉川上水 小金井橋（関野町・小金井橋交差点）', lat: 35.7068, lng: 139.5078 },
+      { name: '玉川上水緑道（市中央部・東西貫通）', lat: 35.7068, lng: 139.5150 },
+      // 野川（はけの南・市南端）
+      { name: '野川 はけの森緑地（中町・国分寺崖線湧水）', lat: 35.6935, lng: 139.5030 },
+      { name: '野川 貫井神社前（貫井南町・湧水）', lat: 35.6940, lng: 139.4985 },
+      { name: '野川 二枚橋（前原町・武蔵野公園接続）', lat: 35.6900, lng: 139.4995 },
+      // はけ（国分寺崖線・湧水）
+      { name: 'はけの道 散策路（中町〜貫井南町・国分寺崖線沿い湧水群）', lat: 35.6945, lng: 139.5020 },
+      { name: '滄浪泉園（貫井南町・はけの湧水池・国登録記念物）', lat: 35.6948, lng: 139.4978 },
+      { name: '美術の森緑地（中町・はけの森美術館裏・湧水）', lat: 35.6938, lng: 139.5032 },
+      { name: '殿ヶ谷戸庭園 ※近隣（※国分寺市・はけ湧水庭園・国名勝）', lat: 35.6988, lng: 139.4790 },
+      // 中央エリア・身近な公園
+      { name: '栗山公園（東町・健康運動センター隣・市中央公園的存在）', lat: 35.7063, lng: 139.5248 },
+      { name: '小金井公園 通り抜けの桜並木（桜町・小金井街道）', lat: 35.7140, lng: 139.5140 },
+      { name: '梶野中央公園（梶野町・東小金井駅近）', lat: 35.7060, lng: 139.5210 },
+      { name: '前原坂上公園（前原町・はけの上）', lat: 35.6968, lng: 139.5035 },
+      { name: '本町 さくら公園（本町・武蔵小金井駅南）', lat: 35.6970, lng: 139.5048 },
+      { name: '貫井公園（貫井北町・市北西）', lat: 35.7110, lng: 139.5025 },
+      { name: '緑センター前広場（緑町）', lat: 35.7048, lng: 139.5132 },
+      { name: '関野公園（関野町・市北西部）', lat: 35.7082, lng: 139.4978 },
+      { name: '東小金井駅 北口広場（梶野町）', lat: 35.7038, lng: 139.5238 },
+      { name: '武蔵小金井駅 南口広場（本町）', lat: 35.7000, lng: 139.5052 }
     ]
   },
   temple: {
@@ -1123,34 +1112,27 @@ const POI_DATA = {
     icon: 'fa-torii-gate',
     cssClass: 'poi-temple',
     items: [
-      // 高尾山系
-      { name: '高尾山 薬王院（真言宗智山派・天狗信仰）', lat: 35.6253, lng: 139.2438 },
-      { name: '高尾山 不動院', lat: 35.6322, lng: 139.2670 },
-      // 八王子城跡・元八王子
-      { name: '宗関寺（北条氏照ゆかり）', lat: 35.6600, lng: 139.2895 },
-      { name: '心源院（北条氏照・古刹）', lat: 35.6855, lng: 139.2772 },
-      { name: '梅洞寺（八王子城下）', lat: 35.6612, lng: 139.2858 },
-      // 八王子市街
-      { name: '八幡八雲神社（八王子総鎮守）', lat: 35.6592, lng: 139.3275 },
-      { name: '子安神社（市内最古の神社）', lat: 35.6537, lng: 139.3370 },
-      { name: '極楽寺（甲州街道の古刹）', lat: 35.6593, lng: 139.3258 },
-      { name: '大善寺（千人同心ゆかり）', lat: 35.6610, lng: 139.3373 },
-      { name: '念仏院', lat: 35.6562, lng: 139.3315 },
-      { name: '本立寺', lat: 35.6608, lng: 139.3192 },
-      // 武蔵陵墓地・南浅川
-      { name: '武蔵陵墓地（大正天皇・昭和天皇陵）', lat: 35.6478, lng: 139.2935 },
-      { name: '高乗寺（高尾駅南）', lat: 35.6385, lng: 139.2785 },
-      // 由木・由井地区
-      { name: '永林寺（由木の古刹）', lat: 35.6238, lng: 139.4035 },
-      { name: '蓮生寺（南大沢）', lat: 35.6207, lng: 139.3695 },
-      { name: '吉祥院（由井）', lat: 35.6452, lng: 139.3478 },
-      // 滝山・加住
-      { name: '滝山神社（滝山城跡内）', lat: 35.7032, lng: 139.3170 },
-      { name: '少林寺（加住）', lat: 35.6972, lng: 139.3308 },
-      // 古墳・遺跡
-      { name: '北大谷古墳', lat: 35.7115, lng: 139.3252 },
-      { name: '船田古墳群', lat: 35.6440, lng: 139.3505 },
-      { name: '緑町熊野神社', lat: 35.6615, lng: 139.3327 }
+      // 主要寺社（はけ・国分寺崖線沿いに湧水と共に立地）
+      { name: '貫井神社（貫井南町・はけの湧水・小金井市総鎮守の一つ）', lat: 35.6948, lng: 139.4988 },
+      { name: '小金井神社（中町・天満宮・市の総鎮守・はけの上）', lat: 35.6960, lng: 139.5028 },
+      { name: '金蔵院（中町・天台宗・小金井神社別当寺）', lat: 35.6962, lng: 139.5032 },
+      { name: '三楽院（前原町・真言宗豊山派）', lat: 35.6975, lng: 139.5028 },
+      { name: '東漸寺（中町・曹洞宗）', lat: 35.6952, lng: 139.5035 },
+      // 北部・桜町・関野町
+      { name: '関野神社（関野町・関野鎮守）', lat: 35.7082, lng: 139.4965 },
+      { name: '稲穂神社（緑町・小金井市役所北）', lat: 35.7038, lng: 139.5095 },
+      { name: '南光院（緑町・天台宗）', lat: 35.7032, lng: 139.5108 },
+      // 東部・梶野町・東町
+      { name: '梶野神社（梶野町・東小金井近）', lat: 35.7058, lng: 139.5230 },
+      { name: '海岸寺（梶野町・曹洞宗・東小金井）', lat: 35.7045, lng: 139.5215 },
+      { name: '十二神社（東町・新小金井近）', lat: 35.7045, lng: 139.5290 },
+      // 西部・貫井北町
+      { name: '真蔵院（貫井北町・真言宗豊山派・はけの上）', lat: 35.7080, lng: 139.5012 },
+      { name: '貫井北町稲荷神社（貫井北町）', lat: 35.7095, lng: 139.5008 },
+      // 桜町・小金井公園周辺
+      { name: '天神稲荷神社（桜町・小金井公園近）', lat: 35.7150, lng: 139.5085 },
+      // その他
+      { name: '本町稲荷神社（本町・武蔵小金井駅南）', lat: 35.6988, lng: 139.5052 }
     ]
   },
   evac_shelter: {
@@ -1158,60 +1140,28 @@ const POI_DATA = {
     icon: 'fa-house-chimney-medical',
     cssClass: 'poi-evac_shelter',
     items: [
-      // 八王子市は市立小中学校が極めて多く（約70校）、それぞれが指定避難所
-      // 八王子地区（中心市街地）
-      { name: '八王子市立第一小学校', lat: 35.6580, lng: 139.3322 },
-      { name: '八王子市立第二小学校', lat: 35.6635, lng: 139.3308 },
-      { name: '八王子市立第三小学校', lat: 35.6498, lng: 139.3328 },
-      { name: '八王子市立第四小学校', lat: 35.6628, lng: 139.3392 },
-      { name: '八王子市立第五小学校', lat: 35.6573, lng: 139.3210 },
-      { name: '八王子市立第六小学校', lat: 35.6635, lng: 139.3208 },
-      { name: '八王子市立第七小学校', lat: 35.6510, lng: 139.3445 },
-      { name: '八王子市立第八小学校', lat: 35.6440, lng: 139.3275 },
-      { name: '八王子市立第十小学校', lat: 35.6562, lng: 139.3055 },
-      { name: '八王子市立第一中学校', lat: 35.6552, lng: 139.3287 },
-      { name: '八王子市立第二中学校', lat: 35.6418, lng: 139.3287 },
-      { name: '八王子市立第三中学校', lat: 35.6635, lng: 139.3215 },
-      { name: '八王子市立第四中学校', lat: 35.6605, lng: 139.3395 },
-      { name: '八王子市立第五中学校', lat: 35.6485, lng: 139.3120 },
-      // 浅川・元八王子地区
-      { name: '八王子市立元八王子小学校', lat: 35.6625, lng: 139.3020 },
-      { name: '八王子市立元八王子東小学校', lat: 35.6680, lng: 139.3072 },
-      { name: '八王子市立浅川小学校', lat: 35.6487, lng: 139.2910 },
-      { name: '八王子市立横川小学校', lat: 35.6622, lng: 139.3128 },
-      { name: '八王子市立元八王子中学校', lat: 35.6620, lng: 139.3008 },
-      // 高尾・恩方地区
-      { name: '八王子市立高尾山学園', lat: 35.6385, lng: 139.2790 },
-      { name: '八王子市立恩方第一小学校', lat: 35.6928, lng: 139.2536 },
-      { name: '八王子市立恩方第二小学校', lat: 35.7195, lng: 139.2275 },
-      { name: '八王子市立恩方中学校', lat: 35.6932, lng: 139.2548 },
-      // 加住・川口地区
-      { name: '八王子市立加住小学校', lat: 35.6963, lng: 139.3328 },
-      { name: '八王子市立川口小学校', lat: 35.7068, lng: 139.3115 },
-      { name: '八王子市立川口中学校', lat: 35.7060, lng: 139.3120 },
-      { name: '八王子市立加住中学校', lat: 35.6975, lng: 139.3322 },
-      // 由井・北野地区
-      { name: '八王子市立由井第一小学校', lat: 35.6440, lng: 139.3458 },
-      { name: '八王子市立由井第二小学校', lat: 35.6395, lng: 139.3635 },
-      { name: '八王子市立由井第三小学校', lat: 35.6315, lng: 139.3415 },
-      { name: '八王子市立由井中学校', lat: 35.6435, lng: 139.3470 },
-      { name: '八王子市立北野中学校', lat: 35.6420, lng: 139.3705 },
-      // 由木地区（多摩ニュータウン）
-      { name: '八王子市立由木中央小学校', lat: 35.6248, lng: 139.3915 },
-      { name: '八王子市立由木東小学校', lat: 35.6107, lng: 139.4068 },
-      { name: '八王子市立由木西小学校', lat: 35.6195, lng: 139.3760 },
-      { name: '八王子市立由木中学校', lat: 35.6255, lng: 139.3925 },
-      { name: '八王子市立松木中学校', lat: 35.6135, lng: 139.3950 },
-      { name: '八王子市立打越中学校', lat: 35.6342, lng: 139.3585 },
-      // 南大沢・みなみ野
-      { name: '八王子市立南大沢小学校', lat: 35.6195, lng: 139.3680 },
-      { name: '八王子市立柏木小学校', lat: 35.6225, lng: 139.3720 },
-      { name: '八王子市立宮上小学校', lat: 35.6258, lng: 139.3838 },
-      { name: '八王子市立秋葉台小学校', lat: 35.6155, lng: 139.3805 },
-      { name: '八王子市立鑓水中学校', lat: 35.6275, lng: 139.3582 },
-      { name: '八王子市立松枝小学校', lat: 35.6312, lng: 139.3215 },
-      { name: '八王子市立みなみ野小学校', lat: 35.6258, lng: 139.3180 },
-      { name: '八王子市立みなみ野中学校', lat: 35.6230, lng: 139.3210 }
+      // 小金井市立小学校（全9校）
+      { name: '小金井市立 小金井第一小学校（本町・市内最古・武蔵小金井駅南）', lat: 35.6988, lng: 139.5078 },
+      { name: '小金井市立 小金井第二小学校（前原町・市役所北）', lat: 35.6972, lng: 139.5048 },
+      { name: '小金井市立 小金井第三小学校（緑町・市役所北東）', lat: 35.7055, lng: 139.5128 },
+      { name: '小金井市立 緑小学校（緑町・小金井街道沿い）', lat: 35.7068, lng: 139.5128 },
+      { name: '小金井市立 本町小学校（本町・連雀通り）', lat: 35.7028, lng: 139.5078 },
+      { name: '小金井市立 前原小学校（前原町・武蔵野公園近）', lat: 35.6948, lng: 139.5018 },
+      { name: '小金井市立 南小学校（貫井南町・はけの下）', lat: 35.6938, lng: 139.4998 },
+      { name: '小金井市立 東小学校（梶野町・東小金井近）', lat: 35.7055, lng: 139.5208 },
+      // 小金井市立中学校（全5校）
+      { name: '小金井市立 小金井第一中学校（本町・市役所東）', lat: 35.6998, lng: 139.5082 },
+      { name: '小金井市立 小金井第二中学校（前原町・武蔵野公園近）', lat: 35.6938, lng: 139.5028 },
+      { name: '小金井市立 緑中学校（緑町・小金井第三小近）', lat: 35.7062, lng: 139.5135 },
+      { name: '小金井市立 東中学校（東町・栗山公園近）', lat: 35.7048, lng: 139.5258 },
+      { name: '小金井市立 南中学校（貫井南町・はけの下）', lat: 35.6932, lng: 139.4988 },
+      // 都立・私立学校・大学（避難所協定校）
+      { name: '都立 小金井北高等学校（緑町４丁目・武蔵小金井駅北）', lat: 35.7068, lng: 139.5128 },
+      { name: '都立 多摩科学技術高等学校（本町・武蔵小金井駅北東）', lat: 35.7068, lng: 139.5132 },
+      { name: '東京農工大学 農学部（中町・武蔵小金井駅北・東京帝大農学部の起源）', lat: 35.7032, lng: 139.5145 },
+      { name: '東京学芸大学（貫井北町・市西部・教員養成大学の中核）', lat: 35.7088, lng: 139.4955 },
+      { name: '法政大学 小金井キャンパス（梶野町・理工学部・情報科学部）', lat: 35.7075, lng: 139.5188 },
+      { name: '中央大学 附属中・高（貫井北町・※小金井市内）', lat: 35.7095, lng: 139.4978 }
     ]
   },
   evac_emergency: {
@@ -1219,21 +1169,18 @@ const POI_DATA = {
     icon: 'fa-person-running',
     cssClass: 'poi-evac_emergency',
     items: [
-      // 浅川氾濫・土砂災害・地震に対応する八王子市の緊急避難場所
-      // 高台・大規模公園・広場
-      { name: '富士森公園（緊急避難場所・桜広場）', lat: 35.6440, lng: 139.3225 },
-      { name: '陵南公園（南浅川沿い高台）', lat: 35.6478, lng: 139.3007 },
-      { name: '小宮公園（武蔵野台地の雑木林）', lat: 35.6877, lng: 139.3423 },
-      { name: '上柚木公園（陸上競技場・広場）', lat: 35.6090, lng: 139.3927 },
-      { name: '長池公園（自然館・由木丘陵）', lat: 35.6195, lng: 139.3795 },
-      { name: '長沼公園（南斜面の自然林）', lat: 35.6450, lng: 139.3920 },
-      { name: '片倉城跡公園（高台）', lat: 35.6420, lng: 139.3438 },
-      { name: '宇津貫公園（みなみ野シティ高台）', lat: 35.6240, lng: 139.3210 },
-      { name: '滝山公園（滝山城跡の高台）', lat: 35.7027, lng: 139.3162 },
-      { name: '八王子城跡（高台・北条氏照居城跡）', lat: 35.6577, lng: 139.2778 },
-      { name: '高尾の森わくわくビレッジ', lat: 35.6500, lng: 139.2725 },
-      { name: '夕やけ小やけふれあいの里（恩方・高台）', lat: 35.7282, lng: 139.2202 },
-      { name: 'エスフォルタアリーナ八王子（大型屋内）', lat: 35.6432, lng: 139.3230 }
+      // 大地震・大規模火災時に緊急で命を守る場所（公園・広場）
+      { name: '都立 小金井公園 一帯（桜町・市最大の避難地）', lat: 35.7175, lng: 139.5140 },
+      { name: '都立 武蔵野公園 くじら山一帯（前原町・南西部避難地）', lat: 35.6905, lng: 139.4988 },
+      { name: '都立 野川公園 北地区（東町・南東部避難地）', lat: 35.6920, lng: 139.5258 },
+      { name: '東京学芸大学 グラウンド（貫井北町・西部広域避難地）', lat: 35.7088, lng: 139.4955 },
+      { name: '東京農工大学 農学部グラウンド（中町・中央部避難地）', lat: 35.7035, lng: 139.5158 },
+      { name: '法政大学 小金井キャンパス グラウンド（梶野町・東部避難地）', lat: 35.7080, lng: 139.5195 },
+      { name: '栗山公園（東町・健康運動センター隣・東部避難地）', lat: 35.7063, lng: 139.5248 },
+      { name: '小金井市役所前広場（前原町）', lat: 35.6985, lng: 139.5052 },
+      { name: '武蔵小金井駅南口広場（本町）', lat: 35.7000, lng: 139.5052 },
+      { name: '東小金井駅 北口広場（梶野町）', lat: 35.7038, lng: 139.5238 },
+      { name: '新小金井駅前広場（東町）', lat: 35.7058, lng: 139.5305 }
     ]
   },
   evac_wide: {
@@ -1241,17 +1188,13 @@ const POI_DATA = {
     icon: 'fa-arrows-to-circle',
     cssClass: 'poi-evac_wide',
     items: [
-      // 大規模火災発生時に一時的に避難する広い場所
-      { name: '富士森公園・陵南公園一帯', lat: 35.6458, lng: 139.3115 },
-      { name: '小宮公園・宇津木台一帯', lat: 35.6895, lng: 139.3430 },
-      { name: '滝山公園・加住丘陵一帯', lat: 35.7035, lng: 139.3170 },
-      { name: '八王子城跡・元八王子丘陵一帯', lat: 35.6585, lng: 139.2790 },
-      { name: '高尾山口・南浅川上流一帯', lat: 35.6340, lng: 139.2705 },
-      { name: '長池公園・由木丘陵一帯', lat: 35.6200, lng: 139.3800 },
-      { name: '上柚木公園・由木東一帯', lat: 35.6095, lng: 139.3935 },
-      { name: '南大沢駅周辺・首都大学東京キャンパス', lat: 35.6173, lng: 139.3678 },
-      { name: '東京家政学院大学キャンパス', lat: 35.6105, lng: 139.4012 },
-      { name: '中央大学多摩キャンパス', lat: 35.6253, lng: 139.4047 }
+      // 大規模火災時に一時的に避難する広い場所
+      { name: '都立 小金井公園・江戸東京たてもの園一帯（桜町・市最大）', lat: 35.7175, lng: 139.5140 },
+      { name: '都立 武蔵野公園・野川公園・武蔵野の森公園一帯（前原町〜東町）', lat: 35.6910, lng: 139.5100 },
+      { name: '東京学芸大学・中央大附属高一帯（貫井北町）', lat: 35.7090, lng: 139.4965 },
+      { name: '東京農工大学農学部・小金井北高一帯（中町・本町）', lat: 35.7048, lng: 139.5125 },
+      { name: '法政大学小金井キャンパス・東小金井駅一帯（梶野町）', lat: 35.7065, lng: 139.5210 },
+      { name: '玉川上水 小金井桜緑道一帯（関野橋〜境橋・市中央東西貫通）', lat: 35.7068, lng: 139.5150 }
     ]
   },
   evac_welfare: {
@@ -1259,21 +1202,24 @@ const POI_DATA = {
     icon: 'fa-hand-holding-heart',
     cssClass: 'poi-evac_welfare',
     items: [
-      // 要配慮者（高齢者・障がい者等）向けの避難所
-      { name: '八王子市保健所', lat: 35.6643, lng: 139.3380 },
-      { name: '八王子市総合保健医療センター', lat: 35.6505, lng: 139.3220 },
-      { name: '八王子市社会福祉協議会', lat: 35.6588, lng: 139.3383 },
-      { name: '八王子市障害者福祉センター', lat: 35.6560, lng: 139.3318 },
-      { name: '八王子市子ども家庭支援センター（中央）', lat: 35.6655, lng: 139.3365 },
-      { name: '八王子市高齢者あんしん相談センター（中央）', lat: 35.6663, lng: 139.3375 },
-      { name: '八王子市高齢者あんしん相談センター（南大沢）', lat: 35.6175, lng: 139.3685 },
-      { name: '特別養護老人ホーム 浅川苑（浅川）', lat: 35.6490, lng: 139.2915 },
-      { name: '特別養護老人ホーム みなみ野（みなみ野）', lat: 35.6293, lng: 139.3225 },
-      { name: '特別養護老人ホーム 由木かたくりの里', lat: 35.6125, lng: 139.4055 },
-      { name: '特別養護老人ホーム 高尾みどりの郷', lat: 35.6442, lng: 139.2855 },
-      { name: '介護老人保健施設 楽寿園（加住）', lat: 35.6980, lng: 139.3340 },
-      { name: '由井保健福祉センター', lat: 35.6435, lng: 139.3478 },
-      { name: '南大沢保健福祉センター', lat: 35.6180, lng: 139.3680 }
+      // 小金井市の保健福祉拠点
+      { name: '小金井市 保健センター（前原町・市役所隣接）', lat: 35.6988, lng: 139.5060 },
+      { name: '小金井市 地域包括支援センター 本町・東町（本町）', lat: 35.7008, lng: 139.5082 },
+      { name: '小金井市 地域包括支援センター 前原・貫井南（前原町）', lat: 35.6968, lng: 139.5038 },
+      { name: '小金井市 地域包括支援センター 緑・梶野（緑町）', lat: 35.7048, lng: 139.5130 },
+      { name: '小金井市 障害者地域自立生活支援センター（前原町）', lat: 35.6978, lng: 139.5058 },
+      // 特別養護老人ホーム
+      { name: '特別養護老人ホーム ボンセジュール小金井（梶野町）', lat: 35.7070, lng: 139.5215 },
+      { name: '特別養護老人ホーム 小金井あんず苑（東町）', lat: 35.7042, lng: 139.5265 },
+      { name: '特別養護老人ホーム 白十字 八重ざくら（緑町）', lat: 35.7062, lng: 139.5118 },
+      // 介護老人保健施設
+      { name: '介護老人保健施設 こがねい（貫井南町・はけの下）', lat: 35.6938, lng: 139.4985 },
+      // 病院（地域中核）
+      { name: '武蔵野赤十字病院 ※近隣（境南町・※武蔵野市・三次救急・市東隣）', lat: 35.7038, lng: 139.5468 },
+      { name: '桜町病院（桜町・小金井公園南・地域中核）', lat: 35.7128, lng: 139.5115 },
+      { name: '小金井つるかめクリニック（本町・駅近）', lat: 35.7005, lng: 139.5068 },
+      { name: '東京小児療育病院（中町・小児医療専門）', lat: 35.6968, lng: 139.5078 },
+      { name: '聖ヨハネ会 桜町病院 ホスピス（桜町）', lat: 35.7130, lng: 139.5118 }
     ]
   }
 };
@@ -1318,7 +1264,7 @@ function setPOIVisibility(category, visible) {
   }
 }
 
-// 初期表示：八王子市役所のみON
+// 初期表示：小金井市役所のみON
 setPOIVisibility('cityhall', true);
 
 // カテゴリ切替イベント
@@ -1476,7 +1422,7 @@ function addCSPoint(lat, lng) {
   csMarkers.push(marker);
   if (csPoints.length === 2) {
     csLine = L.polyline(csPoints, {
-      color: '#7cb342',
+      color: '#c2185b',
       weight: 4,
       opacity: 0.8,
       dashArray: '8, 8'
@@ -1549,15 +1495,15 @@ function renderCrossSection(labels, data, totalDist) {
       datasets: [{
         label: '標高 (m)',
         data: data,
-        borderColor: '#5d4037',
+        borderColor: '#c2185b',
         backgroundColor: (context) => {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
-          if (!chartArea) return 'rgba(93,64,55,0.2)';
+          if (!chartArea) return 'rgba(194,24,91,0.2)';
           const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          gradient.addColorStop(0, 'rgba(27,94,32,0.6)');
-          gradient.addColorStop(0.5, 'rgba(230,81,0,0.35)');
-          gradient.addColorStop(1, 'rgba(93,64,55,0.15)');
+          gradient.addColorStop(0, 'rgba(194,24,91,0.6)');
+          gradient.addColorStop(0.5, 'rgba(239,108,0,0.32)');
+          gradient.addColorStop(1, 'rgba(25,118,210,0.12)');
           return gradient;
         },
         fill: true,
@@ -1582,14 +1528,14 @@ function renderCrossSection(labels, data, totalDist) {
       },
       scales: {
         x: {
-          title: { display: true, text: '地点 A からの距離 (m)', color: '#6b5b55' },
-          ticks: { color: '#6b5b55', maxTicksLimit: 10 },
-          grid: { color: '#f3e0d2' }
+          title: { display: true, text: '地点 A からの距離 (m)', color: '#1a2e1a' },
+          ticks: { color: '#1a2e1a', maxTicksLimit: 10 },
+          grid: { color: '#c8e6c9' }
         },
         y: {
-          title: { display: true, text: '標高 (m)', color: '#6b5b55' },
-          ticks: { color: '#6b5b55' },
-          grid: { color: '#f3e0d2' }
+          title: { display: true, text: '標高 (m)', color: '#1a2e1a' },
+          ticks: { color: '#1a2e1a' },
+          grid: { color: '#c8e6c9' }
         }
       }
     }
@@ -1807,14 +1753,14 @@ function init3D() {
       }
     }, 300);
 
-    // 空（高尾山の朝霧・山里の小中トーン）
+    // 空（小金井桜の朝・武蔵野紅葉・玉川上水の青トーン）
     try {
       map3d.setSky({
-        'sky-color': '#b9d5e8',
+        'sky-color': '#f8bbd0',
         'sky-horizon-blend': 0.7,
-        'horizon-color': '#dcc7b0',
+        'horizon-color': '#ffe0b2',
         'horizon-fog-blend': 0.6,
-        'fog-color': '#f7f4ef',
+        'fog-color': '#fce4ec',
         'fog-ground-blend': 0.4
       });
     } catch(e) { /* 旧バージョン互換 */ }
@@ -2009,15 +1955,15 @@ window.addEventListener('unhandledrejection', (e) => {
 // =======================
 updateCSStatus();
 
-// 八王子市の範囲を少し強調表示（概観：高尾山・陣馬山と多摩丘陵に囲まれた東京都最大面積の市）
-const hachiojiBounds = L.rectangle([[35.580, 139.190], [35.740, 139.450]], {
-  color: '#5d4037',
+// 小金井市の範囲を少し強調表示（武蔵野台地中央・国分寺崖線「はけ」・玉川上水・野川）
+const koganeiBounds = L.rectangle([[35.685, 139.485], [35.730, 139.540]], {
+  color: '#c2185b',
   weight: 2,
   fillOpacity: 0,
   dashArray: '6, 6'
 }).addTo(map2d);
 
-console.log('🏯 八王子市 高低マップ 起動完了');
+console.log('🌸 小金井市 高低マップ 起動完了');
 
 // =======================
 // PWA: Service Worker 登録
