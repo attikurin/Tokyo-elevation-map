@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="東京 高低マップのオフライン版（PWA）の使い方と導入方法の詳細説明ページ">
+<meta name="description" content="東京 高低マップのオフライン版（PWA）の使い方と導入方法の詳細説明ページ。28自治体（特別区14・多摩地域14）＋特別篇1でPWA対応済み。">
 <title>オフライン版について | 東京 高低マップ</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
@@ -18,6 +18,8 @@
   --purple: #b39ddb;
   --purple-deep: #9575cd;
   --green: #66bb6a;
+  --green-deep: #43a047;
+  --blue: #5e8fd6;
   --bg-cream: #fff9f5;
   --text-dark: #4a4a4a;
   --text-gray: #8b8b8b;
@@ -44,6 +46,7 @@ body {
   border-bottom: 3px solid transparent;
   border-image: linear-gradient(90deg, var(--coral), var(--purple)) 1;
   text-align: center;
+  position: relative;
 }
 
 .page-header h1 {
@@ -116,12 +119,44 @@ body {
   display: inline-block;
   margin-top: 16px;
   padding: 6px 18px;
-  background: linear-gradient(90deg, var(--orange), var(--coral));
+  background: linear-gradient(90deg, var(--green-deep), var(--green));
   color: white;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
+}
+
+.progress-meter {
+  margin-top: 14px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #f5f0ff;
+  border-radius: 12px;
+  padding: 4px;
+  position: relative;
+  overflow: hidden;
+  height: 24px;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, var(--green-deep), var(--green));
+  height: 100%;
+  border-radius: 8px;
+  width: 45.2%; /* 28/62 = 45.2% */
+  transition: width 0.6s;
+}
+
+.progress-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.75rem;
+  color: var(--text-dark);
+  font-weight: 700;
+  text-shadow: 0 0 4px rgba(255,255,255,0.85);
 }
 
 /* Section */
@@ -182,7 +217,7 @@ section li {
 
 .comparison tr:nth-child(even) { background: #fff9f5; }
 
-.comparison .ok { color: var(--green); font-weight: 700; }
+.comparison .ok { color: var(--green-deep); font-weight: 700; }
 .comparison .ng { color: var(--coral); font-weight: 700; }
 .comparison .partial { color: var(--orange); font-weight: 700; }
 
@@ -253,44 +288,109 @@ section li {
 .download-section h3 { color: var(--purple-deep); }
 .download-section h3 i { color: var(--purple); }
 
+.area-group {
+  margin-top: 18px;
+}
+
+.area-group-title {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-size: 0.95rem;
+  color: var(--purple-deep);
+  font-weight: 700;
+  margin-bottom: 8px;
+  padding: 6px 12px;
+  background: linear-gradient(90deg, #f0e7ff, #fff);
+  border-radius: 8px;
+  border-left: 4px solid var(--purple);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.area-group-title .count {
+  font-size: 0.8rem;
+  color: var(--text-gray);
+  font-weight: 500;
+}
+
 .download-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   gap: 10px;
-  margin: 16px 0;
+  margin-bottom: 6px;
 }
 
 .dl-item {
   background: white;
   border: 2px solid var(--border-soft);
   border-radius: 12px;
-  padding: 14px;
+  padding: 12px 10px;
   text-align: center;
   transition: all 0.25s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.dl-item:hover {
+  border-color: var(--coral);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
 }
 
 .dl-item.pending {
   opacity: 0.55;
   background: #f8f8f8;
+  cursor: default;
+}
+
+.dl-item.pending:hover {
+  border-color: var(--border-soft);
+  box-shadow: none;
+  transform: none;
+}
+
+.dl-item.special {
+  background: linear-gradient(135deg, #fff5e6 0%, #fff 100%);
+  border-color: var(--orange);
 }
 
 .dl-item .city-name {
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-dark);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   display: block;
+  font-size: 0.92rem;
+}
+
+.dl-item .city-sub {
+  font-size: 0.7rem;
+  color: var(--text-gray);
+  display: block;
+  margin-bottom: 6px;
+  line-height: 1.4;
 }
 
 .dl-item .dl-status {
-  font-size: 0.75rem;
-  padding: 3px 10px;
+  font-size: 0.7rem;
+  padding: 2px 8px;
   border-radius: 12px;
   display: inline-block;
 }
 
 .dl-item .dl-status.ready {
   background: #e8f5e9;
-  color: var(--green);
+  color: var(--green-deep);
+}
+
+.dl-item .dl-status.core {
+  background: #e3f2fd;
+  color: var(--blue);
+}
+
+.dl-item .dl-status.special {
+  background: #fff3e0;
+  color: #ef6c00;
 }
 
 .dl-item .dl-status.coming {
@@ -326,6 +426,9 @@ footer a {
   .comparison th, .comparison td { padding: 8px 6px; }
   .step-list li { padding: 12px 14px 12px 50px; font-size: 0.9rem; }
   .download-grid { grid-template-columns: 1fr 1fr; }
+  .dl-item { padding: 10px 6px; }
+  .dl-item .city-name { font-size: 0.85rem; }
+  .dl-item .city-sub { font-size: 0.65rem; }
 }
 </style>
 </head>
@@ -344,13 +447,17 @@ footer a {
     <div class="hero-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
     <h2>災害時・圏外でも使える標高マップ</h2>
     <p>一度オンラインで開いたページは、ブラウザのキャッシュ機能を使って<strong>ネット接続がなくても閲覧可能</strong>になります。スマホの「ホーム画面に追加」でアプリのように使えます。</p>
-    <div class="status-banner" style="background:linear-gradient(90deg, #66bb6a, #4caf50);"><i class="fa-solid fa-check-circle"></i> 既存4自治体で利用可能（ポータル含む）</div>
+    <div class="status-banner"><i class="fa-solid fa-check-circle"></i> 東京都内 28/62 自治体 ＋ 特別篇1 でPWA対応済み</div>
+    <div class="progress-meter" aria-label="対応進捗">
+      <div class="progress-bar"></div>
+      <span class="progress-label">28 / 62 (45.2%)</span>
+    </div>
   </div>
 
   <!-- 通常版との違い -->
   <section>
     <h3><i class="fa-solid fa-scale-balanced"></i>通常版との違い</h3>
-    <p>本プロジェクトでは、用途に応じて2つの利用モードを提供予定です。</p>
+    <p>本プロジェクトでは、用途に応じて2つの利用モードを提供しています。</p>
     <table class="comparison">
       <thead>
         <tr>
@@ -407,7 +514,7 @@ footer a {
   <!-- PWA の仕組み -->
   <section>
     <h3><i class="fa-solid fa-cogs"></i>PWA（Progressive Web App）の仕組み</h3>
-    <p>オフライン版はPWAという技術を採用予定です。難しい専門用語は不要で、以下のシンプルな仕組みです。</p>
+    <p>オフライン版はPWAという技術を採用しています。難しい専門用語は不要で、以下のシンプルな仕組みです。</p>
     <ul>
       <li><strong>Service Worker</strong>：ブラウザが自動的にHTML・CSS・地図画像をキャッシュ（保存）します</li>
       <li><strong>manifest.json</strong>：「ホーム画面に追加」でアプリのように使える設定ファイルです</li>
@@ -421,7 +528,7 @@ footer a {
   <!-- 使い方 -->
   <section>
     <h3><i class="fa-solid fa-list-check"></i>使い方</h3>
-    <p><strong>対応済み：</strong>府中市・板橋区・港区・江東区・ポータル</p>
+    <p>東京都内28自治体（特別区14・多摩地域14）＋ 特別篇（取手市）＋ 共通コア方式の千代田区が現在ご利用いただけます。</p>
     <ol class="step-list">
       <li><strong>対応自治体のページを開く</strong>：ポータルから地図または一覧で選択。Service Workerが自動でアプリ本体をキャッシュします（初回のみ数秒）。</li>
       <li><strong>重要なエリアを事前に閲覧</strong>：自宅・職場・通学路など、必要な地域を2Dで表示。閲覧した地図タイルが自動的にキャッシュされます。3Dモードや各ハザードレイヤーも一度表示しておくとオフラインで使えます。</li>
@@ -465,7 +572,7 @@ footer a {
       </ul>
     </div>
     <div class="note">
-      <strong><i class="fa-solid fa-mobile"></i> 動作環境（想定）</strong>
+      <strong><i class="fa-solid fa-mobile"></i> 動作環境</strong>
       <ul style="margin-top:8px;">
         <li>Android：Chrome / Edge 最新版</li>
         <li>iOS：Safari 15以降（ホーム画面追加でPWA動作）</li>
@@ -474,39 +581,225 @@ footer a {
     </div>
   </section>
 
-  <!-- ダウンロード（準備中） -->
+  <!-- PWA対応自治体 -->
   <section class="download-section">
-    <h3><i class="fa-solid fa-download"></i>自治体別ダウンロード</h3>
-    <p>オフライン版の実装完了後、こちらから各自治体のアプリを「ホーム画面に追加」できるようになります。</p>
-    <div class="download-grid">
-      <a href="../fuchu/index.html" class="dl-item" style="text-decoration:none; color:inherit;">
-        <span class="city-name">府中市</span>
-        <span class="dl-status ready">PWA対応済み</span>
-      </a>
-      <a href="../itabashi/index.html" class="dl-item" style="text-decoration:none; color:inherit;">
-        <span class="city-name">板橋区</span>
-        <span class="dl-status ready">PWA対応済み</span>
-      </a>
-      <a href="../minato/index.html" class="dl-item" style="text-decoration:none; color:inherit;">
-        <span class="city-name">港区</span>
-        <span class="dl-status ready">PWA対応済み</span>
-      </a>
-      <a href="../koto/index.html" class="dl-item" style="text-decoration:none; color:inherit;">
-        <span class="city-name">江東区</span>
-        <span class="dl-status ready">PWA対応済み</span>
-      </a>
-      <div class="dl-item pending">
-        <span class="city-name">その他58自治体</span>
-        <span class="dl-status coming">順次追加</span>
+    <h3><i class="fa-solid fa-download"></i>PWA対応自治体一覧</h3>
+    <p>各自治体ページを開き、ブラウザの「ホーム画面に追加」でオフライン対応アプリとして利用できます。</p>
+
+    <!-- 特別区 -->
+    <div class="area-group">
+      <div class="area-group-title">
+        <span><i class="fa-solid fa-city"></i> 特別区（23区中）</span>
+        <span class="count">14 / 23</span>
+      </div>
+      <div class="download-grid">
+        <a href="../app/map.html?city=chiyoda" class="dl-item">
+          <span class="city-name">千代田区</span>
+          <span class="city-sub">皇居・神田川低地</span>
+          <span class="dl-status core">共通コア</span>
+        </a>
+        <a href="../chuo/index.html" class="dl-item">
+          <span class="city-name">中央区</span>
+          <span class="city-sub">日本橋・銀座・月島</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../minato/index.html" class="dl-item">
+          <span class="city-name">港区</span>
+          <span class="city-sub">六本木・台場・古川</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../shinjuku/index.html" class="dl-item">
+          <span class="city-name">新宿区</span>
+          <span class="city-sub">神田川・牛込台</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../koto/index.html" class="dl-item">
+          <span class="city-name">江東区</span>
+          <span class="city-sub">隅田川・運河・湾岸</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../meguro/index.html" class="dl-item">
+          <span class="city-name">目黒区</span>
+          <span class="city-sub">目黒川・林試の森</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../shinagawa/index.html" class="dl-item">
+          <span class="city-name">🆕 品川区</span>
+          <span class="city-sub">城南五山・品川神社・天王洲・京浜運河</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../setagaya/index.html" class="dl-item">
+          <span class="city-name">世田谷区</span>
+          <span class="city-sub">多摩川・国分寺崖線</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../shibuya/index.html" class="dl-item">
+          <span class="city-name">渋谷区</span>
+          <span class="city-sub">渋谷川・宇田川谷</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../nakano/index.html" class="dl-item">
+          <span class="city-name">中野区</span>
+          <span class="city-sub">神田川・哲学堂</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../suginami/index.html" class="dl-item">
+          <span class="city-name">杉並区</span>
+          <span class="city-sub">善福寺川・神田川</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../toshima/index.html" class="dl-item">
+          <span class="city-name">豊島区</span>
+          <span class="city-sub">谷端川・池袋台</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../itabashi/index.html" class="dl-item">
+          <span class="city-name">板橋区</span>
+          <span class="city-sub">荒川・石神井川</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../nerima/index.html" class="dl-item">
+          <span class="city-name">練馬区</span>
+          <span class="city-sub">石神井公園・光が丘</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
       </div>
     </div>
-    <div class="note" style="margin-top:16px;">
-      <strong><i class="fa-solid fa-hourglass-half"></i> 実装ロードマップ</strong>
+
+    <!-- 多摩地域 -->
+    <div class="area-group">
+      <div class="area-group-title">
+        <span><i class="fa-solid fa-mountain"></i> 多摩地域（26市中）</span>
+        <span class="count">14 / 26</span>
+      </div>
+      <div class="download-grid">
+        <a href="../hachioji/index.html" class="dl-item">
+          <span class="city-name">八王子市</span>
+          <span class="city-sub">高尾山・浅川・多摩丘陵</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../tachikawa/index.html" class="dl-item">
+          <span class="city-name">立川市</span>
+          <span class="city-sub">国営昭和記念公園・残堀川</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../musashino/index.html" class="dl-item">
+          <span class="city-name">武蔵野市</span>
+          <span class="city-sub">井の頭池・吉祥寺・玉川上水</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../mitaka/index.html" class="dl-item">
+          <span class="city-name">三鷹市</span>
+          <span class="city-sub">ジブリ美術館・国立天文台</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../fuchu/index.html" class="dl-item">
+          <span class="city-name">府中市</span>
+          <span class="city-sub">多摩川・大國魂神社・武蔵国府</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../chofu/index.html" class="dl-item">
+          <span class="city-name">調布市</span>
+          <span class="city-sub">多摩川・国分寺崖線・深大寺</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../machida/index.html" class="dl-item">
+          <span class="city-name">町田市</span>
+          <span class="city-sub">多摩丘陵・境川・薬師池</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../koganei/index.html" class="dl-item">
+          <span class="city-name">小金井市</span>
+          <span class="city-sub">玉川上水・小金井桜・はけ</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../kokubunji/index.html" class="dl-item">
+          <span class="city-name">国分寺市</span>
+          <span class="city-sub">武蔵国分寺跡・お鷹の道・殿ヶ谷戸庭園</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../kunitachi/index.html" class="dl-item">
+          <span class="city-name">🆕 国立市</span>
+          <span class="city-sub">大学通り桜並木・一橋大・谷保天満宮</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../hino/index.html" class="dl-item">
+          <span class="city-name">日野市</span>
+          <span class="city-sub">多摩川・浅川合流・新選組</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../komae/index.html" class="dl-item">
+          <span class="city-name">狛江市</span>
+          <span class="city-sub">多摩川北岸・伊豆美神社</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../tama/index.html" class="dl-item">
+          <span class="city-name">多摩市</span>
+          <span class="city-sub">多摩ニュータウン・乞田川</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../inagi/index.html" class="dl-item">
+          <span class="city-name">稲城市</span>
+          <span class="city-sub">多摩丘陵・三沢川・梨</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 特別篇 -->
+    <div class="area-group">
+      <div class="area-group-title">
+        <span><i class="fa-solid fa-star"></i> 特別篇（東京都外）</span>
+        <span class="count">1</span>
+      </div>
+      <div class="download-grid">
+        <a href="../toride/index.html" class="dl-item special">
+          <span class="city-name">取手市</span>
+          <span class="city-sub">茨城県・利根川・小貝川</span>
+          <span class="dl-status special">特別篇</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 未対応 -->
+    <div class="area-group">
+      <div class="area-group-title">
+        <span><i class="fa-solid fa-hourglass-half"></i> 未実装</span>
+        <span class="count">34 / 62</span>
+      </div>
+      <div class="download-grid">
+        <div class="dl-item pending">
+          <span class="city-name">特別区 残り9</span>
+          <span class="city-sub">文京・台東・墨田・大田・北・荒川・足立・葛飾・江戸川</span>
+          <span class="dl-status coming">順次追加</span>
+        </div>
+        <div class="dl-item pending">
+          <span class="city-name">多摩地域 残り12</span>
+          <span class="city-sub">青梅・昭島・小平・東村山・福生ほか</span>
+          <span class="dl-status coming">順次追加</span>
+        </div>
+        <div class="dl-item pending">
+          <span class="city-name">島しょ部 9町村</span>
+          <span class="city-sub">大島・三宅・八丈・小笠原ほか</span>
+          <span class="dl-status coming">順次追加</span>
+        </div>
+        <div class="dl-item pending">
+          <span class="city-name">町村 4</span>
+          <span class="city-sub">瑞穂・日の出・檜原・奥多摩</span>
+          <span class="dl-status coming">順次追加</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:20px;">
+      <strong><i class="fa-solid fa-flag-checkered"></i> 実装ロードマップ</strong>
       <ol style="margin-top:6px; margin-left:18px;">
         <li>フェーズ1：ポータル＋オフライン説明ページ整備 ✅</li>
-        <li>フェーズ2：既存4自治体のPWA化（Service Worker + manifest.json） ✅（現在地）</li>
-        <li>フェーズ3：共通コア化＋新規自治体追加の仕組み作り</li>
-        <li>フェーズ4：全62自治体対応</li>
+        <li>フェーズ2：既存4自治体のPWA化（Service Worker + manifest.json） ✅</li>
+        <li>フェーズ3：共通コア化（千代田区で稼働中）＋単一HTML方式での新規自治体追加 ✅</li>
+        <li>フェーズ4：特別区14＋多摩14＋特別篇1で <strong>28/62 完了</strong>（現在地） ✅</li>
+        <li>フェーズ5：残り36自治体（特別区9・多摩14・町村4・島しょ9）の対応</li>
+        <li>フェーズ6：全62自治体対応 + 島しょ部の海底地形対応検討</li>
       </ol>
     </div>
   </section>
@@ -516,12 +809,21 @@ footer a {
     <h3><i class="fa-solid fa-circle-question"></i>よくある質問</h3>
     <p><strong>Q. ZIPファイルをダウンロードする必要はありますか？</strong></p>
     <p>いいえ。PWA方式のため、普通にページを開いてブラウザの「ホーム画面に追加」を選ぶだけで、オフライン動作の準備が整います。</p>
+
     <p style="margin-top:14px;"><strong>Q. 一度閲覧すれば永久にオフラインで見られますか？</strong></p>
     <p>ブラウザのキャッシュ容量に依存します。長期間使わないと自動削除される場合があるため、定期的にオンライン閲覧することを推奨します。</p>
+
     <p style="margin-top:14px;"><strong>Q. iPhoneでも使えますか？</strong></p>
     <p>Safari 15以降でご利用いただけます。共有メニューの「ホーム画面に追加」からインストールできます。</p>
-    <p style="margin-top:14px;"><strong>Q. 配信データ通信量はどのくらいですか？</strong></p>
-    <p>初回閲覧時に自治体あたり約1〜5MB程度（地図タイル除く）。地図タイルは閲覧範囲に応じて追加されます。</p>
+
+    <p style="margin-top:14px;"><strong>Q. 通信データ量はどのくらいですか？</strong></p>
+    <p>初回閲覧時に自治体あたり約1〜5MB程度（地図タイル除く）。地図タイルは閲覧範囲・ズームレベルに応じて追加されます。災害想定エリアを Zoom 15〜16 で一通り閲覧した場合、概ね 10〜30MB 程度が目安です。</p>
+
+    <p style="margin-top:14px;"><strong>Q. 「単一HTML方式」と「共通コア方式」は何が違いますか？</strong></p>
+    <p><strong>単一HTML方式</strong>：自治体ごとに独自テーマ・固有 POI を埋め込んだ専用 HTML を配置（既存24自治体）。色やレイアウトをきめ細かくカスタマイズできます。<br><strong>共通コア方式</strong>：1つの汎用 HTML（<code>app/map.html</code>）に対し、自治体ごとの JSON データを差し込んで生成（千代田区）。新規追加コストが低い利点があります。</p>
+
+    <p style="margin-top:14px;"><strong>Q. 特別篇（取手市）はなぜ含まれていますか？</strong></p>
+    <p>下総台地と利根川・小貝川の興味深い地形が、東京都内の自治体と比較する上で参考になるためです。東京都の枠を超えた地理的なテーマ研究用に位置付けています。</p>
   </section>
 
   <div style="text-align:center; margin-top:30px;">
@@ -533,12 +835,12 @@ footer a {
 </main>
 
 <footer>
-  <p>© 2026 東京 高低マップ プロジェクト | <a href="../index.html">ポータル</a></p>
+  <p>© 2026 東京 高低マップ プロジェクト | <a href="../index.html">ポータル</a> | 最終更新: 2026-06-09</p>
   <p style="margin-top:6px;">データ出典：国土地理院・国土交通省ハザードマップポータル・各自治体公開情報</p>
 </footer>
 
 <script>
-console.log('🔌 オフライン版説明ページ 起動完了');
+console.log('🔌 オフライン版説明ページ 起動完了 - 28/62 自治体対応');
 </script>
 
 </body>
