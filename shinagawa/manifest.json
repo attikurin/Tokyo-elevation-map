@@ -1,0 +1,22 @@
+{
+  "name": "品川区 高低マップ",
+  "short_name": "品川高低",
+  "description": "東京都品川区（武蔵野台地南東端の城南五山と目黒川／立会川／勝島運河の低地・旧東海道品川宿・天王洲アイル・京浜運河）の3D地形・標高断面図・ハザード重ね合わせマップ。御殿山・島津山・池田山・花房山・八ツ山の高台、しながわ水族館、大井競馬場、品川神社（東海七福神・都内最大級富士塚）、荏原神社、旧東海道、戸越銀座商店街などを可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#e1f5fe",
+  "theme_color": "#0277bd",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

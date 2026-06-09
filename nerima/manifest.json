@@ -1,0 +1,22 @@
+{
+  "name": "練馬区 高低マップ",
+  "short_name": "練馬高低",
+  "description": "東京都練馬区（武蔵野台地・都内最大の住宅地と農地・白子川／石神井川／田柄川（暗渠）／中村川（暗渠））の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。石神井公園（三宝寺池・石神井池）、光が丘公園、としまえん跡（ハリー・ポッター スタジオツアー東京）、東映アニメーション大泉スタジオ、牧野記念庭園、武蔵関公園、平成つつじ公園、練馬大根を可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f1f8e9",
+  "theme_color": "#43a047",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>目黒区 高低マップ アイコン</title>
+  <defs>
+    <!-- 桜並木の空グラデーション -->
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fce4ec"/>
+      <stop offset="55%" stop-color="#f8bbd0"/>
+      <stop offset="100%" stop-color="#f48fb1"/>
+    </linearGradient>
+    <!-- 武蔵野台地の緑 -->
+    <linearGradient id="terraceGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#66bb6a"/>
+      <stop offset="100%" stop-color="#2e7d32"/>
+    </linearGradient>
+    <!-- 谷の低地（目黒川の流路） -->
+    <linearGradient id="valleyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a5d6a7"/>
+      <stop offset="100%" stop-color="#81c784"/>
+    </linearGradient>
+    <!-- 目黒川（桜映る水面） -->
+    <linearGradient id="riverGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ad1457"/>
+      <stop offset="50%" stop-color="#e91e63"/>
+      <stop offset="100%" stop-color="#f06292"/>
+    </linearGradient>
+    <!-- 桜の花びら -->
+    <radialGradient id="petalGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff"/>
+      <stop offset="60%" stop-color="#fce4ec"/>
+      <stop offset="100%" stop-color="#f48fb1"/>
+    </radialGradient>
+    <!-- 不動朱 -->
+    <linearGradient id="fudoGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e53935"/>
+      <stop offset="100%" stop-color="#b71c1c"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景：丸角矩形（桜の空） -->
+  <rect x="0" y="0" width="512" height="512" rx="96" ry="96" fill="url(#skyGrad)"/>
+
+  <!-- 太陽（淡いピンクの円） -->
+  <circle cx="400" cy="120" r="42" fill="#fff" opacity="0.55"/>
+
+  <!-- 武蔵野台地（背景の高台） -->
+  <path d="M 0 310 Q 80 270, 160 285 T 320 270 Q 400 260, 512 280 L 512 380 L 0 380 Z" fill="url(#terraceGrad)" opacity="0.92"/>
+
+  <!-- 西郷山の崖線（カクッと落ちる断面感） -->
+  <path d="M 60 305 L 90 305 L 95 340 L 130 340 L 130 380 L 60 380 Z" fill="#1b5e20" opacity="0.55"/>
+  <path d="M 380 295 L 420 295 L 425 335 L 460 335 L 460 380 L 380 380 Z" fill="#1b5e20" opacity="0.55"/>
+
+  <!-- 目黒川の谷（低地） -->
+  <path d="M 0 360 Q 100 340, 200 355 T 400 350 Q 470 348, 512 360 L 512 420 L 0 420 Z" fill="url(#valleyGrad)" opacity="0.95"/>
+
+  <!-- 目黒川（蛇行する川・桜色を映す） -->
+  <path d="M 0 395 Q 80 380, 160 395 T 320 392 Q 400 390, 512 400" stroke="url(#riverGrad)" stroke-width="14" fill="none" stroke-linecap="round" opacity="0.85"/>
+  <path d="M 0 395 Q 80 380, 160 395 T 320 392 Q 400 390, 512 400" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- 桜並木（左岸） -->
+  <g>
+    <!-- 桜の木1（左） -->
+    <rect x="70" y="350" width="6" height="40" fill="#4e342e"/>
+    <circle cx="73" cy="350" r="28" fill="url(#petalGrad)"/>
+    <circle cx="60" cy="345" r="14" fill="#f8bbd0" opacity="0.9"/>
+    <circle cx="88" cy="345" r="14" fill="#fce4ec" opacity="0.9"/>
+    <circle cx="73" cy="335" r="13" fill="#f48fb1" opacity="0.85"/>
+
+    <!-- 桜の木2 -->
+    <rect x="158" y="345" width="6" height="45" fill="#4e342e"/>
+    <circle cx="161" cy="345" r="32" fill="url(#petalGrad)"/>
+    <circle cx="145" cy="340" r="16" fill="#fce4ec" opacity="0.9"/>
+    <circle cx="178" cy="340" r="16" fill="#f8bbd0" opacity="0.9"/>
+    <circle cx="161" cy="328" r="14" fill="#f48fb1" opacity="0.85"/>
+
+    <!-- 桜の木3（中央） -->
+    <rect x="250" y="340" width="7" height="50" fill="#4e342e"/>
+    <circle cx="253" cy="340" r="36" fill="url(#petalGrad)"/>
+    <circle cx="234" cy="335" r="18" fill="#f8bbd0" opacity="0.9"/>
+    <circle cx="272" cy="335" r="18" fill="#fce4ec" opacity="0.9"/>
+    <circle cx="253" cy="320" r="16" fill="#f48fb1" opacity="0.85"/>
+
+    <!-- 桜の木4 -->
+    <rect x="345" y="345" width="6" height="45" fill="#4e342e"/>
+    <circle cx="348" cy="345" r="32" fill="url(#petalGrad)"/>
+    <circle cx="332" cy="340" r="16" fill="#fce4ec" opacity="0.9"/>
+    <circle cx="365" cy="340" r="16" fill="#f8bbd0" opacity="0.9"/>
+    <circle cx="348" cy="328" r="14" fill="#f48fb1" opacity="0.85"/>
+
+    <!-- 桜の木5（右） -->
+    <rect x="438" y="350" width="6" height="40" fill="#4e342e"/>
+    <circle cx="441" cy="350" r="28" fill="url(#petalGrad)"/>
+    <circle cx="428" cy="345" r="14" fill="#f8bbd0" opacity="0.9"/>
+    <circle cx="456" cy="345" r="14" fill="#fce4ec" opacity="0.9"/>
+    <circle cx="441" cy="335" r="13" fill="#f48fb1" opacity="0.85"/>
+  </g>
+
+  <!-- 散る桜の花びら -->
+  <g opacity="0.85">
+    <ellipse cx="120" cy="180" rx="6" ry="4" fill="#f48fb1" transform="rotate(20 120 180)"/>
+    <ellipse cx="200" cy="220" rx="5" ry="3" fill="#fce4ec" transform="rotate(45 200 220)"/>
+    <ellipse cx="300" cy="195" rx="6" ry="4" fill="#f8bbd0" transform="rotate(-15 300 195)"/>
+    <ellipse cx="380" cy="230" rx="5" ry="3" fill="#f48fb1" transform="rotate(60 380 230)"/>
+    <ellipse cx="160" cy="250" rx="5" ry="3" fill="#fce4ec" transform="rotate(30 160 250)"/>
+    <ellipse cx="340" cy="265" rx="6" ry="4" fill="#f8bbd0" transform="rotate(-30 340 265)"/>
+    <ellipse cx="80" cy="240" rx="5" ry="3" fill="#f48fb1" transform="rotate(15 80 240)"/>
+    <ellipse cx="440" cy="195" rx="5" ry="3" fill="#fce4ec" transform="rotate(-45 440 195)"/>
+  </g>
+
+  <!-- 目黒不動の鳥居（左下、朱色のシンボル） -->
+  <g>
+    <!-- 笠木 -->
+    <rect x="42" y="232" width="78" height="9" rx="2" fill="url(#fudoGrad)"/>
+    <!-- 島木 -->
+    <rect x="48" y="241" width="66" height="5" fill="#b71c1c"/>
+    <!-- 貫 -->
+    <rect x="50" y="262" width="62" height="6" fill="url(#fudoGrad)"/>
+    <!-- 左柱 -->
+    <rect x="54" y="241" width="8" height="55" fill="url(#fudoGrad)"/>
+    <!-- 右柱 -->
+    <rect x="100" y="241" width="8" height="55" fill="url(#fudoGrad)"/>
+    <!-- 額束 -->
+    <rect x="76" y="246" width="10" height="14" fill="#fff8e1" opacity="0.95"/>
+  </g>
+
+  <!-- 「目黒」バッジ（右下） -->
+  <g>
+    <circle cx="430" cy="430" r="50" fill="#e91e63" stroke="#fff" stroke-width="4"/>
+    <text x="430" y="425" text-anchor="middle" font-family="'Noto Sans JP', 'Hiragino Sans', sans-serif" font-size="24" font-weight="700" fill="#fff" letter-spacing="2">目黒</text>
+    <text x="430" y="452" text-anchor="middle" font-family="'Noto Sans JP', 'Hiragino Sans', sans-serif" font-size="11" font-weight="500" fill="#fff" letter-spacing="1">高低マップ</text>
+  </g>
+
+  <!-- 等高線アクセント（右上・地形メタファー） -->
+  <g opacity="0.45" fill="none" stroke="#ad1457" stroke-width="1.5">
+    <path d="M 280 95 Q 320 80, 360 95 T 460 95"/>
+    <path d="M 290 115 Q 325 102, 360 115 T 450 115"/>
+    <path d="M 300 135 Q 330 124, 360 135 T 440 135"/>
+  </g>
+
+  <!-- 桜の花びら（前景アクセント） -->
+  <g>
+    <path d="M 256 60 Q 260 50, 264 60 Q 268 70, 256 70 Q 244 70, 248 60 Q 252 50, 256 60 Z" fill="#f48fb1" opacity="0.95"/>
+    <circle cx="256" cy="64" r="2" fill="#ad1457"/>
+  </g>
+</svg>

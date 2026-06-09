@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  品川区 高低マップ アイコン
+  モチーフ:
+    - 東京湾・京浜運河（湾岸ブルー）
+    - 城南五山シルエット（御殿山・池田山・島津山・花房山・八ツ山）
+    - 品川神社 双龍鳥居（東海七福神 大黒天・東京三鳥居の一つ・朱）
+    - 富士塚（品川富士・都内最大級・標高15m）
+    - 旧東海道 品川宿の朱線
+    - 天王洲アイル ボードウォーク
+    - 品川駅周辺 高層ビル群（リニア新幹線玄関口の暗示）
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- 湾岸の夕焼け空 -->
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#e1f5fe"/>
+      <stop offset="55%"  stop-color="#ffe0b2"/>
+      <stop offset="100%" stop-color="#ffab91"/>
+    </linearGradient>
+    <!-- 東京湾・京浜運河 -->
+    <linearGradient id="bayGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#4fc3f7"/>
+      <stop offset="60%"  stop-color="#0277bd"/>
+      <stop offset="100%" stop-color="#01579b"/>
+    </linearGradient>
+    <!-- 城南五山（武蔵野台地南東端） -->
+    <linearGradient id="terraceGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#aed581"/>
+      <stop offset="60%"  stop-color="#7cb342"/>
+      <stop offset="100%" stop-color="#558b2f"/>
+    </linearGradient>
+    <linearGradient id="terraceFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#9ccc65"/>
+      <stop offset="100%" stop-color="#33691e"/>
+    </linearGradient>
+    <!-- 富士塚（赤土・溶岩） -->
+    <linearGradient id="fujiGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#bcaaa4"/>
+      <stop offset="60%"  stop-color="#8d6e63"/>
+      <stop offset="100%" stop-color="#5d4037"/>
+    </linearGradient>
+    <!-- 鳥居の朱（東海道朱） -->
+    <linearGradient id="toriiGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#ff7043"/>
+      <stop offset="100%" stop-color="#d84315"/>
+    </linearGradient>
+    <!-- ボードウォーク（天王洲アイル） -->
+    <linearGradient id="boardGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#bcaaa4"/>
+      <stop offset="100%" stop-color="#6d4c41"/>
+    </linearGradient>
+    <!-- ビル窓 -->
+    <linearGradient id="buildingGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#eceff1"/>
+      <stop offset="100%" stop-color="#90a4ae"/>
+    </linearGradient>
+
+    <!-- 影フィルタ -->
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="3" result="off"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.35"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- 角丸の背景タイル -->
+  <rect x="0" y="0" width="512" height="512" rx="96" ry="96" fill="url(#skyGrad)"/>
+
+  <!-- 遠景:お台場/レインボーブリッジ風の点描シルエット -->
+  <g opacity="0.35" fill="#5d4037">
+    <rect x="48"  y="232" width="22" height="14"/>
+    <rect x="78"  y="220" width="18" height="26"/>
+    <rect x="104" y="226" width="14" height="20"/>
+    <!-- 橋ケーブル -->
+    <path d="M150 246 Q 220 200 290 246" stroke="#5d4037" stroke-width="2" fill="none" opacity="0.5"/>
+    <rect x="148" y="244" width="6"  height="28"/>
+    <rect x="286" y="244" width="6"  height="28"/>
+  </g>
+
+  <!-- 太陽 -->
+  <circle cx="380" cy="160" r="34" fill="#ffb74d" opacity="0.85"/>
+  <circle cx="380" cy="160" r="46" fill="#ffb74d" opacity="0.25"/>
+
+  <!-- 城南五山シルエット（後ろ・全体に伸びる丘陵） -->
+  <path d="M0 290
+           L 0 330
+           Q 60 280 110 295
+           Q 160 270 210 300
+           Q 260 260 310 295
+           Q 360 270 420 300
+           Q 470 280 512 305
+           L 512 360
+           L 0 360 Z"
+        fill="url(#terraceGrad)" opacity="0.85"/>
+
+  <!-- 富士塚（品川富士・小ぶりな三角・五山シルエット内に立つ） -->
+  <g filter="url(#softShadow)">
+    <path d="M150 312
+             L 195 248
+             L 240 312 Z"
+          fill="url(#fujiGrad)"/>
+    <!-- 山頂の雪/溶岩跡 -->
+    <path d="M178 280
+             L 195 248
+             L 212 280
+             L 205 285
+             L 198 280
+             L 190 286
+             L 184 281 Z"
+          fill="#eceff1" opacity="0.9"/>
+  </g>
+
+  <!-- 品川駅高層ビル群（右奥・リニア玄関口の暗示） -->
+  <g filter="url(#softShadow)">
+    <rect x="332" y="220" width="26" height="120" fill="url(#buildingGrad)"/>
+    <rect x="364" y="200" width="30" height="140" fill="url(#buildingGrad)"/>
+    <rect x="400" y="232" width="22" height="108" fill="url(#buildingGrad)"/>
+    <rect x="428" y="248" width="26" height="92"  fill="url(#buildingGrad)"/>
+    <!-- 窓 -->
+    <g fill="#0277bd" opacity="0.55">
+      <rect x="338" y="232" width="6" height="6"/><rect x="348" y="232" width="6" height="6"/>
+      <rect x="338" y="248" width="6" height="6"/><rect x="348" y="248" width="6" height="6"/>
+      <rect x="338" y="264" width="6" height="6"/><rect x="348" y="264" width="6" height="6"/>
+      <rect x="338" y="280" width="6" height="6"/><rect x="348" y="280" width="6" height="6"/>
+      <rect x="338" y="296" width="6" height="6"/><rect x="348" y="296" width="6" height="6"/>
+
+      <rect x="370" y="214" width="6" height="6"/><rect x="382" y="214" width="6" height="6"/>
+      <rect x="370" y="230" width="6" height="6"/><rect x="382" y="230" width="6" height="6"/>
+      <rect x="370" y="246" width="6" height="6"/><rect x="382" y="246" width="6" height="6"/>
+      <rect x="370" y="262" width="6" height="6"/><rect x="382" y="262" width="6" height="6"/>
+      <rect x="370" y="278" width="6" height="6"/><rect x="382" y="278" width="6" height="6"/>
+      <rect x="370" y="294" width="6" height="6"/><rect x="382" y="294" width="6" height="6"/>
+
+      <rect x="406" y="244" width="6" height="6"/><rect x="416" y="244" width="6" height="6"/>
+      <rect x="406" y="260" width="6" height="6"/><rect x="416" y="260" width="6" height="6"/>
+      <rect x="406" y="276" width="6" height="6"/><rect x="416" y="276" width="6" height="6"/>
+      <rect x="406" y="292" width="6" height="6"/><rect x="416" y="292" width="6" height="6"/>
+
+      <rect x="434" y="260" width="6" height="6"/><rect x="444" y="260" width="6" height="6"/>
+      <rect x="434" y="276" width="6" height="6"/><rect x="444" y="276" width="6" height="6"/>
+      <rect x="434" y="292" width="6" height="6"/><rect x="444" y="292" width="6" height="6"/>
+    </g>
+  </g>
+
+  <!-- 前景の城南台地（手前の濃い緑、品川神社が乗る丘） -->
+  <path d="M0 340
+           Q 80 320 160 335
+           Q 220 348 280 332
+           Q 340 320 400 340
+           Q 460 350 512 338
+           L 512 400
+           L 0 400 Z"
+        fill="url(#terraceFront)"/>
+
+  <!-- 品川神社 双龍鳥居（手前の丘の上） -->
+  <g filter="url(#softShadow)" transform="translate(72,236)">
+    <!-- 笠木（上の横木） -->
+    <path d="M0 22 Q 60 0 120 22 L 120 36 Q 60 14 0 36 Z" fill="url(#toriiGrad)"/>
+    <!-- 島木 -->
+    <rect x="6" y="40" width="108" height="10" fill="#bf360c"/>
+    <!-- 貫（下の横木） -->
+    <rect x="10" y="70" width="100" height="10" fill="url(#toriiGrad)"/>
+    <!-- 柱 -->
+    <rect x="20" y="22" width="14" height="92" fill="url(#toriiGrad)"/>
+    <rect x="86" y="22" width="14" height="92" fill="url(#toriiGrad)"/>
+    <!-- 額束 -->
+    <rect x="54" y="50" width="12" height="20" fill="#5d4037"/>
+
+    <!-- 左柱の昇り龍（簡略シルエット・金色） -->
+    <g fill="#fdd835" opacity="0.95">
+      <path d="M27 30
+               q -4 8 2 14
+               q 6 6 -1 12
+               q -6 6 1 12
+               q 6 6 -1 12
+               q -6 6 1 12
+               q 6 6 -1 12
+               q -3 4 1 8"
+            stroke="#fdd835" stroke-width="3" fill="none"/>
+      <circle cx="27" cy="30" r="3"/>
+    </g>
+    <!-- 右柱の降り龍 -->
+    <g fill="#fdd835" opacity="0.95">
+      <path d="M93 110
+               q 4 -8 -2 -14
+               q -6 -6 1 -12
+               q 6 -6 -1 -12
+               q -6 -6 1 -12
+               q 6 -6 -1 -12
+               q -6 -6 1 -12
+               q 3 -4 -1 -8"
+            stroke="#fdd835" stroke-width="3" fill="none"/>
+      <circle cx="93" cy="110" r="3"/>
+    </g>
+  </g>
+
+  <!-- 旧東海道 品川宿（朱色の街道線） -->
+  <path d="M0 380
+           Q 90 372 180 380
+           Q 270 388 360 378
+           Q 440 372 512 382"
+        stroke="#d84315" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.85"/>
+  <!-- 街道の点線（中央線風） -->
+  <path d="M0 380
+           Q 90 372 180 380
+           Q 270 388 360 378
+           Q 440 372 512 382"
+        stroke="#fff3e0" stroke-width="1.5" fill="none" stroke-dasharray="6 8" opacity="0.9"/>
+
+  <!-- 東京湾・京浜運河 -->
+  <path d="M0 400 L 512 400 L 512 512 L 0 512 Z" fill="url(#bayGrad)"/>
+
+  <!-- 運河の波（白いリップル） -->
+  <g stroke="#e1f5fe" stroke-width="2" fill="none" opacity="0.55" stroke-linecap="round">
+    <path d="M30 430 q 12 -6 24 0 t 24 0 t 24 0"/>
+    <path d="M150 446 q 12 -6 24 0 t 24 0 t 24 0 t 24 0"/>
+    <path d="M310 432 q 12 -6 24 0 t 24 0 t 24 0 t 24 0"/>
+    <path d="M70 470 q 12 -6 24 0 t 24 0 t 24 0"/>
+    <path d="M250 480 q 12 -6 24 0 t 24 0 t 24 0"/>
+    <path d="M380 466 q 12 -6 24 0 t 24 0"/>
+  </g>
+
+  <!-- 天王洲アイル ボードウォーク（運河に張り出す木製デッキ） -->
+  <g filter="url(#softShadow)">
+    <rect x="340" y="404" width="150" height="14" fill="url(#boardGrad)"/>
+    <!-- デッキ板の目地 -->
+    <g stroke="#3e2723" stroke-width="1" opacity="0.6">
+      <line x1="360" y1="404" x2="360" y2="418"/>
+      <line x1="380" y1="404" x2="380" y2="418"/>
+      <line x1="400" y1="404" x2="400" y2="418"/>
+      <line x1="420" y1="404" x2="420" y2="418"/>
+      <line x1="440" y1="404" x2="440" y2="418"/>
+      <line x1="460" y1="404" x2="460" y2="418"/>
+    </g>
+    <!-- デッキの脚 -->
+    <rect x="356" y="418" width="4" height="30" fill="#3e2723"/>
+    <rect x="416" y="418" width="4" height="30" fill="#3e2723"/>
+    <rect x="476" y="418" width="4" height="30" fill="#3e2723"/>
+    <!-- 街灯 -->
+    <g fill="#37474f">
+      <rect x="370" y="384" width="2" height="20"/>
+      <circle cx="371" cy="384" r="3" fill="#ffd54f"/>
+      <rect x="430" y="384" width="2" height="20"/>
+      <circle cx="431" cy="384" r="3" fill="#ffd54f"/>
+    </g>
+  </g>
+
+  <!-- カモメ（東京湾の鳥） -->
+  <g stroke="#37474f" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M120 180 q 8 -10 16 0 q 8 -10 16 0"/>
+    <path d="M250 140 q 6 -8 12 0 q 6 -8 12 0"/>
+  </g>
+
+  <!-- タイトル白枠（標高アクセント） -->
+  <g transform="translate(256,470)" text-anchor="middle">
+    <rect x="-78" y="-22" width="156" height="34" rx="17" ry="17"
+          fill="#ffffff" opacity="0.92" filter="url(#softShadow)"/>
+    <text x="0" y="3" font-family="'Hiragino Sans','Yu Gothic',sans-serif"
+          font-size="20" font-weight="700" fill="#0277bd">品川 高低</text>
+  </g>
+</svg>

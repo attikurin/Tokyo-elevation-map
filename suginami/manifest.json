@@ -1,0 +1,22 @@
+{
+  "name": "杉並区 高低マップ",
+  "short_name": "杉並高低",
+  "description": "東京都杉並区（武蔵野台地・善福寺川／神田川／妙正寺川の谷）の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。善福寺池・妙正寺池の湧水、荻窪文士村、阿佐ヶ谷七夕、高円寺阿波踊り、西荻文化、井草・南阿佐ヶ谷のアニメスタジオ集積を可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#e0f2f1",
+  "theme_color": "#00897b",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

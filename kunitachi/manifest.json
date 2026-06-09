@@ -1,0 +1,19 @@
+{
+  "name": "国立市 高低マップ",
+  "short_name": "国立高低",
+  "description": "東京都国立市の3D地形・標高断面図・ハザード重ね合わせマップ。武蔵野台地南端・大学通り（桜並木1.2km）・一橋大学・谷保天満宮（東日本最古の天満宮）・矢川緑地・ママ下湧水群・立川崖線（ハケ）・多摩川低地を可視化。",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#e3f2fd",
+  "theme_color": "#1565c0",
+  "orientation": "any",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

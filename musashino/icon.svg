@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>武蔵野市 高低マップ アイコン</title>
+  <defs>
+    <!-- 武蔵野の空（夕焼け前の青空〜柔らかい黄色）-->
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#b2dfdb"/>
+      <stop offset="55%" stop-color="#e0f2f1"/>
+      <stop offset="100%" stop-color="#ffe082"/>
+    </linearGradient>
+    <!-- 武蔵野台地の緑（ケヤキ並木） -->
+    <linearGradient id="terraceGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7cb342"/>
+      <stop offset="100%" stop-color="#558b2f"/>
+    </linearGradient>
+    <!-- 玉川上水・井の頭池の谷地（湿地） -->
+    <linearGradient id="valleyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#aed581"/>
+      <stop offset="100%" stop-color="#9ccc65"/>
+    </linearGradient>
+    <!-- 井の頭池（翡翠の水面） -->
+    <radialGradient id="pondGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#4dd0e1"/>
+      <stop offset="60%" stop-color="#00838f"/>
+      <stop offset="100%" stop-color="#006064"/>
+    </radialGradient>
+    <!-- 玉川上水の流れ -->
+    <linearGradient id="streamGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#26c6da"/>
+      <stop offset="100%" stop-color="#00838f"/>
+    </linearGradient>
+    <!-- カワセミの胴体（翡翠ブルー） -->
+    <linearGradient id="kingfisherBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00bcd4"/>
+      <stop offset="100%" stop-color="#00838f"/>
+    </linearGradient>
+    <!-- 吉祥寺サンロードの赤 -->
+    <linearGradient id="sunroadGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e64a19"/>
+      <stop offset="100%" stop-color="#bf360c"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景：丸角矩形（武蔵野の空） -->
+  <rect x="0" y="0" width="512" height="512" rx="96" ry="96" fill="url(#skyGrad)"/>
+
+  <!-- 太陽（淡い白の円） -->
+  <circle cx="408" cy="118" r="42" fill="#fff" opacity="0.55"/>
+
+  <!-- 武蔵野台地（背景の平坦な台地・はけ） -->
+  <path d="M 0 300 Q 80 285, 160 290 T 320 280 Q 400 275, 512 285 L 512 380 L 0 380 Z" fill="url(#terraceGrad)" opacity="0.92"/>
+
+  <!-- 玉川上水の段差（緩やかな崖線） -->
+  <path d="M 0 320 L 512 320 L 512 326 L 0 326 Z" fill="#33691e" opacity="0.35"/>
+
+  <!-- 谷地（井の頭池周辺の低地） -->
+  <path d="M 0 360 Q 100 345, 200 358 T 400 352 Q 470 350, 512 360 L 512 420 L 0 420 Z" fill="url(#valleyGrad)" opacity="0.95"/>
+
+  <!-- 井の頭池（中央に大きな池・神田川源流） -->
+  <g>
+    <!-- 池本体（不定形） -->
+    <path d="M 130 388 Q 110 378, 130 368 Q 155 360, 200 365 Q 245 368, 285 372 Q 320 378, 310 392 Q 295 405, 245 408 Q 195 410, 155 405 Q 125 400, 130 388 Z" fill="url(#pondGrad)"/>
+    <!-- 池のさざ波（ハイライト） -->
+    <path d="M 150 378 Q 200 374, 250 378" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.6"/>
+    <path d="M 170 388 Q 220 384, 270 388" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.45"/>
+    <!-- 弁天島（小さな島） -->
+    <ellipse cx="180" cy="388" rx="10" ry="5" fill="#558b2f" opacity="0.85"/>
+    <rect x="178" y="380" width="2" height="8" fill="#bf360c"/>
+    <polygon points="173,378 187,378 180,372" fill="#bf360c"/>
+  </g>
+
+  <!-- 玉川上水（右上から流れる水路） -->
+  <path d="M 320 340 Q 380 332, 440 338 T 512 342" stroke="url(#streamGrad)" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.9"/>
+  <path d="M 320 340 Q 380 332, 440 338 T 512 342" stroke="#b2ebf2" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.55"/>
+
+  <!-- 玉川上水沿いの桜・ケヤキ並木 -->
+  <g>
+    <rect x="345" y="312" width="4" height="28" fill="#4e342e"/>
+    <circle cx="347" cy="310" r="14" fill="#7cb342" opacity="0.9"/>
+    <circle cx="340" cy="306" r="9" fill="#9ccc65" opacity="0.85"/>
+    <circle cx="354" cy="306" r="9" fill="#aed581" opacity="0.85"/>
+
+    <rect x="400" y="312" width="4" height="28" fill="#4e342e"/>
+    <circle cx="402" cy="310" r="14" fill="#558b2f" opacity="0.9"/>
+    <circle cx="395" cy="306" r="9" fill="#7cb342" opacity="0.85"/>
+    <circle cx="409" cy="306" r="9" fill="#aed581" opacity="0.85"/>
+
+    <rect x="455" y="316" width="4" height="24" fill="#4e342e"/>
+    <circle cx="457" cy="314" r="12" fill="#7cb342" opacity="0.9"/>
+    <circle cx="450" cy="310" r="8" fill="#aed581" opacity="0.85"/>
+    <circle cx="464" cy="310" r="8" fill="#9ccc65" opacity="0.85"/>
+  </g>
+
+  <!-- 成蹊大学けやき並木（左奥）-->
+  <g>
+    <rect x="50" y="296" width="5" height="34" fill="#3e2723"/>
+    <ellipse cx="52" cy="290" rx="20" ry="22" fill="#558b2f" opacity="0.92"/>
+    <circle cx="42" cy="282" r="12" fill="#7cb342" opacity="0.85"/>
+    <circle cx="62" cy="282" r="12" fill="#9ccc65" opacity="0.85"/>
+    <circle cx="52" cy="275" r="11" fill="#aed581" opacity="0.85"/>
+
+    <rect x="95" y="300" width="5" height="32" fill="#3e2723"/>
+    <ellipse cx="97" cy="294" rx="18" ry="20" fill="#558b2f" opacity="0.92"/>
+    <circle cx="88" cy="288" r="11" fill="#7cb342" opacity="0.85"/>
+    <circle cx="106" cy="288" r="11" fill="#9ccc65" opacity="0.85"/>
+  </g>
+
+  <!-- カワセミ（井の頭池のシンボル・水面上にホバリング） -->
+  <g transform="translate(232 332)">
+    <!-- 尾 -->
+    <path d="M -22 4 Q -28 6, -30 8 Q -28 4, -22 0 Z" fill="#006064"/>
+    <!-- 胴体 -->
+    <ellipse cx="0" cy="0" rx="22" ry="11" fill="url(#kingfisherBody)"/>
+    <!-- 背中のハイライト -->
+    <path d="M -15 -4 Q -5 -10, 8 -6 Q 12 -4, 14 -2" stroke="#4dd0e1" stroke-width="2.5" fill="none" opacity="0.85"/>
+    <!-- お腹（オレンジ） -->
+    <ellipse cx="-2" cy="5" rx="14" ry="5" fill="#ff7043"/>
+    <ellipse cx="-2" cy="6" rx="10" ry="3" fill="#ffab91" opacity="0.7"/>
+    <!-- 頭 -->
+    <circle cx="14" cy="-4" r="9" fill="#00838f"/>
+    <!-- くちばし -->
+    <path d="M 21 -4 L 36 -3 L 36 -1 L 21 -1 Z" fill="#263238"/>
+    <!-- 目 -->
+    <circle cx="16" cy="-5" r="2" fill="#fff"/>
+    <circle cx="16.5" cy="-5" r="1.2" fill="#000"/>
+    <!-- 首の白斑 -->
+    <ellipse cx="9" cy="0" rx="3" ry="2" fill="#fff" opacity="0.95"/>
+    <!-- 脚（細く） -->
+    <line x1="-2" y1="10" x2="-4" y2="16" stroke="#bf360c" stroke-width="1.5"/>
+    <line x1="4" y1="10" x2="4" y2="16" stroke="#bf360c" stroke-width="1.5"/>
+  </g>
+
+  <!-- カワセミから水面への視線（小さな波紋） -->
+  <g opacity="0.75">
+    <ellipse cx="220" cy="386" rx="10" ry="2" fill="none" stroke="#fff" stroke-width="1.5"/>
+    <ellipse cx="220" cy="386" rx="14" ry="3" fill="none" stroke="#b2ebf2" stroke-width="1" opacity="0.7"/>
+  </g>
+
+  <!-- 吉祥寺サンロードのアーケード（左下に赤いアーチ） -->
+  <g>
+    <!-- 左アーチ柱 -->
+    <rect x="60" y="240" width="6" height="58" fill="url(#sunroadGrad)"/>
+    <rect x="118" y="240" width="6" height="58" fill="url(#sunroadGrad)"/>
+    <!-- アーチ天井 -->
+    <path d="M 60 240 Q 92 220, 124 240 L 124 248 Q 92 230, 60 248 Z" fill="url(#sunroadGrad)"/>
+    <!-- 「サンロード」風の看板 -->
+    <rect x="68" y="252" width="48" height="14" rx="2" fill="#fff8e1" stroke="#bf360c" stroke-width="1.5"/>
+    <text x="92" y="263" text-anchor="middle" font-family="'Noto Sans JP', sans-serif" font-size="9" font-weight="700" fill="#bf360c">サンロード</text>
+    <!-- 街路灯 -->
+    <circle cx="92" cy="226" r="4" fill="#fff176" opacity="0.9"/>
+  </g>
+
+  <!-- 「武蔵野」バッジ（右下） -->
+  <g>
+    <circle cx="430" cy="430" r="50" fill="#00838f" stroke="#fff" stroke-width="4"/>
+    <text x="430" y="425" text-anchor="middle" font-family="'Noto Sans JP', 'Hiragino Sans', sans-serif" font-size="22" font-weight="700" fill="#fff" letter-spacing="1">武蔵野</text>
+    <text x="430" y="452" text-anchor="middle" font-family="'Noto Sans JP', 'Hiragino Sans', sans-serif" font-size="11" font-weight="500" fill="#fff" letter-spacing="1">高低マップ</text>
+  </g>
+
+  <!-- 等高線アクセント（右上・地形メタファー） -->
+  <g opacity="0.4" fill="none" stroke="#00838f" stroke-width="1.5">
+    <path d="M 280 95 Q 320 80, 360 95 T 460 95"/>
+    <path d="M 290 115 Q 325 102, 360 115 T 450 115"/>
+    <path d="M 300 135 Q 330 124, 360 135 T 440 135"/>
+  </g>
+
+  <!-- ケヤキの葉（前景アクセント・舞う葉） -->
+  <g opacity="0.85">
+    <path d="M 178 160 Q 184 154, 186 162 Q 188 170, 180 168 Q 174 166, 178 160 Z" fill="#558b2f"/>
+    <path d="M 256 60 Q 262 52, 266 60 Q 268 70, 258 70 Q 250 66, 256 60 Z" fill="#7cb342"/>
+    <ellipse cx="320" cy="200" rx="6" ry="3" fill="#aed581" transform="rotate(35 320 200)"/>
+    <ellipse cx="148" cy="220" rx="5" ry="3" fill="#9ccc65" transform="rotate(-20 148 220)"/>
+    <ellipse cx="370" cy="245" rx="6" ry="3" fill="#558b2f" transform="rotate(45 370 245)"/>
+  </g>
+</svg>

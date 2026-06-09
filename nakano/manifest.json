@@ -1,0 +1,22 @@
+{
+  "name": "中野区 高低マップ",
+  "short_name": "中野高低",
+  "description": "東京都中野区（武蔵野台地北端・神田川／妙正寺川／江古田川／桃園川暗渠の谷地形）の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。中野サンプラザ・中野ブロードウェイ・中野セントラルパーク、哲学堂公園（井上円了・国指定名勝）、新井薬師梅照院、沼袋氷川神社、上高田寺町、平和の森公園などを可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f3e5f5",
+  "theme_color": "#5e35b1",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

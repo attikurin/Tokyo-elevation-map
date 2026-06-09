@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- 背景：善福寺池の湧水ティール × 高円寺提灯オレンジの夕暮 -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#ffccbc"/>
+      <stop offset="50%" stop-color="#b2dfdb"/>
+      <stop offset="100%" stop-color="#00695c"/>
+    </linearGradient>
+    <!-- 武蔵野台地（手前の平地） -->
+    <linearGradient id="plateauGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#80cbc4"/>
+      <stop offset="100%" stop-color="#00695c"/>
+    </linearGradient>
+    <!-- 池の水面 -->
+    <radialGradient id="pondGrad" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#e0f7fa"/>
+      <stop offset="60%" stop-color="#4dd0e1"/>
+      <stop offset="100%" stop-color="#00838f"/>
+    </radialGradient>
+    <!-- 川（神田川） -->
+    <linearGradient id="riverGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"  stop-color="#80deea"/>
+      <stop offset="100%" stop-color="#0097a7"/>
+    </linearGradient>
+    <!-- 提灯（高円寺阿波踊り） -->
+    <radialGradient id="lanternGrad" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#fff59d"/>
+      <stop offset="100%" stop-color="#d84315"/>
+    </radialGradient>
+    <!-- フィルムストリップ（アニメ） -->
+    <linearGradient id="filmGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6a1b9a"/>
+      <stop offset="100%" stop-color="#4a148c"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景の角丸ステージ -->
+  <rect x="0" y="0" width="512" height="512" rx="80" ry="80" fill="url(#bgGrad)"/>
+
+  <!-- 武蔵野台地のうねり（奥） -->
+  <path d="M 0,320
+           C 80,300 160,315 240,305
+           S 400,300 512,310
+           L 512,400 0,400 Z"
+        fill="#26a69a" opacity="0.75"/>
+
+  <!-- 武蔵野台地（手前） -->
+  <path d="M 0,365
+           C 90,345 180,360 270,350
+           S 420,345 512,355
+           L 512,470 0,470 Z"
+        fill="url(#plateauGrad)"/>
+
+  <!-- 3本の川（妙正寺川・善福寺川・神田川） -->
+  <!-- 妙正寺川（上） -->
+  <path d="M 30,395 C 110,385 200,410 290,395 S 420,395 482,408"
+        stroke="url(#riverGrad)" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.85"/>
+  <!-- 善福寺川（中央） -->
+  <path d="M 20,425 C 120,415 210,445 310,430 S 430,425 492,440"
+        stroke="url(#riverGrad)" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.9"/>
+  <!-- 神田川（下） -->
+  <path d="M 30,455 C 130,445 230,475 320,460 S 440,455 482,470"
+        stroke="url(#riverGrad)" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.85"/>
+
+  <!-- 善福寺池（左上：湧水の象徴） -->
+  <ellipse cx="125" cy="235" rx="62" ry="48" fill="url(#pondGrad)" stroke="#fff" stroke-width="3" opacity="0.95"/>
+  <!-- 池に映る波紋 -->
+  <ellipse cx="125" cy="235" rx="38" ry="28" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.5"/>
+  <ellipse cx="125" cy="235" rx="22" ry="16" fill="none" stroke="#fff" stroke-width="1.2" opacity="0.6"/>
+  <!-- 湧水のキラリ -->
+  <circle cx="105" cy="222" r="4" fill="#fff" opacity="0.85"/>
+  <circle cx="148" cy="245" r="3" fill="#fff" opacity="0.75"/>
+
+  <!-- 杉の木（区の名前由来：上井草・井草八幡参道の杉並木） -->
+  <g transform="translate(255,140)">
+    <!-- 杉の木 1（中央・大） -->
+    <polygon points="0,-30 -22,0 -16,0 -26,28 -18,28 -28,56 28,56 18,28 26,28 16,0 22,0" fill="#1b5e20" stroke="#0d3d14" stroke-width="1.5"/>
+    <rect x="-6" y="56" width="12" height="14" fill="#5d4037"/>
+  </g>
+  <g transform="translate(205,160) scale(0.7)">
+    <polygon points="0,-30 -22,0 -16,0 -26,28 -18,28 -28,56 28,56 18,28 26,28 16,0 22,0" fill="#2e7d32" stroke="#0d3d14" stroke-width="1.5"/>
+    <rect x="-6" y="56" width="12" height="14" fill="#5d4037"/>
+  </g>
+  <g transform="translate(305,160) scale(0.7)">
+    <polygon points="0,-30 -22,0 -16,0 -26,28 -18,28 -28,56 28,56 18,28 26,28 16,0 22,0" fill="#2e7d32" stroke="#0d3d14" stroke-width="1.5"/>
+    <rect x="-6" y="56" width="12" height="14" fill="#5d4037"/>
+  </g>
+
+  <!-- 高円寺阿波踊り 提灯（右上から下がる連灯） -->
+  <g>
+    <!-- 提灯ロープ -->
+    <path d="M 380,80 Q 430,90 470,75" stroke="#3e2723" stroke-width="1.5" fill="none"/>
+    <!-- 提灯1 -->
+    <ellipse cx="395" cy="105" rx="14" ry="20" fill="url(#lanternGrad)" stroke="#bf360c" stroke-width="2"/>
+    <rect x="389" y="94" width="12" height="2" fill="#3e2723"/>
+    <rect x="389" y="115" width="12" height="2" fill="#3e2723"/>
+    <text x="395" y="111" text-anchor="middle" font-size="8" font-weight="700" fill="#bf360c" font-family="'M PLUS Rounded 1c', sans-serif">阿</text>
+    <!-- 提灯2 -->
+    <ellipse cx="430" cy="115" rx="14" ry="20" fill="url(#lanternGrad)" stroke="#bf360c" stroke-width="2"/>
+    <rect x="424" y="104" width="12" height="2" fill="#3e2723"/>
+    <rect x="424" y="125" width="12" height="2" fill="#3e2723"/>
+    <text x="430" y="121" text-anchor="middle" font-size="8" font-weight="700" fill="#bf360c" font-family="'M PLUS Rounded 1c', sans-serif">波</text>
+    <!-- 提灯3 -->
+    <ellipse cx="463" cy="100" rx="14" ry="20" fill="url(#lanternGrad)" stroke="#bf360c" stroke-width="2"/>
+    <rect x="457" y="89" width="12" height="2" fill="#3e2723"/>
+    <rect x="457" y="110" width="12" height="2" fill="#3e2723"/>
+    <text x="463" y="106" text-anchor="middle" font-size="8" font-weight="700" fill="#bf360c" font-family="'M PLUS Rounded 1c', sans-serif">踊</text>
+  </g>
+
+  <!-- アニメフィルムストリップ（左下：杉並アニメ） -->
+  <g transform="translate(60,80) rotate(-15)">
+    <rect x="0" y="0" width="90" height="36" rx="4" fill="url(#filmGrad)" stroke="#311b92" stroke-width="1.5"/>
+    <!-- フィルム穴 -->
+    <g fill="#fff8e1">
+      <rect x="4" y="3" width="8" height="5" rx="1"/>
+      <rect x="20" y="3" width="8" height="5" rx="1"/>
+      <rect x="36" y="3" width="8" height="5" rx="1"/>
+      <rect x="52" y="3" width="8" height="5" rx="1"/>
+      <rect x="68" y="3" width="8" height="5" rx="1"/>
+      <rect x="4" y="28" width="8" height="5" rx="1"/>
+      <rect x="20" y="28" width="8" height="5" rx="1"/>
+      <rect x="36" y="28" width="8" height="5" rx="1"/>
+      <rect x="52" y="28" width="8" height="5" rx="1"/>
+      <rect x="68" y="28" width="8" height="5" rx="1"/>
+    </g>
+    <!-- フレーム -->
+    <rect x="16" y="12" width="14" height="12" fill="#ce93d8"/>
+    <rect x="38" y="12" width="14" height="12" fill="#f8bbd0"/>
+    <rect x="60" y="12" width="14" height="12" fill="#80cbc4"/>
+  </g>
+
+  <!-- 七夕の短冊（中央上：阿佐ヶ谷七夕） -->
+  <g transform="translate(195,90) rotate(8)">
+    <rect x="0" y="0" width="6" height="36" fill="#e91e63" stroke="#ad1457" stroke-width="0.5"/>
+    <circle cx="3" cy="0" r="2.5" fill="#fff59d" stroke="#fbc02d" stroke-width="0.8"/>
+  </g>
+  <g transform="translate(330,75) rotate(-5)">
+    <rect x="0" y="0" width="6" height="40" fill="#00bcd4" stroke="#00695c" stroke-width="0.5"/>
+    <circle cx="3" cy="0" r="2.5" fill="#fff59d" stroke="#fbc02d" stroke-width="0.8"/>
+  </g>
+
+  <!-- 「杉並」バッジ -->
+  <g transform="translate(370,395)">
+    <rect x="-50" y="-22" width="100" height="44" rx="22" fill="#00897b" stroke="#fff" stroke-width="3"/>
+    <text x="0" y="6" text-anchor="middle" font-family="'M PLUS Rounded 1c', 'Hiragino Sans', sans-serif" font-size="22" font-weight="700" fill="#fff" letter-spacing="2">杉並</text>
+  </g>
+
+  <!-- 外枠の角丸ハイライト -->
+  <rect x="0" y="0" width="512" height="512" rx="80" ry="80" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="6"/>
+</svg>

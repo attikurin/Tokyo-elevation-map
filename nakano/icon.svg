@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>中野区 高低マップ アイコン</title>
+  <defs>
+    <!-- 中野の空（サブカルパープル〜淡桃） -->
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#b39ddb"/>
+      <stop offset="55%" stop-color="#d1c4e9"/>
+      <stop offset="100%" stop-color="#f8bbd0"/>
+    </linearGradient>
+    <!-- 武蔵野台地北端（哲学堂グリーン） -->
+    <linearGradient id="terraceGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#66bb6a"/>
+      <stop offset="100%" stop-color="#2e7d32"/>
+    </linearGradient>
+    <!-- 神田川／妙正寺川の谷 -->
+    <linearGradient id="valleyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a5d6a7"/>
+      <stop offset="100%" stop-color="#81c784"/>
+    </linearGradient>
+    <!-- 川の流れ（妙正寺川・神田川） -->
+    <linearGradient id="riverGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#90caf9"/>
+      <stop offset="100%" stop-color="#42a5f5"/>
+    </linearGradient>
+    <!-- 中野サンプラザ（白〜パープル） -->
+    <linearGradient id="sunplazaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ede7f6"/>
+      <stop offset="100%" stop-color="#9575cd"/>
+    </linearGradient>
+    <!-- 新井薬師の朱（鳥居） -->
+    <linearGradient id="toriiGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e53935"/>
+      <stop offset="100%" stop-color="#b71c1c"/>
+    </linearGradient>
+    <!-- ブロードウェイ（ネオンピンク） -->
+    <linearGradient id="bwayGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f06292"/>
+      <stop offset="100%" stop-color="#c2185b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景：丸角矩形（中野の空・サブカルパープル） -->
+  <rect x="0" y="0" width="512" height="512" rx="96" ry="96" fill="url(#skyGrad)"/>
+
+  <!-- 太陽（淡い白の円） -->
+  <circle cx="408" cy="118" r="42" fill="#fff" opacity="0.55"/>
+
+  <!-- 武蔵野台地北端（背景の台地・江古田の森方面） -->
+  <path d="M 0 295 Q 80 280, 160 285 T 320 275 Q 400 270, 512 282 L 512 380 L 0 380 Z" fill="url(#terraceGrad)" opacity="0.92"/>
+
+  <!-- 妙正寺川の段差（北側の崖線） -->
+  <path d="M 0 318 L 512 318 L 512 324 L 0 324 Z" fill="#1b5e20" opacity="0.32"/>
+
+  <!-- 谷地（神田川・妙正寺川の低地） -->
+  <path d="M 0 358 Q 100 343, 200 356 T 400 350 Q 470 348, 512 358 L 512 420 L 0 420 Z" fill="url(#valleyGrad)" opacity="0.95"/>
+
+  <!-- 妙正寺川（北側の川） -->
+  <path d="M 0 338 Q 80 332, 160 340 T 320 335 Q 400 332, 512 340" stroke="url(#riverGrad)" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.92"/>
+  <path d="M 0 338 Q 80 332, 160 340 T 320 335 Q 400 332, 512 340" stroke="#e1f5fe" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.55"/>
+
+  <!-- 神田川（南側の川） -->
+  <path d="M 0 392 Q 90 388, 180 394 T 360 390 Q 440 388, 512 394" stroke="url(#riverGrad)" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.9"/>
+  <path d="M 0 392 Q 90 388, 180 394 T 360 390 Q 440 388, 512 394" stroke="#e1f5fe" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.55"/>
+
+  <!-- 中野サンプラザ（三角ピラミッド形・中央のシンボル） -->
+  <g>
+    <!-- 本体（白い三角ピラミッド・特徴的な傾斜） -->
+    <path d="M 232 168 L 280 168 L 296 312 L 216 312 Z" fill="url(#sunplazaGrad)" stroke="#5e35b1" stroke-width="2"/>
+    <!-- 屋根（傾斜面のハイライト） -->
+    <path d="M 232 168 L 280 168 L 256 156 Z" fill="#7e57c2"/>
+    <!-- 窓のグリッド（横ライン） -->
+    <line x1="222" y1="200" x2="290" y2="200" stroke="#5e35b1" stroke-width="0.8" opacity="0.6"/>
+    <line x1="220" y1="220" x2="292" y2="220" stroke="#5e35b1" stroke-width="0.8" opacity="0.6"/>
+    <line x1="219" y1="240" x2="293" y2="240" stroke="#5e35b1" stroke-width="0.8" opacity="0.6"/>
+    <line x1="218" y1="260" x2="294" y2="260" stroke="#5e35b1" stroke-width="0.8" opacity="0.6"/>
+    <line x1="217" y1="280" x2="295" y2="280" stroke="#5e35b1" stroke-width="0.8" opacity="0.6"/>
+    <line x1="216" y1="300" x2="296" y2="300" stroke="#5e35b1" stroke-width="0.8" opacity="0.6"/>
+    <!-- 窓のグリッド（縦ライン） -->
+    <line x1="244" y1="170" x2="244" y2="310" stroke="#5e35b1" stroke-width="0.6" opacity="0.5"/>
+    <line x1="256" y1="170" x2="256" y2="312" stroke="#5e35b1" stroke-width="0.6" opacity="0.5"/>
+    <line x1="268" y1="170" x2="268" y2="310" stroke="#5e35b1" stroke-width="0.6" opacity="0.5"/>
+    <!-- 頂上のロゴ風アクセント -->
+    <circle cx="256" cy="180" r="3" fill="#5e35b1"/>
+  </g>
+
+  <!-- 中野ブロードウェイ（左側のアーケード・ネオンピンク） -->
+  <g>
+    <!-- 建物本体 -->
+    <rect x="62" y="230" width="78" height="80" rx="3" fill="url(#bwayGrad)" opacity="0.92"/>
+    <!-- 窓 -->
+    <rect x="70" y="240" width="10" height="10" fill="#fce4ec" opacity="0.85"/>
+    <rect x="86" y="240" width="10" height="10" fill="#fce4ec" opacity="0.85"/>
+    <rect x="102" y="240" width="10" height="10" fill="#fce4ec" opacity="0.85"/>
+    <rect x="118" y="240" width="10" height="10" fill="#fce4ec" opacity="0.85"/>
+    <rect x="70" y="256" width="10" height="10" fill="#fce4ec" opacity="0.7"/>
+    <rect x="86" y="256" width="10" height="10" fill="#fce4ec" opacity="0.7"/>
+    <rect x="102" y="256" width="10" height="10" fill="#fce4ec" opacity="0.7"/>
+    <rect x="118" y="256" width="10" height="10" fill="#fce4ec" opacity="0.7"/>
+    <!-- 看板 -->
+    <rect x="68" y="280" width="66" height="20" rx="2" fill="#fff8e1" stroke="#c2185b" stroke-width="1.5"/>
+    <text x="101" y="295" text-anchor="middle" font-family="'Noto Sans JP', sans-serif" font-size="11" font-weight="700" fill="#c2185b">ブロードウェイ</text>
+  </g>
+
+  <!-- 哲学堂公園・四聖堂（右側の朱赤の塔） -->
+  <g>
+    <!-- 基壇 -->
+    <rect x="368" y="280" width="48" height="32" fill="#6d4c41" opacity="0.9"/>
+    <!-- 塔の本体 -->
+    <rect x="376" y="232" width="32" height="50" fill="#fff3e0" stroke="#5e35b1" stroke-width="1.5"/>
+    <!-- 窓 -->
+    <rect x="386" y="244" width="12" height="14" fill="#5e35b1" opacity="0.7"/>
+    <!-- 屋根（朱赤・反りのある宝形造） -->
+    <path d="M 360 232 L 392 200 L 424 232 Z" fill="url(#toriiGrad)"/>
+    <path d="M 360 232 Q 392 220, 424 232 L 424 240 Q 392 230, 360 240 Z" fill="#b71c1c" opacity="0.85"/>
+    <!-- 相輪 -->
+    <rect x="390" y="186" width="4" height="14" fill="#ffd54f"/>
+    <circle cx="392" cy="186" r="4" fill="#ffd54f"/>
+    <!-- 「哲」の札 -->
+    <rect x="382" y="262" width="20" height="14" fill="#fff" stroke="#5e35b1" stroke-width="1"/>
+    <text x="392" y="273" text-anchor="middle" font-family="'Noto Sans JP', sans-serif" font-size="10" font-weight="700" fill="#5e35b1">哲</text>
+  </g>
+
+  <!-- 新井薬師の朱鳥居（左下・神田川の北） -->
+  <g>
+    <!-- 笠木（上部の横木） -->
+    <rect x="44" y="346" width="78" height="6" fill="url(#toriiGrad)"/>
+    <!-- 島木（笠木の下） -->
+    <rect x="50" y="352" width="66" height="4" fill="#8d1414"/>
+    <!-- 貫（中央の横木） -->
+    <rect x="54" y="368" width="58" height="5" fill="url(#toriiGrad)"/>
+    <!-- 左柱 -->
+    <rect x="56" y="346" width="7" height="40" fill="url(#toriiGrad)"/>
+    <!-- 右柱 -->
+    <rect x="103" y="346" width="7" height="40" fill="url(#toriiGrad)"/>
+    <!-- 額束 -->
+    <rect x="78" y="354" width="10" height="12" fill="#fff8e1" stroke="#b71c1c" stroke-width="0.8"/>
+    <text x="83" y="364" text-anchor="middle" font-family="'Noto Sans JP', sans-serif" font-size="8" font-weight="700" fill="#b71c1c">薬</text>
+  </g>
+
+  <!-- 桜並木（神田川沿いの桜） -->
+  <g>
+    <rect x="148" y="372" width="3" height="20" fill="#4e342e"/>
+    <circle cx="149.5" cy="370" r="9" fill="#f8bbd0" opacity="0.92"/>
+    <circle cx="144" cy="367" r="6" fill="#f48fb1" opacity="0.85"/>
+    <circle cx="155" cy="367" r="6" fill="#fce4ec" opacity="0.85"/>
+
+    <rect x="320" y="372" width="3" height="20" fill="#4e342e"/>
+    <circle cx="321.5" cy="370" r="9" fill="#f8bbd0" opacity="0.92"/>
+    <circle cx="316" cy="367" r="6" fill="#fce4ec" opacity="0.85"/>
+    <circle cx="327" cy="367" r="6" fill="#f48fb1" opacity="0.85"/>
+
+    <rect x="460" y="372" width="3" height="20" fill="#4e342e"/>
+    <circle cx="461.5" cy="370" r="8" fill="#f8bbd0" opacity="0.92"/>
+    <circle cx="456" cy="367" r="5" fill="#f48fb1" opacity="0.85"/>
+    <circle cx="467" cy="367" r="5" fill="#fce4ec" opacity="0.85"/>
+  </g>
+
+  <!-- 「中野」バッジ（右下） -->
+  <g>
+    <circle cx="430" cy="442" r="50" fill="#5e35b1" stroke="#fff" stroke-width="4"/>
+    <text x="430" y="437" text-anchor="middle" font-family="'Noto Sans JP', 'Hiragino Sans', sans-serif" font-size="22" font-weight="700" fill="#fff" letter-spacing="1">中野</text>
+    <text x="430" y="464" text-anchor="middle" font-family="'Noto Sans JP', 'Hiragino Sans', sans-serif" font-size="11" font-weight="500" fill="#fff" letter-spacing="1">高低マップ</text>
+  </g>
+
+  <!-- 等高線アクセント（右上・地形メタファー） -->
+  <g opacity="0.4" fill="none" stroke="#5e35b1" stroke-width="1.5">
+    <path d="M 280 95 Q 320 80, 360 95 T 460 95"/>
+    <path d="M 290 115 Q 325 102, 360 115 T 450 115"/>
+    <path d="M 300 135 Q 330 124, 360 135 T 440 135"/>
+  </g>
+
+  <!-- 桜の花びら（前景アクセント・舞う花びら） -->
+  <g opacity="0.88">
+    <path d="M 178 150 Q 184 144, 186 152 Q 188 160, 180 158 Q 174 156, 178 150 Z" fill="#f48fb1"/>
+    <path d="M 256 60 Q 262 52, 266 60 Q 268 70, 258 70 Q 250 66, 256 60 Z" fill="#f8bbd0"/>
+    <ellipse cx="320" cy="200" rx="6" ry="3" fill="#fce4ec" transform="rotate(35 320 200)"/>
+    <ellipse cx="148" cy="210" rx="5" ry="3" fill="#f48fb1" transform="rotate(-20 148 210)"/>
+    <ellipse cx="370" cy="160" rx="6" ry="3" fill="#f8bbd0" transform="rotate(45 370 160)"/>
+  </g>
+</svg>

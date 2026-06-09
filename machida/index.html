@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#2e7d32" />
+  <meta name="theme-color" content="#1565c0" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <!-- Theme: 武蔵野グリーン × 国分寺崖線の砂色 × 多摩川ブルー -->
-  <title>世田谷区 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
-  <meta name="description" content="東京都世田谷区のインタラクティブな標高（高低）マップ。武蔵野台地・国分寺崖線（ハケ）・多摩川低地・等々力渓谷・野川／仙川／谷沢川の谷地形を2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。" />
+  <meta name="apple-mobile-web-app-title" content="町田高低" />
+  <!-- Theme: 境川ブルー × 薬師池紅葉オレンジ × 多摩丘陵グリーン -->
+  <title>町田市 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
+  <meta name="description" content="東京都町田市（都内3番目の面積71.55km²・都最南端）のインタラクティブな標高（高低）マップ。多摩丘陵の西端・小山田緑地・尾根緑道・小山内裏公園・境川（都県境）・鶴見川源流・恩田川・薬師池公園（都指定名勝）・芹ヶ谷公園・野津田公園・町田リス園・町田天満宮・町田市役所（森野）、小田急・JR横浜線町田駅・多摩境駅・南町田グランベリーパーク駅、玉川大学・桜美林大学・法政大学多摩キャンパスを含む地形を2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。多摩丘陵と境川沿いの豊かな起伏を可視化。" />
 
   <!-- Leaflet (2D map) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
@@ -29,17 +30,17 @@
 
   <style>
     :root {
-      --coral: #2e7d32;          /* 武蔵野グリーン（世田谷の樹々・等々力渓谷） */
-      --coral-light: #a5d6a7;
-      --orange: #d4a373;          /* 国分寺崖線の砂色（ハケの地層） */
-      --orange-soft: #f1e3cf;
-      --purple: #0288d1;          /* 多摩川ブルー */
-      --purple-light: #81d4fa;
-      --cream: #f4f8ef;
-      --ink: #2d3a2a;
-      --ink-soft: #5b6757;
-      --shadow: 0 6px 20px rgba(46, 125, 50, 0.18);
-      --shadow-strong: 0 10px 30px rgba(2, 136, 209, 0.25);
+      --coral: #1565c0;          /* 境川ブルー（都県境・鶴見川源流・恩田川の水面と多摩丘陵の青空） */
+      --coral-light: #bbdefb;
+      --orange: #e64a19;          /* 薬師池の紅葉・芹ヶ谷の秋・町田リス園のんぼり色 */
+      --orange-soft: #ffccbc;
+      --purple: #558b2f;          /* 多摩丘陵グリーン（小山田緑地・尾根緑道・小山内裏公園） */
+      --purple-light: #c5e1a5;
+      --cream: #e3f2fd;
+      --ink: #0d2c4e;
+      --ink-soft: #3a5670;
+      --shadow: 0 6px 20px rgba(21, 101, 192, 0.18);
+      --shadow-strong: 0 10px 30px rgba(230, 74, 25, 0.25);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -47,7 +48,8 @@
     html, body {
       height: 100%;
       font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
-      background: linear-gradient(135deg, var(--cream) 0%, #eef5e6 100%);
+      background: linear-gradient(135deg, var(--cream) 0%, #f1f8e9 100%);
+      /* 町田：境川ブルー × 薬師池紅葉オレンジ × 多摩丘陵グリーン */
       color: var(--ink);
       overflow: hidden;
       -webkit-text-size-adjust: 100%;
@@ -76,7 +78,7 @@
       justify-content: space-between;
       padding: 0 20px;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(46, 125, 50, 0.12);
+      box-shadow: 0 2px 10px rgba(21, 101, 192, 0.12);
       border-bottom: 3px solid;
       border-image: linear-gradient(90deg, var(--coral) 0%, var(--orange) 60%, var(--purple) 100%) 1;
     }
@@ -114,7 +116,7 @@
     aside.sidebar {
       width: 320px;
       background: #fff;
-      border-right: 1px solid #f3e0d2;
+      border-right: 1px solid var(--coral-light);
       overflow-y: auto;
       padding: 16px;
       box-shadow: 2px 0 10px rgba(0,0,0,0.04);
@@ -126,7 +128,7 @@
       border-radius: 14px;
       padding: 14px;
       margin-bottom: 14px;
-      border: 1px solid #f3e0d2;
+      border: 1px solid var(--coral-light);
     }
     .panel h3 {
       font-family: 'M PLUS Rounded 1c', sans-serif;
@@ -259,7 +261,7 @@
       padding: 6px 10px;
       border-radius: 6px;
       background: var(--purple-light);
-      color: #5e4b8b;
+      color: var(--coral);
       margin-bottom: 8px;
       font-weight: 500;
     }
@@ -460,7 +462,7 @@
         max-height: 75vh;
         height: auto;
         border-right: none;
-        border-top: 1px solid #f3e0d2;
+        border-top: 1px solid var(--coral-light);
         border-radius: 18px 18px 0 0;
         transform: translateY(calc(100% - 44px));
         transition: transform 0.3s ease;
@@ -482,7 +484,7 @@
         width: 44px;
         height: 4px;
         margin: 10px auto 8px;
-        background: #d9c5b8;
+        background: var(--coral-light);
         border-radius: 2px;
         z-index: 10;
       }
@@ -504,7 +506,7 @@
         color: var(--coral);
         font-size: 0.9rem;
         cursor: pointer;
-        border-bottom: 1px solid #f3e0d2;
+        border-bottom: 1px solid var(--coral-light);
       }
       .sidebar-handle i { color: var(--orange); }
 
@@ -646,11 +648,11 @@
       color: #fff;
       font-size: 12px;
     }
-    .poi-cityhall { background: #2e7d32; }
-    .poi-public   { background: #d4a373; }
+    .poi-cityhall { background: #1565c0; }
+    .poi-public   { background: #e64a19; }
     .poi-station  { background: #5e8fd6; }
-    .poi-park     { background: #7cb342; }
-    .poi-temple   { background: #6d4c41; }
+    .poi-park     { background: #558b2f; }
+    .poi-temple   { background: #6a1b9a; }
     .poi-evac_shelter   { background: #2e8b57; }
     .poi-evac_emergency { background: #c0392b; }
     .poi-evac_wide      { background: #d4a017; }
@@ -706,15 +708,14 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="世田谷高低">
   <link rel="apple-touch-icon" href="icon.svg">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
 </head>
 <body>
 
 <header class="app-header">
-  <h1><i class="fa-solid fa-mountain-sun"></i> 世田谷区 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
-  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都世田谷区</span>
+  <h1><i class="fa-solid fa-mountain-sun"></i> 町田市 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
+  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都町田市</span>
 </header>
 
 <main class="app-main">
@@ -784,13 +785,13 @@
       <h3><i class="fa-solid fa-map-pin"></i> 施設の表示</h3>
       <label class="check-item">
         <input type="checkbox" data-poi="cityhall" checked />
-        <span class="check-color" style="background:#2e7d32;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
-        <span>世田谷区役所</span>
+        <span class="check-color" style="background:#1565c0;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
+        <span>町田市役所</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="public" />
-        <span class="check-color" style="background:#d4a373;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
-        <span>区の施設</span>
+        <span class="check-color" style="background:#e64a19;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
+        <span>市の施設</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="station" />
@@ -799,12 +800,12 @@
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="park" />
-        <span class="check-color" style="background:#7cb342;"><i class="fa-solid fa-tree poi-legend-ico"></i></span>
+        <span class="check-color" style="background:#558b2f;"><i class="fa-solid fa-tree poi-legend-ico"></i></span>
         <span>公園</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="temple" />
-        <span class="check-color" style="background:#0288d1;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
+        <span class="check-color" style="background:#6a1b9a;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
         <span>寺社仏閣</span>
       </label>
     </div>
@@ -924,11 +925,11 @@
 
 <script>
 // ============================================================
-// 世田谷区 高低マップ
+// 町田市 高低マップ
 // ============================================================
 
-// 世田谷区役所（初期中心）
-const CITY_CENTER = [35.6464, 139.6533];
+// 町田市役所（森野2丁目）を中心
+const CITY_CENTER = [35.5485, 139.4470];
 const INIT_ZOOM = 12;
 
 // 国土地理院タイル
@@ -987,46 +988,69 @@ const hazardLayers = {
 };
 
 // =======================
-// 世田谷区 施設データ (POI)
-// 国分寺崖線（ハケ）・多摩川低地・等々力渓谷・武蔵野台地など
-// 多様な地形を持つ東京23区最大の人口を擁する区
+// 町田市 施設データ (POI)
+// 都内3番目の面積(71.55km²)・都最南端。多摩丘陵西端・小山田緑地・尾根緑道・
+// 境川（都県境）・鶴見川源流・恩田川・薬師池公園（都指定名勝）・芹ヶ谷公園・
+// 町田リス園・町田天満宮・JR横浜線/小田急線町田駅・玉川学園・桜美林・多摩境
 // =======================
 const POI_DATA = {
   cityhall: {
-    label: '世田谷区役所',
+    label: '町田市役所',
     icon: 'fa-building',
     cssClass: 'poi-cityhall',
     items: [
-      { name: '世田谷区役所（本庁舎）', lat: 35.6464, lng: 139.6533 }
+      { name: '町田市役所（森野2丁目・町田駅徒歩10分）', lat: 35.5485, lng: 139.4470 }
     ]
   },
   public: {
-    label: '区の施設',
+    label: '市の施設',
     icon: 'fa-landmark',
     cssClass: 'poi-public',
     items: [
-      { name: '世田谷区役所（本庁舎）', lat: 35.6464, lng: 139.6533 },
-      { name: '世田谷区民会館', lat: 35.6467, lng: 139.6530 },
-      { name: '北沢総合支所', lat: 35.6628, lng: 139.6680 },
-      { name: '玉川総合支所', lat: 35.6107, lng: 139.6294 },
-      { name: '砧総合支所', lat: 35.6310, lng: 139.6125 },
-      { name: '烏山総合支所', lat: 35.6648, lng: 139.6065 },
-      { name: '世田谷区立中央図書館', lat: 35.6470, lng: 139.6535 },
-      { name: '世田谷区立梅丘図書館', lat: 35.6562, lng: 139.6463 },
-      { name: '世田谷区立深沢図書館', lat: 35.6188, lng: 139.6633 },
-      { name: '世田谷文学館（南烏山）', lat: 35.6705, lng: 139.6028 },
-      { name: '世田谷美術館（砧公園内）', lat: 35.6275, lng: 139.6213 },
-      { name: '五島美術館（上野毛）', lat: 35.6125, lng: 139.6385 },
-      { name: '世田谷区立郷土資料館', lat: 35.6473, lng: 139.6537 },
-      { name: '世田谷パブリックシアター（三軒茶屋）', lat: 35.6437, lng: 139.6695 },
-      { name: '世田谷区民健康村（川場村事業）受付', lat: 35.6466, lng: 139.6530 },
-      { name: '世田谷区立総合運動場', lat: 35.6228, lng: 139.6512 },
-      { name: '世田谷区立大蔵運動場', lat: 35.6342, lng: 139.6188 },
-      { name: '玉川野毛町公園 体育館', lat: 35.6038, lng: 139.6553 },
-      { name: '駒沢オリンピック公園 総合運動場', lat: 35.6263, lng: 139.6620 },
-      { name: '世田谷区立教育センター（弦巻）', lat: 35.6432, lng: 139.6612 },
-      { name: '世田谷区立次太夫堀公園 民家園', lat: 35.6315, lng: 139.6105 },
-      { name: '世田谷区立岡本公園 民家園', lat: 35.6265, lng: 139.6303 }
+      // 市民センター・コミュニティセンター（市域広く10体制）※市役所本庁はcityhallカテゴリを参照
+      { name: '町田市民フォーラム（原町田4丁目・町田駅東口）', lat: 35.5418, lng: 139.4480 },
+      { name: '町田市民ホール（中町・芹ヶ谷公園隣）', lat: 35.5470, lng: 139.4555 },
+      { name: '町田市文化交流センター（原町田4丁目・町田センタービル）', lat: 35.5420, lng: 139.4475 },
+      { name: '町田市玉川学園コミュニティセンター', lat: 35.5658, lng: 139.4683 },
+      { name: '町田市鶴川市民センター', lat: 35.5928, lng: 139.4855 },
+      { name: '町田市鶴川市民センター 鶴川緑の交流館', lat: 35.5912, lng: 139.4860 },
+      { name: '町田市忠生市民センター', lat: 35.5630, lng: 139.4210 },
+      { name: '町田市木曽山崎コミュニティセンター', lat: 35.5658, lng: 139.4365 },
+      { name: '町田市小山市民センター（小山町・市北西部）', lat: 35.5783, lng: 139.3893 },
+      { name: '町田市相原市民センター', lat: 35.5973, lng: 139.3413 },
+      { name: '町田市堺市民センター（相原・JR横浜線沿い）', lat: 35.5895, lng: 139.3445 },
+      { name: '町田市南市民センター（金森・南町田）', lat: 35.5267, lng: 139.4690 },
+      { name: '町田市成瀬コミュニティセンター', lat: 35.5360, lng: 139.4843 },
+      { name: '町田市三輪コミュニティセンター（三輪緑山）', lat: 35.5825, lng: 139.5028 },
+      // 図書館（中央館＋地区館7館）
+      { name: '町田市立中央図書館（原町田・健康福祉会館）', lat: 35.5413, lng: 139.4453 },
+      { name: '町田市立さるびあ図書館（中町・市民ホール隣）', lat: 35.5475, lng: 139.4543 },
+      { name: '町田市立鶴川図書館', lat: 35.5928, lng: 139.4853 },
+      { name: '町田市立忠生図書館', lat: 35.5628, lng: 139.4212 },
+      { name: '町田市立木曽山崎図書館', lat: 35.5658, lng: 139.4368 },
+      { name: '町田市立金森図書館（南町田）', lat: 35.5268, lng: 139.4692 },
+      { name: '町田市立堺図書館（相原）', lat: 35.5895, lng: 139.3445 },
+      { name: '町田市立鶴川駅前図書館', lat: 35.5860, lng: 139.4793 },
+      // 文化・展示施設
+      { name: '町田市立国際版画美術館（芹ヶ谷公園内）', lat: 35.5478, lng: 139.4575 },
+      { name: '町田市立博物館（本町田・縄文〜古墳・ガラス工芸）', lat: 35.5605, lng: 139.4502 },
+      { name: '町田市立自由民権資料館（野津田町・民権の里）', lat: 35.5808, lng: 139.4528 },
+      { name: '町田市民文学館ことばらんど（原町田4丁目）', lat: 35.5418, lng: 139.4480 },
+      { name: 'まちだ中央公民館（町田センタービル）', lat: 35.5420, lng: 139.4475 },
+      // スポーツ施設
+      { name: '町田市立総合体育館（南成瀬・サン町田旭体育館）', lat: 35.5468, lng: 139.4885 },
+      { name: '町田市立陸上競技場（野津田公園）', lat: 35.5775, lng: 139.4458 },
+      { name: '町田GIONスタジアム（野津田公園・FC町田ゼルビア本拠）', lat: 35.5775, lng: 139.4458 },
+      { name: '町田市立室内プール（小山田）', lat: 35.5862, lng: 139.4108 },
+      { name: '町田市立南成瀬体育館', lat: 35.5310, lng: 139.4920 },
+      // 防災・行政
+      { name: '町田市消防本部（中町）', lat: 35.5478, lng: 139.4537 },
+      { name: '町田警察署（中町）', lat: 35.5462, lng: 139.4537 },
+      { name: '南大沢警察署 ※近隣（南大沢・八王子市）', lat: 35.6193, lng: 139.3725 },
+      { name: '町田税務署（中町）', lat: 35.5475, lng: 139.4530 },
+      { name: '町田郵便局（原町田6丁目）', lat: 35.5402, lng: 139.4458 },
+      { name: '町田市保健所（健康福祉会館）', lat: 35.5413, lng: 139.4453 },
+      { name: '東京都町田合同庁舎', lat: 35.5475, lng: 139.4537 }
     ]
   },
   station: {
@@ -1034,49 +1058,27 @@ const POI_DATA = {
     icon: 'fa-train',
     cssClass: 'poi-station',
     items: [
-      // 小田急小田原線
-      { name: '下北沢駅（小田急・京王井の頭線）', lat: 35.6614, lng: 139.6679 },
-      { name: '東北沢駅（小田急）', lat: 35.6643, lng: 139.6760 },
-      { name: '世田谷代田駅（小田急）', lat: 35.6582, lng: 139.6606 },
-      { name: '梅ヶ丘駅（小田急）', lat: 35.6559, lng: 139.6504 },
-      { name: '豪徳寺駅（小田急）', lat: 35.6510, lng: 139.6451 },
-      { name: '経堂駅（小田急）', lat: 35.6517, lng: 139.6376 },
-      { name: '千歳船橋駅（小田急）', lat: 35.6520, lng: 139.6249 },
-      { name: '祖師ヶ谷大蔵駅（小田急）', lat: 35.6536, lng: 139.6123 },
-      { name: '成城学園前駅（小田急）', lat: 35.6403, lng: 139.5994 },
-      { name: '喜多見駅（小田急）', lat: 35.6322, lng: 139.5867 },
-      // 京王線
-      { name: '下高井戸駅（京王線・東急世田谷線）', lat: 35.6680, lng: 139.6379 },
-      { name: '桜上水駅（京王線）', lat: 35.6708, lng: 139.6334 },
-      { name: '上北沢駅（京王線）', lat: 35.6716, lng: 139.6232 },
-      { name: '八幡山駅（京王線）', lat: 35.6725, lng: 139.6155 },
-      { name: '芦花公園駅（京王線）', lat: 35.6735, lng: 139.6058 },
-      { name: '千歳烏山駅（京王線）', lat: 35.6712, lng: 139.5979 },
-      // 京王井の頭線
-      { name: '池ノ上駅（京王井の頭線）', lat: 35.6614, lng: 139.6755 },
-      { name: '新代田駅（京王井の頭線）', lat: 35.6589, lng: 139.6580 },
-      { name: '東松原駅（京王井の頭線）', lat: 35.6597, lng: 139.6486 },
-      { name: '明大前駅（京王井の頭線・京王線）', lat: 35.6671, lng: 139.6492 },
-      // 東急田園都市線
-      { name: '三軒茶屋駅（田園都市線・世田谷線）', lat: 35.6437, lng: 139.6695 },
-      { name: '駒沢大学駅（田園都市線）', lat: 35.6328, lng: 139.6620 },
-      { name: '桜新町駅（田園都市線）', lat: 35.6293, lng: 139.6481 },
-      { name: '用賀駅（田園都市線）', lat: 35.6286, lng: 139.6332 },
-      { name: '二子玉川駅（田園都市線・大井町線）', lat: 35.6113, lng: 139.6280 },
-      // 東急大井町線
-      { name: '尾山台駅（大井町線）', lat: 35.6086, lng: 139.6515 },
-      { name: '九品仏駅（大井町線）', lat: 35.6080, lng: 139.6645 },
-      { name: '上野毛駅（大井町線）', lat: 35.6121, lng: 139.6384 },
-      { name: '等々力駅（大井町線）', lat: 35.6076, lng: 139.6443 },
-      { name: '自由が丘駅（東横線・大井町線、区境）', lat: 35.6076, lng: 139.6688 },
-      // 東急世田谷線
-      { name: '松陰神社前駅（世田谷線）', lat: 35.6515, lng: 139.6650 },
-      { name: '世田谷駅（世田谷線）', lat: 35.6494, lng: 139.6600 },
-      { name: '上町駅（世田谷線）', lat: 35.6470, lng: 139.6532 },
-      { name: '宮の坂駅（世田谷線）', lat: 35.6495, lng: 139.6452 },
-      { name: '山下駅（世田谷線、豪徳寺隣接）', lat: 35.6511, lng: 139.6451 },
-      { name: '若林駅（世田谷線）', lat: 35.6470, lng: 139.6745 },
-      { name: '西太子堂駅（世田谷線）', lat: 35.6447, lng: 139.6755 }
+      // 小田急小田原線（市内主軸）
+      { name: '町田駅（小田急小田原線・市の中心）', lat: 35.5418, lng: 139.4465 },
+      { name: '玉川学園前駅（小田急小田原線・玉川学園）', lat: 35.5660, lng: 139.4683 },
+      { name: '鶴川駅（小田急小田原線・北部の拠点）', lat: 35.5858, lng: 139.4793 },
+      // 小田急多摩線
+      { name: '小田急多摩センター駅 ※近隣（多摩市）', lat: 35.6253, lng: 139.4253 },
+      // JR横浜線（東西軸）
+      { name: '町田駅（JR横浜線・小田急と乗換）', lat: 35.5410, lng: 139.4470 },
+      { name: '成瀬駅（JR横浜線・成瀬地区）', lat: 35.5340, lng: 139.4868 },
+      { name: '古淵駅 ※近隣（相模原市側・市東南境）', lat: 35.5378, lng: 139.4250 },
+      { name: '相原駅（JR横浜線・市最北部・神奈川県境）', lat: 35.5975, lng: 139.3403 },
+      { name: '橋本駅 ※近隣（JR横浜線・相模原線・神奈川県）', lat: 35.5947, lng: 139.3450 },
+      // 京王相模原線（北部・多摩境）
+      { name: '多摩境駅（京王相模原線・市最北西・町田で唯一の京王駅）', lat: 35.6135, lng: 139.3417 },
+      { name: '南大沢駅 ※近隣（京王相模原線・八王子市側）', lat: 35.6173, lng: 139.3678 },
+      // 東急田園都市線（南部）
+      { name: '南町田グランベリーパーク駅（東急田園都市線・市南東）', lat: 35.5215, lng: 139.4742 },
+      { name: 'つくし野駅（東急田園都市線）', lat: 35.5237, lng: 139.4858 },
+      { name: 'すずかけ台駅（東急田園都市線・東工大すずかけ台）', lat: 35.5172, lng: 139.4655 },
+      // 東急こどもの国線
+      { name: '恩田駅 ※近隣（東急こどもの国線・横浜市側・市南東）', lat: 35.5538, lng: 139.5103 }
     ]
   },
   park: {
@@ -1084,24 +1086,41 @@ const POI_DATA = {
     icon: 'fa-tree',
     cssClass: 'poi-park',
     items: [
-      // 世田谷の代表的な公園（武蔵野台地と多摩川河岸段丘の地形を活かしたもの多数）
-      { name: '砧公園（区内最大の都立公園）', lat: 35.6275, lng: 139.6213 },
-      { name: '駒沢オリンピック公園', lat: 35.6263, lng: 139.6620 },
-      { name: '羽根木公園（梅まつりで有名）', lat: 35.6577, lng: 139.6498 },
-      { name: '世田谷公園', lat: 35.6376, lng: 139.6745 },
-      { name: '蘆花恒春園（徳富蘆花旧居）', lat: 35.6716, lng: 139.6017 },
-      { name: '等々力渓谷公園（都内唯一の渓谷）', lat: 35.6066, lng: 139.6478 },
-      { name: '岡本静嘉堂緑地・静嘉堂文庫', lat: 35.6245, lng: 139.6303 },
-      { name: '次大夫堀公園（民家園）', lat: 35.6315, lng: 139.6105 },
-      { name: '上用賀公園', lat: 35.6243, lng: 139.6300 },
-      { name: '都立祖師谷公園', lat: 35.6532, lng: 139.6033 },
-      { name: '都立和田堀給水所緑地（赤堤）', lat: 35.6592, lng: 139.6418 },
-      { name: '玉川野毛町公園', lat: 35.6038, lng: 139.6553 },
-      { name: '二子玉川公園（多摩川河岸段丘）', lat: 35.6126, lng: 139.6360 },
-      { name: '多摩川河川敷（玉堤・宇奈根・喜多見一帯）', lat: 35.6195, lng: 139.6082 },
-      { name: '東京農業大学 食と農の博物館前広場', lat: 35.6432, lng: 139.6296 },
-      { name: '世田谷区立希望丘公園', lat: 35.6679, lng: 139.6072 },
-      { name: '北烏山九丁目屋敷林（保存樹林）', lat: 35.6810, lng: 139.5972 }
+      // 町田三大公園
+      { name: '薬師池公園（東京都指定名勝・町田三大公園・大賀ハス）', lat: 35.5775, lng: 139.4413 },
+      { name: '芹ヶ谷公園（町田三大公園・国際版画美術館・水と緑の広場）', lat: 35.5478, lng: 139.4570 },
+      { name: '野津田公園（町田三大公園・GIONスタジアム・上の原広場）', lat: 35.5775, lng: 139.4458 },
+      // 都立・大規模緑地
+      { name: '都立小山田緑地（多摩丘陵・本園/分園・西園・北園・トンボ池）', lat: 35.5862, lng: 139.4093 },
+      { name: '都立小山内裏公園（多摩境・尾根緑道入口）', lat: 35.6123, lng: 139.3493 },
+      { name: '尾根緑道（戦車道路・桜並木・町田の代表ハイク道）', lat: 35.5985, lng: 139.3925 },
+      { name: '都立桜美林公園（鶴川街道沿い）', lat: 35.5750, lng: 139.4570 },
+      { name: '都立七国山緑地保全地域', lat: 35.5712, lng: 139.4308 },
+      // 自然観察・水辺
+      { name: '町田リス園（薬師池公園隣・タイワンリス放し飼い）', lat: 35.5790, lng: 139.4435 },
+      { name: 'ぼたん園（薬師池公園隣）', lat: 35.5778, lng: 139.4400 },
+      { name: 'ダリア園（薬師池公園隣）', lat: 35.5765, lng: 139.4438 },
+      { name: '町田えびね苑（薬師池公園隣）', lat: 35.5772, lng: 139.4382 },
+      // 河川・水辺
+      { name: '境川遊歩道（都県境・町田駅〜成瀬）', lat: 35.5395, lng: 139.4528 },
+      { name: '恩田川遊歩道（成瀬〜古淵・桜の名所）', lat: 35.5380, lng: 139.4760 },
+      { name: '鶴見川源流の泉（上小山田町・源流碑）', lat: 35.5760, lng: 139.4045 },
+      { name: '鶴見川源流域（上小山田・里山自然）', lat: 35.5775, lng: 139.4030 },
+      { name: '鶴見川源流泉のひろば', lat: 35.5757, lng: 139.4043 },
+      // 地区公園・近隣公園
+      { name: '原町田中央通り公園', lat: 35.5408, lng: 139.4475 },
+      { name: '町田中央公園', lat: 35.5475, lng: 139.4385 },
+      { name: '本町田公園', lat: 35.5615, lng: 139.4495 },
+      { name: '木曽山崎公園', lat: 35.5658, lng: 139.4368 },
+      { name: '玉川学園緑地（玉川学園キャンパス）', lat: 35.5675, lng: 139.4715 },
+      { name: '鶴川中央公園', lat: 35.5918, lng: 139.4838 },
+      { name: '三輪緑山公園（三輪・閑静な丘陵）', lat: 35.5825, lng: 139.5028 },
+      { name: '南町田鶴間公園（グランベリーパーク隣・東急開発）', lat: 35.5210, lng: 139.4720 },
+      { name: '金森緑地（南町田）', lat: 35.5278, lng: 139.4680 },
+      { name: '成瀬中央公園', lat: 35.5358, lng: 139.4860 },
+      { name: '相原中央公園（相原・北部）', lat: 35.5942, lng: 139.3398 },
+      { name: '忠生公園（忠生・里山自然）', lat: 35.5615, lng: 139.4180 },
+      { name: '滝の沢源流（小山田緑地・湧水）', lat: 35.5868, lng: 139.4088 }
     ]
   },
   temple: {
@@ -1109,21 +1128,34 @@ const POI_DATA = {
     icon: 'fa-torii-gate',
     cssClass: 'poi-temple',
     items: [
-      { name: '豪徳寺（招き猫発祥・井伊家墓所）', lat: 35.6498, lng: 139.6448 },
-      { name: '松陰神社（吉田松陰墓所）', lat: 35.6499, lng: 139.6628 },
-      { name: '世田谷八幡宮', lat: 35.6498, lng: 139.6463 },
-      { name: '九品仏 浄真寺', lat: 35.6079, lng: 139.6601 },
-      { name: '太子堂八幡神社', lat: 35.6428, lng: 139.6692 },
-      { name: '北澤八幡神社', lat: 35.6593, lng: 139.6720 },
-      { name: '森厳寺（淡島）', lat: 35.6562, lng: 139.6635 },
-      { name: '勝光院（桜田門外の変関係寺）', lat: 35.6477, lng: 139.6480 },
-      { name: '駒留八幡神社', lat: 35.6383, lng: 139.6643 },
-      { name: '世田谷区瀬田玉川神社', lat: 35.6111, lng: 139.6328 },
-      { name: '玉眞院 玉川大師（弘法大師の地下霊場）', lat: 35.6116, lng: 139.6356 },
-      { name: '砧三峯神社', lat: 35.6360, lng: 139.6111 },
-      { name: '喜多見氷川神社', lat: 35.6300, lng: 139.5910 },
-      { name: '宇奈根氷川神社', lat: 35.6228, lng: 139.5910 },
-      { name: '駒繋神社（下馬）', lat: 35.6388, lng: 139.6837 }
+      // 町田中心部・原町田
+      { name: '町田天満宮（原町田・市の総鎮守・菅原道真公）', lat: 35.5432, lng: 139.4438 },
+      { name: '勝楽寺（原町田・原町田仏教会）', lat: 35.5420, lng: 139.4490 },
+      { name: '宗保院（原町田・曹洞宗・町田の街道筋）', lat: 35.5408, lng: 139.4488 },
+      // 本町田・薬師池
+      { name: '町田薬師堂（華厳院・薬師池畔・市名所）', lat: 35.5783, lng: 139.4415 },
+      { name: '福王寺（本町田・町田三十三観音）', lat: 35.5618, lng: 139.4503 },
+      { name: '菅原神社（本町田・天神様）', lat: 35.5615, lng: 139.4490 },
+      // 鶴川・三輪・玉川学園
+      { name: '武相荘 ※白洲次郎・正子旧居（鶴川駅近・市指定文化財）', lat: 35.5910, lng: 139.4863 },
+      { name: '神明社（広袴町）', lat: 35.5878, lng: 139.4938 },
+      { name: '高蔵寺（三輪・曹洞宗）', lat: 35.5840, lng: 139.5040 },
+      { name: '三輪白坂横穴墓群（三輪緑山）', lat: 35.5840, lng: 139.5010 },
+      { name: '高ヶ坂石器時代遺跡（高ヶ坂・国指定史跡）', lat: 35.5395, lng: 139.4625 },
+      // 南成瀬・成瀬
+      { name: '高ヶ坂熊野神社（高ヶ坂4丁目）', lat: 35.5395, lng: 139.4658 },
+      { name: '東雲寺（成瀬・曹洞宗）', lat: 35.5370, lng: 139.4845 },
+      // 忠生・小山田
+      { name: '泉龍寺（忠生・市指定有形文化財）', lat: 35.5635, lng: 139.4198 },
+      { name: '日枝神社（忠生・里山の山王さま）', lat: 35.5640, lng: 139.4205 },
+      { name: '宝泉寺（小山田・小山田氏ゆかり）', lat: 35.5905, lng: 139.4180 },
+      { name: '大泉寺（小山田・小山田有重墓所）', lat: 35.5870, lng: 139.4170 },
+      { name: '七国山神社（七国山緑地保全地域）', lat: 35.5705, lng: 139.4310 },
+      // 相原・堺
+      { name: '香蔵院（相原・市最北部）', lat: 35.5965, lng: 139.3410 },
+      // 南町田
+      { name: '金森杉山神社（金森・南町田）', lat: 35.5295, lng: 139.4707 },
+      { name: '鶴間熊野神社（鶴間・南町田）', lat: 35.5232, lng: 139.4763 }
     ]
   },
   evac_shelter: {
@@ -1131,43 +1163,66 @@ const POI_DATA = {
     icon: 'fa-house-chimney-medical',
     cssClass: 'poi-evac_shelter',
     items: [
-      // 世田谷区立小中学校（主要な指定避難所）
-      // 北沢地区
-      { name: '世田谷区立北沢中学校', lat: 35.6622, lng: 139.6700 },
-      { name: '世田谷区立守山小学校', lat: 35.6580, lng: 139.6622 },
-      { name: '世田谷区立松原小学校', lat: 35.6635, lng: 139.6485 },
-      { name: '世田谷区立赤堤小学校', lat: 35.6612, lng: 139.6404 },
-      { name: '世田谷区立梅丘中学校', lat: 35.6555, lng: 139.6486 },
-      // 世田谷地区
-      { name: '世田谷区立桜小学校', lat: 35.6438, lng: 139.6488 },
-      { name: '世田谷区立桜中学校', lat: 35.6429, lng: 139.6477 },
-      { name: '世田谷区立池尻小学校', lat: 35.6488, lng: 139.6810 },
-      { name: '世田谷区立太子堂小学校', lat: 35.6450, lng: 139.6727 },
-      { name: '世田谷区立三軒茶屋小学校', lat: 35.6411, lng: 139.6717 },
-      { name: '世田谷区立三宿中学校', lat: 35.6480, lng: 139.6822 },
-      { name: '世田谷区立松沢小学校', lat: 35.6712, lng: 139.6390 },
-      // 玉川地区
-      { name: '世田谷区立駒沢小学校', lat: 35.6310, lng: 139.6640 },
-      { name: '世田谷区立駒沢中学校', lat: 35.6324, lng: 139.6650 },
-      { name: '世田谷区立用賀小学校', lat: 35.6275, lng: 139.6310 },
-      { name: '世田谷区立用賀中学校', lat: 35.6262, lng: 139.6334 },
-      { name: '世田谷区立瀬田小学校', lat: 35.6168, lng: 139.6303 },
-      { name: '世田谷区立玉川小学校', lat: 35.6094, lng: 139.6322 },
-      { name: '世田谷区立深沢小学校', lat: 35.6207, lng: 139.6620 },
-      { name: '世田谷区立等々力小学校', lat: 35.6107, lng: 139.6457 },
-      { name: '世田谷区立尾山台小学校', lat: 35.6098, lng: 139.6520 },
-      { name: '世田谷区立九品仏小学校', lat: 35.6086, lng: 139.6630 },
-      // 砧地区
-      { name: '世田谷区立砧小学校', lat: 35.6346, lng: 139.6157 },
-      { name: '世田谷区立明正小学校', lat: 35.6388, lng: 139.5985 },
-      { name: '世田谷区立成城学園前 砧南中学校', lat: 35.6195, lng: 139.5985 },
-      { name: '世田谷区立喜多見中学校', lat: 35.6320, lng: 139.5895 },
-      { name: '世田谷区立祖師谷小学校', lat: 35.6553, lng: 139.6110 },
-      // 烏山地区
-      { name: '世田谷区立烏山小学校', lat: 35.6700, lng: 139.5995 },
-      { name: '世田谷区立烏山中学校', lat: 35.6705, lng: 139.6022 },
-      { name: '世田谷区立芦花小学校', lat: 35.6720, lng: 139.6060 },
-      { name: '世田谷区立八幡山小学校', lat: 35.6712, lng: 139.6190 }
+      // 町田市は市立小42校・中20校が中心。各地区の主要校を選出
+      // 町田中心部（原町田・本町田・森野）
+      { name: '町田市立町田第一小学校（中町）', lat: 35.5462, lng: 139.4485 },
+      { name: '町田市立町田第二小学校（中町）', lat: 35.5512, lng: 139.4520 },
+      { name: '町田市立町田第三小学校（原町田6丁目）', lat: 35.5380, lng: 139.4440 },
+      { name: '町田市立町田第五小学校（中町）', lat: 35.5478, lng: 139.4540 },
+      { name: '町田市立町田第六小学校（本町田）', lat: 35.5605, lng: 139.4498 },
+      { name: '町田市立南大谷小学校（南大谷）', lat: 35.5570, lng: 139.4628 },
+      { name: '町田市立町田第一中学校（中町）', lat: 35.5470, lng: 139.4495 },
+      { name: '町田市立町田第二中学校（南大谷）', lat: 35.5555, lng: 139.4595 },
+      { name: '町田市立南成瀬中学校（南成瀬）', lat: 35.5305, lng: 139.4905 },
+      // 玉川学園・成瀬
+      { name: '町田市立南第一小学校（金森）', lat: 35.5305, lng: 139.4658 },
+      { name: '町田市立南第二小学校（金森）', lat: 35.5278, lng: 139.4700 },
+      { name: '町田市立南第三小学校（成瀬）', lat: 35.5325, lng: 139.4820 },
+      { name: '町田市立南第四小学校（南成瀬）', lat: 35.5295, lng: 139.4895 },
+      { name: '町田市立成瀬中央小学校（成瀬が丘）', lat: 35.5358, lng: 139.4810 },
+      { name: '町田市立南成瀬小学校（南成瀬）', lat: 35.5298, lng: 139.4905 },
+      { name: '町田市立南中学校（金森）', lat: 35.5295, lng: 139.4683 },
+      { name: '町田市立成瀬台中学校（成瀬台）', lat: 35.5380, lng: 139.4920 },
+      // 鶴川・玉川学園
+      { name: '町田市立鶴川第一小学校（能ヶ谷）', lat: 35.5878, lng: 139.4770 },
+      { name: '町田市立鶴川第二小学校（鶴川）', lat: 35.5905, lng: 139.4855 },
+      { name: '町田市立鶴川第三小学校（三輪緑山）', lat: 35.5818, lng: 139.5020 },
+      { name: '町田市立鶴川第四小学校（鶴川）', lat: 35.5925, lng: 139.4895 },
+      { name: '町田市立大蔵小学校（大蔵町）', lat: 35.5945, lng: 139.4858 },
+      { name: '町田市立金井小学校（金井）', lat: 35.5805, lng: 139.4720 },
+      { name: '町田市立鶴川中学校（能ヶ谷）', lat: 35.5870, lng: 139.4783 },
+      { name: '町田市立薬師中学校（金井）', lat: 35.5810, lng: 139.4665 },
+      { name: '町田市立金井中学校（金井）', lat: 35.5800, lng: 139.4730 },
+      { name: '町田市立真光寺中学校（真光寺）', lat: 35.5980, lng: 139.4625 },
+      // 忠生・小山・小山田
+      { name: '町田市立忠生第一小学校（忠生）', lat: 35.5615, lng: 139.4180 },
+      { name: '町田市立忠生第三小学校（忠生）', lat: 35.5648, lng: 139.4205 },
+      { name: '町田市立小山田小学校（小山田）', lat: 35.5895, lng: 139.4118 },
+      { name: '町田市立小山田南小学校（上小山田）', lat: 35.5820, lng: 139.4040 },
+      { name: '町田市立藤の台小学校（藤の台）', lat: 35.5790, lng: 139.4360 },
+      { name: '町田市立木曽境川小学校（木曽東）', lat: 35.5630, lng: 139.4345 },
+      { name: '町田市立忠生中学校（忠生）', lat: 35.5635, lng: 139.4218 },
+      { name: '町田市立山崎中学校（山崎町）', lat: 35.5683, lng: 139.4378 },
+      { name: '町田市立小山田中学校（下小山田）', lat: 35.5895, lng: 139.4135 },
+      // 小山・多摩境
+      { name: '町田市立小山中央小学校（小山町）', lat: 35.5810, lng: 139.3878 },
+      { name: '町田市立小山ヶ丘小学校（小山ヶ丘）', lat: 35.5990, lng: 139.3592 },
+      { name: '町田市立小山中学校（小山町）', lat: 35.5778, lng: 139.3890 },
+      // 相原・堺
+      { name: '町田市立相原小学校（相原町）', lat: 35.5970, lng: 139.3410 },
+      { name: '町田市立堺中学校（相原町）', lat: 35.5895, lng: 139.3445 },
+      // 南町田・南
+      { name: '町田市立つくし野小学校（つくし野）', lat: 35.5237, lng: 139.4865 },
+      { name: '町田市立南つくし野小学校（南つくし野）', lat: 35.5168, lng: 139.4838 },
+      { name: '町田市立鶴間小学校（鶴間）', lat: 35.5215, lng: 139.4770 },
+      { name: '町田市立つくし野中学校（つくし野）', lat: 35.5225, lng: 139.4848 },
+      // 都立高校・市民センターも避難所
+      { name: '都立町田高校（中町）', lat: 35.5468, lng: 139.4510 },
+      { name: '都立町田工業高校（忠生）', lat: 35.5663, lng: 139.4242 },
+      { name: '都立小川高校（小川）', lat: 35.5340, lng: 139.4815 },
+      { name: '都立成瀬高校（南成瀬）', lat: 35.5295, lng: 139.4910 },
+      { name: '都立野津田高校（野津田町）', lat: 35.5810, lng: 139.4465 },
+      { name: '町田市立総合体育館（南成瀬）', lat: 35.5468, lng: 139.4885 }
     ]
   },
   evac_emergency: {
@@ -1175,22 +1230,19 @@ const POI_DATA = {
     icon: 'fa-person-running',
     cssClass: 'poi-evac_emergency',
     items: [
-      // 洪水・地震時に緊急で命を守る場所（広い公園・グラウンド・高台）
-      { name: '砧公園（緊急避難場所）', lat: 35.6275, lng: 139.6213 },
-      { name: '駒沢オリンピック公園（緊急避難場所）', lat: 35.6263, lng: 139.6620 },
-      { name: '羽根木公園（緊急避難場所）', lat: 35.6577, lng: 139.6498 },
-      { name: '世田谷公園（緊急避難場所）', lat: 35.6376, lng: 139.6745 },
-      { name: '蘆花恒春園（緊急避難場所）', lat: 35.6716, lng: 139.6017 },
-      { name: '祖師谷公園（緊急避難場所）', lat: 35.6532, lng: 139.6033 },
-      { name: '二子玉川公園（緊急避難場所、※多摩川氾濫時は不可）', lat: 35.6126, lng: 139.6360 },
-      { name: '次大夫堀公園（緊急避難場所）', lat: 35.6315, lng: 139.6105 },
-      { name: '上用賀公園（緊急避難場所）', lat: 35.6243, lng: 139.6300 },
-      { name: '玉川野毛町公園（緊急避難場所）', lat: 35.6038, lng: 139.6553 },
-      { name: '世田谷区立総合運動場（緊急避難場所）', lat: 35.6228, lng: 139.6512 },
-      { name: '大蔵運動公園（緊急避難場所）', lat: 35.6342, lng: 139.6188 },
-      { name: '希望丘公園（緊急避難場所）', lat: 35.6679, lng: 139.6072 },
-      { name: '豪徳寺一帯（緊急避難場所）', lat: 35.6498, lng: 139.6448 },
-      { name: '松陰神社境内（緊急避難場所）', lat: 35.6499, lng: 139.6628 }
+      // 境川・恩田川氾濫・土砂災害・地震に対応する町田市の緊急避難場所
+      { name: '芹ヶ谷公園（中心市街地高台・町田三大公園）', lat: 35.5478, lng: 139.4570 },
+      { name: '薬師池公園（本町田高台・町田三大公園）', lat: 35.5775, lng: 139.4413 },
+      { name: '野津田公園（野津田町高台・GIONスタジアム）', lat: 35.5775, lng: 139.4458 },
+      { name: '小山田緑地（多摩丘陵）', lat: 35.5862, lng: 139.4093 },
+      { name: '尾根緑道（戦車道路・桜並木）', lat: 35.5985, lng: 139.3925 },
+      { name: '小山内裏公園（多摩境高台）', lat: 35.6123, lng: 139.3493 },
+      { name: '七国山緑地（七国山）', lat: 35.5712, lng: 139.4308 },
+      { name: '忠生公園（忠生・里山高台）', lat: 35.5615, lng: 139.4180 },
+      { name: '南町田鶴間公園（東急開発・南町田）', lat: 35.5210, lng: 139.4720 },
+      { name: '相原中央公園（相原・北部）', lat: 35.5942, lng: 139.3398 },
+      { name: '町田市立総合体育館（大型屋内）', lat: 35.5468, lng: 139.4885 },
+      { name: '町田市立陸上競技場（野津田公園内）', lat: 35.5775, lng: 139.4458 }
     ]
   },
   evac_wide: {
@@ -1199,14 +1251,14 @@ const POI_DATA = {
     cssClass: 'poi-evac_wide',
     items: [
       // 大規模火災発生時に一時的に避難する広い場所
-      { name: '砧公園・大蔵運動公園一帯', lat: 35.6275, lng: 139.6213 },
-      { name: '駒沢オリンピック公園一帯', lat: 35.6263, lng: 139.6620 },
-      { name: '蘆花恒春園・芦花公園駅一帯', lat: 35.6720, lng: 139.6040 },
-      { name: '祖師谷公園・東京農大一帯', lat: 35.6532, lng: 139.6033 },
-      { name: '羽根木公園一帯', lat: 35.6577, lng: 139.6498 },
-      { name: '世田谷公園・池尻一帯', lat: 35.6376, lng: 139.6745 },
-      { name: '東京都立松沢病院・赤堤緑地一帯', lat: 35.6680, lng: 139.6420 },
-      { name: '多摩川河川敷（玉堤・宇奈根・喜多見）', lat: 35.6195, lng: 139.6082 }
+      { name: '薬師池公園・本町田丘陵一帯', lat: 35.5775, lng: 139.4413 },
+      { name: '芹ヶ谷公園・市民ホール一帯', lat: 35.5478, lng: 139.4570 },
+      { name: '野津田公園・自由民権の丘一帯', lat: 35.5790, lng: 139.4458 },
+      { name: '小山田緑地・鶴見川源流一帯', lat: 35.5862, lng: 139.4093 },
+      { name: '尾根緑道・小山内裏公園一帯', lat: 35.6050, lng: 139.3700 },
+      { name: '玉川大学・玉川学園キャンパス', lat: 35.5662, lng: 139.4690 },
+      { name: '桜美林大学 町田キャンパス（常盤町）', lat: 35.5928, lng: 139.4250 },
+      { name: '南町田鶴間公園・グランベリーパーク一帯', lat: 35.5215, lng: 139.4730 }
     ]
   },
   evac_welfare: {
@@ -1215,18 +1267,22 @@ const POI_DATA = {
     cssClass: 'poi-evac_welfare',
     items: [
       // 要配慮者（高齢者・障がい者等）向けの避難所
-      { name: '世田谷区立梅ヶ丘拠点（保健医療福祉総合プラザ）', lat: 35.6555, lng: 139.6502 },
-      { name: '世田谷区総合福祉センター', lat: 35.6470, lng: 139.6530 },
-      { name: '世田谷区立障害者就労支援センターすきっぷ', lat: 35.6466, lng: 139.6538 },
-      { name: '特別養護老人ホーム きたざわ苑', lat: 35.6655, lng: 139.6678 },
-      { name: '特別養護老人ホーム うめとぴあ', lat: 35.6562, lng: 139.6498 },
-      { name: '特別養護老人ホーム 千歳敬心苑', lat: 35.6518, lng: 139.6240 },
-      { name: '特別養護老人ホーム きぬた園', lat: 35.6346, lng: 139.6160 },
-      { name: '特別養護老人ホーム 芦花ホーム', lat: 35.6712, lng: 139.6020 },
-      { name: '世田谷区立心身障害者(児)地域生活支援センター', lat: 35.6462, lng: 139.6540 },
-      { name: '世田谷区立喜多見子ども家庭支援センター', lat: 35.6322, lng: 139.5870 },
-      { name: '世田谷区立尾山台地域包括支援センター', lat: 35.6086, lng: 139.6515 },
-      { name: '世田谷区立成城地域包括支援センター', lat: 35.6403, lng: 139.5994 }
+      { name: '町田市保健所（健康福祉会館）', lat: 35.5413, lng: 139.4453 },
+      { name: '町田市健康福祉会館', lat: 35.5413, lng: 139.4453 },
+      { name: '町田市総合保健福祉センター', lat: 35.5418, lng: 139.4460 },
+      { name: '町田市障がい者福祉センター', lat: 35.5430, lng: 139.4495 },
+      { name: '町田市社会福祉協議会', lat: 35.5418, lng: 139.4465 },
+      { name: '町田市子ども家庭支援センター（原町田）', lat: 35.5418, lng: 139.4480 },
+      { name: '町田市高齢者あんしんセンター本町田（本町田）', lat: 35.5618, lng: 139.4493 },
+      { name: '町田市高齢者あんしんセンター鶴川（鶴川）', lat: 35.5905, lng: 139.4855 },
+      { name: '町田市高齢者あんしんセンター玉川学園（玉川学園）', lat: 35.5670, lng: 139.4683 },
+      { name: '町田市高齢者あんしんセンター忠生（忠生）', lat: 35.5628, lng: 139.4212 },
+      { name: '町田市高齢者あんしんセンター南（金森）', lat: 35.5285, lng: 139.4690 },
+      { name: '特別養護老人ホーム まちナーシングホーム（本町田）', lat: 35.5605, lng: 139.4500 },
+      { name: '特別養護老人ホーム 鶴川さくら苑（能ヶ谷）', lat: 35.5870, lng: 139.4780 },
+      { name: '特別養護老人ホーム 浄風園（金井）', lat: 35.5798, lng: 139.4710 },
+      { name: '町田市民病院（旭町）', lat: 35.5572, lng: 139.4313 },
+      { name: '町田病院（木曽東・市民病院系）', lat: 35.5630, lng: 139.4330 }
     ]
   }
 };
@@ -1271,7 +1327,7 @@ function setPOIVisibility(category, visible) {
   }
 }
 
-// 初期表示：世田谷区役所のみON
+// 初期表示：町田市役所のみON
 setPOIVisibility('cityhall', true);
 
 // カテゴリ切替イベント
@@ -1429,7 +1485,7 @@ function addCSPoint(lat, lng) {
   csMarkers.push(marker);
   if (csPoints.length === 2) {
     csLine = L.polyline(csPoints, {
-      color: '#0288d1',
+      color: '#558b2f',
       weight: 4,
       opacity: 0.8,
       dashArray: '8, 8'
@@ -1502,15 +1558,15 @@ function renderCrossSection(labels, data, totalDist) {
       datasets: [{
         label: '標高 (m)',
         data: data,
-        borderColor: '#2e7d32',
+        borderColor: '#1565c0',
         backgroundColor: (context) => {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
-          if (!chartArea) return 'rgba(46,125,50,0.2)';
+          if (!chartArea) return 'rgba(21,101,192,0.2)';
           const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          gradient.addColorStop(0, 'rgba(46,125,50,0.6)');
-          gradient.addColorStop(0.5, 'rgba(212,163,115,0.35)');
-          gradient.addColorStop(1, 'rgba(129,212,250,0.1)');
+          gradient.addColorStop(0, 'rgba(21,101,192,0.6)');
+          gradient.addColorStop(0.5, 'rgba(230,74,25,0.32)');
+          gradient.addColorStop(1, 'rgba(85,139,47,0.12)');
           return gradient;
         },
         fill: true,
@@ -1535,14 +1591,14 @@ function renderCrossSection(labels, data, totalDist) {
       },
       scales: {
         x: {
-          title: { display: true, text: '地点 A からの距離 (m)', color: '#6b5b55' },
-          ticks: { color: '#6b5b55', maxTicksLimit: 10 },
-          grid: { color: '#f3e0d2' }
+          title: { display: true, text: '地点 A からの距離 (m)', color: '#0d2c4e' },
+          ticks: { color: '#0d2c4e', maxTicksLimit: 10 },
+          grid: { color: '#bbdefb' }
         },
         y: {
-          title: { display: true, text: '標高 (m)', color: '#6b5b55' },
-          ticks: { color: '#6b5b55' },
-          grid: { color: '#f3e0d2' }
+          title: { display: true, text: '標高 (m)', color: '#0d2c4e' },
+          ticks: { color: '#0d2c4e' },
+          grid: { color: '#bbdefb' }
         }
       }
     }
@@ -1760,14 +1816,14 @@ function init3D() {
       }
     }, 300);
 
-    // 空（温かみのある夕焼けトーン）
+    // 空（多摩丘陵の青空・薬師池の紅葉・境川の伏流とーン）
     try {
       map3d.setSky({
-        'sky-color': '#a5d6f8',
+        'sky-color': '#bbdefb',
         'sky-horizon-blend': 0.7,
-        'horizon-color': '#c8e6c9',
+        'horizon-color': '#ffccbc',
         'horizon-fog-blend': 0.6,
-        'fog-color': '#f4f8ef',
+        'fog-color': '#e3f2fd',
         'fog-ground-blend': 0.4
       });
     } catch(e) { /* 旧バージョン互換 */ }
@@ -1962,15 +2018,15 @@ window.addEventListener('unhandledrejection', (e) => {
 // =======================
 updateCSStatus();
 
-// 世田谷区の範囲を少し強調表示（概観：東西に長い区形）
-const setagayaBounds = L.rectangle([[35.605, 139.572], [35.668, 139.665]], {
-  color: '#2e7d32',
+// 町田市の範囲を少し強調表示（概観：多摩丘陵の西端・境川沿いに東西に長い都内3番目の面積の市）
+const machidaBounds = L.rectangle([[35.495, 139.310], [35.640, 139.510]], {
+  color: '#1565c0',
   weight: 2,
   fillOpacity: 0,
   dashArray: '6, 6'
 }).addTo(map2d);
 
-console.log('🌳 世田谷区 高低マップ 起動完了');
+console.log('🌿 町田市 高低マップ 起動完了');
 
 // =======================
 // PWA: Service Worker 登録

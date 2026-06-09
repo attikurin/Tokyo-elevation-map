@@ -1,0 +1,22 @@
+{
+  "name": "武蔵野市 高低マップ",
+  "short_name": "武蔵野高低",
+  "description": "東京都武蔵野市（武蔵野台地・井の頭池の湧水・神田川源流・玉川上水）の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。吉祥寺サンロード、井の頭恩賜公園、三鷹の森ジブリ美術館、武蔵野中央公園（旧中島飛行機武蔵製作所跡）、成蹊大学けやき並木、武蔵境すきっぷ通りなどを可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#e0f2f1",
+  "theme_color": "#00838f",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

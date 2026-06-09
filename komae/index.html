@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#2e7d32" />
+  <meta name="theme-color" content="#0277bd" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <!-- Theme: 武蔵野グリーン × 国分寺崖線の砂色 × 多摩川ブルー -->
-  <title>世田谷区 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
-  <meta name="description" content="東京都世田谷区のインタラクティブな標高（高低）マップ。武蔵野台地・国分寺崖線（ハケ）・多摩川低地・等々力渓谷・野川／仙川／谷沢川の谷地形を2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。" />
+  <meta name="apple-mobile-web-app-title" content="狛江高低" />
+  <!-- Theme: 多摩川ブルー × 泉龍寺朱 × 狛江古墳パープル -->
+  <title>狛江市 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
+  <meta name="description" content="東京都狛江市（都内2番目に小さい市・6.39km²）のインタラクティブな標高（高低）マップ。多摩川北岸・武蔵野台地南端の縁・国分寺崖線（はけ）・野川・多摩川・六郷用水跡・狛江市役所（和泉本町）、エコルマホール、西河原公園、多摩川五本松、泉龍寺（狛江市名の起源・弁財天池）、伊豆美神社（旧六所宮・市の総鎮守）、狛江百塚・亀塚古墳・兜塚古墳、むいから民家園、小田急小田原線狛江駅・和泉多摩川駅を含む地形を2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。多摩川段丘と野川の繊細な起伏を可視化。" />
 
   <!-- Leaflet (2D map) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
@@ -29,17 +30,17 @@
 
   <style>
     :root {
-      --coral: #2e7d32;          /* 武蔵野グリーン（世田谷の樹々・等々力渓谷） */
-      --coral-light: #a5d6a7;
-      --orange: #d4a373;          /* 国分寺崖線の砂色（ハケの地層） */
-      --orange-soft: #f1e3cf;
-      --purple: #0288d1;          /* 多摩川ブルー */
-      --purple-light: #81d4fa;
-      --cream: #f4f8ef;
-      --ink: #2d3a2a;
-      --ink-soft: #5b6757;
-      --shadow: 0 6px 20px rgba(46, 125, 50, 0.18);
-      --shadow-strong: 0 10px 30px rgba(2, 136, 209, 0.25);
+      --coral: #0277bd;          /* 多摩川ブルー（多摩川五本松の青空・多摩川河口の水面） */
+      --coral-light: #b3e5fc;
+      --orange: #e65100;          /* 泉龍寺弁財天の朱・伊豆美神社鳥居の朱 */
+      --orange-soft: #ffe0b2;
+      --purple: #6a1b9a;          /* 狛江百塚パープル（狛江古墳群・亀塚古墳・兜塚古墳の深い由来） */
+      --purple-light: #d1c4e9;
+      --cream: #e1f5fe;
+      --ink: #0d2c4e;
+      --ink-soft: #3a5670;
+      --shadow: 0 6px 20px rgba(2, 119, 189, 0.18);
+      --shadow-strong: 0 10px 30px rgba(230, 81, 0, 0.25);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -47,7 +48,8 @@
     html, body {
       height: 100%;
       font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
-      background: linear-gradient(135deg, var(--cream) 0%, #eef5e6 100%);
+      background: linear-gradient(135deg, var(--cream) 0%, #fff3e0 100%);
+      /* 狛江：多摩川ブルー × 泉龍寺朱 × 狛江古墳パープル */
       color: var(--ink);
       overflow: hidden;
       -webkit-text-size-adjust: 100%;
@@ -76,7 +78,7 @@
       justify-content: space-between;
       padding: 0 20px;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(46, 125, 50, 0.12);
+      box-shadow: 0 2px 10px rgba(2, 119, 189, 0.12);
       border-bottom: 3px solid;
       border-image: linear-gradient(90deg, var(--coral) 0%, var(--orange) 60%, var(--purple) 100%) 1;
     }
@@ -114,7 +116,7 @@
     aside.sidebar {
       width: 320px;
       background: #fff;
-      border-right: 1px solid #f3e0d2;
+      border-right: 1px solid var(--coral-light);
       overflow-y: auto;
       padding: 16px;
       box-shadow: 2px 0 10px rgba(0,0,0,0.04);
@@ -126,7 +128,7 @@
       border-radius: 14px;
       padding: 14px;
       margin-bottom: 14px;
-      border: 1px solid #f3e0d2;
+      border: 1px solid var(--coral-light);
     }
     .panel h3 {
       font-family: 'M PLUS Rounded 1c', sans-serif;
@@ -259,7 +261,7 @@
       padding: 6px 10px;
       border-radius: 6px;
       background: var(--purple-light);
-      color: #5e4b8b;
+      color: var(--coral);
       margin-bottom: 8px;
       font-weight: 500;
     }
@@ -460,7 +462,7 @@
         max-height: 75vh;
         height: auto;
         border-right: none;
-        border-top: 1px solid #f3e0d2;
+        border-top: 1px solid var(--coral-light);
         border-radius: 18px 18px 0 0;
         transform: translateY(calc(100% - 44px));
         transition: transform 0.3s ease;
@@ -482,7 +484,7 @@
         width: 44px;
         height: 4px;
         margin: 10px auto 8px;
-        background: #d9c5b8;
+        background: var(--coral-light);
         border-radius: 2px;
         z-index: 10;
       }
@@ -504,7 +506,7 @@
         color: var(--coral);
         font-size: 0.9rem;
         cursor: pointer;
-        border-bottom: 1px solid #f3e0d2;
+        border-bottom: 1px solid var(--coral-light);
       }
       .sidebar-handle i { color: var(--orange); }
 
@@ -646,11 +648,11 @@
       color: #fff;
       font-size: 12px;
     }
-    .poi-cityhall { background: #2e7d32; }
-    .poi-public   { background: #d4a373; }
+    .poi-cityhall { background: #0277bd; }
+    .poi-public   { background: #e65100; }
     .poi-station  { background: #5e8fd6; }
-    .poi-park     { background: #7cb342; }
-    .poi-temple   { background: #6d4c41; }
+    .poi-park     { background: #4caf50; }
+    .poi-temple   { background: #6a1b9a; }
     .poi-evac_shelter   { background: #2e8b57; }
     .poi-evac_emergency { background: #c0392b; }
     .poi-evac_wide      { background: #d4a017; }
@@ -706,15 +708,14 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="世田谷高低">
   <link rel="apple-touch-icon" href="icon.svg">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
 </head>
 <body>
 
 <header class="app-header">
-  <h1><i class="fa-solid fa-mountain-sun"></i> 世田谷区 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
-  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都世田谷区</span>
+  <h1><i class="fa-solid fa-mountain-sun"></i> 狛江市 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
+  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都狛江市</span>
 </header>
 
 <main class="app-main">
@@ -784,13 +785,13 @@
       <h3><i class="fa-solid fa-map-pin"></i> 施設の表示</h3>
       <label class="check-item">
         <input type="checkbox" data-poi="cityhall" checked />
-        <span class="check-color" style="background:#2e7d32;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
-        <span>世田谷区役所</span>
+        <span class="check-color" style="background:#0277bd;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
+        <span>狛江市役所</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="public" />
-        <span class="check-color" style="background:#d4a373;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
-        <span>区の施設</span>
+        <span class="check-color" style="background:#e65100;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
+        <span>市の施設</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="station" />
@@ -799,12 +800,12 @@
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="park" />
-        <span class="check-color" style="background:#7cb342;"><i class="fa-solid fa-tree poi-legend-ico"></i></span>
+        <span class="check-color" style="background:#4caf50;"><i class="fa-solid fa-tree poi-legend-ico"></i></span>
         <span>公園</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="temple" />
-        <span class="check-color" style="background:#0288d1;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
+        <span class="check-color" style="background:#6a1b9a;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
         <span>寺社仏閣</span>
       </label>
     </div>
@@ -924,12 +925,12 @@
 
 <script>
 // ============================================================
-// 世田谷区 高低マップ
+// 狛江市 高低マップ
 // ============================================================
 
-// 世田谷区役所（初期中心）
-const CITY_CENTER = [35.6464, 139.6533];
-const INIT_ZOOM = 12;
+// 狛江市役所（和泉本町1丁目）を中心
+const CITY_CENTER = [35.6347, 139.5786];
+const INIT_ZOOM = 14;
 
 // 国土地理院タイル
 const GSI_URLS = {
@@ -987,46 +988,59 @@ const hazardLayers = {
 };
 
 // =======================
-// 世田谷区 施設データ (POI)
-// 国分寺崖線（ハケ）・多摩川低地・等々力渓谷・武蔵野台地など
-// 多様な地形を持つ東京23区最大の人口を擁する区
+// 狛江市 施設データ (POI)
+// 多摩川北岸（市南部全域）・武蔵野台地南端の縁（国分寺崖線の縁辺部）・
+// 野川下流（多摩川合流点）・六郷用水跡（江戸期）・狛江の名水（弁財天池・湧水）・
+// 多摩川五本松・泉龍寺（狛江市名起源）・伊豆美神社・狛江百塚古墳群・小田急狛江駅
 // =======================
 const POI_DATA = {
   cityhall: {
-    label: '世田谷区役所',
+    label: '狛江市役所',
     icon: 'fa-building',
     cssClass: 'poi-cityhall',
     items: [
-      { name: '世田谷区役所（本庁舎）', lat: 35.6464, lng: 139.6533 }
+      { name: '狛江市役所（和泉本町1丁目・狛江駅北口徒歩4分）', lat: 35.6347, lng: 139.5786 }
     ]
   },
   public: {
-    label: '区の施設',
+    label: '市の施設',
     icon: 'fa-landmark',
     cssClass: 'poi-public',
     items: [
-      { name: '世田谷区役所（本庁舎）', lat: 35.6464, lng: 139.6533 },
-      { name: '世田谷区民会館', lat: 35.6467, lng: 139.6530 },
-      { name: '北沢総合支所', lat: 35.6628, lng: 139.6680 },
-      { name: '玉川総合支所', lat: 35.6107, lng: 139.6294 },
-      { name: '砧総合支所', lat: 35.6310, lng: 139.6125 },
-      { name: '烏山総合支所', lat: 35.6648, lng: 139.6065 },
-      { name: '世田谷区立中央図書館', lat: 35.6470, lng: 139.6535 },
-      { name: '世田谷区立梅丘図書館', lat: 35.6562, lng: 139.6463 },
-      { name: '世田谷区立深沢図書館', lat: 35.6188, lng: 139.6633 },
-      { name: '世田谷文学館（南烏山）', lat: 35.6705, lng: 139.6028 },
-      { name: '世田谷美術館（砧公園内）', lat: 35.6275, lng: 139.6213 },
-      { name: '五島美術館（上野毛）', lat: 35.6125, lng: 139.6385 },
-      { name: '世田谷区立郷土資料館', lat: 35.6473, lng: 139.6537 },
-      { name: '世田谷パブリックシアター（三軒茶屋）', lat: 35.6437, lng: 139.6695 },
-      { name: '世田谷区民健康村（川場村事業）受付', lat: 35.6466, lng: 139.6530 },
-      { name: '世田谷区立総合運動場', lat: 35.6228, lng: 139.6512 },
-      { name: '世田谷区立大蔵運動場', lat: 35.6342, lng: 139.6188 },
-      { name: '玉川野毛町公園 体育館', lat: 35.6038, lng: 139.6553 },
-      { name: '駒沢オリンピック公園 総合運動場', lat: 35.6263, lng: 139.6620 },
-      { name: '世田谷区立教育センター（弦巻）', lat: 35.6432, lng: 139.6612 },
-      { name: '世田谷区立次太夫堀公園 民家園', lat: 35.6315, lng: 139.6105 },
-      { name: '世田谷区立岡本公園 民家園', lat: 35.6265, lng: 139.6303 }
+      // 本庁・行政
+      { name: '狛江市役所 本庁舎（和泉本町1丁目）', lat: 35.6347, lng: 139.5786 },
+      { name: '狛江市役所 第二庁舎（和泉本町1丁目・本庁舎南）', lat: 35.6343, lng: 139.5788 },
+      { name: '狛江市防災センター（和泉本町・市役所敷地内）', lat: 35.6345, lng: 139.5790 },
+      // 駅前複合・文化施設
+      { name: 'エコルマホール（元和泉1丁目・狛江駅南口直結・市民ホール）', lat: 35.6335, lng: 139.5780 },
+      { name: '狛江市民センター（和泉本町1丁目・中央図書館併設）', lat: 35.6347, lng: 139.5775 },
+      { name: '西河原公民館（西野川4丁目・多摩川沿い）', lat: 35.6280, lng: 139.5635 },
+      { name: '中央公民館（和泉本町1丁目・市民センター内）', lat: 35.6348, lng: 139.5776 },
+      { name: '岩戸地域センター（岩戸南3丁目）', lat: 35.6275, lng: 139.5832 },
+      { name: '上和泉地域センター（西和泉2丁目）', lat: 35.6398, lng: 139.5732 },
+      { name: '野川地域センター（東野川1丁目・小田急線北側）', lat: 35.6415, lng: 139.5790 },
+      // 図書館
+      { name: '狛江市立 中央図書館（和泉本町・市民センター2F）', lat: 35.6348, lng: 139.5776 },
+      { name: '狛江市立 西河原分館（西野川・西河原公民館内）', lat: 35.6280, lng: 139.5635 },
+      { name: '狛江市立 岩戸分館（岩戸南・岩戸地域センター内）', lat: 35.6275, lng: 139.5832 },
+      // 福祉・保健
+      { name: 'あいとぴあセンター（元和泉2丁目・福祉総合複合施設）', lat: 35.6310, lng: 139.5810 },
+      { name: '狛江市 健康支援課（あいとぴあセンター内）', lat: 35.6310, lng: 139.5812 },
+      // 多摩川河川敷スポーツ
+      { name: '狛江市民総合体育館（西和泉2丁目）', lat: 35.6395, lng: 139.5728 },
+      { name: '狛江市民グラウンド（猪方4丁目・多摩川河川敷）', lat: 35.6228, lng: 139.5755 },
+      { name: '多摩川緑地公園グランド（猪方・多摩川河川敷）', lat: 35.6230, lng: 139.5770 },
+      // 観光・文化
+      { name: '狛江市立 古民家園 むいから民家園（元和泉2丁目・江戸後期茅葺民家）', lat: 35.6308, lng: 139.5790 },
+      { name: 'こまえ市民まつり広場（多摩川河川敷・毎秋）', lat: 35.6230, lng: 139.5790 },
+      // 防災・行政
+      { name: '調布警察署 狛江駅前交番（狛江駅前・※調布警察管轄）', lat: 35.6338, lng: 139.5786 },
+      { name: '狛江消防署（中和泉3丁目・世田谷通り）', lat: 35.6385, lng: 139.5810 },
+      { name: '狛江消防署 岩戸出張所（岩戸南4丁目）', lat: 35.6262, lng: 139.5820 },
+      { name: '狛江郵便局（和泉本町2丁目・狛江通り）', lat: 35.6362, lng: 139.5790 },
+      // 駅前広場・観光案内
+      { name: 'こまえくぼ1234（市民活動支援センター・元和泉1丁目）', lat: 35.6332, lng: 139.5775 },
+      { name: 'みらいパーク こまえ南口（駅南口広場）', lat: 35.6332, lng: 139.5782 }
     ]
   },
   station: {
@@ -1034,49 +1048,15 @@ const POI_DATA = {
     icon: 'fa-train',
     cssClass: 'poi-station',
     items: [
-      // 小田急小田原線
-      { name: '下北沢駅（小田急・京王井の頭線）', lat: 35.6614, lng: 139.6679 },
-      { name: '東北沢駅（小田急）', lat: 35.6643, lng: 139.6760 },
-      { name: '世田谷代田駅（小田急）', lat: 35.6582, lng: 139.6606 },
-      { name: '梅ヶ丘駅（小田急）', lat: 35.6559, lng: 139.6504 },
-      { name: '豪徳寺駅（小田急）', lat: 35.6510, lng: 139.6451 },
-      { name: '経堂駅（小田急）', lat: 35.6517, lng: 139.6376 },
-      { name: '千歳船橋駅（小田急）', lat: 35.6520, lng: 139.6249 },
-      { name: '祖師ヶ谷大蔵駅（小田急）', lat: 35.6536, lng: 139.6123 },
-      { name: '成城学園前駅（小田急）', lat: 35.6403, lng: 139.5994 },
-      { name: '喜多見駅（小田急）', lat: 35.6322, lng: 139.5867 },
-      // 京王線
-      { name: '下高井戸駅（京王線・東急世田谷線）', lat: 35.6680, lng: 139.6379 },
-      { name: '桜上水駅（京王線）', lat: 35.6708, lng: 139.6334 },
-      { name: '上北沢駅（京王線）', lat: 35.6716, lng: 139.6232 },
-      { name: '八幡山駅（京王線）', lat: 35.6725, lng: 139.6155 },
-      { name: '芦花公園駅（京王線）', lat: 35.6735, lng: 139.6058 },
-      { name: '千歳烏山駅（京王線）', lat: 35.6712, lng: 139.5979 },
-      // 京王井の頭線
-      { name: '池ノ上駅（京王井の頭線）', lat: 35.6614, lng: 139.6755 },
-      { name: '新代田駅（京王井の頭線）', lat: 35.6589, lng: 139.6580 },
-      { name: '東松原駅（京王井の頭線）', lat: 35.6597, lng: 139.6486 },
-      { name: '明大前駅（京王井の頭線・京王線）', lat: 35.6671, lng: 139.6492 },
-      // 東急田園都市線
-      { name: '三軒茶屋駅（田園都市線・世田谷線）', lat: 35.6437, lng: 139.6695 },
-      { name: '駒沢大学駅（田園都市線）', lat: 35.6328, lng: 139.6620 },
-      { name: '桜新町駅（田園都市線）', lat: 35.6293, lng: 139.6481 },
-      { name: '用賀駅（田園都市線）', lat: 35.6286, lng: 139.6332 },
-      { name: '二子玉川駅（田園都市線・大井町線）', lat: 35.6113, lng: 139.6280 },
-      // 東急大井町線
-      { name: '尾山台駅（大井町線）', lat: 35.6086, lng: 139.6515 },
-      { name: '九品仏駅（大井町線）', lat: 35.6080, lng: 139.6645 },
-      { name: '上野毛駅（大井町線）', lat: 35.6121, lng: 139.6384 },
-      { name: '等々力駅（大井町線）', lat: 35.6076, lng: 139.6443 },
-      { name: '自由が丘駅（東横線・大井町線、区境）', lat: 35.6076, lng: 139.6688 },
-      // 東急世田谷線
-      { name: '松陰神社前駅（世田谷線）', lat: 35.6515, lng: 139.6650 },
-      { name: '世田谷駅（世田谷線）', lat: 35.6494, lng: 139.6600 },
-      { name: '上町駅（世田谷線）', lat: 35.6470, lng: 139.6532 },
-      { name: '宮の坂駅（世田谷線）', lat: 35.6495, lng: 139.6452 },
-      { name: '山下駅（世田谷線、豪徳寺隣接）', lat: 35.6511, lng: 139.6451 },
-      { name: '若林駅（世田谷線）', lat: 35.6470, lng: 139.6745 },
-      { name: '西太子堂駅（世田谷線）', lat: 35.6447, lng: 139.6755 }
+      // 小田急小田原線（市内2駅・市の唯一の鉄道）
+      { name: '狛江駅 北口（小田急小田原線・市の玄関・各停・準急停車）', lat: 35.6346, lng: 139.5786 },
+      { name: '狛江駅 南口（小田急小田原線・エコルマホール直結）', lat: 35.6336, lng: 139.5784 },
+      { name: '和泉多摩川駅（小田急小田原線・多摩川北岸・市南端の駅）', lat: 35.6262, lng: 139.5750 },
+      // 隣接駅（世田谷区側・調布市側）
+      { name: '喜多見駅（小田急小田原線・※世田谷区喜多見側・狛江東隣）', lat: 35.6388, lng: 139.5878 },
+      { name: '成城学園前駅（小田急小田原線・※世田谷区側・狛江東2駅）', lat: 35.6437, lng: 139.5982 },
+      { name: '登戸駅（小田急小田原線／JR南武線・※川崎市多摩区側・多摩川対岸）', lat: 35.6202, lng: 139.5707 },
+      { name: '向ヶ丘遊園駅（小田急小田原線・※川崎市多摩区側・登戸西隣）', lat: 35.6183, lng: 139.5670 }
     ]
   },
   park: {
@@ -1084,24 +1064,41 @@ const POI_DATA = {
     icon: 'fa-tree',
     cssClass: 'poi-park',
     items: [
-      // 世田谷の代表的な公園（武蔵野台地と多摩川河岸段丘の地形を活かしたもの多数）
-      { name: '砧公園（区内最大の都立公園）', lat: 35.6275, lng: 139.6213 },
-      { name: '駒沢オリンピック公園', lat: 35.6263, lng: 139.6620 },
-      { name: '羽根木公園（梅まつりで有名）', lat: 35.6577, lng: 139.6498 },
-      { name: '世田谷公園', lat: 35.6376, lng: 139.6745 },
-      { name: '蘆花恒春園（徳富蘆花旧居）', lat: 35.6716, lng: 139.6017 },
-      { name: '等々力渓谷公園（都内唯一の渓谷）', lat: 35.6066, lng: 139.6478 },
-      { name: '岡本静嘉堂緑地・静嘉堂文庫', lat: 35.6245, lng: 139.6303 },
-      { name: '次大夫堀公園（民家園）', lat: 35.6315, lng: 139.6105 },
-      { name: '上用賀公園', lat: 35.6243, lng: 139.6300 },
-      { name: '都立祖師谷公園', lat: 35.6532, lng: 139.6033 },
-      { name: '都立和田堀給水所緑地（赤堤）', lat: 35.6592, lng: 139.6418 },
-      { name: '玉川野毛町公園', lat: 35.6038, lng: 139.6553 },
-      { name: '二子玉川公園（多摩川河岸段丘）', lat: 35.6126, lng: 139.6360 },
-      { name: '多摩川河川敷（玉堤・宇奈根・喜多見一帯）', lat: 35.6195, lng: 139.6082 },
-      { name: '東京農業大学 食と農の博物館前広場', lat: 35.6432, lng: 139.6296 },
-      { name: '世田谷区立希望丘公園', lat: 35.6679, lng: 139.6072 },
-      { name: '北烏山九丁目屋敷林（保存樹林）', lat: 35.6810, lng: 139.5972 }
+      // 多摩川河川敷（市の南側全域・最大の自然空間）
+      { name: '多摩川 五本松（猪方・狛江を代表する景観・市の保護対象）', lat: 35.6232, lng: 139.5770 },
+      { name: '多摩川河川敷 緑地公園（猪方〜駒井町・東西2km超）', lat: 35.6228, lng: 139.5780 },
+      { name: '多摩川 二ヶ領上河原堰（猪方・※川崎市側との共用堰）', lat: 35.6218, lng: 139.5762 },
+      { name: '多摩川 宿河原堰（駒井町南・※川崎市側）', lat: 35.6195, lng: 139.5810 },
+      { name: '多摩川緑地サイクリングロード（市南端・河川敷）', lat: 35.6225, lng: 139.5790 },
+      // 西河原・前原（市の主要公園）
+      { name: '西河原公園（西野川4丁目・多摩川北岸・自然観察）', lat: 35.6275, lng: 139.5630 },
+      { name: '西河原自然公園（西野川4丁目・西河原公園隣・湿地）', lat: 35.6278, lng: 139.5645 },
+      { name: '前原公園（東和泉4丁目・住宅街の核公園）', lat: 35.6298, lng: 139.5830 },
+      // 野川下流域（市北部）
+      { name: '野川（東野川〜西野川・多摩川合流・狛江市内2.4km）', lat: 35.6360, lng: 139.5720 },
+      { name: '野川緑地公園（東野川・野川北岸の細長い緑地）', lat: 35.6385, lng: 139.5780 },
+      { name: '清水川緑地（中和泉・小流路の緑道・野川支流跡）', lat: 35.6378, lng: 139.5810 },
+      // 六郷用水跡（江戸時代の用水・市内の歴史水路）
+      { name: '六郷さくら通り（六郷用水跡・元和泉〜岩戸・桜並木）', lat: 35.6300, lng: 139.5790 },
+      { name: '六郷用水跡 緑道（駒井町・狛江南部）', lat: 35.6250, lng: 139.5800 },
+      // 弁財天池・狛江の名水
+      { name: '弁財天池特別緑地保全地区（元和泉・泉龍寺前・市名起源の湧水池）', lat: 35.6322, lng: 139.5795 },
+      // 駅周辺・中央エリア
+      { name: '狛江駅前広場（元和泉・南北口・エコルマ前）', lat: 35.6340, lng: 139.5786 },
+      { name: '中央公園（和泉本町・市役所前広場）', lat: 35.6344, lng: 139.5790 },
+      // 岩戸エリア
+      { name: '岩戸児童公園（岩戸南）', lat: 35.6278, lng: 139.5828 },
+      { name: '岩戸北公園（岩戸北3丁目）', lat: 35.6350, lng: 139.5850 },
+      // 古墳公園・市内最大級の古墳
+      { name: '亀塚古墳公園（元和泉・狛江百塚の核・帆立貝形古墳）', lat: 35.6322, lng: 139.5780 },
+      { name: '兜塚古墳（中和泉・狛江百塚・5世紀築造）', lat: 35.6390, lng: 139.5775 },
+      { name: '経塚古墳（元和泉・狛江百塚のひとつ）', lat: 35.6315, lng: 139.5800 },
+      // 駒井・和泉多摩川エリア
+      { name: '和泉多摩川 駅前広場（東和泉・小田急線南）', lat: 35.6260, lng: 139.5752 },
+      { name: '駒井町第三公園（駒井町）', lat: 35.6242, lng: 139.5818 },
+      // 緑地・並木
+      { name: '狛江通り 並木（駅北口〜野川・市の幹線並木）', lat: 35.6380, lng: 139.5786 },
+      { name: '世田谷通り 並木（中和泉・市北端の主要道路）', lat: 35.6398, lng: 139.5810 }
     ]
   },
   temple: {
@@ -1109,21 +1106,25 @@ const POI_DATA = {
     icon: 'fa-torii-gate',
     cssClass: 'poi-temple',
     items: [
-      { name: '豪徳寺（招き猫発祥・井伊家墓所）', lat: 35.6498, lng: 139.6448 },
-      { name: '松陰神社（吉田松陰墓所）', lat: 35.6499, lng: 139.6628 },
-      { name: '世田谷八幡宮', lat: 35.6498, lng: 139.6463 },
-      { name: '九品仏 浄真寺', lat: 35.6079, lng: 139.6601 },
-      { name: '太子堂八幡神社', lat: 35.6428, lng: 139.6692 },
-      { name: '北澤八幡神社', lat: 35.6593, lng: 139.6720 },
-      { name: '森厳寺（淡島）', lat: 35.6562, lng: 139.6635 },
-      { name: '勝光院（桜田門外の変関係寺）', lat: 35.6477, lng: 139.6480 },
-      { name: '駒留八幡神社', lat: 35.6383, lng: 139.6643 },
-      { name: '世田谷区瀬田玉川神社', lat: 35.6111, lng: 139.6328 },
-      { name: '玉眞院 玉川大師（弘法大師の地下霊場）', lat: 35.6116, lng: 139.6356 },
-      { name: '砧三峯神社', lat: 35.6360, lng: 139.6111 },
-      { name: '喜多見氷川神社', lat: 35.6300, lng: 139.5910 },
-      { name: '宇奈根氷川神社', lat: 35.6228, lng: 139.5910 },
-      { name: '駒繋神社（下馬）', lat: 35.6388, lng: 139.6837 }
+      // 狛江市名の起源
+      { name: '泉龍寺（元和泉1丁目・曹洞宗・市名"狛江"の起源・弁財天池）', lat: 35.6325, lng: 139.5790 },
+      { name: '泉龍寺 弁財天池（元和泉・狛江の名水・特別緑地保全地区）', lat: 35.6322, lng: 139.5795 },
+      // 市の総鎮守
+      { name: '伊豆美神社（中和泉3丁目・旧称六所宮・市の総鎮守・式内社論社）', lat: 35.6388, lng: 139.5778 },
+      { name: '伊豆美神社 一の鳥居（中和泉・狛江通り沿い）', lat: 35.6378, lng: 139.5780 },
+      // 古刹・地区別の寺社
+      { name: '玉泉寺（東和泉3丁目・曹洞宗・狛江三大寺院）', lat: 35.6308, lng: 139.5828 },
+      { name: '覚東寺（覚東院・岩戸南2丁目・真言宗豊山派）', lat: 35.6285, lng: 139.5825 },
+      // 八幡神社系（地区別鎮守）
+      { name: '岩戸八幡神社（岩戸南2丁目・岩戸の鎮守）', lat: 35.6280, lng: 139.5832 },
+      { name: '駒井神社（駒井町3丁目・駒井の鎮守）', lat: 35.6235, lng: 139.5825 },
+      { name: '猪方天満宮（猪方3丁目・猪方の天神様）', lat: 35.6258, lng: 139.5785 },
+      { name: '須賀神社（東和泉2丁目・東和泉の鎮守）', lat: 35.6292, lng: 139.5810 },
+      // 元和泉・小足立
+      { name: '元和泉 稲荷神社（元和泉1丁目・泉龍寺隣接）', lat: 35.6320, lng: 139.5798 },
+      { name: '小足立八幡神社（西和泉1丁目・市西部の鎮守）', lat: 35.6362, lng: 139.5705 },
+      // 古墳と神社の融合
+      { name: '亀塚古墳上 祠（元和泉・古墳の頂部）', lat: 35.6322, lng: 139.5781 }
     ]
   },
   evac_shelter: {
@@ -1131,43 +1132,28 @@ const POI_DATA = {
     icon: 'fa-house-chimney-medical',
     cssClass: 'poi-evac_shelter',
     items: [
-      // 世田谷区立小中学校（主要な指定避難所）
-      // 北沢地区
-      { name: '世田谷区立北沢中学校', lat: 35.6622, lng: 139.6700 },
-      { name: '世田谷区立守山小学校', lat: 35.6580, lng: 139.6622 },
-      { name: '世田谷区立松原小学校', lat: 35.6635, lng: 139.6485 },
-      { name: '世田谷区立赤堤小学校', lat: 35.6612, lng: 139.6404 },
-      { name: '世田谷区立梅丘中学校', lat: 35.6555, lng: 139.6486 },
-      // 世田谷地区
-      { name: '世田谷区立桜小学校', lat: 35.6438, lng: 139.6488 },
-      { name: '世田谷区立桜中学校', lat: 35.6429, lng: 139.6477 },
-      { name: '世田谷区立池尻小学校', lat: 35.6488, lng: 139.6810 },
-      { name: '世田谷区立太子堂小学校', lat: 35.6450, lng: 139.6727 },
-      { name: '世田谷区立三軒茶屋小学校', lat: 35.6411, lng: 139.6717 },
-      { name: '世田谷区立三宿中学校', lat: 35.6480, lng: 139.6822 },
-      { name: '世田谷区立松沢小学校', lat: 35.6712, lng: 139.6390 },
-      // 玉川地区
-      { name: '世田谷区立駒沢小学校', lat: 35.6310, lng: 139.6640 },
-      { name: '世田谷区立駒沢中学校', lat: 35.6324, lng: 139.6650 },
-      { name: '世田谷区立用賀小学校', lat: 35.6275, lng: 139.6310 },
-      { name: '世田谷区立用賀中学校', lat: 35.6262, lng: 139.6334 },
-      { name: '世田谷区立瀬田小学校', lat: 35.6168, lng: 139.6303 },
-      { name: '世田谷区立玉川小学校', lat: 35.6094, lng: 139.6322 },
-      { name: '世田谷区立深沢小学校', lat: 35.6207, lng: 139.6620 },
-      { name: '世田谷区立等々力小学校', lat: 35.6107, lng: 139.6457 },
-      { name: '世田谷区立尾山台小学校', lat: 35.6098, lng: 139.6520 },
-      { name: '世田谷区立九品仏小学校', lat: 35.6086, lng: 139.6630 },
-      // 砧地区
-      { name: '世田谷区立砧小学校', lat: 35.6346, lng: 139.6157 },
-      { name: '世田谷区立明正小学校', lat: 35.6388, lng: 139.5985 },
-      { name: '世田谷区立成城学園前 砧南中学校', lat: 35.6195, lng: 139.5985 },
-      { name: '世田谷区立喜多見中学校', lat: 35.6320, lng: 139.5895 },
-      { name: '世田谷区立祖師谷小学校', lat: 35.6553, lng: 139.6110 },
-      // 烏山地区
-      { name: '世田谷区立烏山小学校', lat: 35.6700, lng: 139.5995 },
-      { name: '世田谷区立烏山中学校', lat: 35.6705, lng: 139.6022 },
-      { name: '世田谷区立芦花小学校', lat: 35.6720, lng: 139.6060 },
-      { name: '世田谷区立八幡山小学校', lat: 35.6712, lng: 139.6190 }
+      // 狛江市立小学校（全6校）
+      { name: '狛江市立 狛江第一小学校（元和泉1丁目・市内最古・1873年創立）', lat: 35.6325, lng: 139.5782 },
+      { name: '狛江市立 狛江第三小学校（東和泉3丁目）', lat: 35.6298, lng: 139.5815 },
+      { name: '狛江市立 狛江第五小学校（西和泉2丁目）', lat: 35.6392, lng: 139.5725 },
+      { name: '狛江市立 狛江第六小学校（岩戸南3丁目）', lat: 35.6268, lng: 139.5832 },
+      { name: '狛江市立 和泉小学校（西和泉4丁目・市西部）', lat: 35.6385, lng: 139.5680 },
+      { name: '狛江市立 緑野小学校（中和泉5丁目・野川沿い）', lat: 35.6398, lng: 139.5752 },
+      // 狛江市立中学校（全4校）
+      { name: '狛江市立 狛江第一中学校（元和泉2丁目）', lat: 35.6310, lng: 139.5800 },
+      { name: '狛江市立 狛江第二中学校（岩戸南3丁目・岩戸地域）', lat: 35.6272, lng: 139.5840 },
+      { name: '狛江市立 狛江第三中学校（西野川4丁目・西河原近接）', lat: 35.6285, lng: 139.5648 },
+      { name: '狛江市立 狛江第四中学校（東野川1丁目・野川北）', lat: 35.6420, lng: 139.5798 },
+      // 都立・私立学校
+      { name: '都立 狛江高等学校（元和泉3丁目・市内唯一の都立高）', lat: 35.6300, lng: 139.5798 },
+      // 主要公共施設
+      { name: '狛江市民総合体育館（西和泉2丁目・市の中央避難所）', lat: 35.6395, lng: 139.5728 },
+      { name: '狛江市民センター・中央公民館（和泉本町1丁目）', lat: 35.6347, lng: 139.5775 },
+      { name: '西河原公民館（西野川4丁目・市西部避難所）', lat: 35.6280, lng: 139.5635 },
+      { name: 'あいとぴあセンター（元和泉2丁目・福祉避難所兼用）', lat: 35.6310, lng: 139.5810 },
+      { name: '上和泉地域センター（西和泉2丁目）', lat: 35.6398, lng: 139.5732 },
+      { name: '野川地域センター（東野川1丁目）', lat: 35.6415, lng: 139.5790 },
+      { name: '岩戸地域センター（岩戸南3丁目）', lat: 35.6275, lng: 139.5832 }
     ]
   },
   evac_emergency: {
@@ -1175,22 +1161,17 @@ const POI_DATA = {
     icon: 'fa-person-running',
     cssClass: 'poi-evac_emergency',
     items: [
-      // 洪水・地震時に緊急で命を守る場所（広い公園・グラウンド・高台）
-      { name: '砧公園（緊急避難場所）', lat: 35.6275, lng: 139.6213 },
-      { name: '駒沢オリンピック公園（緊急避難場所）', lat: 35.6263, lng: 139.6620 },
-      { name: '羽根木公園（緊急避難場所）', lat: 35.6577, lng: 139.6498 },
-      { name: '世田谷公園（緊急避難場所）', lat: 35.6376, lng: 139.6745 },
-      { name: '蘆花恒春園（緊急避難場所）', lat: 35.6716, lng: 139.6017 },
-      { name: '祖師谷公園（緊急避難場所）', lat: 35.6532, lng: 139.6033 },
-      { name: '二子玉川公園（緊急避難場所、※多摩川氾濫時は不可）', lat: 35.6126, lng: 139.6360 },
-      { name: '次大夫堀公園（緊急避難場所）', lat: 35.6315, lng: 139.6105 },
-      { name: '上用賀公園（緊急避難場所）', lat: 35.6243, lng: 139.6300 },
-      { name: '玉川野毛町公園（緊急避難場所）', lat: 35.6038, lng: 139.6553 },
-      { name: '世田谷区立総合運動場（緊急避難場所）', lat: 35.6228, lng: 139.6512 },
-      { name: '大蔵運動公園（緊急避難場所）', lat: 35.6342, lng: 139.6188 },
-      { name: '希望丘公園（緊急避難場所）', lat: 35.6679, lng: 139.6072 },
-      { name: '豪徳寺一帯（緊急避難場所）', lat: 35.6498, lng: 139.6448 },
-      { name: '松陰神社境内（緊急避難場所）', lat: 35.6499, lng: 139.6628 }
+      // 大地震・大規模火災時に緊急で命を守る場所（公園・広場）
+      { name: '多摩川河川敷 緑地公園 一帯（猪方〜駒井町・市最大の避難地）', lat: 35.6228, lng: 139.5780 },
+      { name: '西河原公園・西河原自然公園 一帯（西野川4丁目）', lat: 35.6275, lng: 139.5635 },
+      { name: '前原公園（東和泉4丁目・東部避難地）', lat: 35.6298, lng: 139.5830 },
+      { name: '狛江市役所前広場・中央公園（和泉本町）', lat: 35.6347, lng: 139.5786 },
+      { name: '狛江駅前広場（南北口・市中心の集合場所）', lat: 35.6340, lng: 139.5786 },
+      { name: '和泉多摩川駅前広場（東和泉・南部の集合場所）', lat: 35.6260, lng: 139.5752 },
+      { name: '亀塚古墳公園（元和泉・中央エリア）', lat: 35.6322, lng: 139.5780 },
+      { name: '岩戸北公園（岩戸北3丁目・北東部避難地）', lat: 35.6350, lng: 139.5850 },
+      { name: '弁財天池特別緑地保全地区（元和泉・泉龍寺前）', lat: 35.6322, lng: 139.5795 },
+      { name: '野川緑地公園 一帯（東野川・市北部）', lat: 35.6385, lng: 139.5780 }
     ]
   },
   evac_wide: {
@@ -1198,15 +1179,12 @@ const POI_DATA = {
     icon: 'fa-arrows-to-circle',
     cssClass: 'poi-evac_wide',
     items: [
-      // 大規模火災発生時に一時的に避難する広い場所
-      { name: '砧公園・大蔵運動公園一帯', lat: 35.6275, lng: 139.6213 },
-      { name: '駒沢オリンピック公園一帯', lat: 35.6263, lng: 139.6620 },
-      { name: '蘆花恒春園・芦花公園駅一帯', lat: 35.6720, lng: 139.6040 },
-      { name: '祖師谷公園・東京農大一帯', lat: 35.6532, lng: 139.6033 },
-      { name: '羽根木公園一帯', lat: 35.6577, lng: 139.6498 },
-      { name: '世田谷公園・池尻一帯', lat: 35.6376, lng: 139.6745 },
-      { name: '東京都立松沢病院・赤堤緑地一帯', lat: 35.6680, lng: 139.6420 },
-      { name: '多摩川河川敷（玉堤・宇奈根・喜多見）', lat: 35.6195, lng: 139.6082 }
+      // 大規模火災時に一時的に避難する広い場所
+      { name: '多摩川河川敷 一帯（猪方〜駒井町・狛江最大の広域避難地）', lat: 35.6228, lng: 139.5780 },
+      { name: '西河原公園・西河原自然公園 一帯（西野川）', lat: 35.6275, lng: 139.5635 },
+      { name: '狛江市民総合体育館・グラウンド一帯（西和泉）', lat: 35.6395, lng: 139.5728 },
+      { name: '亀塚古墳公園・狛江第一小一帯（元和泉）', lat: 35.6322, lng: 139.5780 },
+      { name: '都立 狛江高等学校・狛江第一中一帯（元和泉）', lat: 35.6305, lng: 139.5800 }
     ]
   },
   evac_welfare: {
@@ -1214,19 +1192,23 @@ const POI_DATA = {
     icon: 'fa-hand-holding-heart',
     cssClass: 'poi-evac_welfare',
     items: [
-      // 要配慮者（高齢者・障がい者等）向けの避難所
-      { name: '世田谷区立梅ヶ丘拠点（保健医療福祉総合プラザ）', lat: 35.6555, lng: 139.6502 },
-      { name: '世田谷区総合福祉センター', lat: 35.6470, lng: 139.6530 },
-      { name: '世田谷区立障害者就労支援センターすきっぷ', lat: 35.6466, lng: 139.6538 },
-      { name: '特別養護老人ホーム きたざわ苑', lat: 35.6655, lng: 139.6678 },
-      { name: '特別養護老人ホーム うめとぴあ', lat: 35.6562, lng: 139.6498 },
-      { name: '特別養護老人ホーム 千歳敬心苑', lat: 35.6518, lng: 139.6240 },
-      { name: '特別養護老人ホーム きぬた園', lat: 35.6346, lng: 139.6160 },
-      { name: '特別養護老人ホーム 芦花ホーム', lat: 35.6712, lng: 139.6020 },
-      { name: '世田谷区立心身障害者(児)地域生活支援センター', lat: 35.6462, lng: 139.6540 },
-      { name: '世田谷区立喜多見子ども家庭支援センター', lat: 35.6322, lng: 139.5870 },
-      { name: '世田谷区立尾山台地域包括支援センター', lat: 35.6086, lng: 139.6515 },
-      { name: '世田谷区立成城地域包括支援センター', lat: 35.6403, lng: 139.5994 }
+      // 狛江市の保健福祉拠点
+      { name: 'あいとぴあセンター（元和泉2丁目・福祉総合拠点）', lat: 35.6310, lng: 139.5810 },
+      { name: '狛江市 健康支援課（あいとぴあセンター内）', lat: 35.6310, lng: 139.5812 },
+      { name: '狛江市 地域包括支援センター あいとぴあ（あいとぴあセンター内）', lat: 35.6310, lng: 139.5813 },
+      { name: '狛江市 地域包括支援センター こまえ正吉苑（西野川）', lat: 35.6290, lng: 139.5660 },
+      { name: '狛江市 地域包括支援センター こまえ苑（東和泉）', lat: 35.6285, lng: 139.5820 },
+      // 特別養護老人ホーム
+      { name: '特別養護老人ホーム こまえ正吉苑（西野川3丁目・市内最大級）', lat: 35.6290, lng: 139.5662 },
+      { name: '特別養護老人ホーム こまえ苑（東和泉2丁目）', lat: 35.6285, lng: 139.5822 },
+      // 介護老人保健施設
+      { name: '介護老人保健施設 こまえ正吉苑II（西野川3丁目）', lat: 35.6292, lng: 139.5665 },
+      // 障がい者支援
+      { name: '狛江市 障がい者地域生活支援センターおあしす（あいとぴあセンター内）', lat: 35.6310, lng: 139.5814 },
+      // 病院（地域中核）
+      { name: '慈恵第三病院（※世田谷区喜多見側・狛江市民の主要救急）', lat: 35.6395, lng: 139.5872 },
+      { name: '狛江外科病院（元和泉・狛江駅南口）', lat: 35.6328, lng: 139.5790 },
+      { name: '狛江中央病院（中和泉4丁目）', lat: 35.6378, lng: 139.5755 }
     ]
   }
 };
@@ -1271,7 +1253,7 @@ function setPOIVisibility(category, visible) {
   }
 }
 
-// 初期表示：世田谷区役所のみON
+// 初期表示：狛江市役所のみON
 setPOIVisibility('cityhall', true);
 
 // カテゴリ切替イベント
@@ -1429,7 +1411,7 @@ function addCSPoint(lat, lng) {
   csMarkers.push(marker);
   if (csPoints.length === 2) {
     csLine = L.polyline(csPoints, {
-      color: '#0288d1',
+      color: '#6a1b9a',
       weight: 4,
       opacity: 0.8,
       dashArray: '8, 8'
@@ -1502,15 +1484,15 @@ function renderCrossSection(labels, data, totalDist) {
       datasets: [{
         label: '標高 (m)',
         data: data,
-        borderColor: '#2e7d32',
+        borderColor: '#0277bd',
         backgroundColor: (context) => {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
-          if (!chartArea) return 'rgba(46,125,50,0.2)';
+          if (!chartArea) return 'rgba(0,131,143,0.2)';
           const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          gradient.addColorStop(0, 'rgba(46,125,50,0.6)');
-          gradient.addColorStop(0.5, 'rgba(212,163,115,0.35)');
-          gradient.addColorStop(1, 'rgba(129,212,250,0.1)');
+          gradient.addColorStop(0, 'rgba(2,119,189,0.6)');
+          gradient.addColorStop(0.5, 'rgba(230,81,0,0.32)');
+          gradient.addColorStop(1, 'rgba(106,27,154,0.12)');
           return gradient;
         },
         fill: true,
@@ -1535,14 +1517,14 @@ function renderCrossSection(labels, data, totalDist) {
       },
       scales: {
         x: {
-          title: { display: true, text: '地点 A からの距離 (m)', color: '#6b5b55' },
-          ticks: { color: '#6b5b55', maxTicksLimit: 10 },
-          grid: { color: '#f3e0d2' }
+          title: { display: true, text: '地点 A からの距離 (m)', color: '#0d2c4e' },
+          ticks: { color: '#0d2c4e', maxTicksLimit: 10 },
+          grid: { color: '#b3e5fc' }
         },
         y: {
-          title: { display: true, text: '標高 (m)', color: '#6b5b55' },
-          ticks: { color: '#6b5b55' },
-          grid: { color: '#f3e0d2' }
+          title: { display: true, text: '標高 (m)', color: '#0d2c4e' },
+          ticks: { color: '#0d2c4e' },
+          grid: { color: '#b3e5fc' }
         }
       }
     }
@@ -1760,14 +1742,14 @@ function init3D() {
       }
     }, 300);
 
-    // 空（温かみのある夕焼けトーン）
+    // 空（多摩川の青空・泉龍寺の朱・狛江染めのトーン）
     try {
       map3d.setSky({
-        'sky-color': '#a5d6f8',
+        'sky-color': '#b3e5fc',
         'sky-horizon-blend': 0.7,
-        'horizon-color': '#c8e6c9',
+        'horizon-color': '#ffe0b2',
         'horizon-fog-blend': 0.6,
-        'fog-color': '#f4f8ef',
+        'fog-color': '#e1f5fe',
         'fog-ground-blend': 0.4
       });
     } catch(e) { /* 旧バージョン互換 */ }
@@ -1962,15 +1944,15 @@ window.addEventListener('unhandledrejection', (e) => {
 // =======================
 updateCSStatus();
 
-// 世田谷区の範囲を少し強調表示（概観：東西に長い区形）
-const setagayaBounds = L.rectangle([[35.605, 139.572], [35.668, 139.665]], {
-  color: '#2e7d32',
+// 狛江市の範囲を少し強調表示（多摩川北岸・国分寺崖線南端・野川下流・六郷用水跡）
+const komaeBounds = L.rectangle([[35.620, 139.560], [35.650, 139.605]], {
+  color: '#0277bd',
   weight: 2,
   fillOpacity: 0,
   dashArray: '6, 6'
 }).addTo(map2d);
 
-console.log('🌳 世田谷区 高低マップ 起動完了');
+console.log('🌊 狛江市 高低マップ 起動完了');
 
 // =======================
 // PWA: Service Worker 登録

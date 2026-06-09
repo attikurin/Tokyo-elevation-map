@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#2e7d32" />
+  <meta name="theme-color" content="#00838f" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <!-- Theme: 武蔵野グリーン × 国分寺崖線の砂色 × 多摩川ブルー -->
-  <title>世田谷区 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
-  <meta name="description" content="東京都世田谷区のインタラクティブな標高（高低）マップ。武蔵野台地・国分寺崖線（ハケ）・多摩川低地・等々力渓谷・野川／仙川／谷沢川の谷地形を2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。" />
+  <!-- Theme: 井の頭池翡翠 × 吉祥寺サンロード赤 × 玉川上水ケヤキグリーン -->
+  <title>武蔵野市 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
+  <meta name="description" content="東京都武蔵野市のインタラクティブな標高（高低）マップ。武蔵野台地上に広がる平坦な台地と井の頭池（神田川源流）の谷・善福寺川源流・玉川上水・吉祥寺／三鷹騅の街、井の頭恩賜公園・ジブリ美術館・井の頭自然文化園・武蔵野中央公園（旧中島飛行機跡）・成蹊大学けやき並木を含む地形を2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。台地と井の頭谷の繊細な起伏を可視化。" />
 
   <!-- Leaflet (2D map) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
@@ -29,17 +29,17 @@
 
   <style>
     :root {
-      --coral: #2e7d32;          /* 武蔵野グリーン（世田谷の樹々・等々力渓谷） */
-      --coral-light: #a5d6a7;
-      --orange: #d4a373;          /* 国分寺崖線の砂色（ハケの地層） */
-      --orange-soft: #f1e3cf;
-      --purple: #0288d1;          /* 多摩川ブルー */
-      --purple-light: #81d4fa;
-      --cream: #f4f8ef;
-      --ink: #2d3a2a;
-      --ink-soft: #5b6757;
-      --shadow: 0 6px 20px rgba(46, 125, 50, 0.18);
-      --shadow-strong: 0 10px 30px rgba(2, 136, 209, 0.25);
+      --coral: #00838f;          /* 井の頭池翡翠（カワセミ・湧水） */
+      --coral-light: #4dd0e1;
+      --orange: #bf360c;          /* 吉祥寺サンロード赤（井の頭線のレンガ色） */
+      --orange-soft: #ffab91;
+      --purple: #558b2f;          /* 玉川上水ケヤキグリーン（成蹊大学並木・中央公園） */
+      --purple-light: #aed581;
+      --cream: #e0f2f1;
+      --ink: #1b3a3a;
+      --ink-soft: #486e6e;
+      --shadow: 0 6px 20px rgba(0, 131, 143, 0.18);
+      --shadow-strong: 0 10px 30px rgba(85, 139, 47, 0.25);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -47,7 +47,7 @@
     html, body {
       height: 100%;
       font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
-      background: linear-gradient(135deg, var(--cream) 0%, #eef5e6 100%);
+      background: linear-gradient(135deg, var(--cream) 0%, #fff8e1 100%);
       color: var(--ink);
       overflow: hidden;
       -webkit-text-size-adjust: 100%;
@@ -76,7 +76,7 @@
       justify-content: space-between;
       padding: 0 20px;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(46, 125, 50, 0.12);
+      box-shadow: 0 2px 10px rgba(0, 131, 143, 0.12);
       border-bottom: 3px solid;
       border-image: linear-gradient(90deg, var(--coral) 0%, var(--orange) 60%, var(--purple) 100%) 1;
     }
@@ -114,7 +114,7 @@
     aside.sidebar {
       width: 320px;
       background: #fff;
-      border-right: 1px solid #f3e0d2;
+      border-right: 1px solid #b2dfdb;
       overflow-y: auto;
       padding: 16px;
       box-shadow: 2px 0 10px rgba(0,0,0,0.04);
@@ -126,7 +126,7 @@
       border-radius: 14px;
       padding: 14px;
       margin-bottom: 14px;
-      border: 1px solid #f3e0d2;
+      border: 1px solid #b2dfdb;
     }
     .panel h3 {
       font-family: 'M PLUS Rounded 1c', sans-serif;
@@ -259,7 +259,7 @@
       padding: 6px 10px;
       border-radius: 6px;
       background: var(--purple-light);
-      color: #5e4b8b;
+      color: #1b5e20;
       margin-bottom: 8px;
       font-weight: 500;
     }
@@ -460,7 +460,7 @@
         max-height: 75vh;
         height: auto;
         border-right: none;
-        border-top: 1px solid #f3e0d2;
+        border-top: 1px solid #b2dfdb;
         border-radius: 18px 18px 0 0;
         transform: translateY(calc(100% - 44px));
         transition: transform 0.3s ease;
@@ -504,7 +504,7 @@
         color: var(--coral);
         font-size: 0.9rem;
         cursor: pointer;
-        border-bottom: 1px solid #f3e0d2;
+        border-bottom: 1px solid #b2dfdb;
       }
       .sidebar-handle i { color: var(--orange); }
 
@@ -646,11 +646,11 @@
       color: #fff;
       font-size: 12px;
     }
-    .poi-cityhall { background: #2e7d32; }
-    .poi-public   { background: #d4a373; }
+    .poi-cityhall { background: #00838f; }
+    .poi-public   { background: #bf360c; }
     .poi-station  { background: #5e8fd6; }
     .poi-park     { background: #7cb342; }
-    .poi-temple   { background: #6d4c41; }
+    .poi-temple   { background: #558b2f; }
     .poi-evac_shelter   { background: #2e8b57; }
     .poi-evac_emergency { background: #c0392b; }
     .poi-evac_wide      { background: #d4a017; }
@@ -706,15 +706,15 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="世田谷高低">
+  <meta name="apple-mobile-web-app-title" content="武蔵野高低">
   <link rel="apple-touch-icon" href="icon.svg">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
 </head>
 <body>
 
 <header class="app-header">
-  <h1><i class="fa-solid fa-mountain-sun"></i> 世田谷区 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
-  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都世田谷区</span>
+  <h1><i class="fa-solid fa-mountain-sun"></i> 武蔵野市 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
+  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都武蔵野市</span>
 </header>
 
 <main class="app-main">
@@ -784,13 +784,13 @@
       <h3><i class="fa-solid fa-map-pin"></i> 施設の表示</h3>
       <label class="check-item">
         <input type="checkbox" data-poi="cityhall" checked />
-        <span class="check-color" style="background:#2e7d32;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
-        <span>世田谷区役所</span>
+        <span class="check-color" style="background:#00838f;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
+        <span>武蔵野市役所</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="public" />
-        <span class="check-color" style="background:#d4a373;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
-        <span>区の施設</span>
+        <span class="check-color" style="background:#bf360c;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
+        <span>市の施設</span>
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="station" />
@@ -804,7 +804,7 @@
       </label>
       <label class="check-item">
         <input type="checkbox" data-poi="temple" />
-        <span class="check-color" style="background:#0288d1;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
+        <span class="check-color" style="background:#558b2f;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
         <span>寺社仏閣</span>
       </label>
     </div>
@@ -924,12 +924,12 @@
 
 <script>
 // ============================================================
-// 世田谷区 高低マップ
+// 武蔵野市 高低マップ
 // ============================================================
 
-// 世田谷区役所（初期中心）
-const CITY_CENTER = [35.6464, 139.6533];
-const INIT_ZOOM = 12;
+// 吉祥寺駅周辺（初期中心・井の頭公園北口近接）
+const CITY_CENTER = [35.7032, 139.5798];
+const INIT_ZOOM = 13;
 
 // 国土地理院タイル
 const GSI_URLS = {
@@ -987,46 +987,65 @@ const hazardLayers = {
 };
 
 // =======================
-// 世田谷区 施設データ (POI)
-// 国分寺崖線（ハケ）・多摩川低地・等々力渓谷・武蔵野台地など
-// 多様な地形を持つ東京23区最大の人口を擁する区
+// 武蔵野市 施設データ (POI)
+// 武蔵野台地（武蔵野段丘・井の頭池の湧水）・神田川源流（井の頭池）・
+// 善福寺川源流近接・玉川上水・千川上水・関前野川源流・吉祥寺サンロード・
+// 中島飛行機武蔵製作所跡（武蔵野中央公園）・成蹊大学けやき並木・三鷹の森ジブリ美術館
 // =======================
 const POI_DATA = {
   cityhall: {
-    label: '世田谷区役所',
+    label: '武蔵野市役所',
     icon: 'fa-building',
     cssClass: 'poi-cityhall',
     items: [
-      { name: '世田谷区役所（本庁舎）', lat: 35.6464, lng: 139.6533 }
+      { name: '武蔵野市役所（緑町・中島飛行機武蔵製作所跡地北縁）', lat: 35.7178, lng: 139.5660 }
     ]
   },
   public: {
-    label: '区の施設',
+    label: '市の施設',
     icon: 'fa-landmark',
     cssClass: 'poi-public',
     items: [
-      { name: '世田谷区役所（本庁舎）', lat: 35.6464, lng: 139.6533 },
-      { name: '世田谷区民会館', lat: 35.6467, lng: 139.6530 },
-      { name: '北沢総合支所', lat: 35.6628, lng: 139.6680 },
-      { name: '玉川総合支所', lat: 35.6107, lng: 139.6294 },
-      { name: '砧総合支所', lat: 35.6310, lng: 139.6125 },
-      { name: '烏山総合支所', lat: 35.6648, lng: 139.6065 },
-      { name: '世田谷区立中央図書館', lat: 35.6470, lng: 139.6535 },
-      { name: '世田谷区立梅丘図書館', lat: 35.6562, lng: 139.6463 },
-      { name: '世田谷区立深沢図書館', lat: 35.6188, lng: 139.6633 },
-      { name: '世田谷文学館（南烏山）', lat: 35.6705, lng: 139.6028 },
-      { name: '世田谷美術館（砧公園内）', lat: 35.6275, lng: 139.6213 },
-      { name: '五島美術館（上野毛）', lat: 35.6125, lng: 139.6385 },
-      { name: '世田谷区立郷土資料館', lat: 35.6473, lng: 139.6537 },
-      { name: '世田谷パブリックシアター（三軒茶屋）', lat: 35.6437, lng: 139.6695 },
-      { name: '世田谷区民健康村（川場村事業）受付', lat: 35.6466, lng: 139.6530 },
-      { name: '世田谷区立総合運動場', lat: 35.6228, lng: 139.6512 },
-      { name: '世田谷区立大蔵運動場', lat: 35.6342, lng: 139.6188 },
-      { name: '玉川野毛町公園 体育館', lat: 35.6038, lng: 139.6553 },
-      { name: '駒沢オリンピック公園 総合運動場', lat: 35.6263, lng: 139.6620 },
-      { name: '世田谷区立教育センター（弦巻）', lat: 35.6432, lng: 139.6612 },
-      { name: '世田谷区立次太夫堀公園 民家園', lat: 35.6315, lng: 139.6105 },
-      { name: '世田谷区立岡本公園 民家園', lat: 35.6265, lng: 139.6303 }
+      // 本庁・出張所・コミュニティセンター
+      { name: '武蔵野市役所 本庁舎（緑町）', lat: 35.7178, lng: 139.5660 },
+      { name: '武蔵野市役所 西棟（保健センター併設）', lat: 35.7180, lng: 139.5655 },
+      { name: '吉祥寺市政センター（吉祥寺南町・F&Fビル）', lat: 35.7020, lng: 139.5799 },
+      { name: '中央市政センター（緑町・市役所近接）', lat: 35.7172, lng: 139.5670 },
+      { name: '武蔵境市政センター（境南町・QuOLa内）', lat: 35.7019, lng: 139.5445 },
+      // 文化・芸術
+      { name: '吉祥寺シアター（吉祥寺本町・小劇場）', lat: 35.7048, lng: 139.5798 },
+      { name: '武蔵野公会堂（吉祥寺南町・井の頭公園口）', lat: 35.7025, lng: 139.5803 },
+      { name: '武蔵野スイングホール（境・武蔵境駅北口）', lat: 35.7032, lng: 139.5440 },
+      { name: '武蔵野芸能劇場（吉祥寺北町・吉祥寺駅北口）', lat: 35.7055, lng: 139.5800 },
+      { name: '吉祥寺美術館（吉祥寺本町・コピス7F）', lat: 35.7042, lng: 139.5800 },
+      { name: '武蔵野ふるさと歴史館（境・郷土資料）', lat: 35.7100, lng: 139.5455 },
+      { name: '三鷹の森ジブリ美術館（井の頭恩賜公園西園・※三鷹市側）', lat: 35.6963, lng: 139.5703 },
+      // 図書館・複合施設
+      { name: '武蔵野市立 中央図書館（吉祥寺北町・本館）', lat: 35.7080, lng: 139.5762 },
+      { name: '武蔵野プレイス（境南町・図書館＋生涯学習複合施設）', lat: 35.7022, lng: 139.5443 },
+      { name: '吉祥寺図書館（吉祥寺南町・F&Fビル）', lat: 35.7020, lng: 139.5799 },
+      // 福祉・健康
+      { name: '武蔵野市 保健センター（緑町）', lat: 35.7180, lng: 139.5655 },
+      { name: '武蔵野市立 福祉公社（中町）', lat: 35.7135, lng: 139.5715 },
+      { name: '武蔵野市民社会福祉協議会（吉祥寺北町）', lat: 35.7075, lng: 139.5775 },
+      // コミュニティセンター
+      { name: '吉祥寺東コミュニティセンター（吉祥寺東町）', lat: 35.7055, lng: 139.5860 },
+      { name: '吉祥寺西コミュニティセンター（吉祥寺本町）', lat: 35.7090, lng: 139.5755 },
+      { name: '吉祥寺南町コミュニティセンター', lat: 35.6995, lng: 139.5805 },
+      { name: '中央コミュニティセンター（中町）', lat: 35.7142, lng: 139.5712 },
+      { name: '関前コミュニティセンター（関前）', lat: 35.7160, lng: 139.5505 },
+      { name: '境南コミュニティセンター（境南町）', lat: 35.7000, lng: 139.5460 },
+      { name: '桜堤コミュニティセンター（桜堤）', lat: 35.7218, lng: 139.5392 },
+      // スポーツ施設
+      { name: '武蔵野総合体育館（吉祥寺北町・市民文化会館一帯）', lat: 35.7095, lng: 139.5762 },
+      { name: '武蔵野陸上競技場（吉祥寺北町）', lat: 35.7102, lng: 139.5762 },
+      { name: '武蔵野市民温水プール（吉祥寺北町）', lat: 35.7098, lng: 139.5772 },
+      { name: '武蔵野ふるさと歴史館 体育館', lat: 35.7100, lng: 139.5455 },
+      // 防災・行政
+      { name: '武蔵野警察署（吉祥寺北町・五日市街道沿い）', lat: 35.7088, lng: 139.5808 },
+      { name: '武蔵野消防署（中町・本署）', lat: 35.7128, lng: 139.5722 },
+      { name: '武蔵野消防署 吉祥寺出張所', lat: 35.7058, lng: 139.5798 },
+      { name: '武蔵野消防署 境出張所（境）', lat: 35.7040, lng: 139.5462 }
     ]
   },
   station: {
@@ -1034,49 +1053,17 @@ const POI_DATA = {
     icon: 'fa-train',
     cssClass: 'poi-station',
     items: [
-      // 小田急小田原線
-      { name: '下北沢駅（小田急・京王井の頭線）', lat: 35.6614, lng: 139.6679 },
-      { name: '東北沢駅（小田急）', lat: 35.6643, lng: 139.6760 },
-      { name: '世田谷代田駅（小田急）', lat: 35.6582, lng: 139.6606 },
-      { name: '梅ヶ丘駅（小田急）', lat: 35.6559, lng: 139.6504 },
-      { name: '豪徳寺駅（小田急）', lat: 35.6510, lng: 139.6451 },
-      { name: '経堂駅（小田急）', lat: 35.6517, lng: 139.6376 },
-      { name: '千歳船橋駅（小田急）', lat: 35.6520, lng: 139.6249 },
-      { name: '祖師ヶ谷大蔵駅（小田急）', lat: 35.6536, lng: 139.6123 },
-      { name: '成城学園前駅（小田急）', lat: 35.6403, lng: 139.5994 },
-      { name: '喜多見駅（小田急）', lat: 35.6322, lng: 139.5867 },
-      // 京王線
-      { name: '下高井戸駅（京王線・東急世田谷線）', lat: 35.6680, lng: 139.6379 },
-      { name: '桜上水駅（京王線）', lat: 35.6708, lng: 139.6334 },
-      { name: '上北沢駅（京王線）', lat: 35.6716, lng: 139.6232 },
-      { name: '八幡山駅（京王線）', lat: 35.6725, lng: 139.6155 },
-      { name: '芦花公園駅（京王線）', lat: 35.6735, lng: 139.6058 },
-      { name: '千歳烏山駅（京王線）', lat: 35.6712, lng: 139.5979 },
+      // JR中央線（市を東西に貫く大動脈）
+      { name: '吉祥寺駅（JR中央線／総武線／京王井の頭線・市の中心）', lat: 35.7029, lng: 139.5797 },
+      { name: '三鷹駅（JR中央線／総武線／東京メトロ東西線・※武蔵野市側北口）', lat: 35.7026, lng: 139.5604 },
+      { name: '武蔵境駅（JR中央線／西武多摩川線・西部の拠点）', lat: 35.7029, lng: 139.5440 },
       // 京王井の頭線
-      { name: '池ノ上駅（京王井の頭線）', lat: 35.6614, lng: 139.6755 },
-      { name: '新代田駅（京王井の頭線）', lat: 35.6589, lng: 139.6580 },
-      { name: '東松原駅（京王井の頭線）', lat: 35.6597, lng: 139.6486 },
-      { name: '明大前駅（京王井の頭線・京王線）', lat: 35.6671, lng: 139.6492 },
-      // 東急田園都市線
-      { name: '三軒茶屋駅（田園都市線・世田谷線）', lat: 35.6437, lng: 139.6695 },
-      { name: '駒沢大学駅（田園都市線）', lat: 35.6328, lng: 139.6620 },
-      { name: '桜新町駅（田園都市線）', lat: 35.6293, lng: 139.6481 },
-      { name: '用賀駅（田園都市線）', lat: 35.6286, lng: 139.6332 },
-      { name: '二子玉川駅（田園都市線・大井町線）', lat: 35.6113, lng: 139.6280 },
-      // 東急大井町線
-      { name: '尾山台駅（大井町線）', lat: 35.6086, lng: 139.6515 },
-      { name: '九品仏駅（大井町線）', lat: 35.6080, lng: 139.6645 },
-      { name: '上野毛駅（大井町線）', lat: 35.6121, lng: 139.6384 },
-      { name: '等々力駅（大井町線）', lat: 35.6076, lng: 139.6443 },
-      { name: '自由が丘駅（東横線・大井町線、区境）', lat: 35.6076, lng: 139.6688 },
-      // 東急世田谷線
-      { name: '松陰神社前駅（世田谷線）', lat: 35.6515, lng: 139.6650 },
-      { name: '世田谷駅（世田谷線）', lat: 35.6494, lng: 139.6600 },
-      { name: '上町駅（世田谷線）', lat: 35.6470, lng: 139.6532 },
-      { name: '宮の坂駅（世田谷線）', lat: 35.6495, lng: 139.6452 },
-      { name: '山下駅（世田谷線、豪徳寺隣接）', lat: 35.6511, lng: 139.6451 },
-      { name: '若林駅（世田谷線）', lat: 35.6470, lng: 139.6745 },
-      { name: '西太子堂駅（世田谷線）', lat: 35.6447, lng: 139.6755 }
+      { name: '井の頭公園駅（京王井の頭線・※三鷹市側・井の頭公園東口）', lat: 35.7000, lng: 139.5798 },
+      // 西武多摩川線
+      { name: '新小金井駅（西武多摩川線・※小金井市側・武蔵境隣接）', lat: 35.6985, lng: 139.5240 },
+      // 接続主要駅（隣接自治体）
+      { name: '西荻窪駅（JR中央線／総武線・※杉並区側・東部接続）', lat: 35.7038, lng: 139.5990 },
+      { name: '東小金井駅（JR中央線・※小金井市側・西部接続）', lat: 35.7016, lng: 139.5239 }
     ]
   },
   park: {
@@ -1084,24 +1071,38 @@ const POI_DATA = {
     icon: 'fa-tree',
     cssClass: 'poi-park',
     items: [
-      // 世田谷の代表的な公園（武蔵野台地と多摩川河岸段丘の地形を活かしたもの多数）
-      { name: '砧公園（区内最大の都立公園）', lat: 35.6275, lng: 139.6213 },
-      { name: '駒沢オリンピック公園', lat: 35.6263, lng: 139.6620 },
-      { name: '羽根木公園（梅まつりで有名）', lat: 35.6577, lng: 139.6498 },
-      { name: '世田谷公園', lat: 35.6376, lng: 139.6745 },
-      { name: '蘆花恒春園（徳富蘆花旧居）', lat: 35.6716, lng: 139.6017 },
-      { name: '等々力渓谷公園（都内唯一の渓谷）', lat: 35.6066, lng: 139.6478 },
-      { name: '岡本静嘉堂緑地・静嘉堂文庫', lat: 35.6245, lng: 139.6303 },
-      { name: '次大夫堀公園（民家園）', lat: 35.6315, lng: 139.6105 },
-      { name: '上用賀公園', lat: 35.6243, lng: 139.6300 },
-      { name: '都立祖師谷公園', lat: 35.6532, lng: 139.6033 },
-      { name: '都立和田堀給水所緑地（赤堤）', lat: 35.6592, lng: 139.6418 },
-      { name: '玉川野毛町公園', lat: 35.6038, lng: 139.6553 },
-      { name: '二子玉川公園（多摩川河岸段丘）', lat: 35.6126, lng: 139.6360 },
-      { name: '多摩川河川敷（玉堤・宇奈根・喜多見一帯）', lat: 35.6195, lng: 139.6082 },
-      { name: '東京農業大学 食と農の博物館前広場', lat: 35.6432, lng: 139.6296 },
-      { name: '世田谷区立希望丘公園', lat: 35.6679, lng: 139.6072 },
-      { name: '北烏山九丁目屋敷林（保存樹林）', lat: 35.6810, lng: 139.5972 }
+      // 井の頭恩賜公園（市を代表する大公園・神田川源流）
+      { name: '井の頭恩賜公園 本園（井の頭池・吉祥寺南町／三鷹市跨ぐ）', lat: 35.7000, lng: 139.5750 },
+      { name: '井の頭池 七井橋（公園中央のシンボル橋）', lat: 35.6998, lng: 139.5742 },
+      { name: '井の頭池 弁天橋（井の頭弁財天前）', lat: 35.6982, lng: 139.5738 },
+      { name: '井の頭自然文化園 本園（彫刻館・リスの小径・※三鷹市側）', lat: 35.6975, lng: 139.5708 },
+      { name: '井の頭自然文化園 分園（水生物園・井の頭池北岸）', lat: 35.7008, lng: 139.5732 },
+      { name: '井の頭恩賜公園 西園（ジブリ美術館一帯・※三鷹市側）', lat: 35.6968, lng: 139.5705 },
+      { name: '井の頭公園 御殿山地区（吉祥寺南町・縄文遺跡）', lat: 35.7018, lng: 139.5752 },
+      // 武蔵野中央公園（旧中島飛行機武蔵製作所跡地）
+      { name: '武蔵野中央公園（八幡町・原っぱ広場・旧中島飛行機跡）', lat: 35.7197, lng: 139.5740 },
+      { name: '武蔵野中央公園 ジャブジャブ池', lat: 35.7202, lng: 139.5755 },
+      // 玉川上水・千川上水（江戸期からの上水路）
+      { name: '玉川上水緑道（境〜井の頭・桜堤の桜並木）', lat: 35.7140, lng: 139.5530 },
+      { name: '境浄水場（境・玉川上水終点近接）', lat: 35.7088, lng: 139.5408 },
+      { name: '千川上水緑道（関前〜境・暗渠化された旧上水）', lat: 35.7212, lng: 139.5530 },
+      { name: '桜堤 玉川上水沿い緑道（桜堤・桜の名所）', lat: 35.7228, lng: 139.5410 },
+      // 関前・八幡町・北部
+      { name: '関前公園（関前・けやき広場）', lat: 35.7185, lng: 139.5530 },
+      { name: '関前南公園（関前南・住宅街の中の公園）', lat: 35.7148, lng: 139.5538 },
+      { name: '武蔵野市立 中央公園（緑町・市役所隣接）', lat: 35.7165, lng: 139.5685 },
+      { name: '八幡町公園（八幡町）', lat: 35.7210, lng: 139.5780 },
+      { name: '北町ふれあい公園（吉祥寺北町）', lat: 35.7102, lng: 139.5818 },
+      // 吉祥寺周辺
+      { name: '成蹊大学けやき並木（吉祥寺北町・約220m・登録記念物）', lat: 35.7110, lng: 139.5828 },
+      { name: '井の頭通り 中道通り商店街（吉祥寺本町）', lat: 35.7048, lng: 139.5772 },
+      { name: '吉祥寺サンロード商店街（吉祥寺本町・アーケード）', lat: 35.7042, lng: 139.5798 },
+      // 境・武蔵境エリア
+      { name: '武蔵境 すきっぷ通り（境南町）', lat: 35.7008, lng: 139.5448 },
+      { name: '独立行政法人 統計センター 緑地（境）', lat: 35.7060, lng: 139.5455 },
+      // 緑道・水辺
+      { name: '神田川 起点（井の頭池・三鷹橋）', lat: 35.6995, lng: 139.5778 },
+      { name: '善福寺川 源流域近接（関前・※杉並区善福寺池隣接）', lat: 35.7228, lng: 139.5910 }
     ]
   },
   temple: {
@@ -1109,21 +1110,28 @@ const POI_DATA = {
     icon: 'fa-torii-gate',
     cssClass: 'poi-temple',
     items: [
-      { name: '豪徳寺（招き猫発祥・井伊家墓所）', lat: 35.6498, lng: 139.6448 },
-      { name: '松陰神社（吉田松陰墓所）', lat: 35.6499, lng: 139.6628 },
-      { name: '世田谷八幡宮', lat: 35.6498, lng: 139.6463 },
-      { name: '九品仏 浄真寺', lat: 35.6079, lng: 139.6601 },
-      { name: '太子堂八幡神社', lat: 35.6428, lng: 139.6692 },
-      { name: '北澤八幡神社', lat: 35.6593, lng: 139.6720 },
-      { name: '森厳寺（淡島）', lat: 35.6562, lng: 139.6635 },
-      { name: '勝光院（桜田門外の変関係寺）', lat: 35.6477, lng: 139.6480 },
-      { name: '駒留八幡神社', lat: 35.6383, lng: 139.6643 },
-      { name: '世田谷区瀬田玉川神社', lat: 35.6111, lng: 139.6328 },
-      { name: '玉眞院 玉川大師（弘法大師の地下霊場）', lat: 35.6116, lng: 139.6356 },
-      { name: '砧三峯神社', lat: 35.6360, lng: 139.6111 },
-      { name: '喜多見氷川神社', lat: 35.6300, lng: 139.5910 },
-      { name: '宇奈根氷川神社', lat: 35.6228, lng: 139.5910 },
-      { name: '駒繋神社（下馬）', lat: 35.6388, lng: 139.6837 }
+      // 吉祥寺四軒寺（地名「吉祥寺」の由来となった寺町）
+      { name: '武蔵野八幡宮（吉祥寺東町・吉祥寺総鎮守・地名由来）', lat: 35.7058, lng: 139.5824 },
+      { name: '月窓寺（吉祥寺本町・吉祥寺四軒寺・曹洞宗）', lat: 35.7050, lng: 139.5810 },
+      { name: '蓮乗寺（吉祥寺本町・吉祥寺四軒寺・日蓮宗）', lat: 35.7052, lng: 139.5812 },
+      { name: '光専寺（吉祥寺本町・吉祥寺四軒寺・浄土宗）', lat: 35.7054, lng: 139.5814 },
+      { name: '安養寺（吉祥寺本町・吉祥寺四軒寺・真言宗豊山派）', lat: 35.7055, lng: 139.5808 },
+      // 井の頭池周辺
+      { name: '井の頭弁財天 大盛寺（井の頭池・天台宗・源頼朝伝説）', lat: 35.6981, lng: 139.5740 },
+      // 境・武蔵境
+      { name: '杵築大社（境南町・出雲大社系・武蔵境総鎮守）', lat: 35.7008, lng: 139.5418 },
+      { name: '武蔵野神社（吉祥寺本町・吉祥寺四軒寺隣接）', lat: 35.7062, lng: 139.5805 },
+      { name: '延命寺（八幡町・真言宗豊山派）', lat: 35.7215, lng: 139.5765 },
+      // 関前・北部
+      { name: '関前八幡神社（関前・関前総鎮守）', lat: 35.7178, lng: 139.5538 },
+      { name: '観音院（関前・真言宗）', lat: 35.7170, lng: 139.5548 },
+      // 西久保
+      { name: '西久保八幡神社（西久保・五日市街道沿い）', lat: 35.7110, lng: 139.5662 },
+      { name: '雲松院（西久保・曹洞宗）', lat: 35.7118, lng: 139.5668 },
+      // 中町
+      { name: '春日神社（中町・中町総鎮守）', lat: 35.7142, lng: 139.5705 },
+      // 桜堤
+      { name: '稲荷神社（桜堤・玉川上水沿い）', lat: 35.7215, lng: 139.5398 }
     ]
   },
   evac_shelter: {
@@ -1131,43 +1139,35 @@ const POI_DATA = {
     icon: 'fa-house-chimney-medical',
     cssClass: 'poi-evac_shelter',
     items: [
-      // 世田谷区立小中学校（主要な指定避難所）
-      // 北沢地区
-      { name: '世田谷区立北沢中学校', lat: 35.6622, lng: 139.6700 },
-      { name: '世田谷区立守山小学校', lat: 35.6580, lng: 139.6622 },
-      { name: '世田谷区立松原小学校', lat: 35.6635, lng: 139.6485 },
-      { name: '世田谷区立赤堤小学校', lat: 35.6612, lng: 139.6404 },
-      { name: '世田谷区立梅丘中学校', lat: 35.6555, lng: 139.6486 },
-      // 世田谷地区
-      { name: '世田谷区立桜小学校', lat: 35.6438, lng: 139.6488 },
-      { name: '世田谷区立桜中学校', lat: 35.6429, lng: 139.6477 },
-      { name: '世田谷区立池尻小学校', lat: 35.6488, lng: 139.6810 },
-      { name: '世田谷区立太子堂小学校', lat: 35.6450, lng: 139.6727 },
-      { name: '世田谷区立三軒茶屋小学校', lat: 35.6411, lng: 139.6717 },
-      { name: '世田谷区立三宿中学校', lat: 35.6480, lng: 139.6822 },
-      { name: '世田谷区立松沢小学校', lat: 35.6712, lng: 139.6390 },
-      // 玉川地区
-      { name: '世田谷区立駒沢小学校', lat: 35.6310, lng: 139.6640 },
-      { name: '世田谷区立駒沢中学校', lat: 35.6324, lng: 139.6650 },
-      { name: '世田谷区立用賀小学校', lat: 35.6275, lng: 139.6310 },
-      { name: '世田谷区立用賀中学校', lat: 35.6262, lng: 139.6334 },
-      { name: '世田谷区立瀬田小学校', lat: 35.6168, lng: 139.6303 },
-      { name: '世田谷区立玉川小学校', lat: 35.6094, lng: 139.6322 },
-      { name: '世田谷区立深沢小学校', lat: 35.6207, lng: 139.6620 },
-      { name: '世田谷区立等々力小学校', lat: 35.6107, lng: 139.6457 },
-      { name: '世田谷区立尾山台小学校', lat: 35.6098, lng: 139.6520 },
-      { name: '世田谷区立九品仏小学校', lat: 35.6086, lng: 139.6630 },
-      // 砧地区
-      { name: '世田谷区立砧小学校', lat: 35.6346, lng: 139.6157 },
-      { name: '世田谷区立明正小学校', lat: 35.6388, lng: 139.5985 },
-      { name: '世田谷区立成城学園前 砧南中学校', lat: 35.6195, lng: 139.5985 },
-      { name: '世田谷区立喜多見中学校', lat: 35.6320, lng: 139.5895 },
-      { name: '世田谷区立祖師谷小学校', lat: 35.6553, lng: 139.6110 },
-      // 烏山地区
-      { name: '世田谷区立烏山小学校', lat: 35.6700, lng: 139.5995 },
-      { name: '世田谷区立烏山中学校', lat: 35.6705, lng: 139.6022 },
-      { name: '世田谷区立芦花小学校', lat: 35.6720, lng: 139.6060 },
-      { name: '世田谷区立八幡山小学校', lat: 35.6712, lng: 139.6190 }
+      // 武蔵野市立小学校（地区別）
+      { name: '武蔵野市立 第一小学校（吉祥寺本町・市内最古）', lat: 35.7102, lng: 139.5790 },
+      { name: '武蔵野市立 第二小学校（吉祥寺東町）', lat: 35.7068, lng: 139.5862 },
+      { name: '武蔵野市立 第三小学校（西久保）', lat: 35.7128, lng: 139.5650 },
+      { name: '武蔵野市立 第四小学校（境南町）', lat: 35.6995, lng: 139.5460 },
+      { name: '武蔵野市立 第五小学校（中町）', lat: 35.7148, lng: 139.5728 },
+      { name: '武蔵野市立 大野田小学校（吉祥寺北町・成蹊学園隣）', lat: 35.7120, lng: 139.5808 },
+      { name: '武蔵野市立 関前南小学校（関前南）', lat: 35.7140, lng: 139.5520 },
+      { name: '武蔵野市立 桜野小学校（桜堤・関前北側）', lat: 35.7232, lng: 139.5475 },
+      { name: '武蔵野市立 千川小学校（八幡町）', lat: 35.7205, lng: 139.5728 },
+      { name: '武蔵野市立 井之頭小学校（吉祥寺南町）', lat: 35.6968, lng: 139.5808 },
+      { name: '武蔵野市立 境南小学校（境南町）', lat: 35.6988, lng: 139.5420 },
+      { name: '武蔵野市立 本宿小学校（吉祥寺東町）', lat: 35.7062, lng: 139.5895 },
+      // 武蔵野市立中学校
+      { name: '武蔵野市立 第一中学校（西久保）', lat: 35.7130, lng: 139.5680 },
+      { name: '武蔵野市立 第二中学校（吉祥寺東町）', lat: 35.7068, lng: 139.5878 },
+      { name: '武蔵野市立 第三中学校（吉祥寺本町）', lat: 35.7095, lng: 139.5755 },
+      { name: '武蔵野市立 第四中学校（境）', lat: 35.7060, lng: 139.5460 },
+      { name: '武蔵野市立 第五中学校（八幡町）', lat: 35.7212, lng: 139.5750 },
+      { name: '武蔵野市立 第六中学校（境南町）', lat: 35.6985, lng: 139.5478 },
+      // 都立・私立学校
+      { name: '都立 武蔵高等学校・附属中学校（境）', lat: 35.7058, lng: 139.5478 },
+      { name: '都立 武蔵野北高等学校（八幡町）', lat: 35.7218, lng: 139.5810 },
+      { name: '都立 井草高等学校（※杉並区下井草・北東接続）', lat: 35.7220, lng: 139.6082 },
+      { name: '成蹊大学・成蹊学園（吉祥寺北町・けやき並木）', lat: 35.7115, lng: 139.5828 },
+      { name: '武蔵野大学 武蔵野キャンパス（境）', lat: 35.6998, lng: 139.5392 },
+      { name: '亜細亜大学 武蔵野キャンパス（境）', lat: 35.7060, lng: 139.5478 },
+      { name: '東京女子大学（善福寺・※杉並区側・武蔵野市境）', lat: 35.7242, lng: 139.5942 },
+      { name: '成蹊小学校・中学校・高校（吉祥寺北町）', lat: 35.7118, lng: 139.5820 }
     ]
   },
   evac_emergency: {
@@ -1175,22 +1175,18 @@ const POI_DATA = {
     icon: 'fa-person-running',
     cssClass: 'poi-evac_emergency',
     items: [
-      // 洪水・地震時に緊急で命を守る場所（広い公園・グラウンド・高台）
-      { name: '砧公園（緊急避難場所）', lat: 35.6275, lng: 139.6213 },
-      { name: '駒沢オリンピック公園（緊急避難場所）', lat: 35.6263, lng: 139.6620 },
-      { name: '羽根木公園（緊急避難場所）', lat: 35.6577, lng: 139.6498 },
-      { name: '世田谷公園（緊急避難場所）', lat: 35.6376, lng: 139.6745 },
-      { name: '蘆花恒春園（緊急避難場所）', lat: 35.6716, lng: 139.6017 },
-      { name: '祖師谷公園（緊急避難場所）', lat: 35.6532, lng: 139.6033 },
-      { name: '二子玉川公園（緊急避難場所、※多摩川氾濫時は不可）', lat: 35.6126, lng: 139.6360 },
-      { name: '次大夫堀公園（緊急避難場所）', lat: 35.6315, lng: 139.6105 },
-      { name: '上用賀公園（緊急避難場所）', lat: 35.6243, lng: 139.6300 },
-      { name: '玉川野毛町公園（緊急避難場所）', lat: 35.6038, lng: 139.6553 },
-      { name: '世田谷区立総合運動場（緊急避難場所）', lat: 35.6228, lng: 139.6512 },
-      { name: '大蔵運動公園（緊急避難場所）', lat: 35.6342, lng: 139.6188 },
-      { name: '希望丘公園（緊急避難場所）', lat: 35.6679, lng: 139.6072 },
-      { name: '豪徳寺一帯（緊急避難場所）', lat: 35.6498, lng: 139.6448 },
-      { name: '松陰神社境内（緊急避難場所）', lat: 35.6499, lng: 139.6628 }
+      // 大地震・大規模火災時に緊急で命を守る場所（公園・広場）
+      { name: '井の頭恩賜公園 一帯（広域防災拠点・吉祥寺南町）', lat: 35.7000, lng: 139.5750 },
+      { name: '武蔵野中央公園 原っぱ広場（八幡町・広域防災拠点）', lat: 35.7197, lng: 139.5740 },
+      { name: '成蹊大学グラウンド（吉祥寺北町）', lat: 35.7128, lng: 139.5835 },
+      { name: '関前公園・関前南公園一帯（関前）', lat: 35.7170, lng: 139.5530 },
+      { name: '武蔵野市役所前広場（緑町）', lat: 35.7178, lng: 139.5665 },
+      { name: '武蔵野総合体育館前広場（吉祥寺北町）', lat: 35.7095, lng: 139.5762 },
+      { name: '境浄水場一帯（境）', lat: 35.7085, lng: 139.5410 },
+      { name: '玉川上水緑道（桜堤・緊急時避難路）', lat: 35.7218, lng: 139.5410 },
+      { name: '武蔵境駅北口広場（境）', lat: 35.7035, lng: 139.5443 },
+      { name: '吉祥寺駅北口広場（吉祥寺本町）', lat: 35.7032, lng: 139.5800 },
+      { name: '中央公園（緑町・市役所隣接）', lat: 35.7165, lng: 139.5685 }
     ]
   },
   evac_wide: {
@@ -1198,15 +1194,15 @@ const POI_DATA = {
     icon: 'fa-arrows-to-circle',
     cssClass: 'poi-evac_wide',
     items: [
-      // 大規模火災発生時に一時的に避難する広い場所
-      { name: '砧公園・大蔵運動公園一帯', lat: 35.6275, lng: 139.6213 },
-      { name: '駒沢オリンピック公園一帯', lat: 35.6263, lng: 139.6620 },
-      { name: '蘆花恒春園・芦花公園駅一帯', lat: 35.6720, lng: 139.6040 },
-      { name: '祖師谷公園・東京農大一帯', lat: 35.6532, lng: 139.6033 },
-      { name: '羽根木公園一帯', lat: 35.6577, lng: 139.6498 },
-      { name: '世田谷公園・池尻一帯', lat: 35.6376, lng: 139.6745 },
-      { name: '東京都立松沢病院・赤堤緑地一帯', lat: 35.6680, lng: 139.6420 },
-      { name: '多摩川河川敷（玉堤・宇奈根・喜多見）', lat: 35.6195, lng: 139.6082 }
+      // 大規模火災時に一時的に避難する広い場所
+      { name: '井の頭恩賜公園・井の頭自然文化園一帯', lat: 35.6990, lng: 139.5730 },
+      { name: '武蔵野中央公園・都立武蔵野北高校一帯', lat: 35.7205, lng: 139.5740 },
+      { name: '成蹊大学・武蔵野総合体育館一帯', lat: 35.7115, lng: 139.5820 },
+      { name: '関前公園・武蔵野市役所一帯', lat: 35.7172, lng: 139.5600 },
+      { name: '境浄水場・玉川上水緑道一帯', lat: 35.7088, lng: 139.5410 },
+      { name: '都立武蔵高校・亜細亜大学・武蔵野大学一帯（境）', lat: 35.7055, lng: 139.5468 },
+      { name: '桜堤・玉川上水沿い緑道一帯（桜堤）', lat: 35.7222, lng: 139.5402 },
+      { name: '東京女子大学・善福寺池一帯（※杉並区側）', lat: 35.7232, lng: 139.5932 }
     ]
   },
   evac_welfare: {
@@ -1215,18 +1211,23 @@ const POI_DATA = {
     cssClass: 'poi-evac_welfare',
     items: [
       // 要配慮者（高齢者・障がい者等）向けの避難所
-      { name: '世田谷区立梅ヶ丘拠点（保健医療福祉総合プラザ）', lat: 35.6555, lng: 139.6502 },
-      { name: '世田谷区総合福祉センター', lat: 35.6470, lng: 139.6530 },
-      { name: '世田谷区立障害者就労支援センターすきっぷ', lat: 35.6466, lng: 139.6538 },
-      { name: '特別養護老人ホーム きたざわ苑', lat: 35.6655, lng: 139.6678 },
-      { name: '特別養護老人ホーム うめとぴあ', lat: 35.6562, lng: 139.6498 },
-      { name: '特別養護老人ホーム 千歳敬心苑', lat: 35.6518, lng: 139.6240 },
-      { name: '特別養護老人ホーム きぬた園', lat: 35.6346, lng: 139.6160 },
-      { name: '特別養護老人ホーム 芦花ホーム', lat: 35.6712, lng: 139.6020 },
-      { name: '世田谷区立心身障害者(児)地域生活支援センター', lat: 35.6462, lng: 139.6540 },
-      { name: '世田谷区立喜多見子ども家庭支援センター', lat: 35.6322, lng: 139.5870 },
-      { name: '世田谷区立尾山台地域包括支援センター', lat: 35.6086, lng: 139.6515 },
-      { name: '世田谷区立成城地域包括支援センター', lat: 35.6403, lng: 139.5994 }
+      { name: '武蔵野市 保健センター（緑町・市役所西棟）', lat: 35.7180, lng: 139.5655 },
+      { name: '武蔵野市立 高齢者総合センター（緑町）', lat: 35.7165, lng: 139.5670 },
+      { name: '吉祥寺ナーシングホーム（吉祥寺東町）', lat: 35.7062, lng: 139.5848 },
+      { name: '武蔵野市立 障害者総合センター（緑町）', lat: 35.7170, lng: 139.5672 },
+      // 特別養護老人ホーム
+      { name: '特別養護老人ホーム 武蔵野（中町）', lat: 35.7138, lng: 139.5708 },
+      { name: '特別養護老人ホーム ゆとりえ（吉祥寺東町）', lat: 35.7068, lng: 139.5870 },
+      { name: '特別養護老人ホーム 親の家（関前）', lat: 35.7158, lng: 139.5512 },
+      { name: '特別養護老人ホーム 武蔵野赤十字（境南町・赤十字病院隣）', lat: 35.6992, lng: 139.5448 },
+      // 介護老人保健施設
+      { name: '介護老人保健施設 ハミングホームよしの（吉祥寺南町）', lat: 35.6982, lng: 139.5818 },
+      { name: '介護老人保健施設 グリーンヒル吉祥寺（吉祥寺北町）', lat: 35.7102, lng: 139.5798 },
+      // 病院（地域中核）
+      { name: '武蔵野赤十字病院（境南町・地域災害拠点病院）', lat: 35.6988, lng: 139.5445 },
+      { name: '吉祥寺南病院（吉祥寺南町）', lat: 35.6998, lng: 139.5808 },
+      { name: '武蔵野陽和会病院（八幡町）', lat: 35.7212, lng: 139.5732 },
+      { name: '森本病院（吉祥寺本町・五日市街道沿い）', lat: 35.7078, lng: 139.5790 }
     ]
   }
 };
@@ -1271,7 +1272,7 @@ function setPOIVisibility(category, visible) {
   }
 }
 
-// 初期表示：世田谷区役所のみON
+// 初期表示：武蔵野市役所のみON
 setPOIVisibility('cityhall', true);
 
 // カテゴリ切替イベント
@@ -1429,7 +1430,7 @@ function addCSPoint(lat, lng) {
   csMarkers.push(marker);
   if (csPoints.length === 2) {
     csLine = L.polyline(csPoints, {
-      color: '#0288d1',
+      color: '#00838f',
       weight: 4,
       opacity: 0.8,
       dashArray: '8, 8'
@@ -1502,15 +1503,15 @@ function renderCrossSection(labels, data, totalDist) {
       datasets: [{
         label: '標高 (m)',
         data: data,
-        borderColor: '#2e7d32',
+        borderColor: '#00838f',
         backgroundColor: (context) => {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
-          if (!chartArea) return 'rgba(46,125,50,0.2)';
+          if (!chartArea) return 'rgba(0,131,143,0.2)';
           const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          gradient.addColorStop(0, 'rgba(46,125,50,0.6)');
-          gradient.addColorStop(0.5, 'rgba(212,163,115,0.35)');
-          gradient.addColorStop(1, 'rgba(129,212,250,0.1)');
+          gradient.addColorStop(0, 'rgba(0,131,143,0.6)');
+          gradient.addColorStop(0.5, 'rgba(191,54,12,0.32)');
+          gradient.addColorStop(1, 'rgba(85,139,47,0.12)');
           return gradient;
         },
         fill: true,
@@ -1535,14 +1536,14 @@ function renderCrossSection(labels, data, totalDist) {
       },
       scales: {
         x: {
-          title: { display: true, text: '地点 A からの距離 (m)', color: '#6b5b55' },
-          ticks: { color: '#6b5b55', maxTicksLimit: 10 },
-          grid: { color: '#f3e0d2' }
+          title: { display: true, text: '地点 A からの距離 (m)', color: '#1b3a3a' },
+          ticks: { color: '#1b3a3a', maxTicksLimit: 10 },
+          grid: { color: '#b2dfdb' }
         },
         y: {
-          title: { display: true, text: '標高 (m)', color: '#6b5b55' },
-          ticks: { color: '#6b5b55' },
-          grid: { color: '#f3e0d2' }
+          title: { display: true, text: '標高 (m)', color: '#1b3a3a' },
+          ticks: { color: '#1b3a3a' },
+          grid: { color: '#b2dfdb' }
         }
       }
     }
@@ -1760,14 +1761,14 @@ function init3D() {
       }
     }, 300);
 
-    // 空（温かみのある夕焼けトーン）
+    // 空（井の頭池の朝霧・吉祥寺サンロードのレンガ赤明りトーン）
     try {
       map3d.setSky({
-        'sky-color': '#a5d6f8',
+        'sky-color': '#b2dfdb',
         'sky-horizon-blend': 0.7,
-        'horizon-color': '#c8e6c9',
+        'horizon-color': '#ffe082',
         'horizon-fog-blend': 0.6,
-        'fog-color': '#f4f8ef',
+        'fog-color': '#e0f2f1',
         'fog-ground-blend': 0.4
       });
     } catch(e) { /* 旧バージョン互換 */ }
@@ -1962,15 +1963,15 @@ window.addEventListener('unhandledrejection', (e) => {
 // =======================
 updateCSStatus();
 
-// 世田谷区の範囲を少し強調表示（概観：東西に長い区形）
-const setagayaBounds = L.rectangle([[35.605, 139.572], [35.668, 139.665]], {
-  color: '#2e7d32',
+// 武蔵野市の範囲を少し強調表示（概観：武蔵野台地と井の頭谷・玉川上水）
+const musashinoBounds = L.rectangle([[35.685, 139.530], [35.728, 139.604]], {
+  color: '#00838f',
   weight: 2,
   fillOpacity: 0,
   dashArray: '6, 6'
 }).addTo(map2d);
 
-console.log('🌳 世田谷区 高低マップ 起動完了');
+console.log('🌿 武蔵野市 高低マップ 起動完了');
 
 // =======================
 // PWA: Service Worker 登録

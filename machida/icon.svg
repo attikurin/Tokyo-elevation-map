@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- 多摩丘陵の夕焼け空（境川ブルー→薬師池オレンジ→多摩丘陵パープル） -->
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1565c0"/>
+      <stop offset="45%" stop-color="#bbdefb"/>
+      <stop offset="75%" stop-color="#ffccbc"/>
+      <stop offset="100%" stop-color="#e64a19"/>
+    </linearGradient>
+    <!-- 多摩丘陵（市域大半を占める西端の丘陵） -->
+    <linearGradient id="hillGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7cb342"/>
+      <stop offset="60%" stop-color="#558b2f"/>
+      <stop offset="100%" stop-color="#33691e"/>
+    </linearGradient>
+    <!-- 小山田緑地・尾根緑道（手前の里山） -->
+    <linearGradient id="ridgeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9ccc65"/>
+      <stop offset="100%" stop-color="#558b2f"/>
+    </linearGradient>
+    <!-- 境川（都県境の川・市の南東を流れる） -->
+    <linearGradient id="sakaiGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0277bd"/>
+      <stop offset="100%" stop-color="#1565c0"/>
+    </linearGradient>
+    <!-- 鶴見川源流（上小山田・里山の湧水） -->
+    <linearGradient id="tsurumiGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4fc3f7"/>
+      <stop offset="100%" stop-color="#0288d1"/>
+    </linearGradient>
+    <!-- 薬師池（大賀ハス・町田の名所） -->
+    <radialGradient id="pondGrad" cx="0.5" cy="0.45" r="0.55">
+      <stop offset="0%" stop-color="#e1f5fe"/>
+      <stop offset="60%" stop-color="#4fc3f7"/>
+      <stop offset="100%" stop-color="#01579b"/>
+    </radialGradient>
+    <!-- 町田天満宮鳥居（朱） -->
+    <linearGradient id="toriiGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff5722"/>
+      <stop offset="100%" stop-color="#bf360c"/>
+    </linearGradient>
+    <!-- ロマンスカー（小田急・町田駅） -->
+    <linearGradient id="trainGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ef5350"/>
+      <stop offset="100%" stop-color="#b71c1c"/>
+    </linearGradient>
+    <!-- 月 -->
+    <radialGradient id="moonGrad" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#fffde7"/>
+      <stop offset="100%" stop-color="#fff59d"/>
+    </radialGradient>
+    <!-- 大賀ハス（薬師池の名物） -->
+    <linearGradient id="lotusGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8bbd0"/>
+      <stop offset="100%" stop-color="#ec407a"/>
+    </linearGradient>
+    <!-- 桜並木（尾根緑道） -->
+    <radialGradient id="sakuraGrad" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#fce4ec"/>
+      <stop offset="100%" stop-color="#f8bbd0"/>
+    </radialGradient>
+    <!-- 町田リス園のタイワンリス -->
+    <linearGradient id="squirrelGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8d6e63"/>
+      <stop offset="100%" stop-color="#5d4037"/>
+    </linearGradient>
+  </defs>
+
+  <!-- アイコン背景（角丸正方形） -->
+  <rect x="0" y="0" width="512" height="512" rx="96" ry="96" fill="url(#skyGrad)"/>
+
+  <!-- 月 -->
+  <circle cx="395" cy="115" r="38" fill="url(#moonGrad)" opacity="0.95"/>
+  <circle cx="385" cy="105" r="6" fill="#fff" opacity="0.4"/>
+  <circle cx="405" cy="125" r="4" fill="#fff" opacity="0.35"/>
+
+  <!-- 遠景：多摩丘陵（市域大半を占める） -->
+  <path d="M 0 285 Q 60 240 120 250 Q 180 230 240 245 Q 300 220 360 235 Q 430 215 512 240 L 512 360 L 0 360 Z" fill="url(#hillGrad)"/>
+
+  <!-- 中景：小山田緑地・尾根緑道 -->
+  <path d="M 0 320 Q 80 295 160 305 Q 240 285 320 300 Q 400 285 512 305 L 512 380 L 0 380 Z" fill="url(#ridgeGrad)"/>
+
+  <!-- 桜並木（尾根緑道）の桜の花 -->
+  <g opacity="0.85">
+    <circle cx="60" cy="305" r="9" fill="url(#sakuraGrad)"/>
+    <circle cx="95" cy="298" r="11" fill="url(#sakuraGrad)"/>
+    <circle cx="135" cy="307" r="8" fill="url(#sakuraGrad)"/>
+    <circle cx="175" cy="295" r="10" fill="url(#sakuraGrad)"/>
+    <circle cx="215" cy="305" r="9" fill="url(#sakuraGrad)"/>
+    <circle cx="255" cy="293" r="11" fill="url(#sakuraGrad)"/>
+    <circle cx="295" cy="302" r="9" fill="url(#sakuraGrad)"/>
+    <circle cx="335" cy="295" r="10" fill="url(#sakuraGrad)"/>
+    <circle cx="375" cy="305" r="8" fill="url(#sakuraGrad)"/>
+    <circle cx="420" cy="293" r="11" fill="url(#sakuraGrad)"/>
+    <circle cx="460" cy="302" r="9" fill="url(#sakuraGrad)"/>
+  </g>
+
+  <!-- 鶴見川源流（小山田の湧水） -->
+  <path d="M 35 345 Q 70 360 100 350 Q 130 365 170 358" fill="none" stroke="url(#tsurumiGrad)" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- 境川（都県境・市の南東を蛇行） -->
+  <path d="M 380 360 Q 420 380 450 395 Q 470 415 495 425 Q 505 445 510 470" fill="none" stroke="url(#sakaiGrad)" stroke-width="11" stroke-linecap="round" opacity="0.92"/>
+  <path d="M 380 360 Q 420 380 450 395 Q 470 415 495 425 Q 505 445 510 470" fill="none" stroke="#e1f5fe" stroke-width="2" stroke-linecap="round" opacity="0.65"/>
+
+  <!-- 薬師池（東京都指定名勝・大賀ハスの池） -->
+  <ellipse cx="195" cy="385" rx="78" ry="35" fill="url(#pondGrad)" opacity="0.95"/>
+  <ellipse cx="195" cy="380" rx="60" ry="22" fill="#fff" opacity="0.18"/>
+
+  <!-- 大賀ハス（薬師池の名物） -->
+  <g transform="translate(165 372)">
+    <!-- 葉 -->
+    <ellipse cx="0" cy="6" rx="14" ry="3" fill="#2e7d32" opacity="0.85"/>
+    <!-- 花 -->
+    <path d="M 0 -4 Q -7 -8 -5 0 Q -10 -2 -8 4 Q -3 2 0 4 Q 3 2 8 4 Q 10 -2 5 0 Q 7 -8 0 -4 Z" fill="url(#lotusGrad)"/>
+    <circle cx="0" cy="0" r="2" fill="#fff59d"/>
+  </g>
+  <g transform="translate(225 380)">
+    <ellipse cx="0" cy="6" rx="12" ry="2.5" fill="#2e7d32" opacity="0.85"/>
+    <path d="M 0 -3 Q -6 -7 -4 0 Q -8 -1 -6 4 Q -2 2 0 3 Q 2 2 6 4 Q 8 -1 4 0 Q 6 -7 0 -3 Z" fill="url(#lotusGrad)"/>
+    <circle cx="0" cy="0" r="1.8" fill="#fff59d"/>
+  </g>
+
+  <!-- 町田天満宮鳥居（原町田・市の総鎮守） -->
+  <g transform="translate(330 320)">
+    <!-- 笠木（上の横木） -->
+    <rect x="-30" y="-2" width="60" height="6" fill="url(#toriiGrad)" rx="1"/>
+    <rect x="-33" y="-5" width="66" height="5" fill="url(#toriiGrad)" rx="1"/>
+    <!-- 貫（下の横木） -->
+    <rect x="-25" y="14" width="50" height="4" fill="url(#toriiGrad)"/>
+    <!-- 柱 -->
+    <rect x="-22" y="-5" width="5" height="50" fill="url(#toriiGrad)"/>
+    <rect x="17" y="-5" width="5" height="50" fill="url(#toriiGrad)"/>
+  </g>
+
+  <!-- 町田リス園のタイワンリス -->
+  <g transform="translate(95 360)">
+    <!-- 体 -->
+    <ellipse cx="0" cy="0" rx="12" ry="8" fill="url(#squirrelGrad)"/>
+    <!-- 頭 -->
+    <circle cx="-8" cy="-5" r="6" fill="url(#squirrelGrad)"/>
+    <!-- 耳 -->
+    <ellipse cx="-11" cy="-9" rx="1.5" ry="2.5" fill="#3e2723"/>
+    <ellipse cx="-6" cy="-10" rx="1.5" ry="2.5" fill="#3e2723"/>
+    <!-- 尻尾（ふさふさ） -->
+    <path d="M 8 0 Q 18 -8 20 -18 Q 14 -12 10 -2 Z" fill="url(#squirrelGrad)"/>
+    <!-- 目 -->
+    <circle cx="-10" cy="-5" r="1.2" fill="#1a0d05"/>
+    <!-- どんぐり -->
+    <ellipse cx="-14" cy="2" rx="2.5" ry="3" fill="#8d6e63"/>
+    <rect x="-15.5" y="-1" width="3" height="1.5" fill="#5d4037"/>
+  </g>
+
+  <!-- 小田急ロマンスカー（町田駅停車・市の鉄道シンボル） -->
+  <g transform="translate(220 425)">
+    <!-- 車体 -->
+    <rect x="-50" y="-10" width="100" height="20" rx="10" fill="url(#trainGrad)"/>
+    <!-- 流線型先頭 -->
+    <path d="M 50 -10 Q 65 -5 65 0 Q 65 5 50 10 Z" fill="url(#trainGrad)"/>
+    <!-- 窓 -->
+    <rect x="-40" y="-5" width="14" height="6" rx="2" fill="#bbdefb" opacity="0.85"/>
+    <rect x="-22" y="-5" width="14" height="6" rx="2" fill="#bbdefb" opacity="0.85"/>
+    <rect x="-4" y="-5" width="14" height="6" rx="2" fill="#bbdefb" opacity="0.85"/>
+    <rect x="14" y="-5" width="14" height="6" rx="2" fill="#bbdefb" opacity="0.85"/>
+    <rect x="32" y="-5" width="12" height="6" rx="2" fill="#bbdefb" opacity="0.85"/>
+    <!-- ライン -->
+    <rect x="-50" y="4" width="115" height="2" fill="#fff" opacity="0.85"/>
+    <!-- 車輪 -->
+    <circle cx="-35" cy="13" r="3" fill="#212121"/>
+    <circle cx="-15" cy="13" r="3" fill="#212121"/>
+    <circle cx="15" cy="13" r="3" fill="#212121"/>
+    <circle cx="35" cy="13" r="3" fill="#212121"/>
+  </g>
+
+  <!-- 「町田」バッジ -->
+  <g transform="translate(115 175)">
+    <rect x="-44" y="-22" width="88" height="44" rx="22" fill="#fff" opacity="0.95"/>
+    <text x="0" y="9" text-anchor="middle" font-family="M PLUS Rounded 1c, Noto Sans JP, sans-serif" font-size="28" font-weight="700" fill="#1565c0">町田</text>
+  </g>
+
+  <!-- 等高線（多摩丘陵の高低を示す象徴） -->
+  <g opacity="0.25" stroke="#fff" stroke-width="1.5" fill="none">
+    <path d="M 50 270 Q 150 255 250 265 Q 350 250 460 265"/>
+    <path d="M 30 295 Q 130 280 230 290 Q 330 275 450 285"/>
+    <path d="M 20 245 Q 120 232 220 240 Q 320 225 450 240"/>
+  </g>
+
+  <!-- 鳥（多摩丘陵の鳥） -->
+  <g opacity="0.85" fill="#0d2c4e">
+    <path d="M 140 110 Q 150 100 160 110 Q 165 105 170 110 Q 175 100 185 110" stroke="#0d2c4e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 245 145 Q 252 138 259 145 Q 263 142 267 145 Q 271 138 278 145" stroke="#0d2c4e" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>

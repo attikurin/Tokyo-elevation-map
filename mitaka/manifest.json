@@ -1,0 +1,22 @@
+{
+  "name": "三鷹市 高低マップ",
+  "short_name": "三鷹高低",
+  "description": "東京都三鷹市（武蔵野台地南端・国分寺崖線・野川／仙川／玉川上水）の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。三鷹の森ジブリ美術館、国立天文台三鷹キャンパス（1924年移転・大正期施設群）、井の頭恩賜公園（三鷹側）、都立野川公園、ICU（国際基督教大学）、太宰治文学サロン、山本有三記念館、星と森と絵本の家、JR中央線三鷹駅、京王井の頭線などを可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#e8f5e9",
+  "theme_color": "#1b5e20",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

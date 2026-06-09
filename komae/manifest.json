@@ -1,0 +1,22 @@
+{
+  "name": "狛江市 高低マップ",
+  "short_name": "狛江高低",
+  "description": "東京都狛江市（都内2番目に小さい市・6.39km²）の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。多摩川北岸・武蔵野台地南端の縁・国分寺崖線・野川下流・多摩川五本松・泉龍寺（狛江市名起源・弁財天池）、伊豆美神社（旧六所宮・市の総鎮守）、狛江百塚（古墳群）、エコルマホール、西河原公園、小田急小田原線狛江駅・和泉多摩川駅を可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#e1f5fe",
+  "theme_color": "#0277bd",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "町田市 高低マップ",
+  "short_name": "町田高低",
+  "description": "東京都町田市（都内3位の面積71.55km²・都最南端）の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。多摩丘陵西端・小山田緑地・尾根緑道・小山内裏公園・境川（都県境）・鶴見川源流・恩田川・薬師池公園（都指定名勝）・芹ヶ谷公園・町田リス園・町田天満宮・町田市役所（森野）、小田急/JR横浜線町田駅・多摩境を可視化。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#e3f2fd",
+  "theme_color": "#1565c0",
+  "lang": "ja",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

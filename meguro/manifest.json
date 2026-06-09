@@ -1,0 +1,22 @@
+{
+  "name": "目黒区 高低マップ",
+  "short_name": "目黒高低",
+  "description": "東京都目黒区（武蔵野台地の目黒台・荏原台と目黒川／呑川／立会川の谷）の標高・3D地形・断面図・ハザードマップを統合したインタラクティブWebアプリ。中目黒の桜並木、自由が丘、林試の森、西郷山の崖線、目黒不動瀧泉寺、三田用水跡、碑文谷池などを可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fce4ec",
+  "theme_color": "#e91e63",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
