@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="台東高低マップ アイコン">
+  <title>台東 高低マップ</title>
+  <defs>
+    <!-- 夕焼け空グラデーション（隅田川の夕景・浅草寺の朱を引き立てる） -->
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#ffe0b2"/>
+      <stop offset="55%" stop-color="#ffab91"/>
+      <stop offset="100%" stop-color="#ff8a65"/>
+    </linearGradient>
+    <!-- 隅田川 -->
+    <linearGradient id="riverGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#1565c0"/>
+      <stop offset="100%" stop-color="#0d47a1"/>
+    </linearGradient>
+    <!-- 上野の森（緑） -->
+    <linearGradient id="forestGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#43a047"/>
+      <stop offset="100%" stop-color="#1b5e20"/>
+    </linearGradient>
+    <!-- 浅草寺朱 -->
+    <linearGradient id="asakusaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ef5350"/>
+      <stop offset="100%" stop-color="#b71c1c"/>
+    </linearGradient>
+    <!-- 五重塔 -->
+    <linearGradient id="pagodaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d32f2f"/>
+      <stop offset="100%" stop-color="#8b0000"/>
+    </linearGradient>
+    <!-- 和紙背景 -->
+    <radialGradient id="paperGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%"  stop-color="#fff8e1"/>
+      <stop offset="100%" stop-color="#fbe9bc"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 背景（和紙クリーム） -->
+  <rect width="512" height="512" rx="96" fill="url(#paperGrad)"/>
+
+  <!-- 夕焼け空 -->
+  <rect x="32" y="56" width="448" height="180" rx="14" fill="url(#skyGrad)"/>
+
+  <!-- 太陽（夕日） -->
+  <circle cx="408" cy="118" r="34" fill="#ffeb3b" opacity="0.95"/>
+  <circle cx="408" cy="118" r="34" fill="none" stroke="#fff59d" stroke-width="2" opacity="0.7"/>
+
+  <!-- スカイツリー（隅田川越しの東墨田・台東区民の景色） -->
+  <g transform="translate(80,60)" opacity="0.85">
+    <line x1="6" y1="180" x2="6" y2="40" stroke="#90a4ae" stroke-width="4"/>
+    <polygon points="6,40 1,75 11,75" fill="#90a4ae"/>
+    <rect x="2" y="100" width="8" height="22" fill="#cfd8dc"/>
+    <rect x="0" y="130" width="12" height="14" fill="#cfd8dc"/>
+  </g>
+
+  <!-- 上野の森（左側の丘） -->
+  <path d="M 32 240 Q 90 195 145 222 Q 200 248 260 235 L 260 280 L 32 280 Z" fill="url(#forestGrad)"/>
+  <!-- 西郷像のシルエット -->
+  <g transform="translate(155,206)" opacity="0.85">
+    <circle cx="6" cy="6" r="5" fill="#3e2723"/>
+    <path d="M 1 11 L 11 11 L 14 28 L -2 28 Z" fill="#5d4037"/>
+    <line x1="11" y1="18" x2="22" y2="14" stroke="#5d4037" stroke-width="2"/>
+    <rect x="-4" y="28" width="20" height="3" fill="#3e2723"/>
+  </g>
+  <!-- 不忍池（蓮の池） -->
+  <ellipse cx="170" cy="285" rx="78" ry="14" fill="url(#riverGrad)" opacity="0.6"/>
+  <ellipse cx="155" cy="285" rx="10" ry="4" fill="#81c784" opacity="0.9"/>
+  <ellipse cx="190" cy="288" rx="12" ry="4" fill="#81c784" opacity="0.9"/>
+
+  <!-- 隅田川（右側を縦に流れる） -->
+  <path d="M 380 56 Q 410 200 405 340 Q 400 420 420 480 L 470 480 L 470 56 Z" fill="url(#riverGrad)" opacity="0.85"/>
+  <!-- 川面の波 -->
+  <path d="M 400 200 q 8 -4 16 0 q 8 -4 16 0" fill="none" stroke="#bbdefb" stroke-width="2" opacity="0.7"/>
+  <path d="M 400 260 q 8 -4 16 0 q 8 -4 16 0" fill="none" stroke="#bbdefb" stroke-width="2" opacity="0.7"/>
+  <path d="M 400 320 q 8 -4 16 0 q 8 -4 16 0" fill="none" stroke="#bbdefb" stroke-width="2" opacity="0.7"/>
+
+  <!-- 雷門の提灯（浅草寺の象徴） -->
+  <g transform="translate(296,232)">
+    <ellipse cx="0" cy="0" rx="38" ry="50" fill="url(#asakusaGrad)" stroke="#4e342e" stroke-width="3"/>
+    <rect x="-38" y="-10" width="76" height="6" fill="#212121"/>
+    <rect x="-38" y="0" width="76" height="6" fill="#212121"/>
+    <rect x="-38" y="10" width="76" height="6" fill="#212121"/>
+    <text x="0" y="6" text-anchor="middle" font-family="serif" font-size="22" font-weight="900" fill="#212121">雷</text>
+  </g>
+  <!-- 提灯の房 -->
+  <rect x="294" y="282" width="4" height="14" fill="#ffeb3b"/>
+  <rect x="289" y="282" width="2" height="10" fill="#ffeb3b"/>
+  <rect x="301" y="282" width="2" height="10" fill="#ffeb3b"/>
+
+  <!-- 五重塔（浅草寺・台東区のシンボル） -->
+  <g transform="translate(232,256)">
+    <!-- 相輪（てっぺん） -->
+    <line x1="0" y1="-72" x2="0" y2="-50" stroke="#bf9000" stroke-width="2.5"/>
+    <circle cx="0" cy="-66" r="3" fill="#bf9000"/>
+    <circle cx="0" cy="-60" r="2.5" fill="#bf9000"/>
+    <circle cx="0" cy="-54" r="2" fill="#bf9000"/>
+    <!-- 5層 -->
+    <rect x="-22" y="-50" width="44" height="14" fill="url(#pagodaGrad)" stroke="#4e342e" stroke-width="1"/>
+    <rect x="-26" y="-38" width="52" height="6" fill="#4e342e"/>
+    <rect x="-19" y="-32" width="38" height="13" fill="url(#pagodaGrad)" stroke="#4e342e" stroke-width="1"/>
+    <rect x="-23" y="-21" width="46" height="5" fill="#4e342e"/>
+    <rect x="-16" y="-16" width="32" height="13" fill="url(#pagodaGrad)" stroke="#4e342e" stroke-width="1"/>
+    <rect x="-20" y="-5" width="40" height="5" fill="#4e342e"/>
+    <rect x="-13" y="0" width="26" height="13" fill="url(#pagodaGrad)" stroke="#4e342e" stroke-width="1"/>
+    <rect x="-17" y="11" width="34" height="5" fill="#4e342e"/>
+    <rect x="-10" y="16" width="20" height="14" fill="url(#pagodaGrad)" stroke="#4e342e" stroke-width="1"/>
+    <rect x="-14" y="28" width="28" height="5" fill="#4e342e"/>
+  </g>
+
+  <!-- 谷中銀座の屋並（左下） -->
+  <g transform="translate(50,360)" opacity="0.9">
+    <rect x="0" y="0" width="22" height="30" fill="#6d4c41"/>
+    <polygon points="-2,0 11,-10 24,0" fill="#3e2723"/>
+    <rect x="26" y="-5" width="20" height="35" fill="#8d6e63"/>
+    <polygon points="24,-5 36,-15 48,-5" fill="#3e2723"/>
+    <rect x="50" y="3" width="18" height="27" fill="#6d4c41"/>
+    <polygon points="48,3 59,-7 70,3" fill="#3e2723"/>
+    <!-- 街路 -->
+    <rect x="0" y="30" width="80" height="6" fill="#bcaaa4"/>
+  </g>
+
+  <!-- ピン（台東区役所＝東上野4-5-6・上野駅近の中心位置） -->
+  <g transform="translate(256,400)">
+    <path d="M 0 0 C -30 -50 30 -50 0 0 Z M 0 -28 C -16 -28 -16 -44 0 -44 C 16 -44 16 -28 0 -28 Z" fill="#d32f2f" stroke="#8b0000" stroke-width="2"/>
+    <circle cx="0" cy="-38" r="6" fill="#fff8e1"/>
+  </g>
+
+  <!-- 標高線（武蔵野台地東端・上野台と本郷台東縁を表す等高線） -->
+  <path d="M 70 320 Q 200 290 360 320" fill="none" stroke="#2e7d32" stroke-width="2" opacity="0.5"/>
+  <path d="M 80 340 Q 220 310 360 340" fill="none" stroke="#2e7d32" stroke-width="2" opacity="0.4"/>
+
+  <!-- タイトル枠 -->
+  <rect x="56" y="430" width="400" height="56" rx="14" fill="#fff8e1" stroke="#d32f2f" stroke-width="3"/>
+  <text x="256" y="463" text-anchor="middle" font-family="'Noto Sans JP','Yu Gothic',sans-serif" font-size="26" font-weight="900" fill="#d32f2f" letter-spacing="6">台東 高低</text>
+  <text x="256" y="481" text-anchor="middle" font-family="'Noto Sans JP','Yu Gothic',sans-serif" font-size="11" fill="#6a1b9a" letter-spacing="2">UENO・ASAKUSA・YANAKA</text>
+</svg>

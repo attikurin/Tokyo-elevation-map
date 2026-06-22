@@ -1,0 +1,27 @@
+{
+  "name": "台東区 高低マップ",
+  "short_name": "台東区高低",
+  "description": "東京都台東区の標高・地形・ハザード・避難所マップ。上野公園／浅草寺／雷門／スカイツリー眺望／不忍池／谷中／吉原／東京国立博物館／東京芸術大学／寛永寺／かっぱ橋／浅草演芸ホール／隅田川／武蔵野台地東縁を網羅。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fff8e1",
+  "theme_color": "#d32f2f",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["maps", "navigation", "utilities", "education"]
+}

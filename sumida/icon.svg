@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="墨田高低マップ アイコン">
+  <title>墨田 高低マップ</title>
+  <defs>
+    <!-- 朝空グラデーション（スカイツリーの空・押上の朝） -->
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#bbdefb"/>
+      <stop offset="55%" stop-color="#90caf9"/>
+      <stop offset="100%" stop-color="#64b5f6"/>
+    </linearGradient>
+    <!-- 隅田川（区の象徴・西の境界） -->
+    <linearGradient id="riverGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#1976d2"/>
+      <stop offset="100%" stop-color="#0d47a1"/>
+    </linearGradient>
+    <!-- 柳緑（墨堤の柳・隅田公園の桜並木と緑） -->
+    <linearGradient id="willowGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#66bb6a"/>
+      <stop offset="100%" stop-color="#2e7d32"/>
+    </linearGradient>
+    <!-- スカイツリーのライティング（粋・雅の青と紫） -->
+    <linearGradient id="towerGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7986cb"/>
+      <stop offset="50%" stop-color="#5c6bc0"/>
+      <stop offset="100%" stop-color="#3949ab"/>
+    </linearGradient>
+    <!-- 江戸切子の金黄色 -->
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffd54f"/>
+      <stop offset="100%" stop-color="#fbc02d"/>
+    </linearGradient>
+    <!-- 和紙背景（藍染の空） -->
+    <radialGradient id="paperGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%"  stop-color="#e3f2fd"/>
+      <stop offset="100%" stop-color="#bbdefb"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 背景（藍和紙） -->
+  <rect width="512" height="512" rx="96" fill="url(#paperGrad)"/>
+
+  <!-- 朝空 -->
+  <rect x="32" y="56" width="448" height="200" rx="14" fill="url(#skyGrad)"/>
+
+  <!-- 朝日 -->
+  <circle cx="100" cy="118" r="32" fill="#ffeb3b" opacity="0.95"/>
+  <circle cx="100" cy="118" r="32" fill="none" stroke="#fff59d" stroke-width="2" opacity="0.7"/>
+
+  <!-- 雲 -->
+  <ellipse cx="180" cy="100" rx="34" ry="10" fill="#fff" opacity="0.85"/>
+  <ellipse cx="220" cy="110" rx="28" ry="9" fill="#fff" opacity="0.75"/>
+
+  <!-- 東京スカイツリー（墨田区最大のシンボル・押上1-1-2・634m） -->
+  <g transform="translate(296,60)">
+    <!-- 天望デッキより上のアンテナ -->
+    <line x1="0" y1="0" x2="0" y2="-2" stroke="#3949ab" stroke-width="1"/>
+    <rect x="-1" y="0" width="2" height="22" fill="#3949ab"/>
+    <!-- 第2展望台（天望回廊・450m） -->
+    <ellipse cx="0" cy="26" rx="9" ry="3" fill="url(#towerGrad)"/>
+    <rect x="-7" y="24" width="14" height="6" fill="url(#towerGrad)"/>
+    <!-- 鉄骨タワー部 -->
+    <polygon points="-3,30 3,30 14,160 -14,160" fill="url(#towerGrad)" stroke="#1a237e" stroke-width="1"/>
+    <!-- 第1展望台（天望デッキ・350m） -->
+    <ellipse cx="0" cy="80" rx="18" ry="5" fill="url(#towerGrad)"/>
+    <rect x="-15" y="76" width="30" height="10" fill="url(#towerGrad)" stroke="#1a237e" stroke-width="1"/>
+    <!-- 鉄骨X字パターン -->
+    <line x1="-8" y1="100" x2="8" y2="130" stroke="#1a237e" stroke-width="0.8" opacity="0.6"/>
+    <line x1="8" y1="100" x2="-8" y2="130" stroke="#1a237e" stroke-width="0.8" opacity="0.6"/>
+    <line x1="-10" y1="135" x2="10" y2="155" stroke="#1a237e" stroke-width="0.8" opacity="0.6"/>
+    <line x1="10" y1="135" x2="-10" y2="155" stroke="#1a237e" stroke-width="0.8" opacity="0.6"/>
+    <!-- 基部（三脚） -->
+    <polygon points="-14,160 14,160 24,200 -24,200" fill="url(#towerGrad)" stroke="#1a237e" stroke-width="1"/>
+    <!-- ライティング（江戸紫・粋の青） -->
+    <circle cx="0" cy="26" r="2" fill="#ffd54f"/>
+    <circle cx="0" cy="80" r="2.5" fill="#ffd54f"/>
+  </g>
+
+  <!-- 隅田川（区の西境界・縦に流れる） -->
+  <path d="M 40 56 Q 70 200 60 340 Q 50 420 70 480 L 110 480 L 110 56 Z" fill="url(#riverGrad)" opacity="0.85"/>
+  <!-- 川面の波 -->
+  <path d="M 65 200 q 8 -4 16 0 q 8 -4 16 0" fill="none" stroke="#bbdefb" stroke-width="2" opacity="0.8"/>
+  <path d="M 65 260 q 8 -4 16 0 q 8 -4 16 0" fill="none" stroke="#bbdefb" stroke-width="2" opacity="0.8"/>
+  <path d="M 65 320 q 8 -4 16 0 q 8 -4 16 0" fill="none" stroke="#bbdefb" stroke-width="2" opacity="0.8"/>
+  <path d="M 65 380 q 8 -4 16 0 q 8 -4 16 0" fill="none" stroke="#bbdefb" stroke-width="2" opacity="0.8"/>
+
+  <!-- 北十間川（東西に流れる・スカイツリー基部） -->
+  <rect x="110" y="270" width="370" height="14" fill="url(#riverGrad)" opacity="0.7"/>
+  <path d="M 150 277 q 8 -3 16 0 q 8 -3 16 0 q 8 -3 16 0" fill="none" stroke="#bbdefb" stroke-width="1.5" opacity="0.8"/>
+
+  <!-- 墨堤の柳・隅田公園 -->
+  <g transform="translate(140,250)" opacity="0.9">
+    <ellipse cx="0" cy="0" rx="22" ry="16" fill="url(#willowGrad)"/>
+    <line x1="0" y1="14" x2="0" y2="30" stroke="#3e2723" stroke-width="2"/>
+    <!-- 柳の枝 -->
+    <path d="M -8 4 Q -12 14 -10 22" fill="none" stroke="#66bb6a" stroke-width="1.5"/>
+    <path d="M 8 4 Q 12 14 10 22" fill="none" stroke="#66bb6a" stroke-width="1.5"/>
+  </g>
+  <g transform="translate(200,255)" opacity="0.85">
+    <ellipse cx="0" cy="0" rx="20" ry="14" fill="url(#willowGrad)"/>
+    <line x1="0" y1="12" x2="0" y2="26" stroke="#3e2723" stroke-width="2"/>
+  </g>
+
+  <!-- 両国国技館の屋根（区南西の象徴・横網1-3-28） -->
+  <g transform="translate(135,360)">
+    <!-- 緑青色の屋根 -->
+    <polygon points="-40,0 40,0 35,-20 -35,-20" fill="#4db6ac" stroke="#00695c" stroke-width="1.5"/>
+    <polygon points="-35,-20 35,-20 25,-32 -25,-32" fill="#80cbc4" stroke="#00695c" stroke-width="1.5"/>
+    <!-- 鯱（金色） -->
+    <polygon points="-25,-32 -27,-40 -23,-40" fill="url(#goldGrad)"/>
+    <polygon points="25,-32 27,-40 23,-40" fill="url(#goldGrad)"/>
+    <!-- 本体 -->
+    <rect x="-40" y="0" width="80" height="22" fill="#fff8e1" stroke="#3e2723" stroke-width="1"/>
+    <text x="0" y="15" text-anchor="middle" font-family="serif" font-size="10" font-weight="900" fill="#1a237e">国技館</text>
+  </g>
+
+  <!-- 江戸切子の文様（江戸下町の伝統工芸・墨田区の地場産業） -->
+  <g transform="translate(380,360)" opacity="0.85">
+    <circle cx="0" cy="0" r="30" fill="url(#goldGrad)" stroke="#1a237e" stroke-width="2"/>
+    <!-- 麻の葉文様 -->
+    <line x1="-25" y1="0" x2="25" y2="0" stroke="#1a237e" stroke-width="1.2"/>
+    <line x1="0" y1="-25" x2="0" y2="25" stroke="#1a237e" stroke-width="1.2"/>
+    <line x1="-18" y1="-18" x2="18" y2="18" stroke="#1a237e" stroke-width="1.2"/>
+    <line x1="-18" y1="18" x2="18" y2="-18" stroke="#1a237e" stroke-width="1.2"/>
+    <circle cx="0" cy="0" r="10" fill="none" stroke="#1a237e" stroke-width="1.2"/>
+  </g>
+
+  <!-- 葛飾北斎「冨嶽三十六景」の波（北斎は本所割下水生まれ） -->
+  <path d="M 200 420 Q 230 400 260 420 Q 290 440 320 420 Q 350 400 380 420 L 380 460 L 200 460 Z"
+        fill="url(#riverGrad)" opacity="0.7"/>
+  <path d="M 230 410 Q 240 400 250 410 Q 245 420 240 412" fill="#fff" opacity="0.85"/>
+  <path d="M 300 412 Q 310 402 320 412 Q 315 422 310 414" fill="#fff" opacity="0.85"/>
+
+  <!-- ピン（墨田区役所＝吾妻橋1-23-20・スカイツリー対岸） -->
+  <g transform="translate(256,418)">
+    <path d="M 0 0 C -30 -50 30 -50 0 0 Z M 0 -28 C -16 -28 -16 -44 0 -44 C 16 -44 16 -28 0 -28 Z" fill="#1976d2" stroke="#0d47a1" stroke-width="2"/>
+    <circle cx="0" cy="-38" r="6" fill="#fff8e1"/>
+  </g>
+
+  <!-- 標高線（東京低地・墨田区はゼロメートル地帯） -->
+  <path d="M 130 340 Q 250 330 460 340" fill="none" stroke="#1976d2" stroke-width="2" opacity="0.4"/>
+  <path d="M 130 355 Q 250 345 460 355" fill="none" stroke="#1976d2" stroke-width="2" opacity="0.3"/>
+
+  <!-- タイトル枠 -->
+  <rect x="56" y="448" width="400" height="56" rx="14" fill="#e3f2fd" stroke="#1976d2" stroke-width="3"/>
+  <text x="256" y="481" text-anchor="middle" font-family="'Noto Sans JP','Yu Gothic',sans-serif" font-size="26" font-weight="900" fill="#1976d2" letter-spacing="6">墨田 高低</text>
+  <text x="256" y="499" text-anchor="middle" font-family="'Noto Sans JP','Yu Gothic',sans-serif" font-size="11" fill="#1a237e" letter-spacing="2">SKYTREE・RYOGOKU・MUKOJIMA</text>
+</svg>

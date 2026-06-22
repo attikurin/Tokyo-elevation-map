@@ -1,0 +1,27 @@
+{
+  "name": "墨田区 高低マップ",
+  "short_name": "墨田区高低",
+  "description": "東京都墨田区の標高・地形・ハザード・避難所マップ。東京スカイツリー（634m・世界一の電波塔）／両国国技館／江戸東京博物館／すみだ北斎美術館／隅田川／北十間川／横十間川／旧中川／向島／押上／錦糸町／両国／本所／吾妻橋／葛飾北斎ゆかりの地／東京低地。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#e3f2fd",
+  "theme_color": "#1976d2",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["maps", "navigation", "utilities", "education"]
+}
