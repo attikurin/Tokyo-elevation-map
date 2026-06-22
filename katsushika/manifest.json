@@ -1,0 +1,27 @@
+{
+  "name": "葛飾区 高低マップ",
+  "short_name": "葛飾区高低",
+  "description": "東京都葛飾区の標高・地形・ハザード・避難所マップ。柴又帝釈天／寅さん／矢切の渡し／水元公園／堀切菖蒲園／亀有／こち亀／キャプテン翼／立石／高砂／青砥／お花茶屋／新小岩／荒川・江戸川・中川に囲まれた東京北東の三角州・東京低地。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#e8f5e9",
+  "theme_color": "#2e7d32",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["maps", "navigation", "utilities", "education"]
+}

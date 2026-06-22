@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  江戸川区 高低マップ アイコン
+  モチーフ:
+    - 東京湾・葛西沖（江戸川ブルー）
+    - 荒川 / 江戸川 / 旧中川（区を縁取る3本の大河）
+    - ダイヤと花の大観覧車（葛西臨海公園・区のシンボル）
+    - 葛西臨海公園 なぎさ・芝生（葛西なぎさグリーン）
+    - 小松川千本桜・新川千本桜（春のピンク）
+    - 江戸川花火大会の打ち上げ花火（オレンジ・夏の風物詩）
+    - スーパー堤防・ゼロメートル地帯の低地ライン
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- 江戸川の夕焼け空（花火大会の宵） -->
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#1a237e"/>
+      <stop offset="55%"  stop-color="#5c6bc0"/>
+      <stop offset="100%" stop-color="#ff8a65"/>
+    </linearGradient>
+    <!-- 東京湾・葛西沖（江戸川ブルー） -->
+    <linearGradient id="bayGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#42a5f5"/>
+      <stop offset="60%"  stop-color="#1565c0"/>
+      <stop offset="100%" stop-color="#0d47a1"/>
+    </linearGradient>
+    <!-- 江戸川（区東縁の大河） -->
+    <linearGradient id="riverGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#90caf9"/>
+      <stop offset="100%" stop-color="#1976d2"/>
+    </linearGradient>
+    <!-- 葛西なぎさ・行船公園（江戸川グリーン） -->
+    <linearGradient id="parkGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#aed581"/>
+      <stop offset="60%"  stop-color="#7cb342"/>
+      <stop offset="100%" stop-color="#33691e"/>
+    </linearGradient>
+    <linearGradient id="parkFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#9ccc65"/>
+      <stop offset="100%" stop-color="#1b5e20"/>
+    </linearGradient>
+    <!-- 観覧車（ダイヤと花の大観覧車・虹色） -->
+    <linearGradient id="ferrisGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#ffeb3b"/>
+      <stop offset="50%"  stop-color="#ef6c00"/>
+      <stop offset="100%" stop-color="#d81b60"/>
+    </linearGradient>
+    <!-- 千本桜（春の小松川・新川） -->
+    <linearGradient id="sakuraGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#fce4ec"/>
+      <stop offset="100%" stop-color="#f06292"/>
+    </linearGradient>
+
+    <!-- 影フィルタ -->
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="3" result="off"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.35"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- 花火の輝き -->
+    <radialGradient id="fireworkA" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%"   stop-color="#fff59d" stop-opacity="1"/>
+      <stop offset="50%"  stop-color="#ef6c00" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#bf360c" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="fireworkB" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%"   stop-color="#f8bbd0" stop-opacity="1"/>
+      <stop offset="50%"  stop-color="#d81b60" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#880e4f" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="fireworkC" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%"   stop-color="#b3e5fc" stop-opacity="1"/>
+      <stop offset="50%"  stop-color="#1565c0" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0d47a1" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 角丸の背景タイル -->
+  <rect x="0" y="0" width="512" height="512" rx="96" ry="96" fill="url(#skyGrad)"/>
+
+  <!-- 月 -->
+  <circle cx="80" cy="100" r="26" fill="#fff9c4" opacity="0.85"/>
+  <circle cx="80" cy="100" r="34" fill="#fff9c4" opacity="0.25"/>
+
+  <!-- 花火 1: オレンジ（江戸川花火大会のメイン） -->
+  <g opacity="0.95">
+    <circle cx="170" cy="130" r="64" fill="url(#fireworkA)"/>
+    <g stroke="#ffeb3b" stroke-width="1.5" stroke-linecap="round" opacity="0.85">
+      <line x1="170" y1="130" x2="120" y2="80"/>
+      <line x1="170" y1="130" x2="220" y2="80"/>
+      <line x1="170" y1="130" x2="120" y2="180"/>
+      <line x1="170" y1="130" x2="220" y2="180"/>
+      <line x1="170" y1="130" x2="170" y2="65"/>
+      <line x1="170" y1="130" x2="170" y2="195"/>
+      <line x1="170" y1="130" x2="105" y2="130"/>
+      <line x1="170" y1="130" x2="235" y2="130"/>
+    </g>
+    <circle cx="170" cy="130" r="6" fill="#ffeb3b"/>
+  </g>
+
+  <!-- 花火 2: ピンク（千本桜カラー） -->
+  <g opacity="0.85">
+    <circle cx="360" cy="180" r="48" fill="url(#fireworkB)"/>
+    <g stroke="#fce4ec" stroke-width="1.2" stroke-linecap="round" opacity="0.85">
+      <line x1="360" y1="180" x2="325" y2="145"/>
+      <line x1="360" y1="180" x2="395" y2="145"/>
+      <line x1="360" y1="180" x2="325" y2="215"/>
+      <line x1="360" y1="180" x2="395" y2="215"/>
+      <line x1="360" y1="180" x2="360" y2="135"/>
+      <line x1="360" y1="180" x2="360" y2="225"/>
+    </g>
+    <circle cx="360" cy="180" r="4" fill="#fce4ec"/>
+  </g>
+
+  <!-- 花火 3: 青（江戸川ブルー・小） -->
+  <g opacity="0.75">
+    <circle cx="430" cy="90" r="34" fill="url(#fireworkC)"/>
+    <g stroke="#b3e5fc" stroke-width="1" stroke-linecap="round" opacity="0.8">
+      <line x1="430" y1="90" x2="408" y2="68"/>
+      <line x1="430" y1="90" x2="452" y2="68"/>
+      <line x1="430" y1="90" x2="408" y2="112"/>
+      <line x1="430" y1="90" x2="452" y2="112"/>
+    </g>
+    <circle cx="430" cy="90" r="3" fill="#b3e5fc"/>
+  </g>
+
+  <!-- 千本桜（江戸川堤防の桜並木・遠景） -->
+  <g filter="url(#softShadow)" opacity="0.85">
+    <circle cx="40"  cy="270" r="14" fill="url(#sakuraGrad)"/>
+    <circle cx="68"  cy="276" r="12" fill="url(#sakuraGrad)"/>
+    <circle cx="92"  cy="272" r="13" fill="url(#sakuraGrad)"/>
+    <circle cx="118" cy="278" r="11" fill="url(#sakuraGrad)"/>
+    <g fill="#5d4037">
+      <rect x="38"  y="278" width="4" height="18"/>
+      <rect x="66"  y="284" width="4" height="14"/>
+      <rect x="90"  y="280" width="4" height="18"/>
+      <rect x="116" y="285" width="4" height="14"/>
+    </g>
+  </g>
+
+  <!-- ダイヤと花の大観覧車（葛西臨海公園・区のシンボル） -->
+  <g filter="url(#softShadow)" transform="translate(256,255)">
+    <!-- 支柱 -->
+    <path d="M-4 0 L 0 -90 L 4 0 Z" fill="#37474f"/>
+    <path d="M-40 0 L -2 -80 L 2 -80 L 40 0 Z" fill="#455a64" opacity="0.7"/>
+    <!-- 観覧車の外枠 -->
+    <circle cx="0" cy="-90" r="68" fill="none" stroke="url(#ferrisGrad)" stroke-width="5"/>
+    <circle cx="0" cy="-90" r="68" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.6"/>
+    <!-- スポーク -->
+    <g stroke="#fafafa" stroke-width="1.5" opacity="0.85">
+      <line x1="0" y1="-90" x2="0"   y2="-158"/>
+      <line x1="0" y1="-90" x2="0"   y2="-22"/>
+      <line x1="0" y1="-90" x2="-68" y2="-90"/>
+      <line x1="0" y1="-90" x2="68"  y2="-90"/>
+      <line x1="0" y1="-90" x2="-48" y2="-138"/>
+      <line x1="0" y1="-90" x2="48"  y2="-138"/>
+      <line x1="0" y1="-90" x2="-48" y2="-42"/>
+      <line x1="0" y1="-90" x2="48"  y2="-42"/>
+    </g>
+    <!-- ゴンドラ（8個） -->
+    <g>
+      <circle cx="0"   cy="-158" r="6" fill="#ef6c00"/>
+      <circle cx="48"  cy="-138" r="6" fill="#ffeb3b"/>
+      <circle cx="68"  cy="-90"  r="6" fill="#d81b60"/>
+      <circle cx="48"  cy="-42"  r="6" fill="#42a5f5"/>
+      <circle cx="0"   cy="-22"  r="6" fill="#ef6c00"/>
+      <circle cx="-48" cy="-42"  r="6" fill="#ffeb3b"/>
+      <circle cx="-68" cy="-90"  r="6" fill="#d81b60"/>
+      <circle cx="-48" cy="-138" r="6" fill="#42a5f5"/>
+    </g>
+    <!-- 中心軸 -->
+    <circle cx="0" cy="-90" r="8" fill="#fafafa"/>
+    <circle cx="0" cy="-90" r="4" fill="#37474f"/>
+  </g>
+
+  <!-- 葛西なぎさ・行船公園（低地の緑地帯） -->
+  <path d="M0 305
+           L 0 345
+           Q 60 320 110 330
+           Q 160 318 210 332
+           Q 260 320 310 330
+           Q 360 318 420 330
+           Q 470 320 512 332
+           L 512 380
+           L 0 380 Z"
+        fill="url(#parkGrad)" opacity="0.85"/>
+
+  <!-- 前景の堤防・スーパー堤防（緩やかな低地） -->
+  <path d="M0 358
+           Q 80 350 160 360
+           Q 220 365 280 355
+           Q 340 350 400 360
+           Q 460 365 512 358
+           L 512 410
+           L 0 410 Z"
+        fill="url(#parkFront)"/>
+
+  <!-- 江戸川（区東縁の大河・斜め流路） -->
+  <g opacity="0.92">
+    <path d="M0 410
+             Q 120 405 240 410
+             Q 360 415 512 408
+             L 512 430
+             Q 360 434 240 428
+             Q 120 425 0 430 Z"
+          fill="url(#riverGrad)"/>
+    <!-- 江戸川のさざ波 -->
+    <g stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.55" stroke-linecap="round">
+      <path d="M40 418 q 10 -4 20 0 t 20 0"/>
+      <path d="M180 422 q 10 -4 20 0 t 20 0"/>
+      <path d="M340 419 q 10 -4 20 0 t 20 0"/>
+    </g>
+  </g>
+
+  <!-- 東京湾・葛西沖 -->
+  <path d="M0 432 L 512 432 L 512 512 L 0 512 Z" fill="url(#bayGrad)"/>
+
+  <!-- 東京湾の波 -->
+  <g stroke="#e3f2fd" stroke-width="2" fill="none" opacity="0.55" stroke-linecap="round">
+    <path d="M30 452 q 12 -6 24 0 t 24 0 t 24 0"/>
+    <path d="M150 468 q 12 -6 24 0 t 24 0 t 24 0 t 24 0"/>
+    <path d="M310 454 q 12 -6 24 0 t 24 0 t 24 0 t 24 0"/>
+    <path d="M70 484 q 12 -6 24 0 t 24 0 t 24 0"/>
+    <path d="M250 490 q 12 -6 24 0 t 24 0 t 24 0"/>
+  </g>
+
+  <!-- 葛西海浜公園のなぎさ（湾岸の砂浜） -->
+  <g opacity="0.55">
+    <path d="M0 432 L 380 432 L 380 442 L 0 442 Z" fill="#ffe0b2"/>
+  </g>
+
+  <!-- カモメ -->
+  <g stroke="#37474f" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M90 220 q 8 -10 16 0 q 8 -10 16 0"/>
+    <path d="M420 260 q 6 -8 12 0 q 6 -8 12 0"/>
+  </g>
+
+  <!-- タイトル白枠 -->
+  <g transform="translate(256,475)" text-anchor="middle">
+    <rect x="-86" y="-22" width="172" height="34" rx="17" ry="17"
+          fill="#ffffff" opacity="0.94" filter="url(#softShadow)"/>
+    <text x="0" y="3" font-family="'Hiragino Sans','Yu Gothic',sans-serif"
+          font-size="20" font-weight="700" fill="#1565c0">江戸川 高低</text>
+  </g>
+</svg>

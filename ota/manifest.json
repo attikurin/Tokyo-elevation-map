@@ -1,0 +1,22 @@
+{
+  "name": "大田区 高低マップ",
+  "short_name": "大田高低",
+  "description": "東京都大田区（武蔵野台地南西端の田園調布・久が原・池上の台地と多摩川低地・羽田空港・京浜運河の埋立地）の3D地形・標高断面図・ハザード重ね合わせマップ。田園調布の高級住宅地、洗足池、池上本門寺（日蓮宗大本山・関東最古の五重塔）、穴守稲荷神社（羽田）、大森貝塚、大森ふるさとの浜辺公園、多摩川河川敷、羽田空港、東海ふ頭などを可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#e0f7fa",
+  "theme_color": "#00838f",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

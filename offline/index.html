@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="東京 高低マップのオフライン版（PWA）の使い方と導入方法の詳細説明ページ。28自治体（特別区14・多摩地域14）＋特別篇1でPWA対応済み。">
+<meta name="description" content="東京 高低マップのオフライン版（PWA）の使い方と導入方法の詳細説明ページ。36自治体（特別区22・多摩地域13）＋特別篇1でPWA対応済み。">
 <title>オフライン版について | 東京 高低マップ</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
@@ -144,7 +144,7 @@ body {
   background: linear-gradient(90deg, var(--green-deep), var(--green));
   height: 100%;
   border-radius: 8px;
-  width: 45.2%; /* 28/62 = 45.2% */
+  width: 62.9%; /* 39/62 = 62.9% */
   transition: width 0.6s;
 }
 
@@ -447,10 +447,10 @@ footer a {
     <div class="hero-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
     <h2>災害時・圏外でも使える標高マップ</h2>
     <p>一度オンラインで開いたページは、ブラウザのキャッシュ機能を使って<strong>ネット接続がなくても閲覧可能</strong>になります。スマホの「ホーム画面に追加」でアプリのように使えます。</p>
-    <div class="status-banner"><i class="fa-solid fa-check-circle"></i> 東京都内 28/62 自治体 ＋ 特別篇1 でPWA対応済み</div>
+    <div class="status-banner"><i class="fa-solid fa-check-circle"></i> 東京都内 39/62 自治体 ＋ 特別篇1 でPWA対応済み・特別区 23/23 完了 ✨</div>
     <div class="progress-meter" aria-label="対応進捗">
       <div class="progress-bar"></div>
-      <span class="progress-label">28 / 62 (45.2%)</span>
+      <span class="progress-label">36 / 62 (58.1%)</span>
     </div>
   </div>
 
@@ -528,7 +528,7 @@ footer a {
   <!-- 使い方 -->
   <section>
     <h3><i class="fa-solid fa-list-check"></i>使い方</h3>
-    <p>東京都内28自治体（特別区14・多摩地域14）＋ 特別篇（取手市）＋ 共通コア方式の千代田区が現在ご利用いただけます。</p>
+    <p>東京都内多数の自治体（特別区18・多摩地域13）＋ 特別篇（取手市）＋ 共通コア方式の千代田区が現在ご利用いただけます。</p>
     <ol class="step-list">
       <li><strong>対応自治体のページを開く</strong>：ポータルから地図または一覧で選択。Service Workerが自動でアプリ本体をキャッシュします（初回のみ数秒）。</li>
       <li><strong>重要なエリアを事前に閲覧</strong>：自宅・職場・通学路など、必要な地域を2Dで表示。閲覧した地図タイルが自動的にキャッシュされます。3Dモードや各ハザードレイヤーも一度表示しておくとオフラインで使えます。</li>
@@ -590,7 +590,7 @@ footer a {
     <div class="area-group">
       <div class="area-group-title">
         <span><i class="fa-solid fa-city"></i> 特別区（23区中）</span>
-        <span class="count">14 / 23</span>
+        <span class="count">23 / 23</span>
       </div>
       <div class="download-grid">
         <a href="../app/map.html?city=chiyoda" class="dl-item">
@@ -624,8 +624,53 @@ footer a {
           <span class="dl-status ready">PWA対応</span>
         </a>
         <a href="../shinagawa/index.html" class="dl-item">
-          <span class="city-name">🆕 品川区</span>
+          <span class="city-name">品川区</span>
           <span class="city-sub">城南五山・品川神社・天王洲・京浜運河</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../ota/index.html" class="dl-item">
+          <span class="city-name">大田区</span>
+          <span class="city-sub">池上本門寺・羽田空港・多摩川・田園調布・洗足池</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../edogawa/index.html" class="dl-item">
+          <span class="city-name">江戸川区</span>
+          <span class="city-sub">葛西臨海公園・大観覧車・千本桜・花火大会・親水公園・ゼロメートル地帯</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../bunkyo/index.html" class="dl-item">
+          <span class="city-name">文京区</span>
+          <span class="city-sub">本郷台・小石川台・東大・小石川後楽園・六義園・湯島天神・根津神社・護国寺・東京ドーム</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../taito/index.html" class="dl-item">
+          <span class="city-name">台東区</span>
+          <span class="city-sub">上野公園・不忍池・浅草寺・雷門・寛永寺・谷中銀座・東京芸術大学・隅田川・吉原・かっぱ橋</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../sumida/index.html" class="dl-item">
+          <span class="city-name">墨田区</span>
+          <span class="city-sub">スカイツリー634m・両国国技館・隅田公園・錦糸公園・横網町公園・牛嶋神社・回向院・すみだ北斎美術館・向島百花園・ゼロメートル地帯</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../katsushika/index.html" class="dl-item">
+          <span class="city-name">葛飾区</span>
+          <span class="city-sub">柴又帝釈天・寅さん・矢切の渡し・水元公園（96ha）・堀切菖蒲園・亀有（こち亀）・四つ木つばさ公園（キャプテン翼）・葛西神社・半田稲荷・荒川／江戸川／中川三角州</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../arakawa/index.html" class="dl-item">
+          <span class="city-name">荒川区</span>
+          <span class="city-sub">都電荒川線（東京さくらトラム・13停留場）・あらかわ遊園・谷中銀座 夕焼けだんだん・日暮里繊維街・尾久の原公園・汐入公園・素戔嗚神社・回向院南千住・諏方神社／道灌山（本郷台地東端・標高15〜20m）・開成中高・隅田川／荒川低地</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../kita/index.html" class="dl-item">
+          <span class="city-name">北区</span>
+          <span class="city-sub">飛鳥山公園（徳川吉宗1737年桜・東京最古の公園／3博物館）・王子神社（東京十社）・王子稲荷神社（関東稲荷総司・狐の行列）・音無親水公園（名水百選）・十条銀座（東京三大銀座）・国立印刷局滝野川工場・岩淵水門（赤水門・1924）・赤羽八幡神社（新幹線神社）・七社神社（渋沢栄一氏子総代）・田端文士村（芥川龍之介／室生犀星／萩原朔太郎）・武蔵野台地北東端（飛鳥山／赤羽台／十条台・25〜30m）と荒川／隅田川低地（1〜5m）</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../adachi/index.html" class="dl-item">
+          <span class="city-name">🆕 足立区</span>
+          <span class="city-sub">西新井大師 總持寺（826年弘法大師空海開創伝・関東厄除け三大師・牡丹園・初詣）・千住宿（旧日光街道初宿・千住七福神）・千住神社（926年創建・千年銀杏）・勝専寺赤門寺（閻魔詣）・炎天寺（小林一茶ゆかり）・大鷲神社（花畑・酉の市）・舎人公園（都立69.5ha・足立区最大・千本桜まつり）・東綾瀬公園（足立区生物園併設）・元渕江公園（冬の光の祭典）・しょうぶ沼公園（ハナショウブ8100株）・北鹿浜公園（交通公園）・都市農業公園（古民家／五色桜）・見沼代親水公園・北千住駅5路線結節（JR/メトロ千代田/メトロ日比谷/東武スカイツリー/TX・足立区最大駅）・日暮里舎人ライナー・東京電機大／東京未来大／帝京科学大千住キャンパス・東京女子医大附属足立医療センター（三次救急）・23区最北部・荒川／中川／綾瀬川に囲まれた区・ほぼ全域ゼロメートル地帯（1〜5m）・微高地（千住／西新井大師／舎人公園5〜10m）</span>
           <span class="dl-status ready">PWA対応</span>
         </a>
         <a href="../setagaya/index.html" class="dl-item">
@@ -670,7 +715,7 @@ footer a {
     <div class="area-group">
       <div class="area-group-title">
         <span><i class="fa-solid fa-mountain"></i> 多摩地域（26市中）</span>
-        <span class="count">14 / 26</span>
+        <span class="count">16 / 26</span>
       </div>
       <div class="download-grid">
         <a href="../hachioji/index.html" class="dl-item">
@@ -743,6 +788,16 @@ footer a {
           <span class="city-sub">多摩丘陵・三沢川・梨</span>
           <span class="dl-status ready">PWA対応</span>
         </a>
+        <a href="../nishitokyo/index.html" class="dl-item">
+          <span class="city-name">西東京市</span>
+          <span class="city-sub">武蔵野台地上（標高40〜65m）・2001年田無市＋保谷市合併・面積15.75km²・田無神社（1244年・五龍神／尉殿大権現・市総鎮守・関東屈指の龍神社）・東伏見稲荷神社（1929年・京都伏見稲荷東日本分社・千本鳥居・白狐）・總持寺 田無大師（真言宗智山派）・スカイタワー西東京 田無タワー（高さ195m・FM西東京送信塔・市の象徴）・多摩六都科学館（1994年・世界最大級プラネタリウム直径27.5m・5市共同運営）・下野谷遺跡（国指定史跡・縄文中期環状集落跡3700年前）・東伏見公園（都立13.4ha）・いこいの森公園・武蔵野大学武蔵野キャンパス・早稲田大学東伏見キャンパス・東京大学田無農場演習林・西武新宿線3駅（田無／東伏見／西武柳沢）・西武池袋線2駅（保谷／ひばりヶ丘）・洪水／津波リスク皆無（武蔵野台地高台）</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
+        <a href="../akishima/index.html" class="dl-item">
+          <span class="city-name">🆕 昭島市</span>
+          <span class="city-sub">多摩川右岸河岸段丘上（標高80〜130m）・1954年昭和町＋拝島村合併・面積17.34km²・アケボノゾウ化石（1961年多摩川河川敷発見・約200万年前・市シンボル）・アキシマクジラ化石（1961年発見・「昭島」地名由来）・深層地下水100%水道（都内唯一・地下400m汲み上げ）・昭和の森（旧昭和飛行機跡64ha→モリパーク／モリタウン／アウトドアヴィレッジ）・拝島大師 本覺院（771年創建伝・天台宗・関東三大だるま市）・拝島日吉神社（1542年・拝島総鎮守）・拝島駅（JR青梅線／五日市線／八高線／西武拝島線4路線結節）・JR青梅線市内4駅（中神／東中神／昭島／拝島）・玉川上水（市北部・1653年開削・国指定史跡）・多摩川河川敷サイクリングコース・くじら運動公園・アキシマエンシス（市民交流センター/プラネタリウム/2020年開館）・立川広域防災基地隣接</span>
+          <span class="dl-status ready">PWA対応</span>
+        </a>
       </div>
     </div>
 
@@ -765,17 +820,12 @@ footer a {
     <div class="area-group">
       <div class="area-group-title">
         <span><i class="fa-solid fa-hourglass-half"></i> 未実装</span>
-        <span class="count">34 / 62</span>
+        <span class="count">23 / 62</span>
       </div>
       <div class="download-grid">
         <div class="dl-item pending">
-          <span class="city-name">特別区 残り9</span>
-          <span class="city-sub">文京・台東・墨田・大田・北・荒川・足立・葛飾・江戸川</span>
-          <span class="dl-status coming">順次追加</span>
-        </div>
-        <div class="dl-item pending">
-          <span class="city-name">多摩地域 残り12</span>
-          <span class="city-sub">青梅・昭島・小平・東村山・福生ほか</span>
+          <span class="city-name">多摩地域 残り10</span>
+          <span class="city-sub">青梅・昭島・小平・東村山・福生・東大和・清瀬・東久留米・武蔵村山・羽村・あきる野</span>
           <span class="dl-status coming">順次追加</span>
         </div>
         <div class="dl-item pending">
@@ -797,8 +847,8 @@ footer a {
         <li>フェーズ1：ポータル＋オフライン説明ページ整備 ✅</li>
         <li>フェーズ2：既存4自治体のPWA化（Service Worker + manifest.json） ✅</li>
         <li>フェーズ3：共通コア化（千代田区で稼働中）＋単一HTML方式での新規自治体追加 ✅</li>
-        <li>フェーズ4：特別区14＋多摩14＋特別篇1で <strong>28/62 完了</strong>（現在地） ✅</li>
-        <li>フェーズ5：残り36自治体（特別区9・多摩14・町村4・島しょ9）の対応</li>
+        <li>フェーズ4：特別区23（完了✨）＋多摩16（昭島追加）＋特別篇1で <strong>39/62 完了</strong>（現在地） ✅</li>
+        <li>フェーズ5：残り24自治体（多摩11・町村4・島しょ9）の対応</li>
         <li>フェーズ6：全62自治体対応 + 島しょ部の海底地形対応検討</li>
       </ol>
     </div>
@@ -835,12 +885,12 @@ footer a {
 </main>
 
 <footer>
-  <p>© 2026 東京 高低マップ プロジェクト | <a href="../index.html">ポータル</a> | 最終更新: 2026-06-09</p>
+  <p>© 2026 東京 高低マップ プロジェクト | <a href="../index.html">ポータル</a> | 最終更新: 2026-06-14（足立区追加・特別区23/23完了✨）</p>
   <p style="margin-top:6px;">データ出典：国土地理院・国土交通省ハザードマップポータル・各自治体公開情報</p>
 </footer>
 
 <script>
-console.log('🔌 オフライン版説明ページ 起動完了 - 28/62 自治体対応');
+console.log('🔌 オフライン版説明ページ 起動完了 - 39/62 自治体対応');
 </script>
 
 </body>

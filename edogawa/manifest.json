@@ -1,0 +1,22 @@
+{
+  "name": "江戸川区 高低マップ",
+  "short_name": "江戸川高低",
+  "description": "東京都江戸川区（東京最東端・荒川と江戸川に挟まれた水の街・葛西臨海公園・スーパー堤防・ゼロメートル地帯）の3D地形・標高断面図・ハザード重ね合わせマップ。葛西臨海公園、葛西臨海水族園、ダイヤと花の大観覧車、葛西海浜公園、行船公園（自然動物園）、小松川千本桜、新川千本桜、江戸川区花火大会会場（江戸川河川敷）、篠崎ポニーランド、一之江抹香亭、地下鉄博物館、東京臨海病院などを可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#e3f2fd",
+  "theme_color": "#1565c0",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

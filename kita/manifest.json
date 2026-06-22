@@ -1,0 +1,21 @@
+{
+  "name": "北区 高低マップ",
+  "short_name": "北区高低",
+  "description": "東京都北区の標高・地形・ハザード・避難所マップ。飛鳥山公園（徳川吉宗1737年桜・東京最古の公園）／王子神社（東京十社）／王子稲荷神社（関東稲荷総司・狐の行列）／音無親水公園（名水百選）／十条銀座／国立印刷局滝野川工場／岩淵水門（赤水門1924）／赤羽八幡神社（新幹線神社）／田端文士村／武蔵野台地北東端と荒川・隅田川低地を網羅。",
+  "lang": "ja",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fce4ec",
+  "theme_color": "#d81b60",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["maps", "navigation", "utilities", "education"]
+}

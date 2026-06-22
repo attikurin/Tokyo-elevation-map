@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  大田区 高低マップ アイコン
+  モチーフ:
+    - 東京湾・京浜運河（羽田シアン）
+    - 武蔵野台地南西端の田園調布・池上の台地シルエット
+    - 池上本門寺 五重塔（関東最古・1608年・国指定重要文化財・朱）
+    - 多摩川（区南端の大河・水色）
+    - 田園調布 銀杏並木（黄色アクセント）
+    - 羽田空港 旅客機シルエット（離陸）
+    - 京浜運河・大森ふるさとの浜辺（湾岸）
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- 羽田の朝焼け空 -->
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#e0f7fa"/>
+      <stop offset="55%"  stop-color="#ffe0b2"/>
+      <stop offset="100%" stop-color="#ffab91"/>
+    </linearGradient>
+    <!-- 東京湾・京浜運河（羽田シアン） -->
+    <linearGradient id="bayGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#4dd0e1"/>
+      <stop offset="60%"  stop-color="#00838f"/>
+      <stop offset="100%" stop-color="#006064"/>
+    </linearGradient>
+    <!-- 多摩川 -->
+    <linearGradient id="tamaGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#80deea"/>
+      <stop offset="100%" stop-color="#26c6da"/>
+    </linearGradient>
+    <!-- 田園調布・池上の台地（田園調布グリーン） -->
+    <linearGradient id="terraceGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#aed581"/>
+      <stop offset="60%"  stop-color="#7cb342"/>
+      <stop offset="100%" stop-color="#33691e"/>
+    </linearGradient>
+    <linearGradient id="terraceFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#9ccc65"/>
+      <stop offset="100%" stop-color="#1b5e20"/>
+    </linearGradient>
+    <!-- 池上本門寺 五重塔（朱・黒漆） -->
+    <linearGradient id="pagodaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#ff7043"/>
+      <stop offset="100%" stop-color="#bf360c"/>
+    </linearGradient>
+    <!-- 銀杏（田園調布の街路樹） -->
+    <linearGradient id="ginkgoGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#ffeb3b"/>
+      <stop offset="100%" stop-color="#f9a825"/>
+    </linearGradient>
+    <!-- 旅客機（羽田・銀色） -->
+    <linearGradient id="planeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#fafafa"/>
+      <stop offset="100%" stop-color="#90a4ae"/>
+    </linearGradient>
+
+    <!-- 影フィルタ -->
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="3" result="off"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.35"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- 角丸の背景タイル -->
+  <rect x="0" y="0" width="512" height="512" rx="96" ry="96" fill="url(#skyGrad)"/>
+
+  <!-- 太陽 -->
+  <circle cx="380" cy="150" r="34" fill="#ffb74d" opacity="0.85"/>
+  <circle cx="380" cy="150" r="46" fill="#ffb74d" opacity="0.25"/>
+
+  <!-- 遠景:湾岸シルエット（川崎方面） -->
+  <g opacity="0.30" fill="#5d4037">
+    <rect x="40"  y="240" width="22" height="14"/>
+    <rect x="70"  y="228" width="16" height="26"/>
+    <rect x="94"  y="234" width="14" height="20"/>
+    <rect x="116" y="238" width="18" height="16"/>
+  </g>
+
+  <!-- 羽田の旅客機（離陸・斜め上昇） -->
+  <g filter="url(#softShadow)" transform="translate(280,110) rotate(-15)">
+    <!-- 胴体 -->
+    <ellipse cx="60" cy="0" rx="62" ry="9" fill="url(#planeGrad)"/>
+    <!-- 主翼 -->
+    <path d="M40 -2 L 80 -22 L 96 -22 L 70 -2 Z" fill="url(#planeGrad)"/>
+    <path d="M40 2  L 80 22  L 96 22  L 70 2 Z"  fill="url(#planeGrad)"/>
+    <!-- 尾翼 -->
+    <path d="M0 0 L -8 -16 L 4 -16 L 14 0 Z" fill="url(#planeGrad)"/>
+    <!-- 機首ライン -->
+    <circle cx="118" cy="0" r="3" fill="#37474f"/>
+    <!-- 窓 -->
+    <g fill="#01579b" opacity="0.7">
+      <circle cx="40" cy="-1" r="2"/>
+      <circle cx="52" cy="-1" r="2"/>
+      <circle cx="64" cy="-1" r="2"/>
+      <circle cx="76" cy="-1" r="2"/>
+      <circle cx="88" cy="-1" r="2"/>
+      <circle cx="100" cy="-1" r="2"/>
+    </g>
+    <!-- 機体ライン（JAL/ANA風のアクセント） -->
+    <rect x="-2" y="-2" width="120" height="2" fill="#bf360c" opacity="0.7"/>
+  </g>
+  <!-- 飛行機雲 -->
+  <path d="M180 180 Q 230 165 290 130" stroke="#ffffff" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.65"/>
+  <path d="M170 192 Q 220 178 280 145" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.35"/>
+
+  <!-- 武蔵野台地南西端の丘陵（田園調布・池上の台地） -->
+  <path d="M0 290
+           L 0 330
+           Q 60 280 110 295
+           Q 160 270 210 300
+           Q 260 260 310 295
+           Q 360 270 420 300
+           Q 470 280 512 305
+           L 512 360
+           L 0 360 Z"
+        fill="url(#terraceGrad)" opacity="0.85"/>
+
+  <!-- 田園調布の銀杏並木（黄色のクラスター） -->
+  <g filter="url(#softShadow)">
+    <circle cx="60"  cy="288" r="16" fill="url(#ginkgoGrad)"/>
+    <circle cx="90"  cy="296" r="14" fill="url(#ginkgoGrad)"/>
+    <circle cx="120" cy="290" r="15" fill="url(#ginkgoGrad)"/>
+    <circle cx="150" cy="298" r="13" fill="url(#ginkgoGrad)"/>
+    <!-- 木の幹 -->
+    <g fill="#5d4037">
+      <rect x="58"  y="298" width="4" height="20"/>
+      <rect x="88"  y="306" width="4" height="14"/>
+      <rect x="118" y="300" width="4" height="22"/>
+      <rect x="148" y="307" width="4" height="14"/>
+    </g>
+  </g>
+
+  <!-- 池上本門寺 五重塔（中央・大田区の象徴） -->
+  <g filter="url(#softShadow)" transform="translate(232,178)">
+    <!-- 相輪（てっぺん） -->
+    <rect x="22" y="-12" width="4" height="20" fill="#fdd835"/>
+    <circle cx="24" cy="-14" r="4" fill="#fdd835"/>
+    <!-- 5層目（最上層） -->
+    <rect x="14" y="10" width="20" height="6" fill="#3e2723"/>
+    <polygon points="6,10 42,10 38,22 10,22" fill="url(#pagodaGrad)"/>
+    <rect x="14" y="22" width="20" height="10" fill="#5d4037"/>
+    <!-- 4層目 -->
+    <polygon points="2,30 46,30 42,42 6,42" fill="#3e2723"/>
+    <polygon points="6,32 42,32 38,44 10,44" fill="url(#pagodaGrad)"/>
+    <rect x="14" y="44" width="20" height="12" fill="#5d4037"/>
+    <!-- 3層目 -->
+    <polygon points="-2,52 50,52 46,64 2,64" fill="#3e2723"/>
+    <polygon points="2,54 46,54 42,66 6,66" fill="url(#pagodaGrad)"/>
+    <rect x="12" y="66" width="24" height="14" fill="#5d4037"/>
+    <!-- 2層目 -->
+    <polygon points="-6,76 54,76 50,88 -2,88" fill="#3e2723"/>
+    <polygon points="-2,78 50,78 46,90 2,90" fill="url(#pagodaGrad)"/>
+    <rect x="10" y="90" width="28" height="16" fill="#5d4037"/>
+    <!-- 1層目（最下層） -->
+    <polygon points="-10,102 58,102 54,114 -6,114" fill="#3e2723"/>
+    <polygon points="-6,104 54,104 50,116 -2,116" fill="url(#pagodaGrad)"/>
+    <rect x="8" y="116" width="32" height="22" fill="url(#pagodaGrad)"/>
+    <!-- 入口（黒漆扉） -->
+    <rect x="20" y="120" width="8" height="18" fill="#3e2723"/>
+  </g>
+
+  <!-- 池上本門寺 此経難持坂（96段の石段・標高約30m） -->
+  <g filter="url(#softShadow)" opacity="0.85">
+    <path d="M205 320 L 240 280 L 240 320 Z" fill="#bcaaa4"/>
+    <!-- 段の線 -->
+    <g stroke="#5d4037" stroke-width="1" opacity="0.7">
+      <line x1="210" y1="316" x2="240" y2="316"/>
+      <line x1="214" y1="310" x2="240" y2="310"/>
+      <line x1="218" y1="304" x2="240" y2="304"/>
+      <line x1="222" y1="298" x2="240" y2="298"/>
+      <line x1="226" y1="292" x2="240" y2="292"/>
+      <line x1="230" y1="286" x2="240" y2="286"/>
+    </g>
+  </g>
+
+  <!-- 前景の台地（手前の濃い緑、本門寺・池上の丘） -->
+  <path d="M0 340
+           Q 80 320 160 335
+           Q 220 348 280 332
+           Q 340 320 400 340
+           Q 460 350 512 338
+           L 512 400
+           L 0 400 Z"
+        fill="url(#terraceFront)"/>
+
+  <!-- 多摩川（区南端の大河・斜め流路） -->
+  <g opacity="0.9">
+    <path d="M0 395
+             Q 120 392 240 395
+             Q 360 398 512 392
+             L 512 410
+             Q 360 414 240 410
+             Q 120 408 0 412 Z"
+          fill="url(#tamaGrad)"/>
+    <!-- 多摩川のさざ波 -->
+    <g stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.55" stroke-linecap="round">
+      <path d="M40 400 q 10 -4 20 0 t 20 0"/>
+      <path d="M180 405 q 10 -4 20 0 t 20 0"/>
+      <path d="M340 402 q 10 -4 20 0 t 20 0"/>
+    </g>
+  </g>
+
+  <!-- 東京湾・京浜運河 -->
+  <path d="M0 414 L 512 414 L 512 512 L 0 512 Z" fill="url(#bayGrad)"/>
+
+  <!-- 京浜運河の波 -->
+  <g stroke="#e0f7fa" stroke-width="2" fill="none" opacity="0.55" stroke-linecap="round">
+    <path d="M30 440 q 12 -6 24 0 t 24 0 t 24 0"/>
+    <path d="M150 456 q 12 -6 24 0 t 24 0 t 24 0 t 24 0"/>
+    <path d="M310 442 q 12 -6 24 0 t 24 0 t 24 0 t 24 0"/>
+    <path d="M70 476 q 12 -6 24 0 t 24 0 t 24 0"/>
+    <path d="M250 484 q 12 -6 24 0 t 24 0 t 24 0"/>
+    <path d="M380 472 q 12 -6 24 0 t 24 0"/>
+  </g>
+
+  <!-- 羽田空港 滑走路（湾岸の人工島・遠景） -->
+  <g opacity="0.5">
+    <path d="M380 420 L 512 415 L 512 425 L 380 430 Z" fill="#37474f"/>
+    <!-- 滑走路センターライン -->
+    <g stroke="#ffd54f" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.9">
+      <line x1="385" y1="423" x2="510" y2="420"/>
+    </g>
+  </g>
+
+  <!-- カモメ -->
+  <g stroke="#37474f" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M90 200 q 8 -10 16 0 q 8 -10 16 0"/>
+    <path d="M160 240 q 6 -8 12 0 q 6 -8 12 0"/>
+  </g>
+
+  <!-- タイトル白枠 -->
+  <g transform="translate(256,470)" text-anchor="middle">
+    <rect x="-78" y="-22" width="156" height="34" rx="17" ry="17"
+          fill="#ffffff" opacity="0.94" filter="url(#softShadow)"/>
+    <text x="0" y="3" font-family="'Hiragino Sans','Yu Gothic',sans-serif"
+          font-size="20" font-weight="700" fill="#00838f">大田 高低</text>
+  </g>
+</svg>
