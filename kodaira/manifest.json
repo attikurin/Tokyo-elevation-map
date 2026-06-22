@@ -1,0 +1,20 @@
+{
+  "name": "小平市 高低マップ",
+  "short_name": "小平市高低",
+  "description": "東京都小平市のインタラクティブな標高（高低）マップ。武蔵野台地中央・標高76〜95mの平坦な街。ブルーベリー日本発祥、丸ポスト全国一、玉川上水、学園都市。3D地形・断面図・ハザード対応。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ede7f6",
+  "theme_color": "#5e35b1",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

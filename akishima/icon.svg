@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- 背景: アケボノゾウ象牙ブルー（深層地下水）グラデ -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#01579b"/>
+      <stop offset="55%" stop-color="#0277bd"/>
+      <stop offset="100%" stop-color="#81d4fa"/>
+    </linearGradient>
+    <linearGradient id="river" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#81d4fa"/>
+      <stop offset="100%" stop-color="#e1f5fe"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+
+  <!-- 河岸段丘（昭和の森グリーン） -->
+  <path d="M0 360 L120 340 L120 320 L260 300 L260 280 L420 270 L512 260 L512 512 L0 512 Z"
+        fill="#558b2f" opacity="0.85"/>
+  <path d="M0 380 L140 365 L260 345 L420 330 L512 320 L512 512 L0 512 Z"
+        fill="#7cb342" opacity="0.75"/>
+
+  <!-- 多摩川 -->
+  <path d="M0 430 Q120 410 240 425 T512 415 L512 460 Q380 470 256 455 T0 470 Z"
+        fill="url(#river)" opacity="0.95"/>
+
+  <!-- 玉川上水 (北部直線) -->
+  <rect x="0" y="170" width="512" height="6" fill="#e1f5fe" opacity="0.8"/>
+  <rect x="0" y="178" width="512" height="2" fill="#81d4fa" opacity="0.6"/>
+
+  <!-- アケボノゾウ化石（市シンボル） -->
+  <g transform="translate(160 215)" fill="#fbc02d">
+    <!-- 胴体 -->
+    <ellipse cx="80" cy="60" rx="78" ry="46"/>
+    <!-- 頭 -->
+    <circle cx="158" cy="50" r="38"/>
+    <!-- 鼻 -->
+    <path d="M180 70 Q210 90 200 120 Q195 135 185 130 Q188 115 185 100 Q180 88 175 80 Z"/>
+    <!-- 牙（象牙ブルー強調） -->
+    <path d="M178 78 Q200 95 196 118 L188 116 Q192 100 174 84 Z" fill="#fff59d"/>
+    <!-- 耳 -->
+    <ellipse cx="138" cy="40" rx="22" ry="28" transform="rotate(-20 138 40)"/>
+    <!-- 脚 -->
+    <rect x="30" y="92" width="22" height="32" rx="6"/>
+    <rect x="62" y="98" width="22" height="30" rx="6"/>
+    <rect x="100" y="98" width="22" height="30" rx="6"/>
+    <rect x="130" y="92" width="22" height="32" rx="6"/>
+    <!-- 目 -->
+    <circle cx="160" cy="48" r="4" fill="#01579b"/>
+  </g>
+
+  <!-- タイトル -->
+  <text x="256" y="455" text-anchor="middle"
+        font-family="'M PLUS Rounded 1c','Hiragino Sans',sans-serif"
+        font-size="78" font-weight="800" fill="#ffffff"
+        stroke="#01579b" stroke-width="6" paint-order="stroke">昭島</text>
+</svg>

@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="小平市 高低マップ アイコン">
+  <!-- 背景：ブルーベリーパープルのグラデーション（武蔵野台地） -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#7e57c2"/>
+      <stop offset="50%"  stop-color="#5e35b1"/>
+      <stop offset="100%" stop-color="#311b92"/>
+    </linearGradient>
+    <linearGradient id="postRed" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#ef5350"/>
+      <stop offset="100%" stop-color="#c62828"/>
+    </linearGradient>
+    <radialGradient id="berryGrad" cx="0.35" cy="0.35" r="0.7">
+      <stop offset="0%"   stop-color="#9575cd"/>
+      <stop offset="60%"  stop-color="#5e35b1"/>
+      <stop offset="100%" stop-color="#311b92"/>
+    </radialGradient>
+  </defs>
+
+  <!-- マスク可能領域用ベース -->
+  <rect width="512" height="512" rx="96" fill="url(#bgGrad)"/>
+
+  <!-- 武蔵野台地の平坦な等高線（小平の地形特徴：標高76〜95mのほぼ平坦） -->
+  <g fill="none" stroke="#ede7f6" stroke-opacity="0.25" stroke-width="3">
+    <path d="M 40 360 Q 256 340 472 360"/>
+    <path d="M 40 380 Q 256 365 472 380"/>
+    <path d="M 40 400 Q 256 388 472 400"/>
+  </g>
+
+  <!-- 玉川上水（水辺ライン・市南端を東西に） -->
+  <path d="M 30 320 Q 130 305 256 312 T 482 320"
+        fill="none" stroke="#4fc3f7" stroke-width="6" stroke-opacity="0.85" stroke-linecap="round"/>
+  <path d="M 30 326 Q 130 311 256 318 T 482 326"
+        fill="none" stroke="#81d4fa" stroke-width="2" stroke-opacity="0.6" stroke-linecap="round"/>
+
+  <!-- 丸ポスト（市の象徴・現存26本全国一）：中央右に配置 -->
+  <g transform="translate(330,150)">
+    <!-- 円柱本体 -->
+    <rect x="-32" y="-10" width="64" height="160" rx="6" fill="url(#postRed)"/>
+    <!-- 投函口 -->
+    <rect x="-20" y="20" width="40" height="8" rx="2" fill="#1a1a1a" opacity="0.85"/>
+    <!-- ドーム頭 -->
+    <ellipse cx="0" cy="-10" rx="32" ry="14" fill="url(#postRed)"/>
+    <ellipse cx="-8" cy="-15" rx="10" ry="4" fill="#ffcdd2" opacity="0.6"/>
+    <!-- 〒マーク -->
+    <text x="0" y="62" text-anchor="middle" font-family="serif" font-weight="700"
+          font-size="28" fill="#fff8e1">〒</text>
+    <!-- 台座 -->
+    <rect x="-38" y="148" width="76" height="10" rx="2" fill="#1a1a1a" opacity="0.7"/>
+  </g>
+
+  <!-- ブルーベリー（日本初栽培の地・1968年）：左に3粒 -->
+  <g transform="translate(170,180)">
+    <!-- 葉 -->
+    <path d="M -10 -78 Q 25 -100 50 -72 Q 30 -55 5 -62 Z" fill="#388e3c" opacity="0.95"/>
+    <path d="M -10 -78 Q -5 -65 5 -62" fill="none" stroke="#1b5e20" stroke-width="1.5"/>
+    <!-- 実3粒 -->
+    <circle cx="-30" cy="-10" r="34" fill="url(#berryGrad)"/>
+    <circle cx="32"  cy="-5"  r="32" fill="url(#berryGrad)"/>
+    <circle cx="0"   cy="40"  r="38" fill="url(#berryGrad)"/>
+    <!-- ハイライト -->
+    <ellipse cx="-40" cy="-22" rx="10" ry="5" fill="#d1c4e9" opacity="0.7"/>
+    <ellipse cx="22"  cy="-15" rx="9"  ry="4" fill="#d1c4e9" opacity="0.7"/>
+    <ellipse cx="-10" cy="28"  rx="11" ry="5" fill="#d1c4e9" opacity="0.7"/>
+    <!-- 萼（ブルーベリーの王冠状先端） -->
+    <g stroke="#311b92" stroke-width="1.2" fill="none" opacity="0.7">
+      <path d="M -30 -10 l -3 -4 M -30 -10 l 0 -5 M -30 -10 l 3 -4"/>
+      <path d="M 32 -5 l -3 -4 M 32 -5 l 0 -5 M 32 -5 l 3 -4"/>
+      <path d="M 0 40 l -3 -4 M 0 40 l 0 -5 M 0 40 l 3 -4"/>
+    </g>
+  </g>
+
+  <!-- 「小平」文字（背景・落ち着いた配色） -->
+  <text x="256" y="455" text-anchor="middle"
+        font-family="'Hiragino Mincho ProN','Yu Mincho',serif"
+        font-weight="700" font-size="56" fill="#fff8e1" letter-spacing="2">
+    小平
+  </text>
+
+  <!-- 周囲フレーム（武蔵野ライン） -->
+  <rect x="14" y="14" width="484" height="484" rx="86"
+        fill="none" stroke="#ede7f6" stroke-opacity="0.45" stroke-width="3"/>
+</svg>

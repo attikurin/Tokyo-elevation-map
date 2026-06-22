@@ -1,0 +1,21 @@
+{
+  "name": "足立区 高低マップ",
+  "short_name": "足立区高低",
+  "description": "東京都足立区の標高・地形・ハザード・避難所マップ。西新井大師總持寺（関東厄除け三大師・826年弘法大師開創）／千住宿（旧日光街道初宿・千住七福神）／舎人公園（都立69.5ha・千本桜）／東綾瀬公園（足立区生物園）／元渕江公園（光の祭典）／北千住駅（JR/メトロ千代田線/メトロ日比谷線/東武スカイツリーライン/TX5路線結節）／荒川・中川・綾瀬川河川敷／23区最北端・ほぼ全域がゼロメートル地帯〜標高1〜5m低地を網羅。",
+  "lang": "ja",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#e3f2fd",
+  "theme_color": "#1976d2",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["maps", "navigation", "utilities", "education"]
+}

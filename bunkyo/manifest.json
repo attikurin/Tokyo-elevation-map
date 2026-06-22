@@ -1,0 +1,22 @@
+{
+  "name": "文京区 高低マップ",
+  "short_name": "文京高低",
+  "description": "東京都文京区（武蔵野台地東端・本郷台／小石川台の七つの丘・神田川／千川（暗渠）の谷・学術文教都市）の3D地形・標高断面図・ハザード重ね合わせマップ。東京大学本郷キャンパス（赤門・安田講堂・三四郎池）、お茶の水女子大学、東京医科歯科大学、湯島天神（学問の神様）、根津神社（つつじ祭）、小石川後楽園（特別史跡・特別名勝）、六義園（特別名勝）、東京ドーム／後楽園、護国寺、白山神社、神田明神（隣接）、夏目漱石／森鴎外／樋口一葉／石川啄木ゆかりの地、本郷／小石川／白山／千駄木／向丘／湯島／本駒込／関口の地形を可視化。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f5f0e1",
+  "theme_color": "#283593",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- 背景: 千住藍クリーム -->
+  <rect width="512" height="512" rx="96" fill="#e3f2fd"/>
+
+  <!-- 荒川（区を貫く大河・北から南東へ） -->
+  <path d="M0,76 Q140,52 280,92 T512,68 L512,148 Q360,178 220,148 T0,160 Z" fill="#1976d2" opacity="0.72"/>
+  <!-- 川面ハイライト -->
+  <path d="M40,108 Q180,88 320,118 T500,108" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.55"/>
+  <path d="M30,128 Q160,108 300,138 T500,128" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.4"/>
+
+  <!-- 中川（区東部を流れる支流） -->
+  <path d="M460,160 Q440,260 470,360 Q480,420 460,500" stroke="#1565c0" stroke-width="14" fill="none" opacity="0.55" stroke-linecap="round"/>
+
+  <!-- 綾瀬川（区中央〜東を流れる） -->
+  <path d="M380,180 Q360,280 380,380 Q390,440 410,500" stroke="#0d47a1" stroke-width="9" fill="none" opacity="0.5" stroke-linecap="round"/>
+
+  <!-- 千住大橋（荒川を渡る・芭蕉「奥の細道」矢立初めの地・左上） -->
+  <g transform="translate(95,112)">
+    <!-- 橋桁アーチ -->
+    <path d="M-40,0 Q0,-30 40,0" stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M-40,0 Q0,-22 40,0" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.6"/>
+    <!-- 橋脚 -->
+    <line x1="-40" y1="0" x2="-40" y2="14" stroke="#1976d2" stroke-width="4"/>
+    <line x1="40" y1="0" x2="40" y2="14" stroke="#1976d2" stroke-width="4"/>
+    <line x1="0" y1="-30" x2="0" y2="14" stroke="#1976d2" stroke-width="3"/>
+  </g>
+
+  <!-- 舎人公園（区北西・都立69ha・千本桜・左上に桜咲く） -->
+  <g transform="translate(120,250)">
+    <!-- 桜の枝 -->
+    <path d="M0,30 L0,-10 M0,0 L-18,-18 M0,0 L18,-18 M0,-10 L-10,-30 M0,-10 L10,-30" stroke="#5d4037" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- 桜の花群（淡いピンク・千本桜） -->
+    <circle cx="-22" cy="-22" r="13" fill="#f8bbd0"/>
+    <circle cx="22" cy="-22" r="13" fill="#f8bbd0"/>
+    <circle cx="-12" cy="-34" r="12" fill="#f48fb1"/>
+    <circle cx="12" cy="-34" r="12" fill="#f48fb1"/>
+    <circle cx="0" cy="-44" r="14" fill="#ec407a"/>
+  </g>
+
+  <!-- 低地（足立区ほぼ全域・ゼロメートル地帯）— 緑色の田畑風 -->
+  <path d="M0,280 L260,280 L260,420 L0,420 Z" fill="#aed581" opacity="0.45"/>
+  <!-- 田の畔 -->
+  <line x1="0" y1="310" x2="260" y2="310" stroke="#558b2f" stroke-width="1" opacity="0.4"/>
+  <line x1="0" y1="340" x2="260" y2="340" stroke="#558b2f" stroke-width="1" opacity="0.4"/>
+  <line x1="0" y1="370" x2="260" y2="370" stroke="#558b2f" stroke-width="1" opacity="0.4"/>
+  <line x1="60" y1="280" x2="60" y2="420" stroke="#558b2f" stroke-width="1" opacity="0.4"/>
+  <line x1="130" y1="280" x2="130" y2="420" stroke="#558b2f" stroke-width="1" opacity="0.4"/>
+  <line x1="200" y1="280" x2="200" y2="420" stroke="#558b2f" stroke-width="1" opacity="0.4"/>
+
+  <!-- 西新井大師（區中央・関東厄除け三大師・826年弘法大師空海開創） -->
+  <g transform="translate(280,330)">
+    <!-- 大本堂屋根（朱色） -->
+    <path d="M-50,0 L-60,0 L0,-44 L60,0 L50,0 Z" fill="#ef6c00" stroke="#bf360c" stroke-width="2.5"/>
+    <!-- 第二段屋根 -->
+    <path d="M-42,0 L42,0 L36,18 L-36,18 Z" fill="#ef6c00" stroke="#bf360c" stroke-width="2"/>
+    <!-- お堂本体 -->
+    <rect x="-36" y="18" width="72" height="36" fill="#ffe0b2" stroke="#bf360c" stroke-width="2"/>
+    <!-- 扉 -->
+    <rect x="-10" y="30" width="20" height="24" fill="#bf360c"/>
+    <line x1="0" y1="30" x2="0" y2="54" stroke="#5d2906" stroke-width="1"/>
+    <!-- 屋根の宝珠 -->
+    <circle cx="0" cy="-48" r="4" fill="#fbc02d" stroke="#bf360c" stroke-width="1.5"/>
+    <line x1="0" y1="-52" x2="0" y2="-58" stroke="#bf360c" stroke-width="2"/>
+    <!-- 五本扇骨（屋根装飾） -->
+    <line x1="0" y1="-44" x2="-25" y2="-12" stroke="#bf360c" stroke-width="1.2"/>
+    <line x1="0" y1="-44" x2="25" y2="-12" stroke="#bf360c" stroke-width="1.2"/>
+  </g>
+
+  <!-- 日暮里舎人ライナー（区西部を縦断・舎人公園駅） -->
+  <g>
+    <!-- 高架軌道 -->
+    <line x1="60" y1="378" x2="380" y2="378" stroke="#888" stroke-width="2.5"/>
+    <line x1="60" y1="386" x2="380" y2="386" stroke="#888" stroke-width="2.5"/>
+    <!-- 支柱 -->
+    <g stroke="#666" stroke-width="2.5">
+      <line x1="80" y1="386" x2="80" y2="402"/>
+      <line x1="160" y1="386" x2="160" y2="402"/>
+      <line x1="240" y1="386" x2="240" y2="402"/>
+      <line x1="320" y1="386" x2="320" y2="402"/>
+    </g>
+    <!-- 車両（青ライン） -->
+    <rect x="170" y="358" width="140" height="22" rx="6" fill="#1976d2" stroke="#0d47a1" stroke-width="2.5"/>
+    <rect x="178" y="364" width="14" height="10" rx="2" fill="#e3f2fd"/>
+    <rect x="200" y="364" width="14" height="10" rx="2" fill="#e3f2fd"/>
+    <rect x="222" y="364" width="14" height="10" rx="2" fill="#e3f2fd"/>
+    <rect x="244" y="364" width="14" height="10" rx="2" fill="#e3f2fd"/>
+    <rect x="266" y="364" width="14" height="10" rx="2" fill="#e3f2fd"/>
+    <rect x="288" y="364" width="14" height="10" rx="2" fill="#e3f2fd"/>
+    <rect x="170" y="375" width="140" height="3" fill="#fbc02d"/>
+  </g>
+
+  <!-- 足立区役所ピン（中央本町1-17-1・梅島駅近） -->
+  <g transform="translate(256,422)">
+    <path d="M0,0 C-16,-30 -16,-50 0,-50 C16,-50 16,-30 0,0 Z" fill="#0d47a1" stroke="#ffffff" stroke-width="3"/>
+    <circle cx="0" cy="-32" r="10" fill="#ffffff"/>
+    <text x="0" y="-28" text-anchor="middle" font-size="13" fill="#0d47a1" font-weight="900" font-family="sans-serif">足</text>
+  </g>
+
+  <!-- タイトル帯 -->
+  <rect x="24" y="446" width="464" height="50" rx="14" fill="#0d47a1" opacity="0.94"/>
+  <text x="256" y="478" text-anchor="middle" font-family="'M PLUS Rounded 1c','Hiragino Sans',sans-serif" font-size="30" font-weight="800" fill="#ffffff" letter-spacing="2">足立 高低</text>
+  <text x="256" y="494" text-anchor="middle" font-family="'M PLUS Rounded 1c',sans-serif" font-size="10" font-weight="600" fill="#e3f2fd" letter-spacing="3">SENJU・NISHIARAI・TONERI</text>
+</svg>

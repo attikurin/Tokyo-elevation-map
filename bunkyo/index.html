@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#283593" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <!-- Theme: 文豪インクブルー（文学・学術・東大藍） × 根津神社朱（つつじ祭・湯島天神の棅・文京区の骨） × 六義園苔グリーン（小石川後楽園・六義園・庭園文化） -->
+  <title>文京区 高低マップ｜3D地形・断面図・ハザード重ね合わせ</title>
+  <meta name="description" content="東京都文京区のインタラクティブな標高（高低）マップ。武蔵野台地東端・本郷台と小石川台の七つの丘（本郷／小石川／白山／千駄木／向丘／湯島／本駒込／関口）・神田川と千川（暗渠）の谷地形・学術文教都市。東京大学本郷キャンパス（赤門・安田講堂・三四郎池）、お茶の水女子大学、東京医科歯科大学、湯島天神（学問の神様）、根津神社（つつじ祭り）、小石川後楽園（特別史跡・特別名勝）、六義園（特別名勝・柳沢吉保）、東京ドームシティ・後楽園、護国寺（皆吉年中行事・桃山人形・小川茂治）、白山神社、夏目漱石・森鴎外・樋口一葉・石川啄木ゆかりの地、本郷・小石川・白山・千駄木の地形を2D/3D表示、任意地点の断面図、ハザードマップの重ね合わせに対応。本郷台・小石川台の台地と神田川谷・千川谷の高低差を可視化。" />
+
+  <!-- Leaflet (2D map) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- MapLibre GL (3D map) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+  <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+
+  <!-- Chart.js (cross section) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=M+PLUS+Rounded+1c:wght@500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --coral: #283593;          /* 文豪インクブルー（文学・学術・東大藍） */
+      --coral-light: #9fa8da;
+      --orange: #c62828;          /* 根津神社朱（つつじ祭り・湯島天神の棅） */
+      --orange-soft: #ef9a9a;
+      --purple: #33691e;          /* 六義園苔グリーン（小石川後楽園・六義園の庭園） */
+      --purple-light: #c5e1a5;
+      --cream: #f5f0e1;
+      --ink: #1a237e;
+      --ink-soft: #4527a0;
+      --shadow: 0 6px 20px rgba(40, 53, 147, 0.18);
+      --shadow-strong: 0 10px 30px rgba(198, 40, 40, 0.25);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
+      background: linear-gradient(135deg, var(--cream) 0%, #fff3e0 100%);
+      color: var(--ink);
+      overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+      overscroll-behavior: none;
+    }
+    /* iOSのセーフエリア対応 */
+    @supports (padding: env(safe-area-inset-top)) {
+      header.app-header {
+        padding-top: env(safe-area-inset-top);
+        height: calc(60px + env(safe-area-inset-top));
+      }
+      main.app-main {
+        top: calc(60px + env(safe-area-inset-top));
+      }
+    }
+
+    /* ===== Header ===== */
+    header.app-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background: #ffffff;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 131, 143, 0.12);
+      border-bottom: 3px solid;
+      border-image: linear-gradient(90deg, var(--coral) 0%, var(--orange) 60%, var(--purple) 100%) 1;
+    }
+    header.app-header h1 {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--coral);
+    }
+    header.app-header h1 i {
+      font-size: 1.4rem;
+      color: var(--orange);
+    }
+    .header-sub {
+      font-size: 0.8rem;
+      opacity: 0.85;
+      font-weight: 400;
+      color: var(--ink-soft);
+    }
+    header.app-header h1 .header-sub {
+      color: var(--purple);
+    }
+
+    /* ===== Main layout ===== */
+    main.app-main {
+      position: fixed;
+      top: 60px; left: 0; right: 0; bottom: 0;
+      display: flex;
+    }
+
+    /* ===== Sidebar ===== */
+    aside.sidebar {
+      width: 320px;
+      background: #fff;
+      border-right: 1px solid #d1c4e9;
+      overflow-y: auto;
+      padding: 16px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.04);
+      z-index: 500;
+    }
+
+    .panel {
+      background: var(--cream);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+      border: 1px solid #d1c4e9;
+    }
+    .panel h3 {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      font-size: 0.95rem;
+      color: var(--coral);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .panel h3 i { color: var(--orange); }
+
+    /* ===== View mode toggle ===== */
+    .view-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .view-btn {
+      padding: 10px 8px;
+      border: 2px solid var(--coral-light);
+      background: #fff;
+      color: var(--coral);
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.85rem;
+    }
+    .view-btn i { font-size: 1.2rem; }
+    .view-btn.active {
+      background: linear-gradient(135deg, var(--coral), var(--orange));
+      color: #fff;
+      border-color: var(--coral);
+      box-shadow: var(--shadow);
+    }
+    .view-btn:hover:not(.active) {
+      background: var(--orange-soft);
+    }
+
+    /* ===== Elevation legend ===== */
+    .elev-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .elev-bar {
+      height: 16px;
+      border-radius: 6px;
+      background: linear-gradient(to right,
+        #2e7d32 0%,
+        #7cb342 20%,
+        #c0ca33 40%,
+        #fdd835 55%,
+        #fb8c00 75%,
+        #e64a19 90%,
+        #8d6e63 100%);
+    }
+    .elev-scale {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+    }
+
+    /* ===== Checkbox list ===== */
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-size: 0.88rem;
+    }
+    .check-item:hover { background: #fff; }
+    .check-item input[type="checkbox"] {
+      accent-color: var(--coral);
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+    .check-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    /* ===== Slider ===== */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .slider-row label {
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      min-width: 70px;
+    }
+    input[type="range"] {
+      flex: 1;
+      accent-color: var(--purple);
+    }
+    .slider-val {
+      font-size: 0.78rem;
+      color: var(--coral);
+      font-weight: 700;
+      min-width: 36px;
+      text-align: right;
+    }
+
+    /* ===== Cross-section ===== */
+    .cs-instructions {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .cs-status {
+      font-size: 0.78rem;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: var(--purple-light);
+      color: #1b5e20;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .cs-btn-row {
+      display: flex;
+      gap: 6px;
+    }
+    .btn {
+      flex: 1;
+      padding: 8px 10px;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--coral), var(--orange));
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+    .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.05); }
+    .btn-primary:disabled {
+      background: #ddd;
+      color: #999;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+    .btn-secondary {
+      background: #fff;
+      color: var(--purple);
+      border: 2px solid var(--purple-light);
+    }
+    .btn-secondary:hover { background: var(--purple-light); }
+
+    /* ===== Map containers ===== */
+    .map-area {
+      flex: 1;
+      position: relative;
+    }
+    #map2d, #map3d {
+      width: 100%;
+      height: 100%;
+    }
+    #map3d { display: none; }
+
+    /* ===== Floating info ===== */
+    .info-box {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.96);
+      padding: 12px 16px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-strong);
+      z-index: 450;
+      font-size: 0.85rem;
+      min-width: 180px;
+      border-top: 3px solid var(--coral);
+    }
+    .info-box .label {
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      margin-bottom: 2px;
+    }
+    .info-box .value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--coral);
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+    }
+    .info-box .coord {
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      margin-top: 6px;
+      border-top: 1px dashed #eee;
+      padding-top: 6px;
+    }
+
+    /* ===== Cross-section modal ===== */
+    .cs-modal {
+      position: fixed;
+      bottom: 0;
+      left: 320px;
+      right: 0;
+      height: 320px;
+      z-index: 750;
+      background: #fff;
+      border-top: 3px solid var(--purple);
+      box-shadow: 0 -8px 20px rgba(0,0,0,0.1);
+      z-index: 800;
+      padding: 14px 20px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .cs-modal.visible { transform: translateY(0); }
+    .cs-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .cs-modal-header h3 {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      color: var(--purple);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cs-stats {
+      display: flex;
+      gap: 16px;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+    }
+    .cs-stats strong { color: var(--coral); font-family: 'M PLUS Rounded 1c', sans-serif; }
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--ink-soft);
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .close-btn:hover { background: var(--cream); }
+    .cs-canvas-wrap {
+      flex: 1;
+      position: relative;
+      min-height: 0;
+    }
+
+    /* ===== Loading ===== */
+    .loading {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,255,255,0.95);
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-strong);
+      z-index: 900;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      color: var(--coral);
+      font-weight: 700;
+    }
+    .loading.visible { display: flex; }
+    .loading i { animation: spin 1s linear infinite; font-size: 1.4rem; }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* =========================================================
+       📱 スマホ専用レイアウト（ボトムシート方式）
+       ========================================================= */
+    @media (max-width: 768px) {
+      /* ヘッダー：コンパクト化 */
+      header.app-header {
+        height: 50px;
+        padding: 0 12px;
+      }
+      @supports (padding: env(safe-area-inset-top)) {
+        header.app-header {
+          height: calc(50px + env(safe-area-inset-top));
+        }
+        main.app-main {
+          top: calc(50px + env(safe-area-inset-top));
+        }
+      }
+      header.app-header h1 {
+        font-size: 0.95rem;
+        gap: 6px;
+      }
+      header.app-header h1 i { font-size: 1.1rem; }
+      .header-sub { display: none; }
+      header.app-header > .header-sub:last-child { display: none; }
+      main.app-main {
+        top: 50px;
+        flex-direction: column;
+      }
+
+      /* サイドバー → ボトムシート化 */
+      aside.sidebar {
+        position: fixed;
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: 75vh;
+        height: auto;
+        border-right: none;
+        border-top: 1px solid #d1c4e9;
+        border-radius: 18px 18px 0 0;
+        transform: translateY(calc(100% - 44px));
+        transition: transform 0.3s ease;
+        z-index: 700;
+        padding: 0 14px 80px;
+        box-shadow: 0 -6px 20px rgba(0,0,0,0.12);
+        overscroll-behavior: contain;
+      }
+      aside.sidebar.open {
+        transform: translateY(0);
+        padding-top: 14px;
+      }
+      /* ドラッグハンドル */
+      aside.sidebar::before {
+        content: '';
+        position: sticky;
+        top: 0;
+        display: block;
+        width: 44px;
+        height: 4px;
+        margin: 10px auto 8px;
+        background: #d9c5b8;
+        border-radius: 2px;
+        z-index: 10;
+      }
+      /* ヘッダー部分（閉じている時も見える） */
+      .sidebar-handle {
+        display: flex !important;
+        position: sticky;
+        top: 0;
+        background: #fff;
+        padding: 2px 4px 10px;
+        margin: -10px -14px 10px;
+        border-radius: 18px 18px 0 0;
+        z-index: 9;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-family: 'M PLUS Rounded 1c', sans-serif;
+        font-weight: 700;
+        color: var(--coral);
+        font-size: 0.9rem;
+        cursor: pointer;
+        border-bottom: 1px solid #d1c4e9;
+      }
+      .sidebar-handle i { color: var(--orange); }
+
+      /* モバイル用FAB（メニュートグル） */
+      .mobile-toggle { display: none; }
+
+      /* 情報ボックス：上部中央・コンパクト */
+      .info-box {
+        top: 8px;
+        left: 8px;
+        right: 8px;
+        min-width: 0;
+        padding: 6px 10px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        font-size: 0.75rem;
+        border-top-width: 2px;
+      }
+      .info-box .label {
+        display: none;
+      }
+      .info-box .value {
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+      .info-box .coord {
+        margin: 0;
+        padding: 0;
+        border: none;
+        font-size: 0.7rem;
+        text-align: right;
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* 断面図モーダル：全幅のボトムシート */
+      .cs-modal {
+        left: 0;
+        right: 0;
+        height: 55vh;
+        padding: 12px 14px;
+      }
+      .cs-modal-header { flex-wrap: wrap; gap: 6px; }
+      .cs-modal-header h3 { font-size: 0.9rem; }
+      .cs-stats {
+        flex-wrap: wrap;
+        gap: 6px 10px;
+        font-size: 0.72rem;
+        order: 3;
+        width: 100%;
+      }
+
+      /* パネルのマージン調整 */
+      .panel { padding: 12px; margin-bottom: 10px; }
+      .panel h3 { font-size: 0.88rem; }
+      .check-item { font-size: 0.82rem; padding: 6px 4px; min-height: 36px; }
+      .check-item input[type="checkbox"] { width: 22px; height: 22px; }
+      .btn { padding: 10px 8px; font-size: 0.8rem; min-height: 40px; }
+      .view-btn { padding: 12px 6px; min-height: 56px; font-size: 0.78rem; }
+
+      /* 断面図マーカーのタップ領域拡大 */
+      .cs-point { width: 28px; height: 28px; font-size: 0.9rem; }
+      .poi-marker { width: 32px; height: 32px; }
+      .poi-marker i { font-size: 14px; }
+
+      /* クレジットを小さく */
+      .credits { font-size: 0.65rem; padding: 6px; }
+
+      /* MapLibreコントロールをタッチサイズに */
+      .maplibregl-ctrl-group button,
+      .leaflet-control-zoom a {
+        width: 36px !important;
+        height: 36px !important;
+        line-height: 36px !important;
+      }
+    }
+
+    /* PC時はハンドルを隠す */
+    .sidebar-handle { display: none; }
+
+    /* 横向きスマホ対応 */
+    @media (max-width: 768px) and (orientation: landscape) {
+      aside.sidebar { max-height: 90vh; }
+      .cs-modal { height: 70vh; }
+      .info-box { font-size: 0.7rem; }
+    }
+
+    /* 小型スマホ (iPhone SE など) */
+    @media (max-width: 380px) {
+      header.app-header h1 { font-size: 0.85rem; }
+      .panel { padding: 10px; }
+      .info-box { font-size: 0.7rem; padding: 5px 8px; }
+      .info-box .value { font-size: 0.82rem; }
+    }
+
+    /* Map attribution */
+    .leaflet-control-attribution {
+      font-size: 10px !important;
+    }
+
+    /* POI Legend icon in checkbox */
+    .poi-legend-ico {
+      color: #fff;
+      font-size: 9px;
+      width: 100%;
+      text-align: center;
+      line-height: 16px;
+    }
+    .check-color {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* POI Markers */
+    .poi-marker {
+      width: 28px;
+      height: 28px;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      border: 2px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .poi-marker:hover {
+      transform: rotate(-45deg) scale(1.15);
+    }
+    .poi-marker i {
+      transform: rotate(45deg);
+      color: #fff;
+      font-size: 12px;
+    }
+    .poi-cityhall { background: #283593; } /* 文豪インクブルー */
+    .poi-public   { background: #c62828; } /* 根津神社朱 */
+    .poi-station  { background: #5e8fd6; }
+    .poi-park     { background: #7cb342; }
+    .poi-temple   { background: #33691e; } /* 六義園苔グリーン */
+    .poi-evac_shelter   { background: #2e8b57; }
+    .poi-evac_emergency { background: #c0392b; }
+    .poi-evac_wide      { background: #d4a017; }
+    .poi-evac_welfare   { background: #8e44ad; }
+
+    /* POI popup */
+    .poi-popup {
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+    .poi-popup-title {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      font-weight: 700;
+      color: var(--coral);
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+    .poi-popup-cat {
+      font-size: 0.75rem;
+      color: var(--ink-soft);
+      background: var(--cream);
+      padding: 2px 8px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    /* Cross-section markers on map */
+    .cs-point {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    .cs-point.start { background: var(--coral); }
+    .cs-point.end { background: var(--purple); }
+
+    /* Footer credits */
+    .credits {
+      font-size: 0.7rem;
+      color: var(--ink-soft);
+      text-align: center;
+      padding: 8px;
+      line-height: 1.5;
+    }
+    .credits a { color: var(--coral); text-decoration: none; }
+  </style>
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="文京高低">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+</head>
+<body>
+
+<header class="app-header">
+  <h1><i class="fa-solid fa-mountain-sun"></i> 文京区 高低マップ <span class="header-sub">- 3D地形・断面図・ハザード対応</span></h1>
+  <span class="header-sub"><i class="fa-solid fa-location-dot"></i> 東京都文京区</span>
+</header>
+
+<main class="app-main">
+
+  <aside class="sidebar" id="sidebar">
+
+    <!-- スマホ用ドラッグハンドル -->
+    <div class="sidebar-handle" id="sidebarHandle">
+      <i class="fa-solid fa-sliders"></i>
+      <span>メニュー（タップで開閉）</span>
+    </div>
+
+    <!-- View Mode -->
+    <div class="panel">
+      <h3><i class="fa-solid fa-cube"></i> 表示モード</h3>
+      <div class="view-toggle">
+        <button class="view-btn active" data-view="2d" id="btn2d">
+          <i class="fa-solid fa-map"></i>2D 高低図
+        </button>
+        <button class="view-btn" data-view="3d" id="btn3d">
+          <i class="fa-solid fa-mountain"></i>3D 立体
+        </button>
+      </div>
+    </div>
+
+    <!-- Elevation Legend -->
+    <div class="panel">
+      <h3><i class="fa-solid fa-layer-group"></i> 標高スケール</h3>
+      <div class="elev-legend">
+        <div class="elev-bar"></div>
+        <div class="elev-scale">
+          <span>20m</span>
+          <span>40m</span>
+          <span>60m</span>
+          <span>80m</span>
+          <span>100m+</span>
+        </div>
+      </div>
+      <div class="slider-row">
+        <label>不透明度</label>
+        <input type="range" id="elevOpacity" min="0" max="100" value="70" />
+        <span class="slider-val" id="elevOpacityVal">70%</span>
+      </div>
+    </div>
+
+    <!-- Cross Section -->
+    <div class="panel">
+      <h3><i class="fa-solid fa-wave-square"></i> 断面図</h3>
+      <div class="cs-instructions">
+        地図上で<strong>2点をクリック</strong>して断面ラインを指定します。
+      </div>
+      <div class="cs-status" id="csStatus">
+        <i class="fa-solid fa-hand-pointer"></i> 開始点をクリックしてください
+      </div>
+      <div class="cs-btn-row">
+        <button class="btn btn-primary" id="btnDrawCS" disabled>
+          <i class="fa-solid fa-chart-line"></i> 断面図を描画
+        </button>
+        <button class="btn btn-secondary" id="btnClearCS">
+          <i class="fa-solid fa-trash"></i> クリア
+        </button>
+      </div>
+    </div>
+
+    <!-- POI Categories -->
+    <div class="panel">
+      <h3><i class="fa-solid fa-map-pin"></i> 施設の表示</h3>
+      <label class="check-item">
+        <input type="checkbox" data-poi="cityhall" checked />
+        <span class="check-color" style="background:#283593;"><i class="fa-solid fa-building poi-legend-ico"></i></span>
+        <span>文京区役所</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-poi="public" />
+        <span class="check-color" style="background:#c62828;"><i class="fa-solid fa-landmark poi-legend-ico"></i></span>
+        <span>区の施設</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-poi="station" />
+        <span class="check-color" style="background:#5e8fd6;"><i class="fa-solid fa-train poi-legend-ico"></i></span>
+        <span>駅</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-poi="park" />
+        <span class="check-color" style="background:#7cb342;"><i class="fa-solid fa-tree poi-legend-ico"></i></span>
+        <span>公園</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-poi="temple" />
+        <span class="check-color" style="background:#33691e;"><i class="fa-solid fa-torii-gate poi-legend-ico"></i></span>
+        <span>寺社仏閣</span>
+      </label>
+    </div>
+
+    <!-- Evacuation Sites -->
+    <div class="panel">
+      <h3><i class="fa-solid fa-shield-halved"></i> 避難先</h3>
+      <label class="check-item">
+        <input type="checkbox" data-poi="evac_shelter" />
+        <span class="check-color" style="background:#2e8b57;"><i class="fa-solid fa-house-chimney-medical poi-legend-ico"></i></span>
+        <span>指定避難所（宿泊可）</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-poi="evac_emergency" />
+        <span class="check-color" style="background:#c0392b;"><i class="fa-solid fa-person-running poi-legend-ico"></i></span>
+        <span>指定緊急避難場所</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-poi="evac_wide" />
+        <span class="check-color" style="background:#d4a017;"><i class="fa-solid fa-arrows-to-circle poi-legend-ico"></i></span>
+        <span>広域避難場所</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-poi="evac_welfare" />
+        <span class="check-color" style="background:#8e44ad;"><i class="fa-solid fa-hand-holding-heart poi-legend-ico"></i></span>
+        <span>福祉避難所</span>
+      </label>
+    </div>
+
+    <!-- Hazard Layers -->
+    <div class="panel">
+      <h3><i class="fa-solid fa-triangle-exclamation"></i> ハザードマップ</h3>
+      <label class="check-item">
+        <input type="checkbox" data-hazard="flood_l2" />
+        <span class="check-color" style="background:#5e8fd6;"></span>
+        <span>洪水浸水想定（想定最大規模）</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-hazard="flood_keizoku" />
+        <span class="check-color" style="background:#8a6dce;"></span>
+        <span>浸水継続時間</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-hazard="dosha" />
+        <span class="check-color" style="background:#d65e7a;"></span>
+        <span>土砂災害警戒区域</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-hazard="takashio" />
+        <span class="check-color" style="background:#5ec5d6;"></span>
+        <span>高潮浸水想定区域</span>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" data-hazard="tsunami" />
+        <span class="check-color" style="background:#6dceb4;"></span>
+        <span>津波浸水想定</span>
+      </label>
+      <div class="slider-row">
+        <label>不透明度</label>
+        <input type="range" id="hazardOpacity" min="0" max="100" value="60" />
+        <span class="slider-val" id="hazardOpacityVal">60%</span>
+      </div>
+    </div>
+
+    <!-- 3D options -->
+    <div class="panel" id="panel3d" style="display:none;">
+      <h3><i class="fa-solid fa-cubes"></i> 3D 設定</h3>
+      <div class="slider-row">
+        <label>高さ強調</label>
+        <input type="range" id="exagg" min="1" max="15" step="0.5" value="5" />
+        <span class="slider-val" id="exaggVal">5.0x</span>
+      </div>
+      <div class="slider-row">
+        <label>傾斜</label>
+        <input type="range" id="pitch" min="0" max="80" value="60" />
+        <span class="slider-val" id="pitchVal">60°</span>
+      </div>
+    </div>
+
+    <div class="credits">
+      データ提供：<a href="https://maps.gsi.go.jp/" target="_blank">国土地理院</a><br />
+      <a href="https://disaportal.gsi.go.jp/" target="_blank">ハザードマップポータル</a><br />
+      © OpenStreetMap contributors
+    </div>
+  </aside>
+
+  <div class="map-area">
+    <div id="map2d"></div>
+    <div id="map3d"></div>
+
+    <div class="info-box" id="infoBox">
+      <div>
+        <div class="label"><i class="fa-solid fa-location-crosshairs"></i> 標高</div>
+        <div class="value" id="elevValue">-- m</div>
+      </div>
+      <div class="coord" id="coordValue">緯度: -- / 経度: --</div>
+    </div>
+
+    <div class="loading" id="loading">
+      <i class="fa-solid fa-spinner"></i>
+      <span id="loadingText">読み込み中...</span>
+    </div>
+  </div>
+</main>
+
+<!-- Cross Section Modal -->
+<div class="cs-modal" id="csModal">
+  <div class="cs-modal-header">
+    <h3><i class="fa-solid fa-chart-line"></i> 標高断面図</h3>
+    <div class="cs-stats" id="csStats"></div>
+    <button class="close-btn" id="csClose" aria-label="閉じる"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="cs-canvas-wrap">
+    <canvas id="csChart"></canvas>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// 文京区 高低マップ
+// ============================================================
+
+// 文京区役所＝文京シビックセンター（春日1-16-21・後楽園駅直結・神田川の谷・本郷台と小石川台の間）を中心
+const CITY_CENTER = [35.7081, 139.7524];
+const INIT_ZOOM = 12;
+
+// 国土地理院タイル
+const GSI_URLS = {
+  std: 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
+  pale: 'https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',
+  seamlessphoto: 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
+  relief: 'https://cyberjapandata.gsi.go.jp/xyz/relief/{z}/{x}/{y}.png',      // 色別標高図
+  hillshademap: 'https://cyberjapandata.gsi.go.jp/xyz/hillshademap/{z}/{x}/{y}.png',
+  dem_png: 'https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png',     // 標高PNG
+  // ハザード（国交省 ハザードマップポータル）
+  flood_l2: 'https://disaportaldata.gsi.go.jp/raster/01_flood_l2_shinsuishin_data/{z}/{x}/{y}.png',
+  flood_keizoku: 'https://disaportaldata.gsi.go.jp/raster/03_hightide_l2_shinsuishin_data/{z}/{x}/{y}.png', // placeholder
+  flood_keizoku_real: 'https://disaportaldata.gsi.go.jp/raster/01_flood_l2_keizoku_data/{z}/{x}/{y}.png',
+  dosha: 'https://disaportaldata.gsi.go.jp/raster/05_dosekiryukeikaikuiki/{z}/{x}/{y}.png',
+  takashio: 'https://disaportaldata.gsi.go.jp/raster/03_hightide_l2_shinsuishin_data/{z}/{x}/{y}.png',
+  tsunami: 'https://disaportaldata.gsi.go.jp/raster/04_tsunami_newlegend_data/{z}/{x}/{y}.png'
+};
+
+// =======================
+// 2D Map (Leaflet)
+// =======================
+const map2d = L.map('map2d', {
+  center: CITY_CENTER,
+  zoom: INIT_ZOOM,
+  minZoom: 10,
+  maxZoom: 18,
+  zoomControl: true
+});
+
+// ベースマップ（淡色）
+const baseLayer = L.tileLayer(GSI_URLS.pale, {
+  attribution: '© <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>',
+  maxZoom: 18
+}).addTo(map2d);
+
+// 陰影起伏図（立体感）
+const hillshadeLayer = L.tileLayer(GSI_URLS.hillshademap, {
+  opacity: 0.5,
+  maxZoom: 18
+}).addTo(map2d);
+
+// 色別標高図（ベース）
+const reliefLayer = L.tileLayer(GSI_URLS.relief, {
+  opacity: 0.7,
+  maxZoom: 18
+}).addTo(map2d);
+
+// ハザードレイヤー管理
+const hazardLayers = {
+  flood_l2: L.tileLayer(GSI_URLS.flood_l2, { opacity: 0.6, maxZoom: 18 }),
+  flood_keizoku: L.tileLayer(GSI_URLS.flood_keizoku_real, { opacity: 0.6, maxZoom: 18 }),
+  dosha: L.tileLayer(GSI_URLS.dosha, { opacity: 0.6, maxZoom: 18 }),
+  takashio: L.tileLayer(GSI_URLS.takashio, { opacity: 0.6, maxZoom: 18 }),
+  tsunami: L.tileLayer(GSI_URLS.tsunami, { opacity: 0.6, maxZoom: 18 })
+};
+
+// =======================
+// 文京区 施設データ (POI)
+// 武蔵野台地東端・本郷台と小石川台の七つの丘・神田川と千川（暗渠）の谷地形・
+// 本郷／小石川／白山／千駄木／向丘／湯島／本駒込／関口／水道／後楽／西片町／根津／黄表町／袋町など
+// 東京大学本郷キャンパス（赤門・安田講堂・三四郎池）・お茶の水女子大・医科歯科大・
+// 湯島天神・根津神社（つつじ祭り）・小石川後楽園（特別史跡・特別名勝）・六義園（柳沢吉保）・
+// 東京ドームシティ（後楽園）・護国寺・白山神社・夏目漱石／森鴎外／樋口一葉／石川啄木ゆかりの地
+// =======================
+const POI_DATA = {
+  cityhall: {
+    label: '文京区役所',
+    icon: 'fa-building',
+    cssClass: 'poi-cityhall',
+    items: [
+      { name: '文京区役所 文京シビックセンター（春日1-16-21・地上28階142m・展望ラウンジ無料・丸ノ内線後楽園駅／都営三田線春日駅直結）', lat: 35.7081, lng: 139.7524 }
+    ]
+  },
+  public: {
+    label: '区の施設',
+    icon: 'fa-landmark',
+    cssClass: 'poi-public',
+    items: [
+      // 本庁・行政
+      { name: '文京シビックセンター 本庁舎（春日1-16-21・地上28階142m・区議会／区役所機能集約・展望ラウンジ無料）', lat: 35.7081, lng: 139.7524 },
+      { name: '文京シビックホール 大ホール／小ホール（春日1丁目・シビックセンター内・1802席）', lat: 35.7083, lng: 139.7525 },
+      // 区民センター・地域活動拠点
+      { name: '文京区民センター（本郷4丁目・春日通り・区南東部の拠点）', lat: 35.7075, lng: 139.7540 },
+      { name: '本郷地域活動センター（本郷4丁目・本郷三丁目駅近）', lat: 35.7068, lng: 139.7560 },
+      { name: '湯島地域活動センター（湯島2丁目・湯島天神近）', lat: 35.7088, lng: 139.7682 },
+      { name: '駒込地域活動センター（本駒込3丁目・六義園近）', lat: 35.7320, lng: 139.7480 },
+      { name: '大塚地域活動センター（大塚3丁目・茗荷谷駅近）', lat: 35.7188, lng: 139.7388 },
+      { name: '富坂地域活動センター（小石川2丁目・春日通り・後楽園駅近）', lat: 35.7115, lng: 139.7522 },
+      { name: '音羽地域活動センター（音羽2丁目・護国寺近）', lat: 35.7222, lng: 139.7250 },
+      { name: '根津地域活動センター（根津2丁目・根津神社近）', lat: 35.7195, lng: 139.7625 },
+      // 文化・学術・歴史
+      { name: '小石川後楽園（後楽1丁目・水戸徳川家庭園・特別史跡・特別名勝・1629年作庭）', lat: 35.7055, lng: 139.7495 },
+      { name: '六義園（本駒込6丁目・柳沢吉保作庭・特別名勝・回遊式築山泉水庭園）', lat: 35.7325, lng: 139.7460 },
+      { name: '東京ドーム（後楽1丁目・1988年開業・読売巨人軍本拠地・収容55000人）', lat: 35.7055, lng: 139.7517 },
+      { name: '東京ドームシティ アトラクションズ（後楽1丁目・遊園地・サンダードルフィン）', lat: 35.7065, lng: 139.7530 },
+      { name: '東京ドームシティ ラクーア（後楽1丁目・スパ＆ショッピング）', lat: 35.7062, lng: 139.7540 },
+      { name: '野球殿堂博物館（後楽1丁目・東京ドーム隣）', lat: 35.7050, lng: 139.7520 },
+      { name: '文京ふるさと歴史館（本郷4丁目・区立博物館・縄文〜現代）', lat: 35.7088, lng: 139.7575 },
+      { name: '森鴎外記念館（千駄木1丁目・観潮楼跡・森鴎外居宅）', lat: 35.7235, lng: 139.7635 },
+      { name: '東洋文庫ミュージアム（本駒込2丁目・アジア研究図書館・モリソン書庫）', lat: 35.7295, lng: 139.7445 },
+      { name: '永青文庫（目白台1丁目・細川家伝来美術品・新江戸川公園隣）', lat: 35.7155, lng: 139.7195 },
+      { name: '印刷博物館（水道1丁目・TOPPAN小石川本社ビル）', lat: 35.7095, lng: 139.7438 },
+      // 文化施設・ホール
+      { name: '文京シビックホール 大ホール（春日1丁目・1802席・クラシック専用）', lat: 35.7081, lng: 139.7530 },
+      { name: '文京シビックホール 小ホール（春日1丁目・371席）', lat: 35.7080, lng: 139.7528 },
+      { name: '文京シビック スカイホール（春日1丁目・26階・展望付）', lat: 35.7081, lng: 139.7524 },
+      // 図書館（区内10図書館）
+      { name: '文京区立 真砂中央図書館（本郷4丁目・本館・中央館）', lat: 35.7095, lng: 139.7568 },
+      { name: '文京区立 本駒込図書館（本駒込3丁目・六義園近）', lat: 35.7325, lng: 139.7478 },
+      { name: '文京区立 千石図書館（千石1丁目・千石駅近）', lat: 35.7282, lng: 139.7385 },
+      { name: '文京区立 小石川図書館（小石川5丁目・茗荷谷駅近）', lat: 35.7195, lng: 139.7392 },
+      { name: '文京区立 水道端図書館（水道2丁目・江戸川公園近）', lat: 35.7138, lng: 139.7388 },
+      { name: '文京区立 目白台図書館（目白台2丁目・椿山荘近）', lat: 35.7195, lng: 139.7175 },
+      { name: '文京区立 根津図書室（根津2丁目・根津神社近）', lat: 35.7198, lng: 139.7625 },
+      { name: '文京区立 湯島図書館（湯島3丁目・湯島天神近）', lat: 35.7065, lng: 139.7685 },
+      // スポーツ
+      { name: '文京スポーツセンター（大塚3丁目・茗荷谷駅近・温水プール）', lat: 35.7185, lng: 139.7385 },
+      { name: '文京総合体育館（本郷7丁目・東大近・アリーナ）', lat: 35.7128, lng: 139.7615 },
+      { name: '文京区立 千石緑地スポーツ広場（千石3丁目）', lat: 35.7305, lng: 139.7395 },
+      { name: '文京区立 茗台運動場（春日2丁目・茗荷谷駅近）', lat: 35.7142, lng: 139.7438 },
+      // 防災・行政（警察・消防）— 区内2警察署＋2消防署
+      { name: '富坂警察署（小石川2丁目・春日通り）', lat: 35.7102, lng: 139.7522 },
+      { name: '本富士警察署（本郷7丁目・東京大学近・東大病院対応）', lat: 35.7128, lng: 139.7595 },
+      { name: '駒込警察署 ※近隣（豊島区駒込3丁目・※文京区北端境界・六義園対応）', lat: 35.7372, lng: 139.7472 },
+      { name: '東京消防庁 本郷消防署（湯島4丁目・本郷通り）', lat: 35.7098, lng: 139.7635 },
+      { name: '東京消防庁 小石川消防署（小石川3丁目・小石川植物園近）', lat: 35.7158, lng: 139.7468 },
+      { name: '東京消防庁 小石川消防署 駒込出張所（千石1丁目）', lat: 35.7268, lng: 139.7395 }
+    ]
+  },
+  station: {
+    label: '駅',
+    icon: 'fa-train',
+    cssClass: 'poi-station',
+    items: [
+      // 東京メトロ丸ノ内線（本郷台と小石川台の谷を縫う・区の背骨）
+      { name: '本郷三丁目駅（東京メトロ丸ノ内線・本郷2丁目・東京大学本郷キャンパス西門最寄・本郷台）', lat: 35.7080, lng: 139.7615 },
+      { name: '後楽園駅（東京メトロ丸ノ内線／南北線・春日1丁目・小石川後楽園/東京ドーム/文京シビックセンター・神田川の谷）', lat: 35.7072, lng: 139.7515 },
+      { name: '茗荷谷駅（東京メトロ丸ノ内線・小日向4丁目・教育の森公園/お茶の水女子大・小石川台）', lat: 35.7165, lng: 139.7390 },
+      // 都営三田線（千石〜白山〜春日・南北軸）
+      { name: '春日駅（都営三田線／大江戸線・春日1丁目・後楽園駅と一体・文京シビックセンター直結）', lat: 35.7068, lng: 139.7528 },
+      { name: '白山駅（都営三田線・白山1丁目・白山神社/東洋大学最寄・本郷台北端）', lat: 35.7268, lng: 139.7521 },
+      { name: '千石駅（都営三田線・千石1丁目・六義園北・本駒込との境）', lat: 35.7320, lng: 139.7468 },
+      // 東京メトロ南北線（後楽園〜東大前〜本駒込・本郷台縦断）
+      { name: '東大前駅（東京メトロ南北線・向丘1丁目・東京大学本郷キャンパス農学部正門最寄）', lat: 35.7202, lng: 139.7555 },
+      { name: '本駒込駅（東京メトロ南北線・本駒込2丁目・六義園/吉祥寺最寄・本郷台北部）', lat: 35.7272, lng: 139.7548 },
+      // 東京メトロ千代田線（不忍通り沿い・根津谷）
+      { name: '根津駅（東京メトロ千代田線・根津1丁目・根津神社/不忍通り・本郷台と上野台の谷）', lat: 35.7202, lng: 139.7665 },
+      { name: '千駄木駅（東京メトロ千代田線・千駄木2丁目・谷中銀座/須藤公園・千駄木の丘）', lat: 35.7280, lng: 139.7642 },
+      // 東京メトロ有楽町線（江戸川橋・神田川沿い）
+      { name: '江戸川橋駅（東京メトロ有楽町線・関口1丁目・神田川/江戸川公園/椿山荘最寄・関口の谷）', lat: 35.7095, lng: 139.7395 },
+      { name: '護国寺駅（東京メトロ有楽町線・大塚5丁目・護国寺/講談社/お茶の水女子大近接・小石川台北端）', lat: 35.7195, lng: 139.7268 },
+      // 都営大江戸線（春日と上野御徒町を結ぶ）
+      { name: '湯島駅（東京メトロ千代田線・湯島3丁目・湯島天神/旧岩崎邸庭園最寄・本郷台南端）', lat: 35.7075, lng: 139.7705 },
+      // ※近隣（区外接続駅・隣接区との結節点）
+      { name: '御茶ノ水駅 ※近隣（JR中央・総武線／東京メトロ丸ノ内線・※千代田区側・本郷三丁目駅から南・神田川対岸）', lat: 35.6997, lng: 139.7637 },
+      { name: '神保町駅 ※近隣（都営三田線／半蔵門線／新宿線・※千代田区側・春日駅から南・古書店街）', lat: 35.6960, lng: 139.7572 },
+      { name: '駒込駅 ※近隣（JR山手線／東京メトロ南北線・※豊島区／北区側・六義園/旧古河庭園・千石駅から北）', lat: 35.7367, lng: 139.7468 },
+      { name: '大塚駅 ※近隣（JR山手線／都電荒川線・※豊島区側・護国寺駅から北西・大塚先儒墓所近）', lat: 35.7314, lng: 139.7287 },
+      { name: '巣鴨駅 ※近隣（JR山手線／都営三田線・※豊島区側・千石駅から北・とげぬき地蔵）', lat: 35.7333, lng: 139.7393 },
+      { name: '上野駅 ※近隣（JR各線／東京メトロ・※台東区側・湯島駅から東・不忍池/上野公園）', lat: 35.7138, lng: 139.7773 },
+      // バスターミナル・駅前広場
+      { name: '後楽園駅 バスターミナル（春日1丁目・文京シビックセンター前・都営バス拠点）', lat: 35.7073, lng: 139.7525 },
+      { name: '本郷三丁目駅 バスターミナル（本郷2丁目・東京大学正門方面）', lat: 35.7082, lng: 139.7620 },
+      { name: '茗荷谷駅 バスターミナル（小日向4丁目・拓殖大学/お茶の水女子大方面）', lat: 35.7163, lng: 139.7392 }
+    ]
+  },
+  park: {
+    label: '公園',
+    icon: 'fa-tree',
+    cssClass: 'poi-park',
+    items: [
+      // 江戸の二大大名庭園（特別史跡・特別名勝）— 文京区の最大の象徴
+      { name: '小石川後楽園（後楽1丁目・特別史跡・特別名勝・水戸徳川家中屋敷の回遊式庭園・約7ha）', lat: 35.7058, lng: 139.7493 },
+      { name: '六義園（本駒込6丁目・特別名勝・柳沢吉保が築園した回遊式築山泉水庭園・しだれ桜/紅葉）', lat: 35.7325, lng: 139.7460 },
+      // 国立庭園・植物園
+      { name: '小石川植物園（白山3丁目・東京大学大学院理学系研究科附属・国指定名勝/史跡・約16ha・本郷台西斜面）', lat: 35.7212, lng: 139.7445 },
+      { name: '小石川植物園 日本庭園（白山3丁目・旧東京医学校本館・明治の和洋折衷建築）', lat: 35.7220, lng: 139.7458 },
+      // 教育の森・お茶の水女子大近接
+      { name: '教育の森公園（大塚3丁目・茗荷谷駅近・旧東京教育大学跡地・約4ha・小石川台）', lat: 35.7195, lng: 139.7355 },
+      { name: '占春園（大塚3丁目・教育の森公園内・徳川光圀の弟・松平頼元の屋敷跡庭園）', lat: 35.7202, lng: 139.7368 },
+      { name: '窪町東公園（大塚2丁目・茗荷谷駅東・小石川台の住宅地公園）', lat: 35.7180, lng: 139.7345 },
+      // 神田川沿い（関口の谷・椿山荘エリア）
+      { name: '江戸川公園（関口2丁目・神田川沿い・約1.2km・桜並木・関口の谷）', lat: 35.7110, lng: 139.7340 },
+      { name: '新江戸川公園（関口2丁目・現「肥後細川庭園」・回遊式庭園・神田川沿い・約1ha）', lat: 35.7120, lng: 139.7298 },
+      { name: '永青文庫前 緑地（目白台1丁目・椿山荘隣・細川家所蔵美術館・台地縁）', lat: 35.7155, lng: 139.7305 },
+      { name: '神田川緑道（関口〜江戸川橋〜後楽園・神田川沿い水辺軸）', lat: 35.7100, lng: 139.7410 },
+      // 千川（暗渠）緑道・本郷台西斜面
+      { name: '千川通り緑道（千石〜大塚・千川暗渠上の遊歩道・約2km）', lat: 35.7290, lng: 139.7395 },
+      { name: '播磨坂さくら並木（小石川4丁目・約500m・約120本のソメイヨシノ・小石川台）', lat: 35.7178, lng: 139.7475 },
+      // 区立スポーツ施設・運動公園
+      { name: '文京スポーツセンター（本郷7丁目・東大正門近・温水プール/体育館）', lat: 35.7158, lng: 139.7615 },
+      { name: '文京総合体育館（本郷7丁目）', lat: 35.7160, lng: 139.7620 },
+      { name: '小石川運動場（後楽1丁目・東京ドーム隣・野球場/陸上競技場）', lat: 35.7048, lng: 139.7515 },
+      { name: '本郷給水所公苑（本郷2丁目・東京都水道局・洋風庭園/和風庭園・隠れた名所）', lat: 35.7050, lng: 139.7620 },
+      // 千駄木・根津・本駒込エリア（谷中ぎわ）
+      { name: '須藤公園（千駄木3丁目・大名屋敷跡・池/滝/弁天堂・約0.5ha・千駄木の崖下）', lat: 35.7275, lng: 139.7625 },
+      { name: '駒込大観音 光源寺前広場（向丘2丁目・本郷台）', lat: 35.7222, lng: 139.7588 },
+      { name: '駒込富士神社 富士塚（本駒込5丁目・江戸最古級の富士塚・本郷台北）', lat: 35.7298, lng: 139.7505 },
+      { name: '本駒込南公園（本駒込4丁目）', lat: 35.7282, lng: 139.7488 },
+      { name: '吉祥寺 経蔵前広場（本駒込3丁目・曹洞宗の大寺・八百屋お七の墓）', lat: 35.7295, lng: 139.7525 },
+      // 湯島・本郷台南端
+      { name: '湯島聖堂 杏壇前広場（湯島1丁目・※近隣千代田区側に接続・神田明神隣）', lat: 35.7012, lng: 139.7678 },
+      { name: '旧岩崎邸庭園（湯島4丁目※台東区側に近接・国重要文化財・ジョサイア・コンドル設計・約1.7ha）', lat: 35.7090, lng: 139.7702 },
+      { name: '湯島天神 梅園（湯島3丁目・湯島天満宮境内・梅まつり・約300本）', lat: 35.7076, lng: 139.7677 },
+      // 護国寺・大塚エリア
+      { name: '護国寺 境内（大塚5丁目・真言宗豊山派大本山・徳川綱吉建立・約6ha・小石川台北端）', lat: 35.7202, lng: 139.7270 },
+      { name: '大塚先儒墓所（大塚5丁目・国史跡・新井白石/室鳩巣ら儒学者の墓所）', lat: 35.7265, lng: 139.7268 },
+      // 白山・千石エリア
+      { name: '白山公園（白山5丁目・白山神社隣・あじさいまつり）', lat: 35.7256, lng: 139.7522 },
+      { name: '千石緑地（千石3丁目・千川通り沿い）', lat: 35.7308, lng: 139.7425 },
+      // 本郷・東京大学
+      { name: '東京大学 本郷キャンパス 三四郎池（本郷7丁目・正式名「育徳園心字池」・夏目漱石ゆかり）', lat: 35.7138, lng: 139.7625 },
+      { name: '東京大学 安田講堂前広場（本郷7丁目・大学のシンボル・登録有形文化財）', lat: 35.7128, lng: 139.7620 },
+      { name: '東京大学 弥生キャンパス 緑地（弥生1丁目・農学部・本郷台北）', lat: 35.7185, lng: 139.7595 },
+      // 東京ドームシティ（後楽）
+      { name: '東京ドームシティ 中央広場（後楽1丁目・遊園地ラクーア/野球殿堂博物館・神田川の谷）', lat: 35.7058, lng: 139.7520 },
+      { name: '小石川後楽園 後楽橋広場（後楽1丁目・神田川沿い）', lat: 35.7068, lng: 139.7508 },
+      // 神田川・水辺
+      { name: '神田川 江戸川橋 親水テラス（関口1丁目・江戸川橋駅近・桜並木）', lat: 35.7090, lng: 139.7388 },
+      { name: '神田川 大滝橋 緑道（水道1丁目・神田川沿い）', lat: 35.7088, lng: 139.7445 },
+      // 文豪・歴史散策スポット
+      { name: '一葉樋口邸跡 文学記念公園（本郷4丁目・本郷菊坂・「たけくらべ」執筆地近く）', lat: 35.7108, lng: 139.7565 },
+      { name: '夏目漱石旧居跡（向丘2丁目・「吾輩は猫である」執筆地・本郷台北）', lat: 35.7220, lng: 139.7585 },
+      { name: '森鷗外記念館前 観潮楼跡（千駄木1丁目・「青年」「雁」執筆地・千駄木の高台）', lat: 35.7245, lng: 139.7635 },
+      { name: '宮沢賢治旧居跡（本郷6丁目・東大近）', lat: 35.7138, lng: 139.7585 },
+      // 区民広場・地域公園
+      { name: '文京シビックセンター前 広場（春日1丁目・区役所前・神田川の谷）', lat: 35.7068, lng: 139.7535 },
+      { name: '春日の杜公園（春日2丁目）', lat: 35.7090, lng: 139.7468 },
+      { name: '茗荷谷 ふれあい公園（小日向4丁目）', lat: 35.7155, lng: 139.7395 },
+      { name: '柳町公園（小石川1丁目・小石川台南）', lat: 35.7062, lng: 139.7530 },
+      { name: '小石川4丁目公園（小石川4丁目・播磨坂並木隣）', lat: 35.7175, lng: 139.7468 }
+    ]
+  },
+  temple: {
+    label: '寺社仏閣',
+    icon: 'fa-torii-gate',
+    cssClass: 'poi-temple',
+    items: [
+      // 文京区の三大鎮守・学問の神（湯島天神・根津神社・白山神社）
+      { name: '湯島天満宮 湯島天神（湯島3丁目・学問の神・菅原道真・梅まつり・本郷台南端の崖上）', lat: 35.7076, lng: 139.7677 },
+      { name: '根津神社（根津1丁目・1900年代の社殿/楼門/唐門が国重要文化財・つつじ苑3000株・本郷台と上野台の谷）', lat: 35.7202, lng: 139.7615 },
+      { name: '根津神社 千本鳥居（根津1丁目・乙女稲荷神社・赤鳥居の参道）', lat: 35.7205, lng: 139.7618 },
+      { name: '白山神社（白山5丁目・小石川総鎮守・あじさいまつり約3000株・本郷台北西）', lat: 35.7256, lng: 139.7522 },
+      // 護国寺（真言宗豊山派大本山・徳川綱吉建立・小石川台北端）
+      { name: '護国寺（大塚5丁目・真言宗豊山派大本山・1681年徳川綱吉建立・本堂は国重要文化財・約6ha）', lat: 35.7202, lng: 139.7270 },
+      { name: '護国寺 仁王門（大塚5丁目・1697年建立・国重要文化財）', lat: 35.7195, lng: 139.7268 },
+      // 浄土宗・伝通院（小石川台・徳川家ゆかり）
+      { name: '伝通院（小石川3丁目・浄土宗・徳川家康の母「於大の方」菩提寺・小石川台・約2ha）', lat: 35.7178, lng: 139.7510 },
+      { name: '伝通院 山門（小石川3丁目・徳川家ゆかりの古刹）', lat: 35.7175, lng: 139.7508 },
+      { name: '善光寺坂のムクノキ（小石川3丁目・伝通院近・区天然記念物・樹齢400年）', lat: 35.7185, lng: 139.7515 },
+      // 本郷台南端の寺院群
+      { name: '麟祥院（湯島4丁目・徳川家光乳母「春日局」菩提寺・臨済宗・本郷台南）', lat: 35.7102, lng: 139.7670 },
+      { name: '霊雲寺（湯島2丁目・真言宗霊雲寺派総本山・5代将軍綱吉建立）', lat: 35.7100, lng: 139.7642 },
+      { name: '心城院（湯島3丁目・天台宗・湯島天神の別当寺・柳の井戸）', lat: 35.7078, lng: 139.7670 },
+      // 源覚寺（こんにゃくえんま）・小石川エリア
+      { name: '源覚寺 こんにゃくえんま（小石川2丁目・浄土宗・眼病平癒・小石川台南）', lat: 35.7088, lng: 139.7500 },
+      { name: '小石川大神宮（小石川2丁目・天照大神・小石川の総氏神）', lat: 35.7095, lng: 139.7515 },
+      { name: '極楽水（小石川4丁目・伝通院近・「江戸名所図会」の名水）', lat: 35.7170, lng: 139.7502 },
+      // 千駄木・向丘・本駒込エリア（本郷台北部）
+      { name: '吉祥寺（本駒込3丁目・曹洞宗・栴檀林（駒澤大学発祥）・八百屋お七の墓・約3ha）', lat: 35.7295, lng: 139.7525 },
+      { name: '駒込富士神社（本駒込5丁目・江戸最古級の富士塚・富士信仰の本郷台北）', lat: 35.7298, lng: 139.7505 },
+      { name: '光源寺 駒込大観音（向丘2丁目・浄土宗・江戸三十三観音・本郷台）', lat: 35.7222, lng: 139.7588 },
+      { name: '養源寺（千駄木1丁目・浄土宗・千駄木の高台）', lat: 35.7258, lng: 139.7625 },
+      { name: '須藤神社（千駄木3丁目・須藤公園内・千駄木の谷）', lat: 35.7275, lng: 139.7625 },
+      { name: '駒込天祖神社（本駒込3丁目・本郷台北の鎮守）', lat: 35.7305, lng: 139.7558 },
+      // 大塚・関口エリア（小石川台北・神田川沿い）
+      { name: '大塚先儒墓所（大塚5丁目・国指定史跡・新井白石/室鳩巣ら儒学者の墓）', lat: 35.7265, lng: 139.7268 },
+      { name: '簸川神社（千石2丁目・小石川氷川神社・小石川の旧鎮守・本郷台西斜面）', lat: 35.7295, lng: 139.7455 },
+      { name: '蓮華寺（白山2丁目・日蓮宗・本郷台）', lat: 35.7242, lng: 139.7530 },
+      { name: '関口芭蕉庵（関口2丁目・松尾芭蕉の旧居跡・神田川沿い・約400坪）', lat: 35.7140, lng: 139.7295 },
+      { name: '関口教会 東京カテドラル聖マリア大聖堂（関口3丁目・丹下健三設計・1964年）', lat: 35.7185, lng: 139.7310 },
+      // 小石川・後楽エリア
+      { name: '牛天神 北野神社（春日1丁目・後楽園駅近・源頼朝ゆかり・受験合格）', lat: 35.7098, lng: 139.7488 },
+      { name: '富坂源覚寺前 諏訪神社（小石川3丁目・富坂の鎮守）', lat: 35.7115, lng: 139.7510 },
+      { name: '林泉寺 しばられ地蔵（小日向1丁目・縛り地蔵尊・盗難除け）', lat: 35.7128, lng: 139.7430 },
+      // 本郷エリア
+      { name: '高崎神社 東大本郷の鎮守（本郷7丁目・東京大学正門近）', lat: 35.7138, lng: 139.7610 },
+      { name: '本郷三組町 三組神社（本郷3丁目・本郷台中央）', lat: 35.7065, lng: 139.7635 },
+      { name: '櫻木神社（本郷4丁目・「桜の宮」・菅原道真・本郷台中央）', lat: 35.7095, lng: 139.7605 },
+      // ※近隣（区外の象徴的な寺社・文京区との結節点）
+      { name: '神田明神 ※近隣（千代田区外神田2丁目・※湯島駅から南・江戸総鎮守・湯島聖堂隣）', lat: 35.7020, lng: 139.7680 },
+      { name: '湯島聖堂 ※近隣（千代田区湯島1丁目・※区南境直前・孔子廟・昌平坂学問所跡）', lat: 35.7012, lng: 139.7680 },
+      { name: '上野東照宮 ※近隣（台東区上野公園・※湯島駅から東・徳川家康公）', lat: 35.7155, lng: 139.7747 },
+      { name: '寛永寺 ※近隣（台東区上野桜木1丁目・※千駄木の崖上から東・天台宗関東総本山）', lat: 35.7232, lng: 139.7728 }
+    ]
+  },
+  evac_shelter: {
+    label: '指定避難所',
+    icon: 'fa-house-chimney-medical',
+    cssClass: 'poi-evac_shelter',
+    items: [
+      // 文京区立小学校（主要な指定避難所）— 本郷・湯島エリア
+      { name: '文京区立 誠之小学校（西片1丁目・本郷台・「文京4S小学校」の一つ）', lat: 35.7172, lng: 139.7568 },
+      { name: '文京区立 本郷小学校（本郷4丁目・本郷台中央）', lat: 35.7095, lng: 139.7585 },
+      { name: '文京区立 湯島小学校（湯島2丁目・湯島天神近）', lat: 35.7088, lng: 139.7655 },
+      { name: '文京区立 駒本小学校（向丘2丁目・本郷台北）', lat: 35.7228, lng: 139.7595 },
+      { name: '文京区立 昭和小学校（本駒込2丁目・本郷台北）', lat: 35.7278, lng: 139.7548 },
+      // 小石川・茗荷谷エリア
+      { name: '文京区立 礫川小学校（小石川1丁目・春日駅近・小石川台南）', lat: 35.7090, lng: 139.7515 },
+      { name: '文京区立 柳町小学校（小石川4丁目・小石川台中央）', lat: 35.7178, lng: 139.7485 },
+      { name: '文京区立 大塚小学校（大塚6丁目・小石川台北）', lat: 35.7228, lng: 139.7295 },
+      { name: '文京区立 窪町小学校（大塚2丁目・茗荷谷駅近・「文京4S小学校」の一つ）', lat: 35.7170, lng: 139.7355 },
+      { name: '文京区立 林町小学校（千石1丁目・小石川台北東）', lat: 35.7300, lng: 139.7485 },
+      { name: '文京区立 駕籠町小学校（千石3丁目・小石川台北）', lat: 35.7315, lng: 139.7410 },
+      // 千駄木・根津・本駒込エリア（本郷台北部）
+      { name: '文京区立 駒込小学校（本駒込3丁目・「文京4S小学校」の一つ・本郷台北）', lat: 35.7295, lng: 139.7540 },
+      { name: '文京区立 千駄木小学校（千駄木5丁目・「文京4S小学校」の一つ・千駄木の丘）', lat: 35.7290, lng: 139.7615 },
+      { name: '文京区立 汐見小学校（千駄木4丁目・千駄木の谷）', lat: 35.7268, lng: 139.7640 },
+      { name: '文京区立 根津小学校（根津2丁目・根津神社近・本郷台と上野台の谷）', lat: 35.7185, lng: 139.7635 },
+      // 白山・関口・目白台エリア
+      { name: '文京区立 明化小学校（白山1丁目・白山駅近・本郷台北西）', lat: 35.7268, lng: 139.7505 },
+      { name: '文京区立 関口台町小学校（関口3丁目・東京カテドラル隣・関口の崖上）', lat: 35.7178, lng: 139.7325 },
+      { name: '文京区立 金富小学校（春日2丁目・春日通り・小石川台南東）', lat: 35.7115, lng: 139.7475 },
+      { name: '文京区立 青柳小学校（小日向2丁目・茗荷谷駅近・小石川台）', lat: 35.7148, lng: 139.7395 },
+      // 文京区立中学校（主要避難所）
+      { name: '文京区立 第一中学校（本郷1丁目・本郷台南）', lat: 35.7035, lng: 139.7565 },
+      { name: '文京区立 第三中学校（本駒込3丁目・本郷台北）', lat: 35.7292, lng: 139.7548 },
+      { name: '文京区立 第六中学校（白山1丁目・白山駅近）', lat: 35.7252, lng: 139.7515 },
+      { name: '文京区立 第八中学校（音羽2丁目・護国寺近・関口の谷）', lat: 35.7158, lng: 139.7252 },
+      { name: '文京区立 第九中学校（千駄木5丁目・本郷台北）', lat: 35.7298, lng: 139.7610 },
+      { name: '文京区立 第十中学校（千石3丁目・小石川台北東）', lat: 35.7310, lng: 139.7438 },
+      { name: '文京区立 茗台中学校（春日2丁目・小石川台南）', lat: 35.7108, lng: 139.7448 },
+      { name: '文京区立 音羽中学校（音羽1丁目・護国寺近）', lat: 35.7148, lng: 139.7268 },
+      // 都立高校・特別支援学校
+      { name: '都立 竹早高等学校（小石川4丁目・小石川台中央）', lat: 35.7195, lng: 139.7488 },
+      { name: '都立 小石川中等教育学校（本駒込2丁目・本郷台北）', lat: 35.7268, lng: 139.7530 },
+      { name: '都立 向丘高等学校（向丘1丁目・本郷台）', lat: 35.7212, lng: 139.7572 },
+      { name: '都立 文京高等学校（本駒込2丁目・本郷台北）', lat: 35.7278, lng: 139.7505 },
+      { name: '都立 工芸高等学校（本郷1丁目・本郷台南）', lat: 35.7042, lng: 139.7585 },
+      // 大学（避難所協定校・主要キャンパス）
+      { name: '東京大学 本郷キャンパス（本郷7丁目・約56ha・本郷台の象徴・指定避難所）', lat: 35.7128, lng: 139.7625 },
+      { name: '東京大学 弥生キャンパス（弥生1丁目・農学部・本郷台北）', lat: 35.7185, lng: 139.7595 },
+      { name: 'お茶の水女子大学（大塚2丁目・茗荷谷駅近・小石川台）', lat: 35.7185, lng: 139.7340 },
+      { name: '東京医科歯科大学（湯島1丁目・湯島駅近・本郷台南）', lat: 35.7020, lng: 139.7635 },
+      { name: '順天堂大学（本郷3丁目・本郷台南・順天堂医院併設）', lat: 35.7040, lng: 139.7625 },
+      { name: '日本医科大学（千駄木1丁目・千駄木の崖・付属病院併設）', lat: 35.7245, lng: 139.7650 },
+      { name: '東洋大学 白山キャンパス（白山5丁目・白山駅近）', lat: 35.7258, lng: 139.7505 },
+      { name: '拓殖大学 文京キャンパス（小日向3丁目・茗荷谷駅近）', lat: 35.7152, lng: 139.7378 },
+      { name: '中央大学 茗荷谷キャンパス（春日1丁目・茗荷谷・後楽園駅近）', lat: 35.7095, lng: 139.7445 },
+      { name: '日本女子大学（目白台2丁目・※豊島区目白駅近・関口の崖上）', lat: 35.7180, lng: 139.7252 },
+      { name: '跡見学園女子大学 文京キャンパス（大塚1丁目・茗荷谷駅近）', lat: 35.7195, lng: 139.7368 }
+    ]
+  },
+  evac_emergency: {
+    label: '指定緊急避難場所',
+    icon: 'fa-person-running',
+    cssClass: 'poi-evac_emergency',
+    items: [
+      // 大地震・大規模火災時に緊急で命を守る場所（公園・広場・大学キャンパス）
+      // 江戸の二大大名庭園（広大な緊急避難軸）
+      { name: '小石川後楽園 一帯（後楽1丁目・特別史跡・約7ha・神田川の谷）', lat: 35.7058, lng: 139.7493 },
+      { name: '六義園 一帯（本駒込6丁目・特別名勝・約9ha・本郷台北）', lat: 35.7325, lng: 139.7460 },
+      // 大学キャンパス（区内最大級の緊急避難軸）
+      { name: '東京大学 本郷キャンパス 一帯（本郷7丁目・約56ha・本郷台・区内最大の緊急避難場所）', lat: 35.7128, lng: 139.7625 },
+      { name: '東京大学 弥生キャンパス（弥生1丁目・農学部・本郷台北）', lat: 35.7185, lng: 139.7595 },
+      { name: 'お茶の水女子大学 キャンパス（大塚2丁目・小石川台）', lat: 35.7185, lng: 139.7340 },
+      // 国立庭園・植物園（区内最大級の緑地）
+      { name: '小石川植物園 一帯（白山3丁目・東京大学附属・約16ha・本郷台西斜面）', lat: 35.7212, lng: 139.7445 },
+      // 教育の森・大塚エリア
+      { name: '教育の森公園・占春園 一帯（大塚3丁目・約5ha・小石川台）', lat: 35.7195, lng: 139.7360 },
+      { name: '護国寺 境内 一帯（大塚5丁目・約6ha・小石川台北端）', lat: 35.7202, lng: 139.7270 },
+      // スポーツ・ドーム施設
+      { name: '東京ドームシティ 一帯（後楽1丁目・ラクーア/野球場周辺・神田川の谷）', lat: 35.7058, lng: 139.7520 },
+      { name: '小石川運動場（後楽1丁目・東京ドーム隣）', lat: 35.7048, lng: 139.7515 },
+      { name: '文京スポーツセンター 一帯（本郷7丁目・東大近）', lat: 35.7158, lng: 139.7615 },
+      // 神田川沿いの公園群
+      { name: '江戸川公園 一帯（関口2丁目・神田川沿い・約1.2km・関口の谷）', lat: 35.7110, lng: 139.7340 },
+      { name: '新江戸川公園 肥後細川庭園（関口2丁目・神田川沿い）', lat: 35.7120, lng: 139.7298 },
+      // 千駄木・本駒込エリア（本郷台北）
+      { name: '須藤公園（千駄木3丁目・千駄木の崖下）', lat: 35.7275, lng: 139.7625 },
+      { name: '吉祥寺 境内 一帯（本駒込3丁目・曹洞宗大寺・約3ha）', lat: 35.7295, lng: 139.7525 },
+      // 白山・千石エリア
+      { name: '白山神社・白山公園 一帯（白山5丁目・本郷台北西）', lat: 35.7256, lng: 139.7522 },
+      { name: '播磨坂さくら並木（小石川4丁目・約500m・小石川台）', lat: 35.7178, lng: 139.7475 },
+      // 文京シビック前広場・後楽園駅前
+      { name: '文京シビックセンター前 広場（春日1丁目・区役所前・後楽園駅前）', lat: 35.7068, lng: 139.7535 },
+      // 湯島・本郷南端
+      { name: '湯島天神 境内 一帯（湯島3丁目・梅園・本郷台南端の崖上）', lat: 35.7076, lng: 139.7677 },
+      { name: '根津神社 境内 一帯（根津1丁目・つつじ苑・本郷台と上野台の谷）', lat: 35.7202, lng: 139.7615 }
+    ]
+  },
+  evac_wide: {
+    label: '広域避難場所',
+    icon: 'fa-arrows-to-circle',
+    cssClass: 'poi-evac_wide',
+    items: [
+      // 大規模火災時に一時的に避難する広い場所（大学キャンパス・大公園・庭園）
+      { name: '東京大学 本郷キャンパス 一帯（本郷7丁目・約56ha・文京区最大の広域避難場所）', lat: 35.7128, lng: 139.7625 },
+      { name: '小石川植物園 一帯（白山3丁目・約16ha・本郷台西斜面）', lat: 35.7212, lng: 139.7445 },
+      { name: '六義園・本駒込周辺 一帯（本駒込6丁目・特別名勝・約9ha・本郷台北）', lat: 35.7325, lng: 139.7460 },
+      { name: '小石川後楽園・東京ドーム一帯（後楽1丁目・特別史跡＋ドームシティ・神田川の谷）', lat: 35.7058, lng: 139.7510 },
+      { name: '教育の森公園・お茶の水女子大 一帯（大塚2〜3丁目・小石川台・約10ha）', lat: 35.7190, lng: 139.7350 },
+      { name: '護国寺 境内一帯（大塚5丁目・約6ha・小石川台北端）', lat: 35.7202, lng: 139.7270 },
+      { name: '江戸川公園・椿山荘・新江戸川公園 一帯（関口2〜3丁目・神田川沿い・関口の谷）', lat: 35.7115, lng: 139.7310 },
+      { name: '東京大学 弥生キャンパス・浅嘉町緑地 一帯（弥生1丁目・本郷台北）', lat: 35.7185, lng: 139.7595 },
+      { name: '吉祥寺・駒込富士神社 一帯（本駒込3〜5丁目・本郷台北）', lat: 35.7298, lng: 139.7515 },
+      { name: '根津神社・東大農学部 一帯（根津1丁目〜弥生1丁目・本郷台と上野台の谷）', lat: 35.7205, lng: 139.7610 }
+    ]
+  },
+  evac_welfare: {
+    label: '福祉避難所',
+    icon: 'fa-hand-holding-heart',
+    cssClass: 'poi-evac_welfare',
+    items: [
+      // 要配慮者（高齢者・障がい者等）向けの避難所
+      // 区関連施設・保健所
+      { name: '文京保健所（春日1丁目・文京シビックセンター内・本所）', lat: 35.7068, lng: 139.7535 },
+      { name: '文京区 本郷支所（本郷4丁目・本郷台中央）', lat: 35.7110, lng: 139.7588 },
+      { name: '文京区 富坂福祉センター（小石川2丁目・小石川台南）', lat: 35.7100, lng: 139.7488 },
+      { name: '文京区立 障害者会館（小日向2丁目・茗荷谷駅近）', lat: 35.7155, lng: 139.7395 },
+      { name: '文京区立 久堅福祉センター（小石川5丁目・小石川台中央）', lat: 35.7188, lng: 139.7508 },
+      { name: '文京区立 不忍通りふれあい館（根津2丁目・根津神社近・谷地）', lat: 35.7195, lng: 139.7660 },
+      { name: '文京区立 アカデミー湯島（湯島2丁目・湯島天神近）', lat: 35.7095, lng: 139.7665 },
+      { name: '文京区立 アカデミー音羽（音羽1丁目・護国寺近）', lat: 35.7150, lng: 139.7268 },
+      // 特別養護老人ホーム
+      { name: '特別養護老人ホーム 文京千駄木の郷（千駄木3丁目・千駄木の崖下）', lat: 35.7282, lng: 139.7632 },
+      { name: '特別養護老人ホーム くすのきの郷（大塚6丁目・小石川台北）', lat: 35.7232, lng: 139.7305 },
+      { name: '特別養護老人ホーム 白山ホーム（白山4丁目・本郷台北西）', lat: 35.7235, lng: 139.7505 },
+      { name: '特別養護老人ホーム 本郷の森（本郷5丁目・本郷台中央）', lat: 35.7125, lng: 139.7595 },
+      { name: '特別養護老人ホーム エスペランサ本郷（本郷4丁目）', lat: 35.7102, lng: 139.7575 },
+      { name: '特別養護老人ホーム 同朋苑（小石川4丁目・小石川台）', lat: 35.7182, lng: 139.7468 },
+      // 病院（地域中核・救急医療）— 文京区は「医療の街」
+      { name: '東京大学医学部附属病院（本郷7丁目・特定機能病院・救急・本郷台の象徴）', lat: 35.7152, lng: 139.7635 },
+      { name: '順天堂大学医学部附属 順天堂医院（本郷3丁目・特定機能病院・救急・本郷台南）', lat: 35.7042, lng: 139.7635 },
+      { name: '東京医科歯科大学医学部附属病院（湯島1丁目・特定機能病院・救急・本郷台南端）', lat: 35.7018, lng: 139.7645 },
+      { name: '日本医科大学付属病院（千駄木1丁目・特定機能病院・救急・千駄木の崖）', lat: 35.7250, lng: 139.7655 },
+      { name: '東京都立駒込病院（本駒込3-18-22・がん/感染症医療拠点・救急・本郷台北）', lat: 35.7282, lng: 139.7548 },
+      { name: '東京都健康長寿医療センター ※近隣（旧老人医療センター・※板橋区栄町・大塚から北西）', lat: 35.7390, lng: 139.7320 },
+      { name: '東京逓信病院（弁天町1-19-1・関口の谷・地域医療）', lat: 35.7152, lng: 139.7350 },
+      { name: '三井記念病院 ※近隣（千代田区神田和泉町1丁目・※湯島駅から南東・救急協定）', lat: 35.6975, lng: 139.7745 },
+      { name: '日本大学医学部附属板橋病院 ※近隣（板橋区大谷口上町30-1・※護国寺/大塚から北西・救急）', lat: 35.7345, lng: 139.7115 },
+      { name: '文京区医師会 在宅医療連携拠点（湯島3-18-12・文京区医師会ビル）', lat: 35.7065, lng: 139.7670 }
+    ]
+  }
+};
+
+// POIマーカー管理
+const poiMarkerGroups = {}; // { category: [marker, marker, ...] }
+
+function buildPOIMarkers(category) {
+  const cfg = POI_DATA[category];
+  const markers = cfg.items.map(item => {
+    const icon = L.divIcon({
+      html: `<div class="poi-marker ${cfg.cssClass}" title="${item.name}"><i class="fa-solid ${cfg.icon}"></i></div>`,
+      className: '',
+      iconSize: [28, 28],
+      iconAnchor: [14, 28],
+      popupAnchor: [0, -26]
+    });
+    const marker = L.marker([item.lat, item.lng], { icon });
+    marker.bindPopup(`
+      <div class="poi-popup">
+        <div class="poi-popup-title">${item.name}</div>
+        <div class="poi-popup-cat">${cfg.label}</div>
+      </div>
+    `);
+    return marker;
+  });
+  return markers;
+}
+
+// 全カテゴリのマーカーを事前構築
+Object.keys(POI_DATA).forEach(key => {
+  poiMarkerGroups[key] = buildPOIMarkers(key);
+});
+
+function setPOIVisibility(category, visible) {
+  const markers = poiMarkerGroups[category];
+  if (!markers) return;
+  if (visible) {
+    markers.forEach(m => m.addTo(map2d));
+  } else {
+    markers.forEach(m => map2d.removeLayer(m));
+  }
+}
+
+// 初期表示：大田区役所のみON
+setPOIVisibility('cityhall', true);
+
+// カテゴリ切替イベント
+document.querySelectorAll('input[data-poi]').forEach(chk => {
+  chk.addEventListener('change', (e) => {
+    setPOIVisibility(e.target.dataset.poi, e.target.checked);
+  });
+});
+
+// =======================
+// 標高取得 (国土地理院 標高API)
+// =======================
+async function getElevation(lat, lng) {
+  try {
+    const url = `https://cyberjapandata2.gsi.go.jp/general/dem/scripts/getelevation.php?lon=${lng}&lat=${lat}&outtype=JSON`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    return typeof data.elevation === 'number' ? data.elevation : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// =======================
+// マウス位置の標高表示
+// =======================
+const elevValueEl = document.getElementById('elevValue');
+const coordValueEl = document.getElementById('coordValue');
+let elevDebounce = null;
+
+function updateInfoBox(lat, lng) {
+  coordValueEl.textContent = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  if (elevDebounce) clearTimeout(elevDebounce);
+  elevDebounce = setTimeout(async () => {
+    const elev = await getElevation(lat, lng);
+    elevValueEl.textContent = elev !== null ? `${elev.toFixed(1)} m` : '-- m';
+  }, 250);
+}
+
+// PC: マウス移動で更新
+map2d.on('mousemove', (e) => {
+  if (isMobileDevice()) return;
+  updateInfoBox(e.latlng.lat, e.latlng.lng);
+});
+// スマホ: 地図の中心座標を常に追跡
+map2d.on('move', () => {
+  if (!isMobileDevice()) return;
+  const c = map2d.getCenter();
+  updateInfoBox(c.lat, c.lng);
+});
+// モバイル判定関数（JS側）
+function isMobileDevice() {
+  return window.innerWidth <= 768;
+}
+
+// =======================
+// 不透明度スライダー
+// =======================
+const elevOpacity = document.getElementById('elevOpacity');
+const elevOpacityVal = document.getElementById('elevOpacityVal');
+elevOpacity.addEventListener('input', (e) => {
+  const v = parseInt(e.target.value);
+  elevOpacityVal.textContent = `${v}%`;
+  reliefLayer.setOpacity(v / 100);
+  hillshadeLayer.setOpacity((v / 100) * 0.7);
+});
+
+const hazardOpacity = document.getElementById('hazardOpacity');
+const hazardOpacityVal = document.getElementById('hazardOpacityVal');
+hazardOpacity.addEventListener('input', (e) => {
+  const v = parseInt(e.target.value);
+  hazardOpacityVal.textContent = `${v}%`;
+  Object.values(hazardLayers).forEach(l => l.setOpacity(v / 100));
+  // 3D 側も
+  if (map3d && map3dLoaded) {
+    Object.keys(hazardLayers).forEach(key => {
+      const layerId = `hazard-${key}`;
+      if (map3d.getLayer(layerId)) {
+        map3d.setPaintProperty(layerId, 'raster-opacity', v / 100);
+      }
+    });
+  }
+});
+
+// =======================
+// ハザード切替
+// =======================
+document.querySelectorAll('input[data-hazard]').forEach(chk => {
+  chk.addEventListener('change', (e) => {
+    const key = e.target.dataset.hazard;
+    const on = e.target.checked;
+    // 2D
+    if (on) {
+      hazardLayers[key].addTo(map2d);
+    } else {
+      map2d.removeLayer(hazardLayers[key]);
+    }
+    // 3D
+    if (map3d && map3dLoaded) {
+      toggleHazard3D(key, on);
+    }
+  });
+});
+
+// =======================
+// 断面図機能
+// =======================
+let csPoints = [];
+let csMarkers = [];
+let csLine = null;
+const csStatus = document.getElementById('csStatus');
+const btnDrawCS = document.getElementById('btnDrawCS');
+const btnClearCS = document.getElementById('btnClearCS');
+const csModal = document.getElementById('csModal');
+const csClose = document.getElementById('csClose');
+
+function updateCSStatus() {
+  if (csPoints.length === 0) {
+    csStatus.innerHTML = '<i class="fa-solid fa-hand-pointer"></i> 開始点をクリックしてください';
+    btnDrawCS.disabled = true;
+  } else if (csPoints.length === 1) {
+    csStatus.innerHTML = '<i class="fa-solid fa-hand-pointer"></i> 終了点をクリックしてください';
+    btnDrawCS.disabled = true;
+  } else {
+    const d = distanceMeters(csPoints[0], csPoints[1]);
+    csStatus.innerHTML = `<i class="fa-solid fa-check"></i> 2点指定完了（距離 ${d.toFixed(0)}m）`;
+    btnDrawCS.disabled = false;
+  }
+}
+
+function distanceMeters(a, b) {
+  const R = 6371000;
+  const toRad = d => d * Math.PI / 180;
+  const dLat = toRad(b[0] - a[0]);
+  const dLng = toRad(b[1] - a[1]);
+  const lat1 = toRad(a[0]), lat2 = toRad(b[0]);
+  const x = Math.sin(dLat/2)**2 + Math.sin(dLng/2)**2 * Math.cos(lat1) * Math.cos(lat2);
+  return 2 * R * Math.asin(Math.sqrt(x));
+}
+
+// 2Dマップでの断面図ポイント指定
+function addCSPoint(lat, lng) {
+  if (csPoints.length >= 2) return;
+  const pt = [lat, lng];
+  csPoints.push(pt);
+  const isStart = csPoints.length === 1;
+  const icon = L.divIcon({
+    html: `<div class="cs-point ${isStart ? 'start' : 'end'}">${isStart ? 'A' : 'B'}</div>`,
+    className: '',
+    iconSize: [24, 24],
+    iconAnchor: [12, 12]
+  });
+  const marker = L.marker(pt, { icon }).addTo(map2d);
+  csMarkers.push(marker);
+  if (csPoints.length === 2) {
+    csLine = L.polyline(csPoints, {
+      color: '#283593',
+      weight: 4,
+      opacity: 0.8,
+      dashArray: '8, 8'
+    }).addTo(map2d);
+  }
+  updateCSStatus();
+}
+
+map2d.on('click', (e) => {
+  addCSPoint(e.latlng.lat, e.latlng.lng);
+});
+
+btnClearCS.addEventListener('click', clearCS);
+function clearCS() {
+  csPoints = [];
+  csMarkers.forEach(m => map2d.removeLayer(m));
+  csMarkers = [];
+  if (csLine) { map2d.removeLayer(csLine); csLine = null; }
+  csModal.classList.remove('visible');
+  updateCSStatus();
+}
+csClose.addEventListener('click', () => csModal.classList.remove('visible'));
+
+// 補間して標高を取得
+btnDrawCS.addEventListener('click', async () => {
+  if (csPoints.length !== 2) return;
+  showLoading('断面データを取得中...');
+  const [a, b] = csPoints;
+  const N = 40; // サンプリング数
+  const samples = [];
+  for (let i = 0; i <= N; i++) {
+    const t = i / N;
+    samples.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
+  }
+  // 並列取得
+  const elevs = await Promise.all(samples.map(p => getElevation(p[0], p[1])));
+  const totalDist = distanceMeters(a, b);
+  const labels = elevs.map((_, i) => ((i / N) * totalDist).toFixed(0));
+  const data = elevs.map(v => v === null ? null : v);
+  renderCrossSection(labels, data, totalDist);
+  hideLoading();
+});
+
+let csChart = null;
+function renderCrossSection(labels, data, totalDist) {
+  const ctx = document.getElementById('csChart').getContext('2d');
+  if (csChart) csChart.destroy();
+
+  const valid = data.filter(v => v !== null && !isNaN(v));
+  // 空配列や大量データでもスタックオーバーフローしないようreduceで計算
+  let min = Infinity, max = -Infinity;
+  for (const v of valid) {
+    if (v < min) min = v;
+    if (v > max) max = v;
+  }
+  if (!isFinite(min)) { min = 0; max = 0; }
+  const diff = max - min;
+
+  document.getElementById('csStats').innerHTML = `
+    <span>距離: <strong>${totalDist.toFixed(0)} m</strong></span>
+    <span>最高: <strong>${max.toFixed(1)} m</strong></span>
+    <span>最低: <strong>${min.toFixed(1)} m</strong></span>
+    <span>標高差: <strong>${diff.toFixed(1)} m</strong></span>
+  `;
+
+  csChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: '標高 (m)',
+        data: data,
+        borderColor: '#283593',
+        backgroundColor: (context) => {
+          const chart = context.chart;
+          const { ctx, chartArea } = chart;
+          if (!chartArea) return 'rgba(40,53,147,0.2)';
+          const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+          gradient.addColorStop(0, 'rgba(40,53,147,0.6)');
+          gradient.addColorStop(0.5, 'rgba(198,40,40,0.32)');
+          gradient.addColorStop(1, 'rgba(51,105,30,0.12)');
+          return gradient;
+        },
+        fill: true,
+        tension: 0.3,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        borderWidth: 2.5
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: (items) => `距離 ${items[0].label} m`,
+            label: (item) => `標高: ${item.parsed.y !== null ? item.parsed.y.toFixed(1) + ' m' : 'データなし'}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: '地点 A からの距離 (m)', color: '#6d4c41' },
+          ticks: { color: '#6d4c41', maxTicksLimit: 10 },
+          grid: { color: '#bbdefb' }
+        },
+        y: {
+          title: { display: true, text: '標高 (m)', color: '#6d4c41' },
+          ticks: { color: '#6d4c41' },
+          grid: { color: '#bbdefb' }
+        }
+      }
+    }
+  });
+  csModal.classList.add('visible');
+}
+
+// =======================
+// 3D Map (MapLibre)
+// =======================
+let map3d = null;
+let map3dLoaded = false;
+
+// -----------------------------------------------------------
+// 国土地理院 DEM PNG → MapLibre 互換 (terrain-rgb風) 変換プロトコル
+// 地理院式: h = x * 2^16 + y * 2^8 + z （xが符号付き上位バイト）、単位0.01m
+// 無効値 (0x800000) は 0m とする
+// 変換後は terrain-rgb (mapbox) 形式: height = -10000 + (R*65536 + G*256 + B) * 0.1
+// -----------------------------------------------------------
+maplibregl.addProtocol('gsidem', (params, abortController) => {
+  const url = params.url.replace('gsidem://', 'https://');
+  return fetch(url, { signal: abortController.signal })
+    .then(response => {
+      if (!response.ok) {
+        // 404 などの場合は透明タイルで埋める（範囲外エリア）
+        return { data: new Uint8Array(0) };
+      }
+      return response.blob().then(blob => createImageBitmap(blob)).then(bitmap => {
+        const canvas = document.createElement('canvas');
+        canvas.width = bitmap.width;
+        canvas.height = bitmap.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(bitmap, 0, 0);
+        const imgData = ctx.getImageData(0, 0, bitmap.width, bitmap.height);
+        const px = imgData.data;
+        for (let i = 0; i < px.length; i += 4) {
+          const r = px[i], g = px[i+1], b = px[i+2];
+          let h = 0;
+          // 地理院無効値判定 (R=128, G=0, B=0 → 0x800000)
+          if (!(r === 128 && g === 0 && b === 0)) {
+            let d = r * 65536 + g * 256 + b;
+            if (d >= 0x800000) d -= 0x1000000;
+            h = d * 0.01; // メートル
+          }
+          // terrain-rgb(mapbox) 形式へ再エンコード
+          // height = -10000 + (R*65536 + G*256 + B) * 0.1
+          const v = Math.round((h + 10000) / 0.1);
+          px[i]   = (v >> 16) & 0xff;
+          px[i+1] = (v >> 8)  & 0xff;
+          px[i+2] = v & 0xff;
+          px[i+3] = 255;
+        }
+        ctx.putImageData(imgData, 0, 0);
+        return new Promise(resolve => {
+          canvas.toBlob(blob => {
+            blob.arrayBuffer().then(buf => resolve({ data: buf }));
+          }, 'image/png');
+        });
+      });
+    })
+    .catch(err => {
+      // 範囲外・ネットワークエラーはスローせず空で返す（地形描画は継続）
+      return { data: new Uint8Array(0) };
+    });
+});
+
+// ===== 視点ドラッグ回転機能 =====
+function enableDragLookMode(map) {
+  if (!map || map._dragLookEnabled) return;
+  map._dragLookEnabled = true;
+  const canvas = map.getCanvas();
+  const container = map.getContainer();
+  let lookMode = false;
+  let dragging = false;
+  let lastX = 0, lastY = 0;
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.title = '視点回転モード（ドラッグで360°回転＋ピッチ変更）';
+  btn.setAttribute('aria-label', '視点回転モード切替');
+  btn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i>';
+  btn.style.cssText = 'position:absolute;top:10px;left:10px;z-index:5;width:42px;height:42px;border-radius:50%;border:none;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.2);cursor:pointer;font-size:15px;color:#444;display:flex;align-items:center;justify-content:center;transition:all 0.2s;';
+  container.appendChild(btn);
+
+  const hint = document.createElement('div');
+  hint.textContent = '視点回転モード：ドラッグで視点を動かせます';
+  hint.style.cssText = 'position:absolute;top:60px;left:10px;z-index:5;background:rgba(91,141,239,0.95);color:#fff;padding:6px 12px;border-radius:18px;font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,0.2);display:none;pointer-events:none;white-space:nowrap;';
+  container.appendChild(hint);
+
+  function setMode(on) {
+    lookMode = on;
+    if (on) {
+      btn.style.background = '#5b8def';
+      btn.style.color = '#fff';
+      btn.style.boxShadow = '0 2px 12px rgba(91,141,239,0.5)';
+      hint.style.display = 'block';
+      map.dragPan.disable();
+      canvas.style.cursor = 'grab';
+    } else {
+      btn.style.background = '#fff';
+      btn.style.color = '#444';
+      btn.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
+      hint.style.display = 'none';
+      map.dragPan.enable();
+      canvas.style.cursor = '';
+    }
+  }
+  btn.addEventListener('click', () => setMode(!lookMode));
+
+  canvas.addEventListener('mousedown', (e) => {
+    if (!lookMode || e.button !== 0) return;
+    dragging = true;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    canvas.style.cursor = 'grabbing';
+    e.preventDefault();
+    e.stopPropagation();
+  }, true);
+  window.addEventListener('mousemove', (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - lastX;
+    const dy = e.clientY - lastY;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    map.setBearing(map.getBearing() - dx * 0.5);
+    map.setPitch(Math.max(0, Math.min(85, map.getPitch() - dy * 0.3)));
+  });
+  window.addEventListener('mouseup', () => {
+    if (dragging) { dragging = false; canvas.style.cursor = lookMode ? 'grab' : ''; }
+  });
+
+  let touchActive = false, touchX = 0, touchY = 0;
+  canvas.addEventListener('touchstart', (e) => {
+    if (!lookMode || e.touches.length !== 1) { touchActive = false; return; }
+    touchActive = true;
+    touchX = e.touches[0].clientX;
+    touchY = e.touches[0].clientY;
+  }, { passive: true });
+  canvas.addEventListener('touchmove', (e) => {
+    if (!lookMode || !touchActive || e.touches.length !== 1) return;
+    const dx = e.touches[0].clientX - touchX;
+    const dy = e.touches[0].clientY - touchY;
+    touchX = e.touches[0].clientX;
+    touchY = e.touches[0].clientY;
+    map.setBearing(map.getBearing() - dx * 0.5);
+    map.setPitch(Math.max(0, Math.min(85, map.getPitch() - dy * 0.3)));
+    e.preventDefault();
+  }, { passive: false });
+  canvas.addEventListener('touchend', () => { touchActive = false; }, { passive: true });
+}
+
+function init3D() {
+  if (map3d) return;
+  map3d = new maplibregl.Map({
+    container: 'map3d',
+    style: {
+      version: 8,
+      sources: {
+        'gsi-pale': {
+          type: 'raster',
+          tiles: [GSI_URLS.pale],
+          tileSize: 256,
+          attribution: '© 国土地理院',
+          maxzoom: 18
+        },
+        'gsi-relief': {
+          type: 'raster',
+          tiles: [GSI_URLS.relief],
+          tileSize: 256,
+          maxzoom: 18
+        },
+        'gsi-hillshade': {
+          type: 'raster',
+          tiles: [GSI_URLS.hillshademap],
+          tileSize: 256,
+          maxzoom: 18
+        },
+        'gsi-dem': {
+          type: 'raster-dem',
+          // 地理院DEM5A(最高精度) をカスタムプロトコル経由で terrain-rgb 形式に変換
+          tiles: ['gsidem://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png'],
+          tileSize: 256,
+          minzoom: 1,
+          maxzoom: 14,
+          encoding: 'mapbox' // プロトコル内で terrain-rgb 形式にエンコードしている
+        }
+      },
+      layers: [
+        { id: 'base-pale', type: 'raster', source: 'gsi-pale' },
+        { id: 'relief', type: 'raster', source: 'gsi-relief', paint: { 'raster-opacity': 0.6 } },
+        { id: 'hillshade', type: 'raster', source: 'gsi-hillshade', paint: { 'raster-opacity': 0.4 } }
+      ]
+    },
+    center: [CITY_CENTER[1], CITY_CENTER[0]],
+    zoom: 14,
+    pitch: 65,
+    bearing: -25,
+    maxPitch: 85,
+    hash: false
+  });
+
+  map3d.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
+
+  // 視点ドラッグ回転モードを有効化
+  enableDragLookMode(map3d);
+
+  map3d.on('load', () => {
+    // 地形を適用（少し遅延させてソース読み込みを待つ）
+    setTimeout(() => {
+      try {
+        map3d.setTerrain({ source: 'gsi-dem', exaggeration: parseFloat(document.getElementById('exagg').value) });
+        console.log('✅ 3D地形 適用完了');
+      } catch (e) {
+        console.warn('terrain unavailable', e);
+      }
+    }, 300);
+
+    // 空（学術都市の朝靈・本郷台の赤門朝焼け・文豪インク藍）
+    try {
+      map3d.setSky({
+        'sky-color': '#9fa8da',
+        'sky-horizon-blend': 0.7,
+        'horizon-color': '#ef9a9a',
+        'horizon-fog-blend': 0.6,
+        'fog-color': '#f5f0e1',
+        'fog-ground-blend': 0.4
+      });
+    } catch(e) { /* 旧バージョン互換 */ }
+
+    // ハザードソース追加
+    const hazardSourceMap = {
+      flood_l2: GSI_URLS.flood_l2,
+      flood_keizoku: GSI_URLS.flood_keizoku_real,
+      dosha: GSI_URLS.dosha,
+      takashio: GSI_URLS.takashio,
+      tsunami: GSI_URLS.tsunami
+    };
+    Object.keys(hazardSourceMap).forEach(key => {
+      map3d.addSource(`src-hazard-${key}`, {
+        type: 'raster',
+        tiles: [hazardSourceMap[key]],
+        tileSize: 256,
+        maxzoom: 18
+      });
+    });
+
+    map3dLoaded = true;
+
+    // 現在ONのハザードを3Dにも適用
+    document.querySelectorAll('input[data-hazard]:checked').forEach(chk => {
+      toggleHazard3D(chk.dataset.hazard, true);
+    });
+  });
+
+  // エラーハンドリング
+  map3d.on('error', (e) => {
+    // タイル404は無視（範囲外）
+    if (e && e.error && e.error.status === 404) return;
+    console.warn('[3D map warning]', e && e.error ? e.error.message : e);
+  });
+
+  map3d.on('mousemove', (e) => {
+    if (isMobileDevice()) return;
+    updateInfoBox(e.lngLat.lat, e.lngLat.lng);
+  });
+
+  // 3Dマップでも断面図の2点指定を可能に
+  map3d.on('click', (e) => {
+    if (isMobile()) sidebarEl.classList.remove('open');
+    if (csPoints.length >= 2) return;
+    addCSPoint(e.lngLat.lat, e.lngLat.lng);
+  });
+
+  // 3Dマップでもモバイル時は中心座標を情報ボックスに反映
+  map3d.on('move', () => {
+    if (!isMobileDevice()) return;
+    const c = map3d.getCenter();
+    updateInfoBox(c.lat, c.lng);
+  });
+  map3d.on('movestart', () => {
+    if (isMobile()) sidebarEl.classList.remove('open');
+  });
+}
+
+function toggleHazard3D(key, on) {
+  if (!map3d || !map3dLoaded) return;
+  const layerId = `hazard-${key}`;
+  const sourceId = `src-hazard-${key}`;
+  if (on) {
+    if (!map3d.getSource(sourceId)) return; // ソース未追加
+    if (!map3d.getLayer(layerId)) {
+      map3d.addLayer({
+        id: layerId,
+        type: 'raster',
+        source: sourceId,
+        paint: { 'raster-opacity': parseInt(hazardOpacity.value) / 100 }
+      });
+    }
+  } else {
+    if (map3d.getLayer(layerId)) {
+      map3d.removeLayer(layerId);
+    }
+  }
+}
+
+// =======================
+// モード切替
+// =======================
+const map2dEl = document.getElementById('map2d');
+const map3dEl = document.getElementById('map3d');
+const panel3d = document.getElementById('panel3d');
+
+document.querySelectorAll('.view-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const mode = btn.dataset.view;
+    if (mode === '3d') {
+      map2dEl.style.display = 'none';
+      map3dEl.style.display = 'block';
+      panel3d.style.display = 'block';
+      if (!map3d) {
+        showLoading('3D地形を構築中...');
+        setTimeout(() => { init3D(); setTimeout(hideLoading, 800); }, 100);
+      } else {
+        map3d.resize();
+      }
+    } else {
+      map2dEl.style.display = 'block';
+      map3dEl.style.display = 'none';
+      panel3d.style.display = 'none';
+      setTimeout(() => map2d.invalidateSize(), 50);
+    }
+  });
+});
+
+// 3D設定
+document.getElementById('exagg').addEventListener('input', (e) => {
+  const v = parseFloat(e.target.value);
+  document.getElementById('exaggVal').textContent = `${v.toFixed(1)}x`;
+  if (map3d && map3dLoaded) {
+    try { map3d.setTerrain({ source: 'gsi-dem', exaggeration: v }); } catch(err){}
+  }
+});
+document.getElementById('pitch').addEventListener('input', (e) => {
+  const v = parseInt(e.target.value);
+  document.getElementById('pitchVal').textContent = `${v}°`;
+  if (map3d) map3d.setPitch(v);
+});
+
+// =======================
+// Loading
+// =======================
+const loadingEl = document.getElementById('loading');
+const loadingTextEl = document.getElementById('loadingText');
+function showLoading(text) {
+  loadingTextEl.textContent = text || '読み込み中...';
+  loadingEl.classList.add('visible');
+}
+function hideLoading() { loadingEl.classList.remove('visible'); }
+
+// =======================
+// モバイル：ボトムシート開閉
+// =======================
+const sidebarEl = document.getElementById('sidebar');
+const sidebarHandle = document.getElementById('sidebarHandle');
+
+function isMobile() { return window.innerWidth <= 768; }
+
+// ハンドルタップで開閉
+sidebarHandle.addEventListener('click', () => {
+  sidebarEl.classList.toggle('open');
+});
+
+// スワイプで開閉（タッチジェスチャー）
+let touchStartY = 0;
+let touchCurrentY = 0;
+let touchStartTime = 0;
+sidebarHandle.addEventListener('touchstart', (e) => {
+  touchStartY = e.touches[0].clientY;
+  touchStartTime = Date.now();
+}, { passive: true });
+sidebarHandle.addEventListener('touchmove', (e) => {
+  touchCurrentY = e.touches[0].clientY;
+}, { passive: true });
+sidebarHandle.addEventListener('touchend', () => {
+  const delta = touchCurrentY - touchStartY;
+  const dt = Date.now() - touchStartTime;
+  if (Math.abs(delta) > 30 && dt < 500) {
+    if (delta < 0) sidebarEl.classList.add('open');    // 上スワイプ → 開く
+    else sidebarEl.classList.remove('open');           // 下スワイプ → 閉じる
+  }
+  touchStartY = touchCurrentY = 0;
+});
+
+// マップ操作時にモバイルサイドバーを自動で閉じる
+map2d.on('movestart', () => {
+  if (isMobile()) sidebarEl.classList.remove('open');
+});
+// 断面図を開いたときもサイドバーを閉じる（重ならないように）
+map2d.on('click', () => {
+  if (isMobile()) sidebarEl.classList.remove('open');
+});
+
+// =======================
+// エラーハンドリング
+// =======================
+window.addEventListener('error', (e) => {
+  console.warn('[エラー捕捉]', e.message);
+});
+window.addEventListener('unhandledrejection', (e) => {
+  console.warn('[Promiseエラー]', e.reason);
+});
+
+// =======================
+// 初期化
+// =======================
+updateCSStatus();
+
+// 文京区の範囲を少し強調表示（概観：武蔵野台地東端・本郷台と小石川台の七つの丘・神田川と千川（暗渠）の谷地形）
+const bunkyoBounds = L.rectangle([[35.708, 139.726], [35.745, 139.778]], {
+  color: '#283593',
+  weight: 2,
+  fillOpacity: 0,
+  dashArray: '6, 6'
+}).addTo(map2d);
+
+console.log('📖 文京区 高低マップ 起動完了');
+
+// =======================
+// PWA: Service Worker 登録
+// =======================
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js', { scope: './' })
+      .then(reg => console.log('[PWA] SW登録成功:', reg.scope))
+      .catch(err => console.warn('[PWA] SW登録失敗（HTTPS/localhost以外では正常）:', err.message));
+  });
+}
+</script>
+</body>
+</html>

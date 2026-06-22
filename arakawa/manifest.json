@@ -1,0 +1,21 @@
+{
+  "name": "荒川区 高低マップ",
+  "short_name": "荒川区高低",
+  "description": "東京都荒川区の標高・地形・ハザード・避難所マップ。都電荒川線（東京さくらトラム）／あらかわ遊園／谷中銀座 夕焼けだんだん／日暮里繊維街／尾久の原公園／三河島／隅田川と荒川を網羅。",
+  "lang": "ja",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fce4ec",
+  "theme_color": "#c2185b",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["maps", "navigation", "utilities", "education"]
+}

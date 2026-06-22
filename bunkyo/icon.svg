@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- 文京区アイコン: 文豪インクブルー × 根津神社朱 × 六義園苔グリーン -->
+  <!-- モチーフ: 東京大学安田講堂 / 湯島天神梅 / 根津神社つつじ / 開いた本（文豪の街） / 本郷台地 -->
+  <defs>
+    <!-- 学術都市の朝空グラデ -->
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a237e"/>
+      <stop offset="55%" stop-color="#3949ab"/>
+      <stop offset="100%" stop-color="#9fa8da"/>
+    </linearGradient>
+    <!-- 本郷台地グラデ -->
+    <linearGradient id="hillGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#558b2f"/>
+      <stop offset="100%" stop-color="#33691e"/>
+    </linearGradient>
+    <!-- 安田講堂ストーン -->
+    <linearGradient id="buildGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eceff1"/>
+      <stop offset="100%" stop-color="#90a4ae"/>
+    </linearGradient>
+    <!-- 鳥居朱 -->
+    <linearGradient id="toriiGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e53935"/>
+      <stop offset="100%" stop-color="#c62828"/>
+    </linearGradient>
+    <!-- 和紙クリーム -->
+    <linearGradient id="paperGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fffaf0"/>
+      <stop offset="100%" stop-color="#f5f0e1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景：空 -->
+  <rect width="512" height="512" rx="80" ry="80" fill="url(#skyGrad)"/>
+
+  <!-- 星（学問の輝き） -->
+  <circle cx="80" cy="70" r="2" fill="#fffde7" opacity="0.9"/>
+  <circle cx="140" cy="50" r="1.5" fill="#fffde7" opacity="0.7"/>
+  <circle cx="430" cy="80" r="2" fill="#fffde7" opacity="0.9"/>
+  <circle cx="380" cy="40" r="1.5" fill="#fffde7" opacity="0.7"/>
+
+  <!-- 月（学術都市の冴月） -->
+  <circle cx="420" cy="110" r="28" fill="#fff9c4" opacity="0.95"/>
+  <circle cx="412" cy="104" r="22" fill="url(#skyGrad)" opacity="0.7"/>
+
+  <!-- 後方の本郷台地（武蔵野台地東端） -->
+  <path d="M 0 340 Q 130 285 260 305 Q 380 320 512 290 L 512 380 L 0 380 Z" fill="url(#hillGrad)" opacity="0.85"/>
+  <!-- 前方の小石川台 -->
+  <path d="M 0 380 Q 150 355 280 370 Q 400 380 512 360 L 512 420 L 0 420 Z" fill="#2e7d32" opacity="0.95"/>
+
+  <!-- 神田川（暗渠化前の谷） -->
+  <path d="M 0 400 Q 130 395 260 410 Q 380 420 512 405" stroke="#42a5f5" stroke-width="3" fill="none" opacity="0.6"/>
+
+  <!-- 東京大学 安田講堂（中央・文京区シンボル） -->
+  <g transform="translate(220, 200)">
+    <!-- 本体 -->
+    <rect x="0" y="60" width="72" height="100" fill="url(#buildGrad)" stroke="#37474f" stroke-width="1.5"/>
+    <!-- 中央タワー -->
+    <rect x="22" y="0" width="28" height="80" fill="url(#buildGrad)" stroke="#37474f" stroke-width="1.5"/>
+    <!-- タワー先端 -->
+    <polygon points="22,0 36,-15 50,0" fill="#90a4ae" stroke="#37474f" stroke-width="1"/>
+    <!-- 時計 -->
+    <circle cx="36" cy="20" r="6" fill="#fff" stroke="#37474f" stroke-width="1"/>
+    <line x1="36" y1="20" x2="36" y2="16" stroke="#37474f" stroke-width="1"/>
+    <line x1="36" y1="20" x2="39" y2="20" stroke="#37474f" stroke-width="1"/>
+    <!-- 窓 -->
+    <rect x="6" y="75" width="8" height="12" fill="#283593"/>
+    <rect x="18" y="75" width="8" height="12" fill="#283593"/>
+    <rect x="46" y="75" width="8" height="12" fill="#283593"/>
+    <rect x="58" y="75" width="8" height="12" fill="#283593"/>
+    <rect x="6" y="100" width="8" height="12" fill="#283593"/>
+    <rect x="18" y="100" width="8" height="12" fill="#283593"/>
+    <rect x="46" y="100" width="8" height="12" fill="#283593"/>
+    <rect x="58" y="100" width="8" height="12" fill="#283593"/>
+    <rect x="6" y="125" width="8" height="12" fill="#283593"/>
+    <rect x="18" y="125" width="8" height="12" fill="#283593"/>
+    <rect x="46" y="125" width="8" height="12" fill="#283593"/>
+    <rect x="58" y="125" width="8" height="12" fill="#283593"/>
+    <!-- 入口アーチ -->
+    <path d="M 26 160 L 26 145 Q 36 135 46 145 L 46 160 Z" fill="#37474f"/>
+  </g>
+
+  <!-- 根津神社 鳥居（左下・つつじ祭の朱） -->
+  <g transform="translate(60, 280)">
+    <!-- 笠木 -->
+    <rect x="-5" y="0" width="80" height="9" fill="url(#toriiGrad)" rx="1"/>
+    <!-- 島木 -->
+    <rect x="0" y="11" width="70" height="6" fill="url(#toriiGrad)"/>
+    <!-- 柱 -->
+    <rect x="6" y="17" width="8" height="60" fill="url(#toriiGrad)"/>
+    <rect x="56" y="17" width="8" height="60" fill="url(#toriiGrad)"/>
+    <!-- 貫 -->
+    <rect x="0" y="32" width="70" height="5" fill="url(#toriiGrad)"/>
+    <!-- つつじの花（小さく） -->
+    <circle cx="35" cy="60" r="4" fill="#e91e63" opacity="0.9"/>
+    <circle cx="28" cy="65" r="3" fill="#f48fb1" opacity="0.9"/>
+    <circle cx="42" cy="65" r="3" fill="#f48fb1" opacity="0.9"/>
+    <circle cx="35" cy="70" r="3" fill="#e91e63" opacity="0.9"/>
+  </g>
+
+  <!-- 湯島天神の梅（右下） -->
+  <g transform="translate(395, 290)">
+    <!-- 梅の幹 -->
+    <path d="M 0 70 Q 10 40 5 10" stroke="#5d4037" stroke-width="3" fill="none"/>
+    <path d="M 5 30 Q 20 25 25 15" stroke="#5d4037" stroke-width="2" fill="none"/>
+    <!-- 梅の花 -->
+    <g fill="#fce4ec" stroke="#e91e63" stroke-width="0.5">
+      <circle cx="5" cy="10" r="5"/>
+      <circle cx="25" cy="15" r="4"/>
+      <circle cx="15" cy="25" r="4"/>
+      <circle cx="0" cy="25" r="3.5"/>
+      <circle cx="20" cy="35" r="3.5"/>
+      <circle cx="10" cy="40" r="3"/>
+    </g>
+    <!-- 花の中心 -->
+    <circle cx="5" cy="10" r="1.5" fill="#fbc02d"/>
+    <circle cx="25" cy="15" r="1.2" fill="#fbc02d"/>
+    <circle cx="15" cy="25" r="1.2" fill="#fbc02d"/>
+  </g>
+
+  <!-- 開いた本（文豪の街） -->
+  <g transform="translate(180, 380)">
+    <!-- 本の影 -->
+    <path d="M 0 50 L 150 50 L 145 56 L 5 56 Z" fill="#1a237e" opacity="0.4"/>
+    <!-- 左ページ -->
+    <path d="M 0 10 L 75 4 L 75 50 L 0 50 Z" fill="url(#paperGrad)" stroke="#5d4037" stroke-width="1"/>
+    <!-- 右ページ -->
+    <path d="M 75 4 L 150 10 L 150 50 L 75 50 Z" fill="url(#paperGrad)" stroke="#5d4037" stroke-width="1"/>
+    <!-- 中央の綴じ -->
+    <line x1="75" y1="4" x2="75" y2="50" stroke="#5d4037" stroke-width="1.2"/>
+    <!-- 文字（縦書きを表現） -->
+    <line x1="15" y1="14" x2="15" y2="44" stroke="#283593" stroke-width="0.8"/>
+    <line x1="25" y1="13" x2="25" y2="45" stroke="#283593" stroke-width="0.8"/>
+    <line x1="35" y1="12" x2="35" y2="46" stroke="#283593" stroke-width="0.8"/>
+    <line x1="45" y1="11" x2="45" y2="47" stroke="#283593" stroke-width="0.8"/>
+    <line x1="55" y1="10" x2="55" y2="48" stroke="#283593" stroke-width="0.8"/>
+    <line x1="65" y1="9" x2="65" y2="49" stroke="#283593" stroke-width="0.8"/>
+    <line x1="85" y1="9" x2="85" y2="49" stroke="#283593" stroke-width="0.8"/>
+    <line x1="95" y1="10" x2="95" y2="48" stroke="#283593" stroke-width="0.8"/>
+    <line x1="105" y1="11" x2="105" y2="47" stroke="#283593" stroke-width="0.8"/>
+    <line x1="115" y1="12" x2="115" y2="46" stroke="#283593" stroke-width="0.8"/>
+    <line x1="125" y1="13" x2="125" y2="45" stroke="#283593" stroke-width="0.8"/>
+    <line x1="135" y1="14" x2="135" y2="44" stroke="#283593" stroke-width="0.8"/>
+  </g>
+
+  <!-- タイトル枠 -->
+  <rect x="56" y="440" width="400" height="52" rx="26" ry="26" fill="url(#paperGrad)" stroke="#283593" stroke-width="2.5"/>
+  <text x="256" y="475" font-family="'M PLUS Rounded 1c', 'Noto Sans JP', sans-serif"
+        font-size="32" font-weight="700" fill="#283593" text-anchor="middle"
+        letter-spacing="6">文京 高低</text>
+</svg>

@@ -1,0 +1,21 @@
+{
+  "name": "西東京市 高低マップ",
+  "short_name": "西東京高低",
+  "description": "西東京市の3D地形・断面図・POI（田無神社/東伏見稲荷/田無タワー/多摩六都科学館）・ハザード重ね合わせPWA。武蔵野台地上の標高40〜65m地形を可視化。",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fff8e1",
+  "theme_color": "#c62828",
+  "scope": "./",
+  "lang": "ja",
+  "categories": ["maps", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- 背景: バラのクリーム -->
+  <rect width="512" height="512" rx="96" fill="#fce4ec"/>
+
+  <!-- 隅田川／荒川（区を囲む川・北東を流れる） -->
+  <path d="M0,108 Q140,80 280,120 T512,100 L512,170 Q360,200 220,170 T0,180 Z" fill="#90caf9" opacity="0.75"/>
+  <!-- 川面のハイライト -->
+  <path d="M40,130 Q180,110 320,140 T500,130" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.6"/>
+
+  <!-- 尾久の原（緑地・北西部） -->
+  <ellipse cx="110" cy="220" rx="80" ry="34" fill="#aed581" opacity="0.7"/>
+
+  <!-- 谷中銀座「夕焼けだんだん」（西端の階段商店街・夕焼け） -->
+  <path d="M380,340 L380,310 L420,310 L420,290 L460,290 L460,270 L500,270 L500,360 L380,360 Z" fill="#f57c00" opacity="0.85"/>
+  <path d="M380,340 L380,310 L420,310 L420,290 L460,290 L460,270 L500,270" stroke="#e65100" stroke-width="3" fill="none"/>
+  <!-- 夕陽 -->
+  <circle cx="440" cy="245" r="22" fill="#ffb74d" opacity="0.9"/>
+
+  <!-- 都電荒川線（東京さくらトラム）レール: 区を横断 -->
+  <line x1="20" y1="320" x2="370" y2="320" stroke="#666" stroke-width="2.5"/>
+  <line x1="20" y1="332" x2="370" y2="332" stroke="#666" stroke-width="2.5"/>
+  <!-- 枕木 -->
+  <g stroke="#5d4037" stroke-width="2">
+    <line x1="40" y1="318" x2="40" y2="334"/>
+    <line x1="90" y1="318" x2="90" y2="334"/>
+    <line x1="140" y1="318" x2="140" y2="334"/>
+    <line x1="190" y1="318" x2="190" y2="334"/>
+    <line x1="240" y1="318" x2="240" y2="334"/>
+    <line x1="290" y1="318" x2="290" y2="334"/>
+    <line x1="340" y1="318" x2="340" y2="334"/>
+  </g>
+
+  <!-- 都電車両（東京さくらトラム・バラ色9000形イメージ） -->
+  <g>
+    <!-- 車体 -->
+    <rect x="148" y="270" width="158" height="50" rx="10" fill="#c2185b" stroke="#880e4f" stroke-width="3"/>
+    <!-- 前面 -->
+    <rect x="296" y="278" width="14" height="38" rx="3" fill="#1976d2"/>
+    <!-- 窓 -->
+    <rect x="158" y="280" width="24" height="20" rx="2" fill="#e3f2fd"/>
+    <rect x="188" y="280" width="24" height="20" rx="2" fill="#e3f2fd"/>
+    <rect x="218" y="280" width="24" height="20" rx="2" fill="#e3f2fd"/>
+    <rect x="248" y="280" width="24" height="20" rx="2" fill="#e3f2fd"/>
+    <rect x="278" y="280" width="14" height="20" rx="2" fill="#e3f2fd"/>
+    <!-- 帯 -->
+    <rect x="148" y="305" width="158" height="5" fill="#fbc02d"/>
+    <!-- 車輪 -->
+    <circle cx="170" cy="325" r="9" fill="#333"/>
+    <circle cx="284" cy="325" r="9" fill="#333"/>
+    <!-- パンタグラフ -->
+    <path d="M210,270 L200,255 L240,255 L230,270" stroke="#444" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- あらかわバラ（区の花・左下） -->
+  <g transform="translate(80,400)">
+    <circle cx="0" cy="0" r="28" fill="#c2185b"/>
+    <path d="M-12,-8 Q-6,-18 0,-12 Q6,-18 12,-8 Q18,-2 12,8 Q6,16 0,12 Q-6,16 -12,8 Q-18,-2 -12,-8 Z" fill="#e91e63"/>
+    <circle cx="0" cy="0" r="6" fill="#fbc02d"/>
+    <!-- 葉 -->
+    <ellipse cx="-22" cy="20" rx="14" ry="6" fill="#388e3c" transform="rotate(-30 -22 20)"/>
+    <ellipse cx="22" cy="20" rx="14" ry="6" fill="#388e3c" transform="rotate(30 22 20)"/>
+  </g>
+
+  <!-- 荒川区役所ピン（中央） -->
+  <g transform="translate(230,395)">
+    <path d="M0,0 C-16,-30 -16,-50 0,-50 C16,-50 16,-30 0,0 Z" fill="#880e4f" stroke="#ffffff" stroke-width="3"/>
+    <circle cx="0" cy="-32" r="9" fill="#ffffff"/>
+    <text x="0" y="-28" text-anchor="middle" font-size="13" fill="#880e4f" font-weight="900" font-family="sans-serif">区</text>
+  </g>
+
+  <!-- タイトル帯 -->
+  <rect x="24" y="446" width="464" height="50" rx="14" fill="#880e4f" opacity="0.94"/>
+  <text x="256" y="478" text-anchor="middle" font-family="'M PLUS Rounded 1c','Hiragino Sans',sans-serif" font-size="30" font-weight="800" fill="#ffffff" letter-spacing="2">荒川 高低</text>
+  <text x="256" y="494" text-anchor="middle" font-family="'M PLUS Rounded 1c',sans-serif" font-size="10" font-weight="600" fill="#fce4ec" letter-spacing="3">TODEN・NIPPORI・YANAKA</text>
+</svg>
